@@ -2,8 +2,8 @@ package com.cb.adventures.view;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 
+import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.state.BaseState;
 import com.cb.adventures.state.IStateMgr;
 import com.cb.adventures.state.spriteState.AttackState;
@@ -46,8 +46,7 @@ public class Sprite extends BaseView implements IStateMgr {
     //private boolean isStop = false;
     private long lastTime;
 
-    public static final int DIRECTION_LEFT = 0;
-    public static final int DIRECTION_RIGHT = 1;
+
 
     public static final int STATE_MOVE_LEFT = 0;
     public static final int STATE_MOVE_RIGHT = 1;
@@ -78,9 +77,9 @@ public class Sprite extends BaseView implements IStateMgr {
     public void setDirection(int direction) {
         if (direction != this.direction) {
             this.direction = direction;
-            if (direction == DIRECTION_LEFT) {
+            if (direction == GameConstants.DIRECTION_LEFT) {
                 changeState(STATE_MOVE_LEFT);
-            } else if (direction == DIRECTION_RIGHT) {
+            } else if (direction == GameConstants.DIRECTION_RIGHT) {
                 changeState(STATE_MOVE_RIGHT);
             }
         }
@@ -91,7 +90,7 @@ public class Sprite extends BaseView implements IStateMgr {
         frameIndex = 0;
         isAttacking = false;
         isNeedRepeatAttack = false;
-        direction = DIRECTION_LEFT;
+        direction = GameConstants.DIRECTION_LEFT;
         stateHashMap = new HashMap<>();
     }
 
@@ -116,7 +115,7 @@ public class Sprite extends BaseView implements IStateMgr {
 
         lastTime = System.currentTimeMillis();
         //isStop = false;
-        if(direction == DIRECTION_LEFT) {
+        if(direction == GameConstants.DIRECTION_LEFT) {
             changeState(STATE_MOVE_LEFT);
         }else {
             changeState(STATE_MOVE_RIGHT);
@@ -131,7 +130,7 @@ public class Sprite extends BaseView implements IStateMgr {
 
     public void init(Bitmap bitmap, int frameCount, int perWidth, int perHeght, int leftRowIndex, int rightRowIndex
             , Bitmap attack, int attackWidth, int attackHeight, int attackCount) {
-        direction = DIRECTION_LEFT;
+        direction = GameConstants.DIRECTION_LEFT;
         bmp = bitmap;
 
         this.frameCount = frameCount;
@@ -234,16 +233,16 @@ public class Sprite extends BaseView implements IStateMgr {
         BaseState state = null;
         switch (stateId) {
             case STATE_MOVE_LEFT:
-                state = new MoveState(stateId, this, DIRECTION_LEFT,frameCount,leftRowIndex,bmp,perWidth,perHeight);
+                state = new MoveState(stateId, this, GameConstants.DIRECTION_LEFT,frameCount,leftRowIndex,bmp,perWidth,perHeight);
                 break;
             case STATE_MOVE_RIGHT:
-                state = new MoveState(stateId, this, DIRECTION_RIGHT,frameCount,rightRowIndex,bmp,perWidth,perHeight);
+                state = new MoveState(stateId, this, GameConstants.DIRECTION_RIGHT,frameCount,rightRowIndex,bmp,perWidth,perHeight);
                 break;
             case STATE_ATTACK_LEFT:
-                state = new AttackState(stateId, this, DIRECTION_LEFT,attackFrameCount,0,accackBmp,attackPerWidth,attackPerHeight);
+                state = new AttackState(stateId, this, GameConstants.DIRECTION_LEFT,attackFrameCount,0,accackBmp,attackPerWidth,attackPerHeight);
                 break;
             case STATE_ATTACK_RIGHT:
-                state = new AttackState(stateId, this, DIRECTION_RIGHT,attackFrameCount,0,accackBmp,attackPerWidth,attackPerHeight);
+                state = new AttackState(stateId, this, GameConstants.DIRECTION_RIGHT,attackFrameCount,0,accackBmp,attackPerWidth,attackPerHeight);
                 break;
             case STATE_STOP:
                 state = new StopState(stateId, this,leftRowIndex,rightRowIndex,bmp,perWidth,perHeight);

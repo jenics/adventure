@@ -47,30 +47,32 @@ public class AttackState extends SpriteBaseState {
     @Override
     public void draw(Canvas canvas) {
         //super.draw(canvas);
-        float x = sprite.getPt().x - 60/2;
-        float y = sprite.getPt().y - 70/2;
+        float x = sprite.getPt().x - width/2;
+        float y = sprite.getPt().y - height/2;
 
+        ///画攻击效果
         canvas.drawBitmap(bitmap,
                 new Rect(   ///src rect
-                        width * frameIndex + ((width - 60)/2),
-                        rowIndex * height + ((height-70)/2),
-                        width * frameIndex + ((width - 60)/2) + 60,
-                        rowIndex * height + ((height-70)/2) + 70),
+                        width * frameIndex,
+                        rowIndex * height,
+                        width * frameIndex + width,
+                        rowIndex * height + height),
                 new RectF(x,
                         y,
-                        x + 100,
-                        y + 112), null);
+                        x + width,
+                        y + height), null);
 
+        ///画技能
         canvas.drawBitmap(bitmap,
                 new Rect(   ///src rect
-                        width * frameIndex + ((width - 80)/2),
-                        (rowIndex+1) * height + ((height-70)/2),
-                        width * frameIndex + ((width - 80)/2) + 80,
-                        (rowIndex+1) * height + ((height-70)/2) + 70),
-                new RectF(x-100,
+                        width * frameIndex,
+                        (rowIndex+1) * height,
+                        width * frameIndex + width,
+                        (rowIndex+1) * height + height),
+                new RectF(x-50,
                         y,
-                        x,
-                        y + 112), null);
+                        x-50+width,
+                        y + height), null);
     }
 
     @Override

@@ -2,9 +2,12 @@ package com.cb.adventures.view;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
+
+import com.cb.adventures.constants.GameConstants;
 
 /**
  * Created by jenics on 2015/10/7.
@@ -18,12 +21,17 @@ public class ScrollBackground extends BaseView{
 
     private int screemWidth;
     private int screemHeight;
+    private long lastTime;
+    private int mDirection;
+
+    private static final int STEP_LENGTH = 5;   ///没帧，地图移动的步长
 
 
     public ScrollBackground(){
         isClickable = false;
         rt1 = new RectF();
         rt2 = new RectF();
+        mDirection = GameConstants.DIRECTION_NONE;
     }
 
     public void init(Bitmap bmp1,Bitmap bmp2,int screemWidth,int screemHeight){
@@ -63,22 +71,50 @@ public class ScrollBackground extends BaseView{
 
     }
 
-    private void scroll(){
-        rt1.left -= 10;
-        rt1.right -= 10;
-        rt2.left -= 10;
-        rt2.right -= 10;
+    public void scrollTo(int direction){
+        mDirection = direction;
+    }
 
-        if(rt1.left < -screemWidth){
-            rt1.left = screemWidth;
-            rt1.right = screemWidth + screemWidth;
-            rt2.left = 0;
-            rt2.right = screemWidth;
-        }else if(rt2.left < -screemWidth){
-            rt1.left = 0;
-            rt1.right = screemWidth;
-            rt2.left = screemWidth;
-            rt2.right = screemWidth + screemWidth;
+    private void scroll() {
+        /*long nowTime = System.currentTimeMillis();
+        if (nowTime - lastTime < 100 || GameConstants.DIRECTION_NONE == direction)
+            return;
+        lastTime = nowTime;*/
+
+        if(mDirection == GameConstants.DIRECTION_RIGHT) {
+            rt1.left -= STEP_LENGTH;
+            rt1.right -= STEP_LENGTH;
+            rt2.left -= STEP_LENGTH;
+            rt2.right -= STEP_LENGTH;
+
+            if (rt1.left < -screemWidth) {
+                rt1.left = screemWidth;
+                rt1.right = screemWidth + screemWidth;
+                rt2.left = 0;
+                rt2.right = screemWidth;
+            } else if (rt2.left < -screemWidth) {
+                rt1.left = 0;
+                rt1.right = screemWidth;
+                rt2.left = screemWidth;
+                rt2.right = screemWidth + screemWidth;
+            }
+        }else if(mDirection == GameConstants.DIRECTION_LEFT){
+            rt1.left += STEP_LENGTH;
+            rt1.right += STEP_LENGTH;
+            rt2.left += STEP_LENGTH;
+            rt2.right += STEP_LENGTH;
+
+            if (rt1.left > screemWidth) {
+                rt1.left = -screemWidth;
+                rt1.right = 0;
+                rt2.left = 0;
+                rt2.right = screemWidth;
+            } else if (rt2.left > screemWidth) {
+                rt1.left = -screemWidth;
+                rt1.right = 0;
+                rt2.left = 0;
+                rt2.right = screemWidth;
+            }
         }
     }
 }

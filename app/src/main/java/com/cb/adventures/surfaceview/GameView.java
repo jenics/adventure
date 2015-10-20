@@ -17,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.view.ScrollBackground;
 import com.cb.adventures.view.Sprite;
 
@@ -86,7 +87,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                 Bitmap bitmap = loadBitmap("xunlei.png");
                 Bitmap attackBitmap = loadBitmap("attack.png");
                 sprite.init(bitmap,9,946/9,420/4,1,2,
-                        attackBitmap,1152/6,1344/6,6);
+                        attackBitmap,1152/6,1344/7,6);
             }
 
             mIsRunning = true;
@@ -165,21 +166,30 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         return touchDetection(event);
     }
 
+    private int mDirection;
     private boolean touchDetection(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             if(event.getX() > getWidth()-100){
-                sprite.move(Sprite.DIRECTION_RIGHT);
+                mDirection = GameConstants.DIRECTION_RIGHT;
+                scrollBackground.scrollTo(mDirection);
+                sprite.move(mDirection);
+
             }else if(event.getX() < 100){
-                sprite.move(Sprite.DIRECTION_LEFT);
+                mDirection = GameConstants.DIRECTION_LEFT;
+                scrollBackground.scrollTo(mDirection);
+                sprite.move(mDirection);
             }else if(event.getY() < 100){
                 sprite.attack();
             }else
                 sprite.stop();
         } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-            int x = 1;
+
+
         } else if (event.getAction() == MotionEvent.ACTION_UP
                 || event.getAction() == MotionEvent.ACTION_CANCEL) {
+            mDirection = GameConstants.DIRECTION_NONE;
             sprite.stop();
+            scrollBackground.scrollTo(mDirection);
         }
         return true;
     }

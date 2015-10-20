@@ -47,18 +47,18 @@ public class MoveState extends SpriteBaseState {
     public void draw(Canvas canvas) {
         //super.draw();
         ///假设人物在中心点，按60*70截取
-        float x = sprite.getPt().x - 60/2;
-        float y = sprite.getPt().y - 70/2;
+        float x = sprite.getPt().x - width/2;
+        float y = sprite.getPt().y - height/2;
         canvas.drawBitmap(bitmap,
                 new Rect(   ///src rect
-                        width * frameIndex + ((width - 60)/2),
-                        rowIndex * height + (height-70),
-                        width * frameIndex + ((width - 60)/2) + 60,
-                        rowIndex * height + (height-70) + 70),
+                        width * frameIndex,
+                        rowIndex * height,
+                        width * frameIndex + width,
+                        rowIndex * height + height),
                 new RectF(x,
                         y,
-                        x + 100,
-                        y + 112), null);
+                        x + width,
+                        y + height), null);
     }
 
     @Override
