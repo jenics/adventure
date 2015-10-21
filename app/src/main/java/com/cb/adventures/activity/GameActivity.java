@@ -2,17 +2,27 @@ package com.cb.adventures.activity;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.cb.adventures.R;
+import com.cb.adventures.music.BackGroundMusic;
 
 public class GameActivity extends ActionBarActivity {
-
+    
+    private final static String TAG = "GameActivity";
+    private final static boolean IS_DEBUG = false;
+    
+    private BackGroundMusic mBackGroundMusic = null ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(IS_DEBUG){
+            Log.e(TAG, "onCreate");
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        mBackGroundMusic = new BackGroundMusic(this);
     }
 
 
@@ -36,5 +46,33 @@ public class GameActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause() {
+        if(IS_DEBUG){
+            Log.e(TAG, "onPause");
+        }
+        super.onPause();
+        mBackGroundMusic.pause();
+    }
+    
+    @Override
+    protected void onDestroy() {
+        if(IS_DEBUG){
+            Log.e(TAG, "onDestroy");
+        }
+        super.onDestroy();
+        mBackGroundMusic.release();
+        mBackGroundMusic = null;
+    }
+
+    @Override
+    protected void onPostResume() {
+        if (IS_DEBUG) {
+            Log.e(TAG, "onPostResume");
+        }
+        super.onPostResume();
+        mBackGroundMusic.resume();
     }
 }

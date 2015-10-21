@@ -2,6 +2,7 @@ package com.cb.adventures.view;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.state.BaseState;
@@ -65,6 +66,7 @@ public class Sprite extends BaseView implements IStateMgr {
     }
 
     public void attack() {
+        Log.e("aizhao", "attack");
         changeState(STATE_ATTACK_LEFT);
         if (isAttacking == false) {
             isAttacking = true;
