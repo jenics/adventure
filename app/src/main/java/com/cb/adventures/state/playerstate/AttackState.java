@@ -1,27 +1,26 @@
-package com.cb.adventures.state.spriteState;
+package com.cb.adventures.state.playerstate;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
-import com.cb.adventures.state.BaseState;
-import com.cb.adventures.view.Sprite;
+import com.cb.adventures.view.Player;
 
 /**
  * Created by jenics on 2015/10/12.
  */
-public class MoveState extends SpriteBaseState {
+public class AttackState extends PlayerBaseState {
     int direction;
-    int frameIndex = 0;
-    int frameCount = 0;
-    int rowIndex = 0;
+    int frameIndex;
+    Bitmap bitmap;
+    int frameCount;
+    int rowIndex;
     int width;
     int height;
-    private Bitmap bitmap;
-    public MoveState(int id,Sprite sprite,int direction,int frameCount,int rowIndex , Bitmap bitmap,int width,int height)
-    {
-        super(id,sprite);
+
+    public AttackState(int id,Player player,int direction,int frameCount,int rowIndex , Bitmap bitmap,int width,int height) {
+        super(id,player);
         this.direction = direction;
         frameIndex = 0;
         this.rowIndex = rowIndex;
@@ -34,10 +33,10 @@ public class MoveState extends SpriteBaseState {
     @Override
     public boolean nextFrame() {
         //return super.nextFrame();
-
         frameIndex++;
         if (frameIndex >= frameCount) {
-            frameIndex = 1;
+            frameIndex = 0;
+            player.changeState(Player.STATE_STOP,true);
         }
 
         return true;
@@ -45,10 +44,11 @@ public class MoveState extends SpriteBaseState {
 
     @Override
     public void draw(Canvas canvas) {
-        //super.draw();
-        ///假设人物在中心点，按60*70截取
-        float x = sprite.getPt().x - width/2;
-        float y = sprite.getPt().y - height/2;
+        //super.draw(canvas);
+        float x = player.getPt().x - width/2;
+        float y = player.getPt().y - height/2;
+
+        ///画攻击效果
         canvas.drawBitmap(bitmap,
                 new Rect(   ///src rect
                         width * frameIndex,
@@ -59,12 +59,24 @@ public class MoveState extends SpriteBaseState {
                         y,
                         x + width,
                         y + height), null);
+
+        ///画技能
+        canvas.drawBitmap(bitmap,
+                new Rect(   ///src rect
+                        width * frameIndex,
+                        (rowIndex+1) * height,
+                        width * frameIndex + width,
+                        (rowIndex+1) * height + height),
+                new RectF(x-50,
+                        y,
+                        x-50+width,
+                        y + height), null);
     }
 
     @Override
     public void entry() {
-        super.entry();
         frameIndex = 0;
+        super.entry();
     }
 
     @Override

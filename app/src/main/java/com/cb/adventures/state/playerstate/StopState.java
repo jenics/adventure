@@ -1,4 +1,4 @@
-package com.cb.adventures.state.spriteState;
+package com.cb.adventures.state.playerstate;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -6,20 +6,21 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 import com.cb.adventures.constants.GameConstants;
+import com.cb.adventures.view.Player;
 import com.cb.adventures.view.Sprite;
 
 /**
  * Created by jenics on 2015/10/12.
  */
-public class StopState extends SpriteBaseState {
+public class StopState extends PlayerBaseState {
     private int leftRowIndex ;
     private int rightRowIndex ;
     private Bitmap bitmap;
     private int width;
     private int height;
 
-    public StopState(int id,Sprite sprite,int leftRowIndex , int rightRowIndex ,Bitmap bitmap,int width,int height) {
-        super(id,sprite);
+    public StopState(int id,Player player,int leftRowIndex , int rightRowIndex ,Bitmap bitmap,int width,int height) {
+        super(id,player);
         this.leftRowIndex = leftRowIndex;
         this.rightRowIndex = rightRowIndex;
         this.bitmap = bitmap;
@@ -36,10 +37,10 @@ public class StopState extends SpriteBaseState {
     @Override
     public void draw(Canvas canvas) {
         //super.draw(canvas);
-        float x = sprite.getPt().x - width/2;
-        float y = sprite.getPt().y - height/2;
+        float x = player.getPt().x - width/2;
+        float y = player.getPt().y - height/2;
 
-        if (sprite.getDirection() == GameConstants.DIRECTION_LEFT) {
+        if (player.getDirection() == GameConstants.DIRECTION_LEFT) {
             canvas.drawBitmap(bitmap,
                     new Rect(   ///src rect
                             0,

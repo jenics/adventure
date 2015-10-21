@@ -7,22 +7,28 @@ import android.graphics.RectF;
 /**
  * Created by jenics on 2015/10/7.
  */
-public class BaseView implements IView{
+public class BaseView implements IView {
+    protected PointF pt;
+    protected boolean isClickable;
+    protected boolean isVisiable;
+
+    public BaseView() {
+        isClickable = true;
+        isVisiable = true;
+        pt = new PointF();
+    }
+
     public PointF getPt() {
         return pt;
     }
 
     public void setPt(PointF pt) {
-        this.pt = pt;
+        this.pt.x = pt.x;
+        this.pt.y = pt.y;
     }
-
-    protected PointF pt;
-    protected boolean isClickable;
-    protected boolean isVisiable;
-    public BaseView(){
-        isClickable = true;
-        isVisiable = true;
-        pt = new PointF();
+    public void setPt(int x,int y) {
+        this.pt.x = x;
+        this.pt.y = y;
     }
 
     @Override
@@ -38,7 +44,7 @@ public class BaseView implements IView{
     public void onClick(){
 
     }
-    public void draw(Canvas canvas){
+    public void draw(Canvas canvas) {
 
     }
 }

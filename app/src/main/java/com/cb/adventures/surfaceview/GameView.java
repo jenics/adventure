@@ -18,6 +18,9 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.cb.adventures.constants.GameConstants;
+import com.cb.adventures.controller.MonsterController;
+import com.cb.adventures.factory.SimpleMonsterFactory;
+import com.cb.adventures.view.Player;
 import com.cb.adventures.view.ScrollBackground;
 import com.cb.adventures.view.Sprite;
 
@@ -35,7 +38,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     private SurfaceHolder mSurfaceHolder;
     private Paint mPaint;
     private ScrollBackground scrollBackground;
-    private Sprite sprite;
+    private Player player;
 
     public GameView(Context context) {
         super(context);
@@ -68,7 +71,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         mPaint.setAntiAlias(true);  ///抗锯齿
         Typeface font = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD);
         mPaint.setTypeface(font);
-
     }
 
     @Override
@@ -76,17 +78,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         Configuration mConfiguration = this.getResources().getConfiguration(); //获取设置的配置信息
         int ori = mConfiguration.orientation; //获取屏幕方向
         if (ori == mConfiguration.ORIENTATION_LANDSCAPE) {
+
+            GameConstants.sLeftBoundary = 0;
+            GameConstants.sRightBoundary = getWidth();
+            MonsterController.getInstance().setmMonsterFactory(new SimpleMonsterFactory(getContext()));
+            MonsterController.getInstance().generateMonster(GameConstants.BLACK_PIG_ID,5);
+
             if(scrollBackground == null){
                 scrollBackground = new ScrollBackground();
                 Bitmap bitmap1 = loadBitmap("back3.jpg");
                 Bitmap bitmap2 = loadBitmap("back3.jpg");
                 scrollBackground.init(bitmap1,bitmap2,getWidth(),getHeight());
             }
-            if(sprite == null){
-                sprite = new Sprite();
+            if(player == null){
+                player = new Player();
                 Bitmap bitmap = loadBitmap("xunlei.png");
                 Bitmap attackBitmap = loadBitmap("attack.png");
-                sprite.init(bitmap,9,946/9,420/4,1,2,
+                player.init(bitmap,9,946/9,420/4,1,2,
                         attackBitmap,1152/6,1344/7,6);
             }
 
@@ -117,7 +125,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                 Canvas canvas = mSurfaceHolder.lockCanvas();
                 if (canvas == null)
                     continue;
-                //logicAnimate();
+                logicAnimate();
                 drawGame(canvas);
                 /**绘制结束后解锁显示在屏幕上**/
                 mSurfaceHolder.unlockCanvasAndPost(canvas);
@@ -136,10 +144,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         }
     }
 
+    private void logicAnimate() {
+        MonsterController.getInstance().animate();
+    }
+
     private void drawGame(Canvas canvas){
         scrollBackground.draw(canvas);
-        sprite.draw(canvas);
-
+        player.draw(canvas);
+        MonsterController.getInstance().draw(canvas);
     }
 
     private Bitmap loadBitmap(String name) {
@@ -172,23 +184,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             if(event.getX() > getWidth()-100){
                 mDirection = GameConstants.DIRECTION_RIGHT;
                 scrollBackground.scrollTo(mDirection);
-                sprite.move(mDirection);
+                player.move(mDirection);
 
             }else if(event.getX() < 100){
                 mDirection = GameConstants.DIRECTION_LEFT;
                 scrollBackground.scrollTo(mDirection);
-                sprite.move(mDirection);
+                player.move(mDirection);
             }else if(event.getY() < 100){
-                sprite.attack();
+                player.attack();
             }else
-                sprite.stop();
+                player.stop();
         } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
 
 
         } else if (event.getAction() == MotionEvent.ACTION_UP
                 || event.getAction() == MotionEvent.ACTION_CANCEL) {
             mDirection = GameConstants.DIRECTION_NONE;
-            sprite.stop();
+            player.stop();
             scrollBackground.scrollTo(mDirection);
         }
         return true;
