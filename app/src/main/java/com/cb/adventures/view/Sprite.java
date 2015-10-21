@@ -1,9 +1,7 @@
 package com.cb.adventures.view;
 
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
