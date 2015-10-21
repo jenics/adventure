@@ -1,6 +1,7 @@
 package com.cb.adventures.controller;
 
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.factory.IMonsterFactory;
@@ -64,7 +65,7 @@ public class MonsterController implements Sprite.OnSpriteListener {
      */
     private int getRandom(int range) {
         Random rdm = new Random(System.currentTimeMillis());
-        return rdm.nextInt()%range + 1;
+        return (Math.abs(rdm.nextInt()%range) + 1);
     }
 
     /**
@@ -75,7 +76,9 @@ public class MonsterController implements Sprite.OnSpriteListener {
      */
     private int getRandom(int left,int right) {
         Random rdm = new Random(System.currentTimeMillis());
-        return rdm.nextInt()%(right-left+1) + left;
+        int random = (Math.abs(rdm.nextInt()%(right-left+1)) + left);
+        Log.d("getrandom",String.format("%d",random));
+        return random;
     }
 
     public synchronized void animate() {
