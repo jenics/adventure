@@ -30,7 +30,6 @@ public class StopState extends PlayerBaseState {
 
     @Override
     public boolean nextFrame() {
-        //return super.nextFrame();
         return true;
     }
 
@@ -40,7 +39,7 @@ public class StopState extends PlayerBaseState {
         float x = player.getPt().x - width/2;
         float y = player.getPt().y - height/2;
 
-        if (player.getDirection() == GameConstants.DIRECTION_LEFT) {
+        if (player.getDirection() == GameConstants.STATE_MOVE_LEFT) {
             canvas.drawBitmap(bitmap,
                     new Rect(   ///src rect
                             0,

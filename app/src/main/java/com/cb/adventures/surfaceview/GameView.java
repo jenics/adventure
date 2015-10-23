@@ -20,6 +20,8 @@ import android.view.SurfaceView;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.controller.MonsterController;
 import com.cb.adventures.factory.SimpleMonsterFactory;
+import com.cb.adventures.utils.ImageLoader;
+import com.cb.adventures.view.GameController;
 import com.cb.adventures.view.Player;
 import com.cb.adventures.view.ScrollBackground;
 import com.cb.adventures.view.Sprite;
@@ -32,13 +34,14 @@ import java.util.Stack;
 /**
  * Created by jenics on 2015/10/7.
  */
-public class GameView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
+public class GameView extends SurfaceView implements SurfaceHolder.Callback, Runnable, GameController.OnControllerListener {
     private boolean mIsRunning;
     private Thread mThread;
     private SurfaceHolder mSurfaceHolder;
     private Paint mPaint;
     private ScrollBackground scrollBackground;
     private Player player;
+    private GameController mGameController;
 
     public GameView(Context context) {
         super(context);
@@ -61,7 +64,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         init();
     }
 
-    private void init(){
+    private void init() {
         mIsRunning = false;
         mSurfaceHolder = getHolder();
         mSurfaceHolder.addCallback(this);
@@ -81,21 +84,32 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
 
             GameConstants.sLeftBoundary = 0;
             GameConstants.sRightBoundary = getWidth();
-            MonsterController.getInstance().setmMonsterFactory(new SimpleMonsterFactory(getContext()));
-            MonsterController.getInstance().generateMonster(GameConstants.BLACK_PIG_ID,5);
+            GameConstants.sGameWidth = getWidth();
+            GameConstants.sGameHeight = getHeight();
 
-            if(scrollBackground == null){
-                scrollBackground = new ScrollBackground();
-                Bitmap bitmap1 = loadBitmap("back3.jpg");
-                Bitmap bitmap2 = loadBitmap("back3.jpg");
-                scrollBackground.init(bitmap1,bitmap2,getWidth(),getHeight());
+            ImageLoader.getmInstance().init(getContext());
+
+            MonsterController.getInstance().setmMonsterFactory(new SimpleMonsterFactory());
+            MonsterController.getInstance().generateMonster(GameConstants.BLACK_PIG_ID, 5);
+
+            if (mGameController == null) {
+                mGameController = new GameController();
+                mGameController.init();
+                mGameController.setmOnControllerListener(this);
             }
-            if(player == null){
+
+            if (scrollBackground == null) {
+                scrollBackground = new ScrollBackground();
+                Bitmap bitmap1 = ImageLoader.getmInstance().loadBitmap("back3.jpg");
+                Bitmap bitmap2 = ImageLoader.getmInstance().loadBitmap("back3.jpg");
+                scrollBackground.init(bitmap1, bitmap2, getWidth(), getHeight());
+            }
+            if (player == null) {
                 player = new Player();
-                Bitmap bitmap = loadBitmap("xunlei.png");
-                Bitmap attackBitmap = loadBitmap("attack.png");
-                player.init(bitmap,9,946/9,420/4,1,2,
-                        attackBitmap,1152/6,1344/7,6);
+                Bitmap bitmap = ImageLoader.getmInstance().loadBitmap("xunlei.png");
+                Bitmap attackBitmap = ImageLoader.getmInstance().loadBitmap("attack.png");
+                player.init(bitmap, 9, 946 / 9, 420 / 4, 1, 2,
+                        attackBitmap, 1152 / 6, 1344 / 7, 6);
             }
 
             mIsRunning = true;
@@ -133,11 +147,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
 
             long endTime = System.currentTimeMillis();
             /**计算出游戏一次更新的毫秒数**/
-            int diffTime  = (int)(endTime - startTime);
+            int diffTime = (int) (endTime - startTime);
 
             /**确保每次更新时间为30帧**/
-            while(diffTime <= 20) {
-                diffTime = (int)(System.currentTimeMillis() - startTime);
+            while (diffTime <= 20) {
+                diffTime = (int) (System.currentTimeMillis() - startTime);
                 /**线程等待**/
                 Thread.yield();
             }
@@ -148,29 +162,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         MonsterController.getInstance().animate();
     }
 
-    private void drawGame(Canvas canvas){
+    private void drawGame(Canvas canvas) {
         scrollBackground.draw(canvas);
         player.draw(canvas);
         MonsterController.getInstance().draw(canvas);
-    }
-
-    private Bitmap loadBitmap(String name) {
-        AssetManager am = getContext().getAssets();
-        InputStream is = null;
-        try {
-            is = am.open(name);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("error!", e.toString());
-        }
-        Bitmap bmpReturn = null;
-        try {
-            bmpReturn = BitmapFactory.decodeStream(is);
-        }catch (Exception e){
-            Log.e("error",e.toString());
-        }
-
-        return bmpReturn;
+        mGameController.draw(canvas);
     }
 
     @Override
@@ -179,31 +175,38 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     }
 
     private int mDirection;
+
     private boolean touchDetection(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if(event.getX() > getWidth()-100){
-                mDirection = GameConstants.DIRECTION_RIGHT;
-                scrollBackground.scrollTo(mDirection);
-                player.move(mDirection);
-
-            }else if(event.getX() < 100){
-                mDirection = GameConstants.DIRECTION_LEFT;
-                scrollBackground.scrollTo(mDirection);
-                player.move(mDirection);
-            }else if(event.getY() < 100){
-                player.attack();
-            }else
-                player.stop();
+            mGameController.onMouseDown(event.getX(), event.getY());
         } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-
-
+            mGameController.onMouseMove(event.getX(), event.getY());
         } else if (event.getAction() == MotionEvent.ACTION_UP
                 || event.getAction() == MotionEvent.ACTION_CANCEL) {
-            mDirection = GameConstants.DIRECTION_NONE;
-            player.stop();
-            scrollBackground.scrollTo(mDirection);
+            mGameController.onMouseUp(event.getX(), event.getY());
         }
         return true;
     }
 
+    @Override
+    public void onDirectionChange(int direction) {
+        if (
+                direction == GameConstants.STATE_MOVE_RIGHT
+                || direction == GameConstants.STATE_MOVE_LEFT) {
+            if (player.move(direction)) {
+                scrollBackground.scrollTo(direction);
+            }
+        }
+    }
+
+    @Override
+    public void onAttack() {
+        player.attack();
+    }
+
+    @Override
+    public void onStop() {
+        player.stop();
+        scrollBackground.stopScroll();
+    }
 }

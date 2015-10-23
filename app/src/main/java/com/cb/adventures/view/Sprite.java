@@ -109,7 +109,7 @@ public class Sprite extends BaseView{
     public void rest(long time) {
         mIsRest = true;
         mIsStop = false;
-        mDirection = GameConstants.DIRECTION_NONE;
+        mDirection = GameConstants.STATE_NONE;
         mFrameIndex = 0;
         restBeginTime = System.currentTimeMillis();
         mRestTime = time;
@@ -119,7 +119,7 @@ public class Sprite extends BaseView{
      * 干活
      */
     public void work(int direction,long time) {
-        if(direction == GameConstants.DIRECTION_NONE) {
+        if(direction == GameConstants.STATE_NONE) {
             //rest();
         }else {
             mIsStop = false;
@@ -149,20 +149,20 @@ public class Sprite extends BaseView{
             return;
         }
         if(!mIsRest){
-            if(mDirection == GameConstants.DIRECTION_LEFT) {
+            if(mDirection == GameConstants.STATE_MOVE_LEFT) {
                 pt.x -= mMoveStep;
                 if(pt.x <= GameConstants.sLeftBoundary) {
-                    mDirection = GameConstants.DIRECTION_RIGHT;
+                    mDirection = GameConstants.STATE_MOVE_RIGHT;
                 }
                 long nowTime = System.currentTimeMillis();
                 if (nowTime - workBeginTime >= mWorkTime) {
                     stop();
                     workEnd();
                 }
-            }else if(mDirection == GameConstants.DIRECTION_RIGHT) {
+            }else if(mDirection == GameConstants.STATE_MOVE_RIGHT) {
                 pt.x += mMoveStep;
                 if(pt.x >= GameConstants.sRightBoundary) {
-                    mDirection = GameConstants.DIRECTION_LEFT;
+                    mDirection = GameConstants.STATE_MOVE_LEFT;
                 }
                 long nowTime = System.currentTimeMillis();
                 if (nowTime - workBeginTime >= mWorkTime) {
@@ -199,7 +199,7 @@ public class Sprite extends BaseView{
     public void draw(Canvas canvas) {
         nextFrame();
 
-        int rowIndex = mDirection == GameConstants.DIRECTION_LEFT ? mLeftRowIndex : mRightRowIndex;
+        int rowIndex = mDirection == GameConstants.STATE_MOVE_LEFT ? mLeftRowIndex : mRightRowIndex;
 
         float x = getPt().x - mPerWidth/2;
         float y = getPt().y - mPerHeight/2;

@@ -8,7 +8,26 @@ import android.graphics.RectF;
  * Created by jenics on 2015/10/7.
  */
 public class BaseView implements IView {
-    protected PointF pt;
+    protected PointF pt;    ///中心点
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    protected int width;    ///宽度
+    protected int height;   ///高度
     protected boolean isClickable;
     protected boolean isVisiable;
 
@@ -27,6 +46,11 @@ public class BaseView implements IView {
         this.pt.y = pt.y;
     }
     public void setPt(int x,int y) {
+        this.pt.x = x;
+        this.pt.y = y;
+    }
+
+    public void setPt(float x,float y) {
         this.pt.x = x;
         this.pt.y = y;
     }

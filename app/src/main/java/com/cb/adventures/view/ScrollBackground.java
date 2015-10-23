@@ -31,7 +31,7 @@ public class ScrollBackground extends BaseView{
         isClickable = false;
         rt1 = new RectF();
         rt2 = new RectF();
-        mDirection = GameConstants.DIRECTION_NONE;
+        mDirection = GameConstants.STATE_NONE;
     }
 
     public void init(Bitmap bmp1,Bitmap bmp2,int screemWidth,int screemHeight){
@@ -75,13 +75,12 @@ public class ScrollBackground extends BaseView{
         mDirection = direction;
     }
 
-    private void scroll() {
-        /*long nowTime = System.currentTimeMillis();
-        if (nowTime - lastTime < 100 || GameConstants.DIRECTION_NONE == direction)
-            return;
-        lastTime = nowTime;*/
+    public void stopScroll() {
+        mDirection = GameConstants.STATE_STOP;
+    }
 
-        if(mDirection == GameConstants.DIRECTION_RIGHT) {
+    private void scroll() {
+        if(mDirection == GameConstants.STATE_MOVE_RIGHT) {
             rt1.left -= STEP_LENGTH;
             rt1.right -= STEP_LENGTH;
             rt2.left -= STEP_LENGTH;
@@ -98,7 +97,7 @@ public class ScrollBackground extends BaseView{
                 rt2.left = screemWidth;
                 rt2.right = screemWidth + screemWidth;
             }
-        }else if(mDirection == GameConstants.DIRECTION_LEFT){
+        }else if(mDirection == GameConstants.STATE_MOVE_LEFT){
             rt1.left += STEP_LENGTH;
             rt1.right += STEP_LENGTH;
             rt2.left += STEP_LENGTH;

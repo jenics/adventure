@@ -52,7 +52,7 @@ public class MonsterController implements Sprite.OnSpriteListener {
             if(sprite != null) {
                 sprite.setmSpriteListener(this);
                 sprite.setPt(getRandom(GameConstants.sRightBoundary), 700);
-                sprite.work(GameConstants.DIRECTION_LEFT,3000);
+                sprite.work(GameConstants.STATE_MOVE_LEFT,3000);
                 mMonters.add(sprite);
             }
         }
@@ -77,7 +77,7 @@ public class MonsterController implements Sprite.OnSpriteListener {
     private int getRandom(int left,int right) {
         Random rdm = new Random(System.currentTimeMillis());
         int random = (Math.abs(rdm.nextInt()%(right-left+1)) + left);
-        Log.d("getrandom",String.format("%d",random));
+        //Log.d("getrandom",String.format("%d",random));
         return random;
     }
 
@@ -101,7 +101,7 @@ public class MonsterController implements Sprite.OnSpriteListener {
     public void OnRestEnd(int id) {
         for (Sprite sprite : mMonters) {
             if (sprite.getId() == id) {
-                sprite.work(GameConstants.DIRECTION_LEFT,getRandom(5,10)*1000);  ///跑2-3秒
+                sprite.work(GameConstants.STATE_MOVE_LEFT,getRandom(5,10)*1000);  ///跑2-3秒
                 return;
             }
         }

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.util.Log;
 
 import com.cb.adventures.view.Player;
 import com.cb.adventures.view.Sprite;
@@ -12,17 +13,15 @@ import com.cb.adventures.view.Sprite;
  * Created by jenics on 2015/10/12.
  */
 public class MoveState extends PlayerBaseState {
-    int direction;
     int frameIndex = 0;
     int frameCount = 0;
     int rowIndex = 0;
     int width;
     int height;
     private Bitmap bitmap;
-    public MoveState(int id,Player player,int direction,int frameCount,int rowIndex , Bitmap bitmap,int width,int height)
+    public MoveState(int id,Player player,int frameCount,int rowIndex , Bitmap bitmap,int width,int height)
     {
         super(id,player);
-        this.direction = direction;
         frameIndex = 0;
         this.rowIndex = rowIndex;
         this.frameCount = frameCount;
@@ -39,6 +38,8 @@ public class MoveState extends PlayerBaseState {
         if (frameIndex >= frameCount) {
             frameIndex = 1;
         }
+
+        Log.d("nextFrame", String.format("%d:", frameIndex));
 
         return true;
     }
@@ -64,6 +65,7 @@ public class MoveState extends PlayerBaseState {
     @Override
     public void entry() {
         super.entry();
+
         frameIndex = 0;
     }
 

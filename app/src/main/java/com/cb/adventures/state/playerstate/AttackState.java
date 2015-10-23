@@ -5,13 +5,13 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
+import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.view.Player;
 
 /**
  * Created by jenics on 2015/10/12.
  */
 public class AttackState extends PlayerBaseState {
-    int direction;
     int frameIndex;
     Bitmap bitmap;
     int frameCount;
@@ -19,9 +19,8 @@ public class AttackState extends PlayerBaseState {
     int width;
     int height;
 
-    public AttackState(int id,Player player,int direction,int frameCount,int rowIndex , Bitmap bitmap,int width,int height) {
+    public AttackState(int id,Player player,int frameCount,int rowIndex , Bitmap bitmap,int width,int height) {
         super(id,player);
-        this.direction = direction;
         frameIndex = 0;
         this.rowIndex = rowIndex;
         this.frameCount = frameCount;
@@ -36,7 +35,7 @@ public class AttackState extends PlayerBaseState {
         frameIndex++;
         if (frameIndex >= frameCount) {
             frameIndex = 0;
-            player.changeState(Player.STATE_STOP,true);
+            player.changeState(GameConstants.STATE_STOP,true);
         }
 
         return true;
@@ -82,5 +81,6 @@ public class AttackState extends PlayerBaseState {
     @Override
     public void leave() {
         super.leave();
+        player.setIsAttacking(false);
     }
 }
