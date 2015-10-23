@@ -1,5 +1,6 @@
 package com.cb.adventures.activity;
 
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,14 +8,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.cb.adventures.R;
-import com.cb.adventures.music.BackGroundMusic;
+import com.cb.adventures.music.MusicManager;
+
 
 public class GameActivity extends ActionBarActivity {
     
     private final static String TAG = "GameActivity";
     private final static boolean IS_DEBUG = false;
     
-    private BackGroundMusic mBackGroundMusic = null ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if(IS_DEBUG){
@@ -22,9 +23,7 @@ public class GameActivity extends ActionBarActivity {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        mBackGroundMusic = new BackGroundMusic(this);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -54,7 +53,7 @@ public class GameActivity extends ActionBarActivity {
             Log.e(TAG, "onPause");
         }
         super.onPause();
-        mBackGroundMusic.pause();
+        MusicManager.getInstance().pauseMedia(MusicManager.STATIC_MEDIA_TYPE_BACKGROUND);
     }
     
     @Override
@@ -63,8 +62,7 @@ public class GameActivity extends ActionBarActivity {
             Log.e(TAG, "onDestroy");
         }
         super.onDestroy();
-        mBackGroundMusic.release();
-        mBackGroundMusic = null;
+        MusicManager.getInstance().release();
     }
 
     @Override
@@ -73,6 +71,6 @@ public class GameActivity extends ActionBarActivity {
             Log.e(TAG, "onPostResume");
         }
         super.onPostResume();
-        mBackGroundMusic.resume();
+        MusicManager.getInstance().playMedia(MusicManager.STATIC_MEDIA_TYPE_BACKGROUND);
     }
 }

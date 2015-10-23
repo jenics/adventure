@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 import com.cb.adventures.constants.GameConstants;
+import com.cb.adventures.music.MusicManager;
 import com.cb.adventures.view.Player;
 
 /**
@@ -76,6 +77,7 @@ public class AttackState extends PlayerBaseState {
     public void entry() {
         frameIndex = 0;
         super.entry();
+        MusicManager.getInstance().playSound(MusicManager.STATIC_SOUND_TYPE_ATTACK,3);
     }
 
     @Override
