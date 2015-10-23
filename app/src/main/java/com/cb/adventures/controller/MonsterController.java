@@ -77,7 +77,7 @@ public class MonsterController implements Sprite.OnSpriteListener {
     private int getRandom(int left,int right) {
         Random rdm = new Random(System.currentTimeMillis());
         int random = (Math.abs(rdm.nextInt()%(right-left+1)) + left);
-        //Log.d("getrandom",String.format("%d",random));
+        //CLog.d("getrandom",String.format("%d",random));
         return random;
     }
 

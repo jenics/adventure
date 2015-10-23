@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.Log;
 
+import com.cb.adventures.utils.CLog;
 import com.cb.adventures.view.Player;
 import com.cb.adventures.view.Sprite;
 
@@ -39,7 +40,7 @@ public class MoveState extends PlayerBaseState {
             frameIndex = 1;
         }
 
-        Log.d("nextFrame", String.format("%d:", frameIndex));
+        CLog.d("nextFrame", String.format("%d:", frameIndex));
 
         return true;
     }

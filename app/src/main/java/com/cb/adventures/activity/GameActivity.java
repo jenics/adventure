@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import com.cb.adventures.R;
 import com.cb.adventures.music.MusicManager;
+import com.cb.adventures.utils.CLog;
 
 
 public class GameActivity extends ActionBarActivity {
@@ -19,7 +20,7 @@ public class GameActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if(IS_DEBUG){
-            Log.e(TAG, "onCreate");
+            CLog.e(TAG, "onCreate");
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
@@ -50,7 +51,7 @@ public class GameActivity extends ActionBarActivity {
     @Override
     protected void onPause() {
         if(IS_DEBUG){
-            Log.e(TAG, "onPause");
+            CLog.e(TAG, "onPause");
         }
         super.onPause();
         MusicManager.getInstance().pauseMedia(MusicManager.STATIC_MEDIA_TYPE_BACKGROUND);
@@ -59,7 +60,7 @@ public class GameActivity extends ActionBarActivity {
     @Override
     protected void onDestroy() {
         if(IS_DEBUG){
-            Log.e(TAG, "onDestroy");
+            CLog.e(TAG, "onDestroy");
         }
         super.onDestroy();
         MusicManager.getInstance().release();
@@ -68,7 +69,7 @@ public class GameActivity extends ActionBarActivity {
     @Override
     protected void onPostResume() {
         if (IS_DEBUG) {
-            Log.e(TAG, "onPostResume");
+            CLog.e(TAG, "onPostResume");
         }
         super.onPostResume();
         MusicManager.getInstance().playMedia(MusicManager.STATIC_MEDIA_TYPE_BACKGROUND);

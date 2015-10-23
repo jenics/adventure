@@ -4,11 +4,12 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
-import android.util.Log;
+
 
 import com.cb.adventures.R;
 import com.cb.adventures.activity.MainActivity;
 import com.cb.adventures.common.MyApplication;
+import com.cb.adventures.utils.CLog;
 
 import java.util.HashMap;
 
@@ -55,7 +56,7 @@ public class MusicManager {
 
     private MusicManager() {
         if (IS_DEBUG) {
-            Log.e(TAG, "MusicManager");
+            CLog.e(TAG, "MusicManager");
         }
         mContext = MyApplication.getContextObj();
         initMediaPlayer();
@@ -92,7 +93,7 @@ public class MusicManager {
 
     private void initMediaPlayer() {
         if (IS_DEBUG) {
-            Log.e(TAG, "initMediaPlayer");
+            CLog.e(TAG, "initMediaPlayer");
         }
         mMdiaMap = new HashMap<Integer, MediaPlayer>();
         for (int i = 0; i < STATIC_MEDIA_TYPE_COUNT; i++) {
@@ -103,7 +104,7 @@ public class MusicManager {
 
     private void initSoundPool() {
         if (IS_DEBUG) {
-            Log.e(TAG, "initSoundPool");
+            CLog.e(TAG, "initSoundPool");
         }
         mSoundPool = new SoundPool(maxStreams, AudioManager.STREAM_MUSIC, srcQuality);
         mSoundPoolMap = new HashMap<Integer, Integer>();
@@ -114,7 +115,7 @@ public class MusicManager {
 
     public void playMedia(int mediaType) {
         if (IS_DEBUG) {
-            Log.e(TAG, "playMedia:" + mOpenBgSound);
+            CLog.e(TAG, "playMedia:" + mOpenBgSound);
         }
         if (!mOpenBgSound) {
             return;
@@ -128,7 +129,7 @@ public class MusicManager {
 
     public void pauseMedia(int mediaType) {
         if (IS_DEBUG) {
-            Log.e(TAG, "pauseMedia");
+            CLog.e(TAG, "pauseMedia");
         }
         MediaPlayer mediaPlayer = mMdiaMap.get(mediaType);
         if (mediaPlayer.isPlaying()) {
@@ -138,7 +139,7 @@ public class MusicManager {
 
     public void playSound(int soundID, int loop) {
         if (IS_DEBUG) {
-            Log.e(TAG, "playSound:" + mOpenEffectSound);
+            CLog.e(TAG, "playSound:" + mOpenEffectSound);
         }
         if (!mOpenEffectSound) {
             return;
@@ -156,7 +157,7 @@ public class MusicManager {
 
     public void release() {
         if (IS_DEBUG) {
-            Log.e(TAG, "release");
+            CLog.e(TAG, "release");
         }
         for (int i = 0; i < mMdiaMap.size(); i++) {
             MediaPlayer mp = mMdiaMap.get(i);

@@ -11,6 +11,7 @@ import com.cb.adventures.state.playerstate.AttackState;
 import com.cb.adventures.state.playerstate.MoveState;
 import com.cb.adventures.state.playerstate.PlayerBaseState;
 import com.cb.adventures.state.playerstate.StopState;
+import com.cb.adventures.utils.CLog;
 
 import java.util.HashMap;
 
@@ -127,7 +128,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     @Override
     public boolean changeState(int stateId) {
 
-        Log.d("changestate:",String.format("%d",stateId));
+        CLog.d("changestate:", String.format("%d", stateId));
         PlayerBaseState disState = stateHashMap.get(stateId);
 
         if (curState == null || disState == null) {

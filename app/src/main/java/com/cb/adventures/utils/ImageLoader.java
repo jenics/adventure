@@ -39,13 +39,13 @@ public class ImageLoader {
             is = am.open(name);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("error!", e.toString());
+            CLog.e("error!", e.toString());
         }
         Bitmap bmpReturn = null;
         try {
             bmpReturn = BitmapFactory.decodeStream(is);
         }catch (Exception e){
-            Log.e("error",e.toString());
+            CLog.e("error",e.toString());
         }
 
         return bmpReturn;
