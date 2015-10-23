@@ -178,20 +178,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
 
     private boolean touchDetection(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            mGameController.onMouseDown(event.getX(), event.getY());
+            mGameController.onMouseDown((int)event.getX(), (int)event.getY());
         } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-            mGameController.onMouseMove(event.getX(), event.getY());
+            mGameController.onMouseMove((int)event.getX(), (int)event.getY());
         } else if (event.getAction() == MotionEvent.ACTION_UP
                 || event.getAction() == MotionEvent.ACTION_CANCEL) {
-            mGameController.onMouseUp(event.getX(), event.getY());
+            mGameController.onMouseUp((int)event.getX(), (int)event.getY());
         }
         return true;
     }
 
     @Override
     public void onDirectionChange(int direction) {
-        if (
-                direction == GameConstants.STATE_MOVE_RIGHT
+        if ( direction == GameConstants.STATE_MOVE_RIGHT
                 || direction == GameConstants.STATE_MOVE_LEFT) {
             if (player.move(direction)) {
                 scrollBackground.scrollTo(direction);

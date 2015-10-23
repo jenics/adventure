@@ -13,14 +13,18 @@ import com.cb.adventures.view.Player;
  * Created by jenics on 2015/10/12.
  */
 public class AttackState extends PlayerBaseState {
-    int frameIndex;
-    Bitmap bitmap;
-    int frameCount;
-    int rowIndex;
-    int width;
-    int height;
+    private int frameIndex;
+    private Bitmap bitmap;
+    private int frameCount;
+    private int rowIndex;
+    private int width;
+    private int height;
+    private OnAttackListener onAttackListener;
+    public interface OnAttackListener {
+        public void onAttackOver();
+    }
 
-    public AttackState(int id,Player player,int frameCount,int rowIndex , Bitmap bitmap,int width,int height) {
+    public AttackState(int id,Player player,int frameCount,int rowIndex , Bitmap bitmap,int width,int height,OnAttackListener listener) {
         super(id,player);
         frameIndex = 0;
         this.rowIndex = rowIndex;
@@ -28,6 +32,7 @@ public class AttackState extends PlayerBaseState {
         this.bitmap = bitmap;
         this.width = width;
         this.height = height;
+        onAttackListener = listener;
     }
 
     @Override
@@ -36,7 +41,8 @@ public class AttackState extends PlayerBaseState {
         frameIndex++;
         if (frameIndex >= frameCount) {
             frameIndex = 0;
-            player.changeState(GameConstants.STATE_STOP,true);
+            onAttackListener.onAttackOver();
+            //player.changeState(GameConstants.STATE_STOP,true);
         }
 
         return true;
@@ -83,6 +89,5 @@ public class AttackState extends PlayerBaseState {
     @Override
     public void leave() {
         super.leave();
-        player.setIsAttacking(false);
     }
 }

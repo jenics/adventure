@@ -49,7 +49,8 @@ public class GameController implements IView {
         public void onStop();
     }
 
-    public void onMouseDown(float x,float y) {
+    private boolean isDirectionControllerDown;
+    public void onMouseDown(int x, int y) {
         int dir = onMouseEvent(x,y);
         if(dir == GameConstants.STATE_NONE) {
             return;
@@ -62,7 +63,7 @@ public class GameController implements IView {
         }
     }
 
-    public void onMouseMove(float x,float y) {
+    public void onMouseMove(int x,int y) {
         int dir = onMouseEvent(x,y);
         if(dir == GameConstants.STATE_NONE) {
             return;
@@ -73,9 +74,12 @@ public class GameController implements IView {
         }
     }
 
-    public void onMouseUp(float x,float y) {
+    public void onMouseUp(int x,int y) {
         resetCenterCircle();
-        mOnControllerListener.onStop();
+        if(isDirectionControllerDown) {
+            mOnControllerListener.onStop();
+        }
+        isDirectionControllerDown = false;
     }
 
     public void resetCenterCircle() {
@@ -87,18 +91,21 @@ public class GameController implements IView {
      * @param x x坐标
      * @param y y坐标
      */
-    public int onMouseEvent(float x ,float y) {
-        if((x >= (mDirectionController.getPt().x*1.0f))
-                &&  (x <=  (mDirectionController.getPt().x*1.0f + mDirectionController.getWidth()/2.0f))
+    public int onMouseEvent(int x ,int y) {
+
+        if((x >= (mDirectionController.getPt().x))
+                &&  (x <=  (mDirectionController.getPt().x + mDirectionController.getWidth()/2))
                 && y >= mDirectionController.getPt().y - mDirectionController.getHeight()/2
                 && y <= mDirectionController.getPt().y + mDirectionController.getHeight()/2) {
             mDirectionCenterCircle.setPt(x,y);
+            isDirectionControllerDown = true;
             return GameConstants.STATE_MOVE_RIGHT;
-        }else if(x >= mDirectionController.getPt().x*1.0f - mDirectionController.getWidth()/2.0f
-                && x <  mDirectionController.getPt().x*1.0f
+        }else if(x >= mDirectionController.getPt().x - mDirectionController.getWidth()/2
+                && x <  mDirectionController.getPt().x
                 && y >= mDirectionController.getPt().y - mDirectionController.getHeight()/2
                 && y <= mDirectionController.getPt().y + mDirectionController.getHeight()/2) {
             mDirectionCenterCircle.setPt(x,y);
+            isDirectionControllerDown = true;
             return GameConstants.STATE_MOVE_LEFT;
         }else if(x >= mAttackController.getPt().x-mAttackController.getWidth()/2
                 && x <= mAttackController.getPt().x + mAttackController.getWidth()/2
@@ -111,7 +118,7 @@ public class GameController implements IView {
         }
     }
 
-    private boolean ptInRegion(float x ,float y) {
+    private boolean ptInRegion(int x ,int y) {
         if(x >= mDirectionController.getPt().x-mDirectionController.getWidth()/2
                 && x <= mDirectionController.getPt().x+mDirectionController.getWidth()/2
                 && y >= mDirectionController.getPt().y - mDirectionController.getHeight()/2

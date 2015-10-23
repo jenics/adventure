@@ -6,14 +6,5 @@ package com.cb.adventures.state;
  */
 public interface IStateMgr {
     public boolean changeState(int stateId);
-
-    /**
-     *
-     * @param stateId
-     * @param bForce 是否强制进入状态
-     * @return
-     */
-    public boolean changeState(int stateId,boolean bForce);
-
     public BaseState createState(int stateId);
 }
