@@ -1,6 +1,7 @@
 package com.cb.adventures.state;
 
 /**
+ * 状态机基类
  * Created by jenics on 2015/10/12.
  */
 public class BaseState {

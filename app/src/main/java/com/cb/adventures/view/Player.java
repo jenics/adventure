@@ -53,7 +53,11 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     public void attack() {
         if (isAttacking == false) {
             isAttacking = true;
-            changeState(GameConstants.STATE_ATTACK_LEFT);
+            if(mDirection == GameConstants.STATE_MOVE_LEFT) {
+                changeState(GameConstants.STATE_ATTACK_LEFT);
+            }else if(mDirection == GameConstants.STATE_MOVE_RIGHT) {
+                changeState(GameConstants.STATE_ATTACK_RIGHT);
+            }
         } else {
             isNeedRepeatAttack = true;
         }
@@ -67,15 +71,17 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
      * @return
      */
     public boolean move(int direction) {
-        lastTime = System.currentTimeMillis();
+
         if (isAttacking) {
             return false;
         }
+
         if (direction == GameConstants.STATE_MOVE_LEFT
                 || direction == GameConstants.STATE_MOVE_RIGHT) {
             if (curState.getStateId() == direction) {
                 return true;
             }
+            lastTime = System.currentTimeMillis();
             mDirection = direction;
             return changeState(direction);
         }

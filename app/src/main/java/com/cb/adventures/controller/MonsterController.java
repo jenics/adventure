@@ -1,13 +1,10 @@
 package com.cb.adventures.controller;
 
 import android.graphics.Canvas;
-import android.util.Log;
-
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.factory.IMonsterFactory;
 import com.cb.adventures.view.IView;
 import com.cb.adventures.view.Sprite;
-
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -58,14 +55,17 @@ public class MonsterController implements Sprite.OnSpriteListener {
         }
     }
 
+    private Random mRandom;
     /**
      * 取得[1,range]随机数
      * @param range
      * @return
      */
     private int getRandom(int range) {
-        Random rdm = new Random(System.currentTimeMillis());
-        return (Math.abs(rdm.nextInt()%range) + 1);
+        if(mRandom == null) {
+            mRandom = new Random(System.currentTimeMillis());
+        }
+        return (Math.abs(mRandom.nextInt()%range) + 1);
     }
 
     /**
@@ -75,9 +75,10 @@ public class MonsterController implements Sprite.OnSpriteListener {
      * @return
      */
     private int getRandom(int left,int right) {
-        Random rdm = new Random(System.currentTimeMillis());
-        int random = (Math.abs(rdm.nextInt()%(right-left+1)) + left);
-        //CLog.d("getrandom",String.format("%d",random));
+        if(mRandom == null) {
+            mRandom = new Random(System.currentTimeMillis());
+        }
+        int random = (Math.abs(mRandom.nextInt()%(right-left+1)) + left);
         return random;
     }
 

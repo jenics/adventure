@@ -2,8 +2,10 @@ package com.cb.adventures.state.playerstate;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.RectF;
+
 
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.music.MusicManager;
@@ -55,28 +57,73 @@ public class AttackState extends PlayerBaseState {
         float y = player.getPt().y - height/2;
 
         ///画攻击效果
-        canvas.drawBitmap(bitmap,
-                new Rect(   ///src rect
-                        width * frameIndex,
-                        rowIndex * height,
-                        width * frameIndex + width,
-                        rowIndex * height + height),
-                new RectF(x,
-                        y,
-                        x + width,
-                        y + height), null);
+        if(stateId == GameConstants.STATE_ATTACK_LEFT) {
+            canvas.drawBitmap(bitmap,
+                    new Rect(   ///src rect
+                            width * frameIndex,
+                            rowIndex * height,
+                            width * frameIndex + width,
+                            rowIndex * height + height),
+                    new RectF(x,
+                            y,
+                            x + width,
+                            y + height), null);
 
-        ///画技能
-        canvas.drawBitmap(bitmap,
-                new Rect(   ///src rect
-                        width * frameIndex,
-                        (rowIndex+1) * height,
-                        width * frameIndex + width,
-                        (rowIndex+1) * height + height),
-                new RectF(x-50,
-                        y,
-                        x-50+width,
-                        y + height), null);
+            ///画技能
+            canvas.drawBitmap(bitmap,
+                    new Rect(   ///src rect
+                            width * frameIndex,
+                            (rowIndex + 1) * height,
+                            width * frameIndex + width,
+                            (rowIndex + 1) * height + height),
+                    new RectF(x - 50,
+                            y,
+                            x - 50 + width,
+                            y + height), null);
+        }else if(stateId == GameConstants.STATE_ATTACK_RIGHT) {
+            Matrix matrix = new Matrix();
+            matrix.postScale(-1, 1); //镜像垂直翻转
+            Bitmap bmpTmp = Bitmap.createBitmap(bitmap,
+                    width * frameIndex,
+                    rowIndex * height,
+                    width,
+                    height,
+                    matrix,
+                    true);
+
+            canvas.drawBitmap(bmpTmp,
+                    new Rect(   ///src rect
+                            0,
+                            0,
+                            width,
+                            height),
+                    new RectF(x,
+                            y,
+                            x + width,
+                            y + height), null);
+            bmpTmp.recycle();
+            bmpTmp = null;
+
+            Bitmap bmpTmp2 = Bitmap.createBitmap(bitmap,
+                    width * frameIndex,
+                    (rowIndex + 1) * height,
+                    width,
+                    height,
+                    matrix,
+                    true);
+
+            ///画技能
+            canvas.drawBitmap(bmpTmp2,
+                    new Rect(   ///src rect
+                            0,0,width,height),
+                    new RectF(x + 50,
+                            y,
+                            x + 50 + width,
+                            y + height), null);
+
+            bmpTmp2.recycle();
+            bmpTmp2 = null;
+        }
     }
 
     @Override

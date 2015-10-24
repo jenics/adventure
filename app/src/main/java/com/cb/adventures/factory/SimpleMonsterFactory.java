@@ -1,18 +1,11 @@
 package com.cb.adventures.factory;
 
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
-
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.utils.ImageLoader;
 import com.cb.adventures.view.Sprite;
 
-import java.io.InputStream;
-
 /**
+ * 简单难度怪物工厂
  * Created by jenics on 2015/10/21.
  */
 public class SimpleMonsterFactory implements IMonsterFactory {

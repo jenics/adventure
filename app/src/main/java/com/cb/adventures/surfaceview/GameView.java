@@ -32,6 +32,7 @@ import java.util.LinkedList;
 import java.util.Stack;
 
 /**
+ * 游戏主view
  * Created by jenics on 2015/10/7.
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback, Runnable, GameController.OnControllerListener {
@@ -86,8 +87,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             GameConstants.sRightBoundary = getWidth();
             GameConstants.sGameWidth = getWidth();
             GameConstants.sGameHeight = getHeight();
-
-            ImageLoader.getmInstance().init(getContext());
 
             MonsterController.getInstance().setmMonsterFactory(new SimpleMonsterFactory());
             MonsterController.getInstance().generateMonster(GameConstants.BLACK_PIG_ID, 5);

@@ -6,9 +6,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.cb.adventures.common.MyApplication;
+
 import java.io.InputStream;
 
 /**
+ * 图元载入器
  * Created by jenics on 2015/10/22.
  */
 public class ImageLoader {
@@ -33,7 +36,7 @@ public class ImageLoader {
         if(mContext == null) {
             throw new IllegalStateException("ImageLoader,context is null!!!");
         }
-        AssetManager am = mContext.getAssets();
+        AssetManager am = MyApplication.getContextObj().getAssets();
         InputStream is = null;
         try {
             is = am.open(name);
