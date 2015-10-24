@@ -21,6 +21,7 @@ import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.controller.MonsterController;
 import com.cb.adventures.factory.SimpleMonsterFactory;
 import com.cb.adventures.utils.ImageLoader;
+import com.cb.adventures.view.BloodReservoir;
 import com.cb.adventures.view.GameController;
 import com.cb.adventures.view.Player;
 import com.cb.adventures.view.ScrollBackground;
@@ -43,6 +44,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     private ScrollBackground scrollBackground;
     private Player player;
     private GameController mGameController;
+    private BloodReservoir bloodReservoir;
 
     public GameView(Context context) {
         super(context);
@@ -91,10 +93,29 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             MonsterController.getInstance().setmMonsterFactory(new SimpleMonsterFactory());
             MonsterController.getInstance().generateMonster(GameConstants.BLACK_PIG_ID, 5);
 
+            if (player == null) {
+                player = new Player();
+                Bitmap bitmap = ImageLoader.getmInstance().loadBitmap("xunlei.png");
+                Bitmap attackBitmap = ImageLoader.getmInstance().loadBitmap("attack.png");
+                player.init(bitmap, 9, 946 / 9, 420 / 4, 1, 2,
+                        attackBitmap, 1152 / 6, 1344 / 7, 6);
+                player.getmPropetry().setBloodTotalVolume(100);
+                player.getmPropetry().setBloodVolume(70);
+                player.getmPropetry().setMagicTotalVolume(100);
+                player.getmPropetry().setMagicVolume(10);
+            }
+
+
             if (mGameController == null) {
                 mGameController = new GameController();
                 mGameController.init();
                 mGameController.setmOnControllerListener(this);
+            }
+
+            if (bloodReservoir == null) {
+                bloodReservoir = new BloodReservoir();
+                bloodReservoir.init();
+                bloodReservoir.setPropetry(player.getmPropetry());
             }
 
             if (scrollBackground == null) {
@@ -103,13 +124,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                 Bitmap bitmap2 = ImageLoader.getmInstance().loadBitmap("back3.jpg");
                 scrollBackground.init(bitmap1, bitmap2, getWidth(), getHeight());
             }
-            if (player == null) {
-                player = new Player();
-                Bitmap bitmap = ImageLoader.getmInstance().loadBitmap("xunlei.png");
-                Bitmap attackBitmap = ImageLoader.getmInstance().loadBitmap("attack.png");
-                player.init(bitmap, 9, 946 / 9, 420 / 4, 1, 2,
-                        attackBitmap, 1152 / 6, 1344 / 7, 6);
-            }
+
 
             mIsRunning = true;
             mThread = new Thread(this);
@@ -166,6 +181,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         player.draw(canvas);
         MonsterController.getInstance().draw(canvas);
         mGameController.draw(canvas);
+        bloodReservoir.draw(canvas);
     }
 
     @Override

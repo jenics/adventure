@@ -5,8 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.RectF;
-
-
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.music.MusicManager;
 import com.cb.adventures.view.Player;

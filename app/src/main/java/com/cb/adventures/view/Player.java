@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import com.cb.adventures.constants.GameConstants;
+import com.cb.adventures.data.EquipmentPropetry;
+import com.cb.adventures.data.Propetry;
 import com.cb.adventures.state.BaseState;
 import com.cb.adventures.state.IStateMgr;
 import com.cb.adventures.state.playerstate.AttackState;
@@ -18,6 +20,7 @@ import java.util.HashMap;
  * Created by jenics on 2015/10/21.
  */
 public class Player extends BaseView implements IStateMgr, AttackState.OnAttackListener {
+    private Propetry mPropetry;
     protected PlayerBaseState curState;
     protected HashMap<Integer, PlayerBaseState> stateHashMap;
     protected int frameCount; ///一个方向的帧总数
@@ -33,12 +36,20 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     private int leftRowIndex = 0;       ///方向左在第几行
     private int rightRowIndex = 1;      ///方向右在第几行
 
+    private EquipmentPropetry[] mEquipmentPropetrys;
+
     private Bitmap bmp;
     private Bitmap accackBmp;
 
     public Player() {
         isNeedRepeatAttack = false;
         stateHashMap = new HashMap<>();
+        mPropetry = new Propetry();
+        mEquipmentPropetrys = new EquipmentPropetry[GameConstants.EQUIPMENT_NUM];
+    }
+
+    public Propetry getmPropetry() {
+        return mPropetry;
     }
 
     /**
@@ -121,7 +132,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
         pt.x = GameConstants.sGameWidth / 2;
         pt.y = GameConstants.sGameHeight * 0.7f;
 
-        changeState(GameConstants.STATE_STOP_RIGHT);
+        stop();
     }
 
     @Override
@@ -200,6 +211,30 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     @Override
     public void onAttackOver() {
 
+    }
+
+    /**
+     * 装备物品
+     * @param equipmentId 装备ID
+     */
+    public void equipment(int equipmentId) {
+        ///重新计算属性值
+    }
+
+    /**
+     * 卸下物品
+     * @param equipmentId 装备ID
+     */
+    public void unEquipment(int equipmentId) {
+        ///重新计算属性值
+    }
+
+    /**
+     * 使用消耗品
+     * @param consumId 消耗品ID
+     */
+    public void use(int consumId) {
+        ///增加物品增益效果
     }
 
 }

@@ -33,21 +33,15 @@ public class MoveState extends PlayerBaseState {
 
     @Override
     public boolean nextFrame() {
-        //return super.nextFrame();
-
         frameIndex++;
         if (frameIndex >= frameCount) {
             frameIndex = 1;
         }
-
-        CLog.d("nextFrame", String.format("%d:", frameIndex));
-
         return true;
     }
 
     @Override
     public void draw(Canvas canvas) {
-        //super.draw();
         ///假设人物在中心点，按60*70截取
         float x = player.getPt().x - width/2;
         float y = player.getPt().y - height/2;

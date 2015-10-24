@@ -15,6 +15,7 @@ public class GameController implements IView {
     private DirectionCenterCircle mDirectionCenterCircle;
     private AttackController mAttackController;
 
+
     public GameController() {
     }
 

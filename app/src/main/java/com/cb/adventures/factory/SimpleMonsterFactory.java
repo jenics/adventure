@@ -10,8 +10,8 @@ import com.cb.adventures.view.Sprite;
  */
 public class SimpleMonsterFactory implements IMonsterFactory {
     public SimpleMonsterFactory() {
-
     }
+
     @Override
     public Sprite create(int id) {
         Sprite sprite = null;
@@ -20,6 +20,4 @@ public class SimpleMonsterFactory implements IMonsterFactory {
         }
         return sprite;
     }
-
-
 }
