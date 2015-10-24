@@ -5,13 +5,33 @@ package com.cb.adventures.constants;
  */
 public class GameConstants {
 
+    public static final int DIRECT_NONE = -1;
     public static final int STATE_NONE = -1;
+    public static final int DIRECT_LEFT = 0x0;
     public static final int STATE_MOVE_LEFT = 0;
+    public static final int DIRECT_RIGHT = 0x1;
     public static final int STATE_MOVE_RIGHT = 1;
     public static final int STATE_ATTACK_LEFT = 2;
     public static final int STATE_ATTACK_RIGHT = 3;
-    public static final int STATE_STOP = 4;
-    public static final int STATE_JUMP = 5;
+    public static final int STATE_STOP_LEFT = 4;
+    public static final int STATE_STOP_RIGHT = 5;
+
+    /**
+     * 通过状态码获取方向信息
+     * @param state 状态码
+     * @return 0 左  1 右
+     */
+    public static int getDirection(int state) {
+        return (state & DIRECT_RIGHT);
+    }
+
+    public static boolean isAttack(int state) {
+        return state == STATE_ATTACK_LEFT || state == STATE_ATTACK_RIGHT;
+    }
+
+    public static boolean isMove(int state) {
+        return state == STATE_MOVE_LEFT || state == STATE_MOVE_RIGHT;
+    }
 
     public static int sLeftBoundary;
     public static int sRightBoundary;

@@ -2,8 +2,6 @@ package com.cb.adventures.view;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Path;
-import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
@@ -76,11 +74,11 @@ public class ScrollBackground extends BaseView{
     }
 
     public void stopScroll() {
-        mDirection = GameConstants.STATE_STOP;
+        mDirection = GameConstants.DIRECT_NONE;
     }
 
     private void scroll() {
-        if(mDirection == GameConstants.STATE_MOVE_RIGHT) {
+        if(mDirection == GameConstants.DIRECT_RIGHT) {
             rt1.left -= STEP_LENGTH;
             rt1.right -= STEP_LENGTH;
             rt2.left -= STEP_LENGTH;
@@ -97,7 +95,7 @@ public class ScrollBackground extends BaseView{
                 rt2.left = screemWidth;
                 rt2.right = screemWidth + screemWidth;
             }
-        }else if(mDirection == GameConstants.STATE_MOVE_LEFT){
+        }else if(mDirection == GameConstants.DIRECT_LEFT){
             rt1.left += STEP_LENGTH;
             rt1.right += STEP_LENGTH;
             rt2.left += STEP_LENGTH;

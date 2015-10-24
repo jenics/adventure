@@ -2,7 +2,6 @@ package com.cb.adventures.view;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.util.Log;
 
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.state.BaseState;
@@ -28,10 +27,8 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     protected int attackPerWidth;           ///每一个攻击帧宽度
     protected int attackPerHeight;          ///每一个攻击帧的高度
 
-    protected boolean isAttacking;          ///是否在攻击中
     protected boolean isNeedRepeatAttack;   ///是否需要重复攻击
     protected int attackFrameCount;         ///攻击总帧数
-    protected int mDirection;  ///当前方向
     private long lastTime;
     private int leftRowIndex = 0;       ///方向左在第几行
     private int rightRowIndex = 1;      ///方向右在第几行
@@ -40,26 +37,24 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     private Bitmap accackBmp;
 
     public Player() {
-        isAttacking = false;
         isNeedRepeatAttack = false;
         stateHashMap = new HashMap<>();
-        mDirection = GameConstants.STATE_MOVE_RIGHT;
     }
 
-    public int getDirection() {
-        return mDirection;
-    }
-
+    /**
+     * 攻击
+     */
     public void attack() {
-        if (isAttacking == false) {
-            isAttacking = true;
-            if(mDirection == GameConstants.STATE_MOVE_LEFT) {
-                changeState(GameConstants.STATE_ATTACK_LEFT);
-            }else if(mDirection == GameConstants.STATE_MOVE_RIGHT) {
-                changeState(GameConstants.STATE_ATTACK_RIGHT);
-            }
-        } else {
-            isNeedRepeatAttack = true;
+        if (GameConstants.isAttack(curState.getStateId())) {
+            /**
+             * 攻击状态不要在次攻击
+             */
+            return;
+        }
+        if (GameConstants.getDirection(curState.getStateId()) == GameConstants.DIRECT_LEFT) {
+            changeState(GameConstants.STATE_ATTACK_LEFT);
+        } else if (GameConstants.getDirection(curState.getStateId()) == GameConstants.DIRECT_RIGHT) {
+            changeState(GameConstants.STATE_ATTACK_RIGHT);
         }
     }
 
@@ -67,34 +62,49 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     /**
      * 是否成功移动
      *
-     * @param direction
+     * @param direction 方向
      * @return
      */
     public boolean move(int direction) {
-
-        if (isAttacking) {
+        if (GameConstants.isAttack(curState.getStateId())) {
+            /**
+             * 正在攻击中不允许移动
+             */
             return false;
         }
-
-        if (direction == GameConstants.STATE_MOVE_LEFT
-                || direction == GameConstants.STATE_MOVE_RIGHT) {
-            if (curState.getStateId() == direction) {
-                return true;
-            }
-            lastTime = System.currentTimeMillis();
-            mDirection = direction;
-            return changeState(direction);
+        if (direction == curState.getStateId()) {
+            /**
+             * 相同的方向就不要移动了。
+             */
+            return false;
         }
-        return false;
+        lastTime = System.currentTimeMillis();
+        changeState(direction);
+        return true;
     }
 
+    /**
+     * 停止
+     */
     public void stop() {
-        changeState(GameConstants.STATE_STOP);
+        if (curState == null) {
+            /**
+             * curState为null,说明游戏开始，默认方向为右
+             */
+            changeState(GameConstants.STATE_STOP_RIGHT);
+        } else if (GameConstants.isAttack(curState.getStateId())) {
+            /**
+             * 正在攻击中，不允许变化，攻击结束，自己会changestate到stop态
+             */
+            return;
+        } else {
+            changeState(GameConstants.getDirection(curState.getStateId()) == 0 ?
+                    GameConstants.STATE_STOP_LEFT : GameConstants.STATE_STOP_RIGHT);
+        }
     }
 
     public void init(Bitmap bitmap, int frameCount, int perWidth, int perHeght, int leftRowIndex, int rightRowIndex
             , Bitmap attack, int attackWidth, int attackHeight, int attackCount) {
-        mDirection = GameConstants.STATE_MOVE_RIGHT;
         bmp = bitmap;
 
         this.frameCount = frameCount;
@@ -108,10 +118,10 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
         this.attackPerHeight = attackHeight;
         this.attackFrameCount = attackCount;
 
-        pt.x = 800;
-        pt.y = 700;
+        pt.x = GameConstants.sGameWidth / 2;
+        pt.y = GameConstants.sGameHeight * 0.7f;
 
-        stop();
+        changeState(GameConstants.STATE_STOP_RIGHT);
     }
 
     @Override
@@ -132,32 +142,35 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     }
 
     @Override
-    public boolean changeState(int stateId) {
-
+    public void changeState(int stateId) {
         CLog.d("changestate:", String.format("%d", stateId));
         PlayerBaseState disState = stateHashMap.get(stateId);
 
         if (curState == null || disState == null) {
             disState = (PlayerBaseState) createState(stateId);
+            if (disState == null) {
+                throw new IllegalStateException("create state failed!!!");
+            }
             stateHashMap.put(stateId, disState);
             disState.entry();
             curState = disState;
-            return true;
         } else {
-            ///自己状态进入自己没有意义
-            if (stateId == curState.getStateId())
-                return true;        ///还在该状态，也是说明进入状态成功
+            if (stateId == curState.getStateId()) {
+                /**
+                 * 自己进入自己状态，直接返回
+                 */
+                return;
+            }
             curState.leave();
             disState.entry();
             curState = disState;
-            return true;
         }
     }
 
 
     @Override
     public BaseState createState(int stateId) {
-        BaseState state = null;
+        BaseState state;
         switch (stateId) {
             case GameConstants.STATE_MOVE_LEFT:
                 state = new MoveState(stateId, this, frameCount, leftRowIndex, bmp, perWidth, perHeight);
@@ -171,8 +184,14 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
             case GameConstants.STATE_ATTACK_RIGHT:
                 state = new AttackState(stateId, this, attackFrameCount, 0, accackBmp, attackPerWidth, attackPerHeight, this);
                 break;
-            case GameConstants.STATE_STOP:
+            case GameConstants.STATE_STOP_LEFT:
                 state = new StopState(stateId, this, leftRowIndex, rightRowIndex, bmp, perWidth, perHeight);
+                break;
+            case GameConstants.STATE_STOP_RIGHT:
+                state = new StopState(stateId, this, leftRowIndex, rightRowIndex, bmp, perWidth, perHeight);
+                break;
+            default:
+                state = null;
                 break;
         }
         return state;
@@ -180,8 +199,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
 
     @Override
     public void onAttackOver() {
-        isAttacking = false;
-        changeState(GameConstants.STATE_STOP);
+
     }
 
 }

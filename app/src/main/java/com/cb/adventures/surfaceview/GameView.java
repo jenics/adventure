@@ -173,33 +173,35 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         return touchDetection(event);
     }
 
-    private int mDirection;
-
     private boolean touchDetection(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            mGameController.onMouseDown((int)event.getX(), (int)event.getY());
-        } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-            mGameController.onMouseMove((int)event.getX(), (int)event.getY());
-        } else if (event.getAction() == MotionEvent.ACTION_UP
-                || event.getAction() == MotionEvent.ACTION_CANCEL) {
-            mGameController.onMouseUp((int)event.getX(), (int)event.getY());
+        for (int i = 0; i < event.getPointerCount(); ++i) {
+            /**
+             * 不管是不是第一次按下，都去判断下mose down。
+             */
+            if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_DOWN ||
+                    (event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_POINTER_DOWN) {
+                mGameController.onMouseDown((int) event.getX(i), (int) event.getY(i));
+            } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                mGameController.onMouseMove((int) event.getX(i), (int) event.getY(i));
+            } else if (event.getAction() == MotionEvent.ACTION_UP
+                    || event.getAction() == MotionEvent.ACTION_CANCEL) {
+                mGameController.onMouseUp((int) event.getX(i), (int) event.getY(i));
+            }
         }
         return true;
     }
 
     @Override
     public void onDirectionChange(int direction) {
-        if ( direction == GameConstants.STATE_MOVE_RIGHT
-                || direction == GameConstants.STATE_MOVE_LEFT) {
-            if (player.move(direction)) {
-                scrollBackground.scrollTo(direction);
-            }
+        if (player.move(direction)) {
+            scrollBackground.scrollTo(direction);
         }
     }
 
     @Override
     public void onAttack() {
         player.attack();
+        scrollBackground.stopScroll();
     }
 
     @Override

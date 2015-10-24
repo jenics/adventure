@@ -23,7 +23,7 @@ public class AttackState extends PlayerBaseState {
     private int height;
     private OnAttackListener onAttackListener;
     public interface OnAttackListener {
-        public void onAttackOver();
+        void onAttackOver();
     }
 
     public AttackState(int id,Player player,int frameCount,int rowIndex , Bitmap bitmap,int width,int height,OnAttackListener listener) {
@@ -44,7 +44,8 @@ public class AttackState extends PlayerBaseState {
         if (frameIndex >= frameCount) {
             frameIndex = 0;
             onAttackListener.onAttackOver();
-            //player.changeState(GameConstants.STATE_STOP,true);
+            player.changeState(GameConstants.getDirection(stateId) == 0 ?
+                    GameConstants.STATE_STOP_LEFT : GameConstants.STATE_STOP_RIGHT);
         }
 
         return true;
@@ -136,5 +137,6 @@ public class AttackState extends PlayerBaseState {
     @Override
     public void leave() {
         super.leave();
+        frameIndex = 0;
     }
 }

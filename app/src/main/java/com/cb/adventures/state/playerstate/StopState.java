@@ -39,7 +39,7 @@ public class StopState extends PlayerBaseState {
         float x = player.getPt().x - width/2;
         float y = player.getPt().y - height/2;
 
-        if (player.getDirection() == GameConstants.STATE_MOVE_LEFT) {
+        if (stateId == GameConstants.STATE_STOP_LEFT) {
             canvas.drawBitmap(bitmap,
                     new Rect(   ///src rect
                             0,

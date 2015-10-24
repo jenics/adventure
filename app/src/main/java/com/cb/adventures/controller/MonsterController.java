@@ -48,7 +48,7 @@ public class MonsterController implements Sprite.OnSpriteListener {
             Sprite sprite = mMonsterFactory.create(monsterId);
             if(sprite != null) {
                 sprite.setmSpriteListener(this);
-                sprite.setPt(getRandom(GameConstants.sRightBoundary), 700);
+                sprite.setPt(getRandom(GameConstants.sRightBoundary), GameConstants.sGameHeight*0.7f);
                 sprite.work(GameConstants.STATE_MOVE_LEFT,3000);
                 mMonters.add(sprite);
             }

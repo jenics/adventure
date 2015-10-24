@@ -16,12 +16,8 @@ public class GameController implements IView {
     private AttackController mAttackController;
 
     public GameController() {
-
     }
 
-    public OnControllerListener getmOnControllerListener() {
-        return mOnControllerListener;
-    }
 
     public void setmOnControllerListener(OnControllerListener mOnControllerListener) {
         this.mOnControllerListener = mOnControllerListener;
@@ -44,33 +40,26 @@ public class GameController implements IView {
     }
 
     public interface OnControllerListener {
-        public void onDirectionChange(int direction);
-        public void onAttack();
-        public void onStop();
+        void onDirectionChange(int direction);
+        void onAttack();
+        void onStop();
     }
 
     private boolean isDirectionControllerDown;
     public void onMouseDown(int x, int y) {
-        int dir = onMouseEvent(x,y);
-        if(dir == GameConstants.STATE_NONE) {
-            return;
-        }
+        int state = onMouseEvent(x,y);
 
-        if(dir == GameConstants.STATE_ATTACK_LEFT) {
+        if(GameConstants.isAttack(state)) {
             mOnControllerListener.onAttack();
-        }else {
-            mOnControllerListener.onDirectionChange(dir);
+        }else if(GameConstants.isMove(state)) {
+            mOnControllerListener.onDirectionChange(GameConstants.getDirection(state));
         }
     }
 
     public void onMouseMove(int x,int y) {
-        int dir = onMouseEvent(x,y);
-        if(dir == GameConstants.STATE_NONE) {
-            return;
-        }
-        if(dir == GameConstants.STATE_MOVE_LEFT
-                || dir == GameConstants.STATE_MOVE_RIGHT) {
-            mOnControllerListener.onDirectionChange(dir);
+        int state = onMouseEvent(x,y);
+        if(GameConstants.isMove(state)) {
+            mOnControllerListener.onDirectionChange(state);
         }
     }
 
@@ -92,7 +81,6 @@ public class GameController implements IView {
      * @param y y坐标
      */
     public int onMouseEvent(int x ,int y) {
-
         if((x >= (mDirectionController.getPt().x))
                 &&  (x <=  (mDirectionController.getPt().x + mDirectionController.getWidth()/2))
                 && y >= mDirectionController.getPt().y - mDirectionController.getHeight()/2
