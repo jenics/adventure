@@ -2,7 +2,7 @@ package com.cb.adventures.controller;
 
 import android.graphics.Canvas;
 import com.cb.adventures.constants.GameConstants;
-import com.cb.adventures.factory.IMonsterFactory;
+import com.cb.adventures.factory.IFactory;
 import com.cb.adventures.view.IView;
 import com.cb.adventures.view.Sprite;
 import java.util.LinkedList;
@@ -15,9 +15,9 @@ public class MonsterController implements Sprite.OnSpriteListener {
 
     private static MonsterController mInstance;
     private LinkedList<Sprite> mMonters;
-    private IMonsterFactory mMonsterFactory;
+    private IFactory mMonsterFactory;
 
-    public void setmMonsterFactory(IMonsterFactory monsterFactory) {
+    public void setmMonsterFactory(IFactory monsterFactory) {
         this.mMonsterFactory = monsterFactory;
     }
 
@@ -45,7 +45,7 @@ public class MonsterController implements Sprite.OnSpriteListener {
             throw new IllegalStateException("mMonsterFactory is null");
         }
         for(int i=0; i<num; i++) {
-            Sprite sprite = mMonsterFactory.create(monsterId);
+            Sprite sprite = (Sprite) mMonsterFactory.create(monsterId);
             if(sprite != null) {
                 sprite.setmSpriteListener(this);
                 sprite.setPt(getRandom(GameConstants.sRightBoundary), GameConstants.sGameHeight*0.7f);

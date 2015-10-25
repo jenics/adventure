@@ -20,6 +20,7 @@ import android.view.SurfaceView;
 import com.cb.adventures.animation.AnimationControl;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.controller.MonsterController;
+import com.cb.adventures.data.GameData;
 import com.cb.adventures.factory.SimpleMonsterFactory;
 import com.cb.adventures.utils.ImageLoader;
 import com.cb.adventures.view.BloodReservoir;
@@ -93,6 +94,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
 
             MonsterController.getInstance().setmMonsterFactory(new SimpleMonsterFactory());
             MonsterController.getInstance().generateMonster(GameConstants.BLACK_PIG_ID, 5);
+
+            GameData.getInstance().synParseSkills();
 
             if (player == null) {
                 player = new Player();

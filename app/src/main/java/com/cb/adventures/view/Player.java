@@ -7,6 +7,8 @@ import com.cb.adventures.animation.SkillAnimation;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.EquipmentPropetry;
 import com.cb.adventures.data.Propetry;
+import com.cb.adventures.factory.SkillFactory;
+import com.cb.adventures.skill.Skill;
 import com.cb.adventures.skill.StaticFrameSkill;
 import com.cb.adventures.state.BaseState;
 import com.cb.adventures.state.IStateMgr;
@@ -67,16 +69,17 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
         }
         if (GameConstants.getDirection(curState.getStateId()) == GameConstants.DIRECT_LEFT) {
             changeState(GameConstants.STATE_ATTACK_LEFT);
-            StaticFrameSkill skill = new StaticFrameSkill(0,getPt().x-50,getPt().y,GameConstants.DIRECT_LEFT,
-                    ImageLoader.getmInstance().loadBitmap(GameConstants.PLAYER1_ATTACK_NAME),6,1);
-            SkillAnimation animation = new SkillAnimation(skill);
-            animation.startAnimation();
+            Skill skill = new SkillFactory().create(1);
+            skill.setPt(getPt().x-skill.getSkillPropetry().getOffsetX(),getPt().y);
+            skill.setDirection(GameConstants.DIRECT_LEFT);
+            skill.startSkill();
         } else if (GameConstants.getDirection(curState.getStateId()) == GameConstants.DIRECT_RIGHT) {
             changeState(GameConstants.STATE_ATTACK_RIGHT);
-            StaticFrameSkill skill = new StaticFrameSkill(0,getPt().x+50,getPt().y,GameConstants.DIRECT_RIGHT,
-                    ImageLoader.getmInstance().loadBitmap(GameConstants.PLAYER1_ATTACK_NAME),6,1);
-            SkillAnimation animation = new SkillAnimation(skill);
-            animation.startAnimation();
+            Skill skill = new SkillFactory().create(3);
+            skill.setPt(getPt().x+skill.getSkillPropetry().getOffsetX(),getPt().y);
+            skill.setDirection(GameConstants.DIRECT_RIGHT);
+
+            skill.startSkill();
         }
     }
 

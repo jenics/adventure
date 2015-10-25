@@ -1,7 +1,5 @@
 package com.cb.adventures.constants;
 
-import java.security.PublicKey;
-
 /**
  * Created by jenics on 2015/10/20.
  */
@@ -39,6 +37,7 @@ public class GameConstants {
     public static final String RED_BLUE_NAME = "redblue.png";
     public static final String RED_BLUE_BOTTOM = "redbluebottom.png";
     public static final String PLAYER1_ATTACK_NAME = "attack.png";
+    public static final String SKILL_BINGHUOSHENGJIAN_NAME = "binghuoshengjian.png";
 
     public static final String[] monsterNames = {
             "blackpig.png"
@@ -55,6 +54,33 @@ public class GameConstants {
     public static final int EQUIPMENT_NUM = 2;
     public static final int EQUIPMENT_WEAPON = 0;   ///武器
     public static final int EQUIPMENT_CLOTHING = 1; ///衣服
+
+    /**
+     * 技能类型
+     */
+    public static final int SKILL_HIT_EFFECTIVE = 0;    ///技能击中效果
+    public static final int SKILL_STATIC_FRAME = 1;     ///静止帧技能
+    public static final int SKILL_MOVE_FRAME = 2;       ///移动帧技能
+    public static final int SKILL_TIME_FRAME = 3;       ///时间限制技能
+
+    /**
+     * 技能作用目标
+     */
+    public static final int EFFECT_TARGET_SELF = 1;     ///作用自身
+    public static final int EFFECT_TARGET_FRIENDLY = 2; ///作用友方
+    public static final int EFFECT_TARGET_ENEMY = 4;    ///作用敌方
+
+    public static boolean isTargetSelf(int target) {
+        return ((target & EFFECT_TARGET_SELF) > 0);
+    }
+
+    public static boolean isTargetFriend(int target) {
+        return ((target & EFFECT_TARGET_FRIENDLY) > 0);
+    }
+
+    public static boolean isTargetEnemy(int target) {
+        return ((target & EFFECT_TARGET_ENEMY) > 0);
+    }
 
     /**
      * 通过状态码获取方向信息

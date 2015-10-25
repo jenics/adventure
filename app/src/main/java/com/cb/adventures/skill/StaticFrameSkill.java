@@ -14,35 +14,10 @@ import com.cb.adventures.view.BaseView;
  * Created by AI on 2015/10/25.
  */
 public class StaticFrameSkill extends Skill{
-    private int mDirection;
-    private Bitmap mBitmap;
-    private int mFrameCount;
-    private int mRowIndex;
-    private int mFrameIndex;
+    public StaticFrameSkill() {
 
-    public StaticFrameSkill(int skillKind, float x, float y,int direction,
-                            Bitmap bitmap,int frameCount,
-                            int rowIndex) {
-        super(skillKind);
-        mDirection = direction;
-        mBitmap = bitmap;
-        mFrameCount = frameCount;
-        mRowIndex = rowIndex;
-
-        pt.x = x;
-        pt.y = y;
-
-        this.width = bitmap.getWidth()/frameCount;
-        this.height = bitmap.getHeight()/7;
-
-        mFrameIndex = 0;
-
-        mLastTime = System.currentTimeMillis();
     }
 
-
-
-    private long mLastTime;
     @Override
     public boolean nextFrame() {
         long nowTime = System.currentTimeMillis();
@@ -52,7 +27,7 @@ public class StaticFrameSkill extends Skill{
         mLastTime = nowTime;
 
         mFrameIndex++;
-        if (mFrameIndex > mFrameCount) {
+        if (mFrameIndex >= mFrameCount) {
             mFrameIndex = 0;
             return true;
         }
@@ -65,15 +40,22 @@ public class StaticFrameSkill extends Skill{
         float x = getPt().x - width/2;
         float y = getPt().y - height/2;
 
+        /**
+         * index的有效性确认
+         */
+        mFrameIndex = Math.min(mFrameIndex,mFrameCount-1);
+
+        int rowIndex = getSkillPropetry().getFrames().get(mFrameIndex).getRow();
+        int colIndex = getSkillPropetry().getFrames().get(mFrameIndex).getCol();
         ///画攻击效果
         if(mDirection == GameConstants.DIRECT_LEFT) {
             ///画技能
             canvas.drawBitmap(mBitmap,
                     new Rect(   ///src rect
-                            width * mFrameIndex,
-                            mRowIndex * height,
-                            width * mFrameIndex + width,
-                            mRowIndex * height + height),
+                            width * colIndex,
+                            rowIndex * height,
+                            width * colIndex + width,
+                            rowIndex * height + height),
                     new RectF(x,
                             y,
                             x + width,
@@ -84,8 +66,8 @@ public class StaticFrameSkill extends Skill{
 
 
             Bitmap bmpTmp2 = Bitmap.createBitmap(mBitmap,
-                    width * Math.min(mFrameIndex,mFrameCount-1),
-                    mRowIndex * height,
+                    width * colIndex,
+                    rowIndex * height,
                     width,
                     height,
                     matrix,
