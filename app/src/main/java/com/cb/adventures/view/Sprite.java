@@ -15,42 +15,26 @@ import com.cb.adventures.data.Propetry;
 public class Sprite extends BaseView{
 
     public interface OnSpriteListener {
-        public void OnRestEnd(int id);
-        public void OnWorkEnd(int id);
-    }
-
-    public void setmSpriteListener(OnSpriteListener mSpriteListener) {
-        this.mSpriteListener = mSpriteListener;
+        void OnRestEnd(int id);
+        void OnWorkEnd(int id);
     }
 
     protected OnSpriteListener mSpriteListener;
-
     protected Bitmap mBitmap;
     protected int mDirection;
     private static int sIdNum = 0;
-
-    public int getId() {
-        return mId;
-    }
-
     protected int mId;          ///该怪物唯一标识符，自动生成，自动递增
-
     protected int mPerWidth;    ///每一帧宽
     protected int mPerHeight;   ///每一帧高
     protected int mFrameIndex;  ///当前帧
     protected int mLeftRowIndex;    ///左方向是第几行
     protected int mRightRowIndex;   ///右方向是第几行
     protected int mFrameCount;      ///横向帧总数
-
     protected long lastTime;        ///时间间隔控制帧的切换
-
     protected boolean mIsRest;      ///是否休息
     protected boolean mIsStop;      ///是否停止，和休息有区别
-
     protected int mFrameInterval;        ///切换帧的时间间隔
-
     protected int mMoveStep;         ///移动时的步长
-
     protected long restBeginTime;       ///开始休息时间
     protected long workBeginTime;       ///干活开始时间
     protected long mRestTime;           ///休息时间
@@ -86,6 +70,10 @@ public class Sprite extends BaseView{
         mIsStop = false;
     }
 
+    public void setmSpriteListener(OnSpriteListener mSpriteListener) {
+        this.mSpriteListener = mSpriteListener;
+    }
+
     @Override
     public Sprite clone() {
         try {
@@ -94,6 +82,10 @@ public class Sprite extends BaseView{
             System.out.println("Clone failed.");
             return null;
         }
+    }
+
+    public int getId() {
+        return mId;
     }
 
     public long getRestBeginTime() {
@@ -110,7 +102,7 @@ public class Sprite extends BaseView{
     public void rest(long time) {
         mIsRest = true;
         mIsStop = false;
-        mDirection = GameConstants.STATE_NONE;
+        mDirection = GameConstants.DIRECT_NONE;
         mFrameIndex = 0;
         restBeginTime = System.currentTimeMillis();
         mRestTime = time;
@@ -120,7 +112,7 @@ public class Sprite extends BaseView{
      * 干活
      */
     public void work(int direction,long time) {
-        if(direction == GameConstants.STATE_NONE) {
+        if(direction == GameConstants.DIRECT_NONE) {
             //rest();
         }else {
             mIsStop = false;
