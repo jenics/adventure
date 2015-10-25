@@ -23,6 +23,10 @@ public class Animation implements IAnimation {
         void onAnimationBegin();
     }
 
+    public BaseView getView() {
+        return mView;
+    }
+
     public Animation(BaseView view){
         mView = view;
         mAnimationListeners = new LinkedList<>();

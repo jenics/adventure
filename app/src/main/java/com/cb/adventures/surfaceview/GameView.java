@@ -17,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.cb.adventures.animation.AnimationControl;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.controller.MonsterController;
 import com.cb.adventures.factory.SimpleMonsterFactory;
@@ -174,6 +175,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
 
     private void logicAnimate() {
         MonsterController.getInstance().animate();
+        AnimationControl.getInstance().animate();
     }
 
     private void drawGame(Canvas canvas) {
@@ -182,6 +184,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         MonsterController.getInstance().draw(canvas);
         mGameController.draw(canvas);
         bloodReservoir.draw(canvas);
+        AnimationControl.getInstance().draw(canvas);
     }
 
     @Override

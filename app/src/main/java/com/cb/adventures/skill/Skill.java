@@ -1,5 +1,7 @@
 package com.cb.adventures.skill;
 
+import android.graphics.Canvas;
+
 import com.cb.adventures.animation.Animation;
 import com.cb.adventures.view.BaseView;
 
@@ -7,7 +9,8 @@ import com.cb.adventures.view.BaseView;
  * 技能类
  * Created by jenics on 2015/10/25.
  */
-public class Skill extends Animation {
+public class Skill extends BaseView {
+    
     /**
      * 静态ID，用来产生技能伤害ID
      */
@@ -21,9 +24,13 @@ public class Skill extends Animation {
      */
     protected int mSkillKind;
     public Skill(BaseView view,int skillKind) {
-        super(view);
         sId ++;
         mId = sId;
         mSkillKind = skillKind;
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
     }
 }

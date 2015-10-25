@@ -1,6 +1,9 @@
 package com.cb.adventures.animation;
 
+import android.graphics.Canvas;
+
 import com.cb.adventures.animation.Animation;
+import com.cb.adventures.view.IView;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -8,7 +11,8 @@ import java.util.LinkedList;
 /**
  * Created by jenics on 2015/9/17.
  */
-public class AnimationControl {
+public class AnimationControl implements IView
+{
     private static AnimationControl mInstance;
 
     private LinkedList<Animation> mQueueAnimaion;
@@ -61,6 +65,30 @@ public class AnimationControl {
         if (!delayAddAnimations.isEmpty()) {
             mQueueAnimaion.addAll(delayAddAnimations);
             delayAddAnimations.clear();
+        }
+    }
+
+    @Override
+    public boolean isClickable() {
+        return false;
+    }
+
+    @Override
+    public boolean isVisiable() {
+        return false;
+    }
+
+    @Override
+    public void onClick() {
+
+    }
+
+    @Override
+    public synchronized void draw(Canvas canvas) {
+        Iterator<Animation> iterator = mQueueAnimaion.iterator();
+        while (iterator.hasNext()) {
+            Animation animation = iterator.next();
+            animation.getView().draw(canvas);
         }
     }
 }
