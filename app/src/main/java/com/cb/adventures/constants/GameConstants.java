@@ -38,6 +38,7 @@ public class GameConstants {
     public static final String DIRECTION_ATTACK_NAME = "controller_attack.png";
     public static final String RED_BLUE_NAME = "redblue.png";
     public static final String RED_BLUE_BOTTOM = "redbluebottom.png";
+    public static final String PLAYER1_ATTACK_NAME = "attack.png";
 
     public static final String[] monsterNames = {
             "blackpig.png"

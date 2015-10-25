@@ -124,7 +124,8 @@ public class Sprite extends BaseView{
         }
     }
 
-    private void nextFrame() {
+    @Override
+    public boolean nextFrame() {
         if(!mIsRest && !mIsStop) {
             long nowTime = System.currentTimeMillis();
             if (nowTime - lastTime > mFrameInterval) {
@@ -134,6 +135,7 @@ public class Sprite extends BaseView{
                 }
             }
         }
+        return true;
     }
 
 

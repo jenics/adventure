@@ -26,6 +26,10 @@ public class BaseView implements IView {
         this.height = height;
     }
 
+    public boolean nextFrame(){
+        return true;
+    }
+
     protected int width;    ///宽度
     protected int height;   ///高度
     protected boolean isClickable;

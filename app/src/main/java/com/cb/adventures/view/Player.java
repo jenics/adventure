@@ -3,9 +3,11 @@ package com.cb.adventures.view;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import com.cb.adventures.animation.SkillAnimation;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.EquipmentPropetry;
 import com.cb.adventures.data.Propetry;
+import com.cb.adventures.skill.StaticFrameSkill;
 import com.cb.adventures.state.BaseState;
 import com.cb.adventures.state.IStateMgr;
 import com.cb.adventures.state.playerstate.AttackState;
@@ -13,6 +15,7 @@ import com.cb.adventures.state.playerstate.MoveState;
 import com.cb.adventures.state.playerstate.PlayerBaseState;
 import com.cb.adventures.state.playerstate.StopState;
 import com.cb.adventures.utils.CLog;
+import com.cb.adventures.utils.ImageLoader;
 
 import java.util.HashMap;
 
@@ -64,8 +67,16 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
         }
         if (GameConstants.getDirection(curState.getStateId()) == GameConstants.DIRECT_LEFT) {
             changeState(GameConstants.STATE_ATTACK_LEFT);
+            StaticFrameSkill skill = new StaticFrameSkill(0,getPt().x-50,getPt().y,GameConstants.DIRECT_LEFT,
+                    ImageLoader.getmInstance().loadBitmap(GameConstants.PLAYER1_ATTACK_NAME),6,1);
+            SkillAnimation animation = new SkillAnimation(skill);
+            animation.startAnimation();
         } else if (GameConstants.getDirection(curState.getStateId()) == GameConstants.DIRECT_RIGHT) {
             changeState(GameConstants.STATE_ATTACK_RIGHT);
+            StaticFrameSkill skill = new StaticFrameSkill(0,getPt().x+50,getPt().y,GameConstants.DIRECT_RIGHT,
+                    ImageLoader.getmInstance().loadBitmap(GameConstants.PLAYER1_ATTACK_NAME),6,1);
+            SkillAnimation animation = new SkillAnimation(skill);
+            animation.startAnimation();
         }
     }
 

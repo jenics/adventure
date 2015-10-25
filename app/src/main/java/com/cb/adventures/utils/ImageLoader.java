@@ -9,6 +9,7 @@ import android.util.Log;
 import com.cb.adventures.common.MyApplication;
 
 import java.io.InputStream;
+import java.util.HashMap;
 
 /**
  * 图元载入器
@@ -17,8 +18,12 @@ import java.io.InputStream;
 public class ImageLoader {
     private static ImageLoader mInstance;
     private Context mContext;
+    /**
+     * 享元模式
+     */
+    private HashMap<String,Bitmap> mMap;
     private ImageLoader() {
-
+        mMap = new HashMap<>();
     }
 
     public void init(Context ctx) {
@@ -36,6 +41,11 @@ public class ImageLoader {
         if(mContext == null) {
             throw new IllegalStateException("ImageLoader,context is null!!!");
         }
+        Bitmap bitmap = mMap.get(name);
+        if(bitmap != null) {
+            return bitmap;
+        }
+
         AssetManager am = MyApplication.getContextObj().getAssets();
         InputStream is = null;
         try {
@@ -50,7 +60,7 @@ public class ImageLoader {
         }catch (Exception e){
             CLog.e("error",e.toString());
         }
-
+        mMap.put(name,bmpReturn);
         return bmpReturn;
     }
 }
