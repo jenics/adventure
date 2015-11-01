@@ -4,6 +4,7 @@ import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.GameData;
 import com.cb.adventures.data.SkillPropetry;
 import com.cb.adventures.skill.HitEffectSkill;
+import com.cb.adventures.skill.MoveFrameSkill;
 import com.cb.adventures.skill.Skill;
 import com.cb.adventures.skill.StaticFrameSkill;
 import com.cb.adventures.skill.TimeFrameSkill;
@@ -25,6 +26,9 @@ public class SkillFactory implements IFactory {
                 skill.setSkillPropetry(skillPropetry);
             } else if (skillPropetry.getSkillType() == GameConstants.SKILL_TYPE_TIME_FRAME) {
                 skill = new TimeFrameSkill();
+                skill.setSkillPropetry(skillPropetry);
+            } else if (skillPropetry.getSkillType() == GameConstants.SKILL_TYPE_MOVE_FRAME) {
+                skill = new MoveFrameSkill();
                 skill.setSkillPropetry(skillPropetry);
             }
         }

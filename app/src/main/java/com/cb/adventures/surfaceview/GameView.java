@@ -109,7 +109,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                 mGameController.getFunctionController(0).setSkillPropetry(GameData.getInstance().findSkill(GameConstants.SKILL_ID_BINGHJIAN));
                 mGameController.getFunctionController(1).setSkillPropetry(GameData.getInstance().findSkill(GameConstants.SKILL_ID_BUFF_1));
                 mGameController.getFunctionController(2).setSkillPropetry(GameData.getInstance().findSkill(GameConstants.SKILL_ID_HUOJIAN));
-                mGameController.getFunctionController(3).setSkillPropetry(GameData.getInstance().findSkill(GameConstants.SKILL_ID_LEVEL_UP));
+                mGameController.getFunctionController(3).setSkillPropetry(GameData.getInstance().findSkill(GameConstants.SKILL_ID_RENDAOFEIBIAO));
             }
 
             if (bloodReservoir == null) {

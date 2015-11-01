@@ -227,7 +227,7 @@
 	
 	<skill>
 		<skillId>7</skillId>
-		<skillType>1</skillType>
+		<skillType>2</skillType>
 		<extraAttack>5</extraAttack>
 		<effectTarget>4</effectTarget>
 		<extraBlood>5</extraBlood>
@@ -236,6 +236,7 @@
 		<freeMagic>5</freeMagic>
 		<name>忍道飞镖</name>
 		<hitEffectId>8</hitEffectId>
+		<maxMoveDistance>0.3</maxMoveDistance>
 		<srcInfo>
 			<srcName>attack.png</srcName>
 			<rowFramCount>7</rowFramCount>
@@ -300,6 +301,8 @@
 		</frames>
 	</skill>
 	
+	
+	
 	<skill>
 		<skillId>8</skillId>
 		<skillType>0</skillType>
@@ -339,4 +342,38 @@
 		</srcInfo>
 	</skill>
 	
+	<skill>
+		<skillId>10</skillId>
+		<skillType>2</skillType>
+		<extraAttack>5</extraAttack>
+		<effectTarget>4</effectTarget>
+		<extraBlood>5</extraBlood>
+		<extraMagic>5</extraMagic>
+		<extraDefensive>5</extraDefensive>
+		<freeMagic>5</freeMagic>
+		<name>小飞镖</name>
+		<hitEffectId>2</hitEffectId>
+		<maxMoveDistance>0.3</maxMoveDistance>
+		<srcInfo>
+			<srcName>attack.png</srcName>
+			<rowFramCount>7</rowFramCount>
+			<colFramCount>6</colFramCount>
+		</srcInfo>
+		<offsetX>10</offsetX>
+		<frames>
+			<frame>
+				<row>1</row>
+				<col>1</col>
+			</frame>
+			<frame>
+				<row>1</row>
+				<col>2</col>
+			</frame>
+			
+			<frame>
+				<row>1</row>
+				<col>3</col>
+			</frame>
+		</frames>
+	</skill>
 </root>

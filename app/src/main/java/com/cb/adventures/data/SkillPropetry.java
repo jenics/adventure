@@ -68,6 +68,11 @@ public class SkillPropetry {
      */
     private int hitEffectId;
 
+    /**
+     * 最大移动距离，只有MoveFrameSkill关心
+     */
+    private float maxMoveDistance;
+
     private LinkedList<Frame> frames;
 
     public int getSkillId() {
@@ -189,5 +194,13 @@ public class SkillPropetry {
 
     public void setSrcInfo(SrcInfo srcInfo) {
         this.srcInfo = srcInfo;
+    }
+
+    public float getMaxMoveDistance() {
+        return maxMoveDistance;
+    }
+
+    public void setMaxMoveDistance(float maxMoveDistance) {
+        this.maxMoveDistance = maxMoveDistance;
     }
 }

@@ -105,6 +105,7 @@ public class GameConstants {
     public static final int SKILL_ID_RENDAOFEIBIAO = 7;         ///忍道飞镖
     public static final int SKILL_ID_HIT_EFFECTIVE_RENDAO = 8;  ///忍道飞镖击中效果
     public static final int SKILL_ID_LEVEL_UP = 9;              ///升级效果
+    public static final int SKILL_ID_XIAOFEIBIAO = 10;              ///小飞镖
 
     public static boolean isTargetSelf(int target) {
         return ((target & EFFECT_TARGET_SELF) > 0);

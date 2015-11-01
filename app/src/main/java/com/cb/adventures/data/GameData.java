@@ -4,6 +4,7 @@ import android.content.res.AssetManager;
 import android.util.Xml;
 
 import com.cb.adventures.common.MyApplication;
+import com.cb.adventures.constants.GameConstants;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -106,6 +107,9 @@ public class GameData {
                         frame.setCol(Integer.parseInt(parser.nextText()));
                         } else if ("timeDuration".equals(nodeName)) {
                             skillPropetry.setTimeDuration(Long.parseLong(parser.nextText()));
+                        } else if ("maxMoveDistance".equals(nodeName)) {
+                            float maxMoveDistanceRatio = Float.parseFloat(parser.nextText());
+                            skillPropetry.setMaxMoveDistance(GameConstants.sGameWidth*maxMoveDistanceRatio);
                         }
 
                         break;
