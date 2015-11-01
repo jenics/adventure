@@ -20,6 +20,9 @@ public class Skill extends BaseView {
     protected int mFrameCount;
     protected Bitmap mBitmap;
     protected long mLastTime;
+    protected long mBeginTime;  ///开始时间
+
+    protected BaseView mAttachView;     ///挂靠的目标
 
     private SkillPropetry mSkillPropetry;
     /**
@@ -48,6 +51,14 @@ public class Skill extends BaseView {
         mFrameIndex = 0;
     }
 
+    public BaseView getmAttachView() {
+        return mAttachView;
+    }
+
+    public void setmAttachView(BaseView mAttachView) {
+        this.mAttachView = mAttachView;
+    }
+
     public SkillPropetry getSkillPropetry() {
         return mSkillPropetry;
     }
@@ -56,8 +67,8 @@ public class Skill extends BaseView {
         this.mSkillPropetry = mSkillPropetry;
         if(mBitmap == null) {
             mBitmap = ImageLoader.getmInstance().loadBitmap(mSkillPropetry.getSrcInfo().getSrcName());
-            width = mBitmap.getWidth() / mSkillPropetry.getSrcInfo().getRowFramCount();
-            height = mBitmap.getHeight() / mSkillPropetry.getSrcInfo().getColFramCont();
+            width = mBitmap.getWidth() / mSkillPropetry.getSrcInfo().getColFramCont();
+            height = mBitmap.getHeight() / mSkillPropetry.getSrcInfo().getRowFramCount();
         }
 
         mFrameCount = mSkillPropetry.getFrames().size();
@@ -65,7 +76,7 @@ public class Skill extends BaseView {
 
     public void startSkill() {
         SkillAnimation skillAnimation = new SkillAnimation(this);
-        skillAnimation.setOnAnimationListener(new Animation.OnAniamtionListener() {
+        /*skillAnimation.setOnAnimationListener(new Animation.OnAniamtionListener() {
             @Override
             public void onAnimationEnd(BaseView view) {
                 if(getSkillPropetry().getHitEffectId() != 0) {
@@ -80,10 +91,10 @@ public class Skill extends BaseView {
             public void onAnimationBegin() {
 
             }
-        });
+        });*/
         skillAnimation.startAnimation();
 
-        mLastTime = System.currentTimeMillis();
+        mBeginTime = mLastTime = System.currentTimeMillis();
         mFrameIndex = 0;
     }
 

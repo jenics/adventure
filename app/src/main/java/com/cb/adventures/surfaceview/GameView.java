@@ -2,17 +2,13 @@ package com.cb.adventures.surfaceview;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -21,18 +17,13 @@ import com.cb.adventures.animation.AnimationControl;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.controller.MonsterController;
 import com.cb.adventures.data.GameData;
+import com.cb.adventures.data.SkillPropetry;
 import com.cb.adventures.factory.SimpleMonsterFactory;
 import com.cb.adventures.utils.ImageLoader;
 import com.cb.adventures.view.BloodReservoir;
 import com.cb.adventures.view.GameController;
 import com.cb.adventures.view.Player;
 import com.cb.adventures.view.ScrollBackground;
-import com.cb.adventures.view.Sprite;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.LinkedList;
-import java.util.Stack;
 
 /**
  * 游戏主view
@@ -114,6 +105,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                 mGameController = new GameController();
                 mGameController.init();
                 mGameController.setmOnControllerListener(this);
+
+                mGameController.getFunctionController(0).setSkillPropetry(GameData.getInstance().findSkill(GameConstants.SKILL_ID_BINGHJIAN));
+                mGameController.getFunctionController(1).setSkillPropetry(GameData.getInstance().findSkill(GameConstants.SKILL_ID_BUFF_1));
+                mGameController.getFunctionController(2).setSkillPropetry(GameData.getInstance().findSkill(GameConstants.SKILL_ID_HUOJIAN));
+                mGameController.getFunctionController(3).setSkillPropetry(GameData.getInstance().findSkill(GameConstants.SKILL_ID_LEVEL_UP));
             }
 
             if (bloodReservoir == null) {
@@ -183,11 +179,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
 
     private void drawGame(Canvas canvas) {
         scrollBackground.draw(canvas);
-        player.draw(canvas);
         MonsterController.getInstance().draw(canvas);
+        player.draw(canvas);
+        AnimationControl.getInstance().draw(canvas);
         mGameController.draw(canvas);
         bloodReservoir.draw(canvas);
-        AnimationControl.getInstance().draw(canvas);
     }
 
     @Override
@@ -222,7 +218,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
 
     @Override
     public void onAttack() {
-        player.attack();
+        player.attack(GameConstants.SKILL_ID_NORMAL);
         scrollBackground.stopScroll();
     }
 
@@ -230,5 +226,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     public void onStop() {
         player.stop();
         scrollBackground.stopScroll();
+    }
+
+    @Override
+    public void onFunction(int index) {
+        if (mGameController.getFunctionController(index).getType() == GameConstants.FUNCTION_TYPE_CONSUMABLE) {
+            ///使用消耗品
+        }else if(mGameController.getFunctionController(index).getType() == GameConstants.FUNCTION_TYPE_SKILL) {
+            ///使用技能
+            SkillPropetry skillPropetry = mGameController.getFunctionController(index).getSkillPropetry();
+            if(skillPropetry != null) {
+                player.attack(skillPropetry.getSkillId());
+            }
+        }
     }
 }

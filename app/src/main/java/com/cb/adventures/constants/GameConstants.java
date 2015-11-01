@@ -6,7 +6,7 @@ package com.cb.adventures.constants;
 public class GameConstants {
 
     /**
-     * 状态，方向
+     * 状态，每个状态都具有方向信息
      */
     public static final int DIRECT_NONE = -1;
     public static final int STATE_NONE = -1;
@@ -18,6 +18,28 @@ public class GameConstants {
     public static final int STATE_ATTACK_RIGHT = 3;
     public static final int STATE_STOP_LEFT = 4;
     public static final int STATE_STOP_RIGHT = 5;
+
+    /**
+     * 控制器
+     */
+    public static final int CONTROL_LEFT = 0;
+    public static final int CONTROL_RIGHT = 1;
+    public static final int CONTROL_ATTACK = 2;
+    public static final int CONTROL_SPECIAL_KEY_0 = 3;
+    public static final int CONTROL_SPECIAL_KEY_1 = 4;
+    public static final int CONTROL_SPECIAL_KEY_2 = 5;
+    public static final int CONTROL_SPECIAL_KEY_3 = 6;
+
+    /**
+     * 功能键类型
+     */
+    public static final int FUNCTION_TYPE_CONSUMABLE = 0;    ///消耗品
+    public static final int FUNCTION_TYPE_SKILL = 1;        ///技能
+
+    /**
+     * 时间
+     */
+    public static final long TIME_INFINITE = -1;    ///无限时间
 
 
     /**
@@ -38,6 +60,7 @@ public class GameConstants {
     public static final String RED_BLUE_BOTTOM = "redbluebottom.png";
     public static final String PLAYER1_ATTACK_NAME = "attack.png";
     public static final String SKILL_BINGHUOSHENGJIAN_NAME = "binghuoshengjian.png";
+    public static final String GAME_SKILL_NAME = "skill_back.png";
 
     public static final String[] monsterNames = {
             "blackpig.png"
@@ -58,10 +81,10 @@ public class GameConstants {
     /**
      * 技能类型
      */
-    public static final int SKILL_HIT_EFFECTIVE = 0;    ///技能击中效果
-    public static final int SKILL_STATIC_FRAME = 1;     ///静止帧技能
-    public static final int SKILL_MOVE_FRAME = 2;       ///移动帧技能
-    public static final int SKILL_TIME_FRAME = 3;       ///时间限制技能
+    public static final int SKILL_TYPE_HIT_EFFECTIVE = 0;    ///技能击中效果
+    public static final int SKILL_TYPE_STATIC_FRAME = 1;     ///静止帧技能，播放完一个序列集结束
+    public static final int SKILL_TYPE_MOVE_FRAME = 2;       ///移动帧技能，到指定距离结束
+    public static final int SKILL_TYPE_TIME_FRAME = 3;       ///时间限制技能，超过限定时间结束
 
     /**
      * 技能作用目标
@@ -69,6 +92,19 @@ public class GameConstants {
     public static final int EFFECT_TARGET_SELF = 1;     ///作用自身
     public static final int EFFECT_TARGET_FRIENDLY = 2; ///作用友方
     public static final int EFFECT_TARGET_ENEMY = 4;    ///作用敌方
+
+    /**
+     * 技能ID映射，在skill.xml中skillId标签中使用
+     */
+    public static final int SKILL_ID_NORMAL = 1;                ///迅雷普通攻击
+    public static final int SKILL_ID_HIT_EFFECTIVE_NORMAL = 2;  ///迅雷普通攻击击中效果
+    public static final int SKILL_ID_BINGHJIAN = 3;             ///冰剑
+    public static final int SKILL_ID_BUFF_1 = 4;                ///BUFF1
+    public static final int SKILL_ID_HUOJIAN = 5;               ///火剑
+    public static final int SKILL_ID_SHENGJIAN = 6;             ///圣剑
+    public static final int SKILL_ID_RENDAOFEIBIAO = 7;         ///忍道飞镖
+    public static final int SKILL_ID_HIT_EFFECTIVE_RENDAO = 8;  ///忍道飞镖击中效果
+    public static final int SKILL_ID_LEVEL_UP = 9;              ///升级效果
 
     public static boolean isTargetSelf(int target) {
         return ((target & EFFECT_TARGET_SELF) > 0);

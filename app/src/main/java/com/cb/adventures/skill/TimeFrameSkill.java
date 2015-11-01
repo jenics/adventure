@@ -3,14 +3,13 @@ package com.cb.adventures.skill;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
-
+import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.view.BaseView;
 
-
 /**
- * Created by jenics on 2015/10/25.
+ * Created by jenics on 2015/11/1.
  */
-public class HitEffectSkill extends Skill {
+public class TimeFrameSkill extends Skill {
     @Override
     public boolean nextFrame() {
         long nowTime = System.currentTimeMillis();
@@ -22,6 +21,15 @@ public class HitEffectSkill extends Skill {
         mFrameIndex++;
         if (mFrameIndex >= mFrameCount) {
             mFrameIndex = 0;
+        }
+
+        if (getSkillPropetry().getTimeDuration() == GameConstants.TIME_INFINITE) {
+            /**
+             * 无限时间
+             */
+            return false;
+        } else if ((nowTime - mBeginTime) > getSkillPropetry().getTimeDuration()){
+
             return true;
         }
 

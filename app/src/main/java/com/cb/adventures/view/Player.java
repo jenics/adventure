@@ -7,6 +7,7 @@ import com.cb.adventures.animation.SkillAnimation;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.EquipmentPropetry;
 import com.cb.adventures.data.Propetry;
+import com.cb.adventures.data.SkillPropetry;
 import com.cb.adventures.factory.SkillFactory;
 import com.cb.adventures.skill.Skill;
 import com.cb.adventures.skill.StaticFrameSkill;
@@ -20,6 +21,9 @@ import com.cb.adventures.utils.CLog;
 import com.cb.adventures.utils.ImageLoader;
 
 import java.util.HashMap;
+import java.util.InputMismatchException;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by jenics on 2015/10/21.
@@ -41,6 +45,15 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     private int leftRowIndex = 0;       ///方向左在第几行
     private int rightRowIndex = 1;      ///方向右在第几行
 
+    /**
+     * buff容器，同一个buff不允许同时存在
+     * Integer 技能（BUFF)ID
+     * SkillPropetry buff属性
+     */
+    private HashMap<Integer,SkillPropetry> bufferMap;
+
+
+
     private EquipmentPropetry[] mEquipmentPropetrys;
 
     private Bitmap bmp;
@@ -49,6 +62,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     public Player() {
         isNeedRepeatAttack = false;
         stateHashMap = new HashMap<>();
+        bufferMap = new HashMap<>();
         mPropetry = new Propetry();
         mEquipmentPropetrys = new EquipmentPropetry[GameConstants.EQUIPMENT_NUM];
     }
@@ -59,26 +73,25 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
 
     /**
      * 攻击
+     * @param skillId 技能ID
      */
-    public void attack() {
+    public void attack(int skillId) {
         if (GameConstants.isAttack(curState.getStateId())) {
             /**
              * 攻击状态不要在次攻击
              */
             return;
         }
+        Skill skill = new SkillFactory().create(skillId);
         if (GameConstants.getDirection(curState.getStateId()) == GameConstants.DIRECT_LEFT) {
             changeState(GameConstants.STATE_ATTACK_LEFT);
-            Skill skill = new SkillFactory().create(1);
-            skill.setPt(getPt().x-skill.getSkillPropetry().getOffsetX(),getPt().y);
+            skill.setPt(getPt().x - skill.getSkillPropetry().getOffsetX(), getPt().y);
             skill.setDirection(GameConstants.DIRECT_LEFT);
             skill.startSkill();
         } else if (GameConstants.getDirection(curState.getStateId()) == GameConstants.DIRECT_RIGHT) {
             changeState(GameConstants.STATE_ATTACK_RIGHT);
-            Skill skill = new SkillFactory().create(3);
             skill.setPt(getPt().x+skill.getSkillPropetry().getOffsetX(),getPt().y);
             skill.setDirection(GameConstants.DIRECT_RIGHT);
-
             skill.startSkill();
         }
     }

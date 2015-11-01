@@ -13,8 +13,8 @@
 		<hitEffectId>2</hitEffectId>
 		<srcInfo>
 			<srcName>attack.png</srcName>
-			<rowFramCount>6</rowFramCount>
-			<colFramCont>7</colFramCont>
+			<rowFramCount>7</rowFramCount>
+			<colFramCount>6</colFramCount>
 		</srcInfo>
 		
 		<offsetX>50</offsetX>
@@ -47,8 +47,8 @@
 		<skillType>0</skillType>
 		<srcInfo>
 			<srcName>attack.png</srcName>
-			<rowFramCount>6</rowFramCount>
-			<colFramCont>7</colFramCont>
+			<rowFramCount>7</rowFramCount>
+			<colFramCount>6</colFramCount>
 		</srcInfo>
 		<frames>
 			<frame>
@@ -79,12 +79,12 @@
 		<extraMagic>5</extraMagic>
 		<extraDefensive>5</extraDefensive>
 		<freeMagic>5</freeMagic>
-		<name>冰火圣剑</name>
+		<name>冰剑</name>
 		<hitEffectId>2</hitEffectId>
 		<srcInfo>
 			<srcName>binghuoshengjian.png</srcName>
 			<rowFramCount>6</rowFramCount>
-			<colFramCont>6</colFramCont>
+			<colFramCount>6</colFramCount>
 		</srcInfo>
 		
 		<offsetX>100</offsetX>
@@ -110,6 +110,233 @@
 				<col>0</col>
 			</frame>
 		</frames>
+	</skill>
+	
+	<skill>
+		<skillId>4</skillId>
+		<skillType>3</skillType>
+		<effectTarget>1</effectTarget>
+		<extraBlood>5</extraBlood>
+		<extraMagic>5</extraMagic>
+		<extraDefensive>5</extraDefensive>
+		<freeMagic>5</freeMagic>
+		<timeDuration>-1</timeDuration>
+		<name>BUFF1</name>
+		<srcInfo>
+			<srcName>buff1.png</srcName>
+			<rowFramCount>1</rowFramCount>
+			<colFramCount>16</colFramCount>
+		</srcInfo>
+	</skill>
+	
+	<skill>
+		<skillId>5</skillId>
+		<skillType>1</skillType>
+		<extraAttack>5</extraAttack>
+		<effectTarget>4</effectTarget>
+		<extraBlood>5</extraBlood>
+		<extraMagic>5</extraMagic>
+		<extraDefensive>5</extraDefensive>
+		<freeMagic>5</freeMagic>
+		<name>火剑</name>
+		<hitEffectId>2</hitEffectId>
+		<srcInfo>
+			<srcName>binghuoshengjian.png</srcName>
+			<rowFramCount>6</rowFramCount>
+			<colFramCount>6</colFramCount>
+		</srcInfo>
+		
+		<offsetX>100</offsetX>
+		<frames>
+			<frame>
+				<row>3</row>
+				<col>1</col>
+			</frame>
+			<frame>
+				<row>3</row>
+				<col>2</col>
+			</frame>
+			<frame>
+				<row>3</row>
+				<col>3</col>
+			</frame>
+			<frame>
+				<row>3</row>
+				<col>4</col>
+			</frame>
+			<frame>
+				<row>3</row>
+				<col>5</col>
+			</frame>
+		</frames>
+	</skill>
+	
+	<skill>
+		<skillId>6</skillId>
+		<skillType>1</skillType>
+		<extraAttack>5</extraAttack>
+		<effectTarget>4</effectTarget>
+		<extraBlood>5</extraBlood>
+		<extraMagic>5</extraMagic>
+		<extraDefensive>5</extraDefensive>
+		<freeMagic>5</freeMagic>
+		<name>圣剑</name>
+		<hitEffectId>2</hitEffectId>
+		<srcInfo>
+			<srcName>binghuoshengjian.png</srcName>
+			<rowFramCount>6</rowFramCount>
+			<colFramCount>6</colFramCount>
+		</srcInfo>
+		
+		<offsetX>100</offsetX>
+		<frames>
+			<frame>
+				<row>4</row>
+				<col>0</col>
+			</frame>
+			<frame>
+				<row>4</row>
+				<col>1</col>
+			</frame>
+			<frame>
+				<row>4</row>
+				<col>2</col>
+			</frame>
+			<frame>
+				<row>4</row>
+				<col>3</col>
+			</frame>
+			<frame>
+				<row>4</row>
+				<col>4</col>
+			</frame>
+			<frame>
+				<row>4</row>
+				<col>5</col>
+			</frame>
+			<frame>
+				<row>5</row>
+				<col>0</col>
+			</frame>
+			<frame>
+				<row>5</row>
+				<col>1</col>
+			</frame>
+		</frames>
+	</skill>
+	
+	<skill>
+		<skillId>7</skillId>
+		<skillType>1</skillType>
+		<extraAttack>5</extraAttack>
+		<effectTarget>4</effectTarget>
+		<extraBlood>5</extraBlood>
+		<extraMagic>5</extraMagic>
+		<extraDefensive>5</extraDefensive>
+		<freeMagic>5</freeMagic>
+		<name>忍道飞镖</name>
+		<hitEffectId>8</hitEffectId>
+		<srcInfo>
+			<srcName>attack.png</srcName>
+			<rowFramCount>7</rowFramCount>
+			<colFramCount>6</colFramCount>
+		</srcInfo>
+		
+		<offsetX>100</offsetX>
+		<frames>
+			<frame>
+				<row>3</row>
+				<col>1</col>
+			</frame>
+			<frame>
+				<row>3</row>
+				<col>2</col>
+			</frame>
+			
+			<frame>
+				<row>3</row>
+				<col>3</col>
+			</frame>
+			<frame>
+				<row>3</row>
+				<col>4</col>
+			</frame>
+			<frame>
+				<row>3</row>
+				<col>5</col>
+			</frame>
+			<frame>
+				<row>4</row>
+				<col>0</col>
+			</frame>
+			<frame>
+				<row>4</row>
+				<col>1</col>
+			</frame>
+			<frame>
+				<row>4</row>
+				<col>2</col>
+			</frame>
+			<frame>
+				<row>4</row>
+				<col>3</col>
+			</frame>
+			<frame>
+				<row>4</row>
+				<col>4</col>
+			</frame>
+			<frame>
+				<row>4</row>
+				<col>5</col>
+			</frame>
+			<frame>
+				<row>5</row>
+				<col>0</col>
+			</frame>
+			<frame>
+				<row>5</row>
+				<col>1</col>
+			</frame>
+		</frames>
+	</skill>
+	
+	<skill>
+		<skillId>8</skillId>
+		<skillType>0</skillType>
+		<srcInfo>
+			<srcName>attack.png</srcName>
+			<rowFramCount>7</rowFramCount>
+			<colFramCount>6</colFramCount>
+		</srcInfo>
+		<frames>
+			<frame>
+				<row>5</row>
+				<col>4</col>
+			</frame>
+			<frame>
+				<row>5</row>
+				<col>5</col>
+			</frame>
+			<frame>
+				<row>6</row>
+				<col>0</col>
+			</frame>
+			<frame>
+				<row>6</row>
+				<col>1</col>
+			</frame>
+		</frames>
+	</skill>
+	
+	<skill>
+		<skillId>9</skillId>
+		<skillType>1</skillType>
+		<name>level-up</name>
+		<srcInfo>
+			<srcName>level_up.png</srcName>
+			<rowFramCount>1</rowFramCount>
+			<colFramCount>18</colFramCount>
+		</srcInfo>
 	</skill>
 	
 </root>

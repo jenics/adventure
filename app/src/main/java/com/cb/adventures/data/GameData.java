@@ -91,9 +91,11 @@ public class GameData {
                         } else if ("srcName".equals(nodeName)) {
                             srcInfo.setSrcName(parser.nextText());
                         } else if("rowFramCount".equals(nodeName)) {
-                            srcInfo.setRowFramCount(Integer.parseInt(parser.nextText()));
-                        } else if("colFramCont".equals(nodeName)){
-                            srcInfo.setColFramCont(Integer.parseInt(parser.nextText()));
+                            int rowFrameCount = Integer.parseInt(parser.nextText());
+                            srcInfo.setRowFramCount(rowFrameCount);
+                        } else if("colFramCount".equals(nodeName)){
+                            int colFramCount = Integer.parseInt(parser.nextText());
+                            srcInfo.setColFramCont(colFramCount);
                         } else if ("offsetX".equals(nodeName)) {
                             skillPropetry.setOffsetX(Integer.parseInt(parser.nextText()));
                         } else if ("frame".equals(nodeName)) {
@@ -102,16 +104,29 @@ public class GameData {
                         frame.setRow(Integer.parseInt(parser.nextText()));
                         } else if ("col".equals(nodeName)) {
                         frame.setCol(Integer.parseInt(parser.nextText()));
+                        } else if ("timeDuration".equals(nodeName)) {
+                            skillPropetry.setTimeDuration(Long.parseLong(parser.nextText()));
                         }
 
                         break;
                     case XmlPullParser.END_TAG:
                         if ("skill".equals(nodeName)) {
                             mSkillMap.put(skillPropetry.getSkillId(), skillPropetry);
+                            if(srcInfo.getRowFramCount() == 1 && skillPropetry.getFrames().isEmpty()) {
+                                ///行数等于1并且没有指定帧
+                                for(int i=0; i<srcInfo.getColFramCont(); ++i) {
+                                    frame = new Frame();
+                                    frame.setRow(0);
+                                    frame.setCol(i);
+                                    skillPropetry.getFrames().add(frame);
+                                }
+                            }
                         } else if ("frame".equals(nodeName)) {
                             skillPropetry.getFrames().add(frame);
                         } else if("srcInfo".equals(nodeName)) {
                             skillPropetry.setSrcInfo(srcInfo);
+
+
                         }
                         break;
                     default:

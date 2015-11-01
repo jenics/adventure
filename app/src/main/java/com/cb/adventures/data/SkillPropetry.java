@@ -54,9 +54,19 @@ public class SkillPropetry {
     private SrcInfo srcInfo;
 
     /**
+     * 技能持续时间,单位ms
+     */
+    private long timeDuration;
+
+    /**
      * 技能起始偏移
      */
     private int offsetX;
+
+    /**
+     * 击中效果技能id
+     */
+    private int hitEffectId;
 
     private LinkedList<Frame> frames;
 
@@ -157,10 +167,15 @@ public class SkillPropetry {
         this.offsetX = offsetX;
     }
 
-    /**
-     * 击中效果技能id
-     */
-    private int hitEffectId;
+    public long getTimeDuration() {
+        return timeDuration;
+    }
+
+    public void setTimeDuration(long timeDuration) {
+        this.timeDuration = timeDuration;
+    }
+
+
 
     public SkillPropetry() {
         if(frames == null) {
