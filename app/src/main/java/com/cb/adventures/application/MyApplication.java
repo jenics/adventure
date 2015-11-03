@@ -1,4 +1,4 @@
-package com.cb.adventures.common;
+package com.cb.adventures.application;
 
 import android.app.Application;
 import android.content.Context;

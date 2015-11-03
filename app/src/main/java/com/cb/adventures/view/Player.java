@@ -3,14 +3,13 @@ package com.cb.adventures.view;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import com.cb.adventures.animation.SkillAnimation;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.EquipmentPropetry;
 import com.cb.adventures.data.Propetry;
 import com.cb.adventures.data.SkillPropetry;
 import com.cb.adventures.factory.SkillFactory;
+import com.cb.adventures.observer.IPropetryObserver;
 import com.cb.adventures.skill.Skill;
-import com.cb.adventures.skill.StaticFrameSkill;
 import com.cb.adventures.state.BaseState;
 import com.cb.adventures.state.IStateMgr;
 import com.cb.adventures.state.playerstate.AttackState;
@@ -18,23 +17,20 @@ import com.cb.adventures.state.playerstate.MoveState;
 import com.cb.adventures.state.playerstate.PlayerBaseState;
 import com.cb.adventures.state.playerstate.StopState;
 import com.cb.adventures.utils.CLog;
-import com.cb.adventures.utils.ImageLoader;
 
 import java.util.HashMap;
-import java.util.InputMismatchException;
-import java.util.Map;
-import java.util.Set;
+import java.util.LinkedList;
 
 /**
  * Created by jenics on 2015/10/21.
  */
-public class Player extends BaseView implements IStateMgr, AttackState.OnAttackListener {
+public class Player extends BaseView implements IStateMgr, AttackState.OnAttackListener ,Skill.OnSkillAnimationListener {
     private Propetry mPropetry;
     protected PlayerBaseState curState;
     protected HashMap<Integer, PlayerBaseState> stateHashMap;
-    protected int frameCount; ///一个方向的帧总数
-    protected int perWidth; ///每一帧的宽度
-    protected int perHeight;    ///每一帧的高度
+    protected int frameCount;               ///一个方向的帧总数
+    protected int perWidth;                 ///每一帧的宽度
+    protected int perHeight;                ///每一帧的高度
 
     protected int attackPerWidth;           ///每一个攻击帧宽度
     protected int attackPerHeight;          ///每一个攻击帧的高度
@@ -42,17 +38,15 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     protected boolean isNeedRepeatAttack;   ///是否需要重复攻击
     protected int attackFrameCount;         ///攻击总帧数
     private long lastTime;
-    private int leftRowIndex = 0;       ///方向左在第几行
-    private int rightRowIndex = 1;      ///方向右在第几行
+    private int leftRowIndex = 0;           ///方向左在第几行
+    private int rightRowIndex = 1;          ///方向右在第几行
 
     /**
      * buff容器，同一个buff不允许同时存在
      * Integer 技能（BUFF)ID
      * SkillPropetry buff属性
      */
-    private HashMap<Integer,SkillPropetry> bufferMap;
-
-
+    private HashMap<Integer,Skill> bufferMap;
 
     private EquipmentPropetry[] mEquipmentPropetrys;
 
@@ -82,7 +76,36 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
              */
             return;
         }
+
+
         Skill skill = new SkillFactory().create(skillId);
+
+        /**
+         * 普通攻击不耗蓝，直接过
+         */
+        if(skillId == GameConstants.SKILL_ID_NORMAL) {
+
+        }else if(skill.getSkillPropetry().getFreeMagic() > mPropetry.getMagicVolume()){
+            /**
+             * 蓝不够
+             */
+            return;
+        }
+
+        if(skill.getSkillPropetry().getSkillType() == GameConstants.SKILL_TYPE_BUFF
+                || skill.getSkillPropetry().getSkillType() == GameConstants.SKILL_TYPE_DEBUFF) {
+            ///该技能已作用
+            Skill skillTmp = bufferMap.get(skillId);
+            if(skillTmp != null) {
+                skillTmp.stopSkill();///该技能已作用,停止旧的
+            }
+        }
+
+        /**
+         * 扣除魔法值
+         */
+        mPropetry.setMagicVolume(mPropetry.getMagicVolume() - skill.getSkillPropetry().getFreeMagic());
+
         if (GameConstants.getDirection(curState.getStateId()) == GameConstants.DIRECT_LEFT) {
             changeState(GameConstants.STATE_ATTACK_LEFT);
             skill.setPt(getPt().x - skill.getSkillPropetry().getOffsetX(), getPt().y);
@@ -95,7 +118,6 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
             skill.startSkill();
         }
     }
-
 
     /**
      * 是否成功移动
@@ -264,4 +286,31 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
         ///增加物品增益效果
     }
 
+    @Override
+    public void onSkillBegin(Skill skill) {
+
+    }
+
+    @Override
+    public void onSkillEnd(Skill skill,boolean isForce) {
+        if(skill.getSkillPropetry().getSkillType() == GameConstants.SKILL_TYPE_BUFF
+                || skill.getSkillPropetry().getSkillType() == GameConstants.SKILL_TYPE_DEBUFF) {
+            /**
+             * 卸下该属性,属性变化。
+             */
+
+            /**
+             * 非强制停止的动画，才需要进行加减属性，否则外部已经处理过了
+             */
+            if(isForce) {
+                ///非强制
+                ///设置属性之类的。
+                ///mPropetry.setDefensivePower(0);
+            }
+
+            bufferMap.remove(skill);
+
+
+        }
+    }
 }

@@ -65,7 +65,7 @@ public class BloodReservoir extends BaseView {
                         y,
                         x + width,
                         y + height), null);
-        if(propetry.getBloodVolume() > 0) {
+        //if(propetry.getBloodVolume() > 0) {
             ///画血槽背景(红条）
             canvas.drawBitmap(background,
                     new Rect(   ///src rect
@@ -77,9 +77,9 @@ public class BloodReservoir extends BaseView {
                             topRed,
                             pt.x + width/2,
                             topRed + backgroundHeight), null);
-        }
+        //}
 
-        if(propetry.getMagicVolume() > 0) {
+        //if(propetry.getMagicVolume() > 0) {
             ///画血槽背景(蓝条）
             canvas.drawBitmap(background,
                     new Rect(   ///src rect
@@ -91,6 +91,6 @@ public class BloodReservoir extends BaseView {
                             topBlue,
                             pt.x + width/2,
                             topBlue + backgroundHeight), null);
-        }
+        //}
     }
 }

@@ -4,9 +4,8 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
-import com.cb.adventures.common.MyApplication;
+import com.cb.adventures.application.MyApplication;
 
 import java.io.InputStream;
 import java.util.HashMap;

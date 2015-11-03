@@ -4,10 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import com.cb.adventures.animation.Animation;
-import com.cb.adventures.animation.SkillAnimation;
-import com.cb.adventures.constants.GameConstants;
+import com.cb.adventures.animation.SkillAnimationProxy;
 import com.cb.adventures.data.SkillPropetry;
-import com.cb.adventures.factory.SkillFactory;
 import com.cb.adventures.utils.ImageLoader;
 import com.cb.adventures.view.BaseView;
 
@@ -15,7 +13,7 @@ import com.cb.adventures.view.BaseView;
  * 技能类
  * Created by jenics on 2015/10/25.
  */
-public class Skill extends BaseView {
+public class Skill extends BaseView implements Animation.OnAniamtionListener{
     protected int mFrameIndex;
     protected int mFrameCount;
     protected Bitmap mBitmap;
@@ -24,7 +22,24 @@ public class Skill extends BaseView {
 
     protected BaseView mAttachView;     ///挂靠的目标
 
+    private SkillAnimationProxy proxy;
+
     private SkillPropetry mSkillPropetry;
+
+    public interface OnSkillAnimationListener {
+        void onSkillBegin(Skill skill);
+        void onSkillEnd(Skill skill,boolean isForce);
+    }
+    private OnSkillAnimationListener listener;
+
+    public OnSkillAnimationListener getListener() {
+        return listener;
+    }
+
+    public void setListener(OnSkillAnimationListener listener) {
+        this.listener = listener;
+    }
+
     /**
      * 静态ID，用来产生技能伤害ID
      */
@@ -74,33 +89,42 @@ public class Skill extends BaseView {
         mFrameCount = mSkillPropetry.getFrames().size();
     }
 
+
     public void startSkill() {
-        SkillAnimation skillAnimation = new SkillAnimation(this);
-        /*skillAnimation.setOnAnimationListener(new Animation.OnAniamtionListener() {
-            @Override
-            public void onAnimationEnd(BaseView view) {
-                if(getSkillPropetry().getHitEffectId() != 0) {
-                    Skill skill = new SkillFactory().create(getSkillPropetry().getHitEffectId());
-                    skill.setPt(getPt().x,getPt().y);
-                    skill.setDirection(GameConstants.DIRECT_RIGHT);
-                    skill.startSkill();
-                }
-            }
-
-            @Override
-            public void onAnimationBegin() {
-
-            }
-        });*/
-        skillAnimation.startAnimation();
-
+        proxy = new SkillAnimationProxy(this);
+        proxy.setOnAnimationListener(this);
+        proxy.startAnimation();
         mBeginTime = mLastTime = System.currentTimeMillis();
         mFrameIndex = 0;
+    }
+
+    /**
+     * 停止技能，将会从动画列表中移除
+     */
+    public void stopSkill() {
+        if(proxy != null) {
+            proxy.stopAnimation();
+            proxy = null;
+        }
     }
 
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
+    }
+
+    @Override
+    public void onAnimationEnd(BaseView view,boolean isForce) {
+        if(listener != null) {
+            listener.onSkillEnd(this,isForce);
+        }
+    }
+
+    @Override
+    public void onAnimationBegin() {
+        if(listener != null) {
+            listener.onSkillBegin(this);
+        }
     }
 }

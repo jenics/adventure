@@ -18,16 +18,16 @@ public class SkillFactory implements IFactory {
         SkillPropetry skillPropetry = GameData.getInstance().findSkill(id);
         Skill skill = null;
         if(skillPropetry != null) {
-            if(skillPropetry.getSkillType() == GameConstants.SKILL_TYPE_STATIC_FRAME) {
+            if(skillPropetry.getSkillAnimationType() == GameConstants.SKILL_ANIMATION_STATIC_FRAME) {
                 skill = new StaticFrameSkill();
                 skill.setSkillPropetry(skillPropetry);
-            }else if(skillPropetry.getSkillType() == GameConstants.SKILL_TYPE_HIT_EFFECTIVE) {
+            }else if(skillPropetry.getSkillAnimationType() == GameConstants.SKILL_ANIMATION_HIT_EFFECTIVE) {
                 skill = new HitEffectSkill();
                 skill.setSkillPropetry(skillPropetry);
-            } else if (skillPropetry.getSkillType() == GameConstants.SKILL_TYPE_TIME_FRAME) {
+            } else if (skillPropetry.getSkillAnimationType() == GameConstants.SKILL_ANIMATION_TIME_FRAME) {
                 skill = new TimeFrameSkill();
                 skill.setSkillPropetry(skillPropetry);
-            } else if (skillPropetry.getSkillType() == GameConstants.SKILL_TYPE_MOVE_FRAME) {
+            } else if (skillPropetry.getSkillAnimationType() == GameConstants.SKILL_ANIMATION_MOVE_FRAME) {
                 skill = new MoveFrameSkill();
                 skill.setSkillPropetry(skillPropetry);
             }

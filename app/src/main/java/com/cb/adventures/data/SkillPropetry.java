@@ -1,7 +1,5 @@
 package com.cb.adventures.data;
 
-import com.cb.adventures.skill.Skill;
-
 import java.util.LinkedList;
 
 /**
@@ -15,7 +13,13 @@ public class SkillPropetry {
     private int skillId;
 
     /**
-     * 技能类型，多个技能公用一个ID
+     * 技能动画类型
+     */
+    private int skillAnimationType;
+
+    /**
+     * 技能类型
+     * 可以是主动攻击，被动，BUFF,DEBUFF
      */
     private int skillType;
 
@@ -83,12 +87,12 @@ public class SkillPropetry {
         this.skillId = skillId;
     }
 
-    public int getSkillType() {
-        return skillType;
+    public int getSkillAnimationType() {
+        return skillAnimationType;
     }
 
-    public void setSkillType(int skillType) {
-        this.skillType = skillType;
+    public void setSkillAnimationType(int skillAnimationType) {
+        this.skillAnimationType = skillAnimationType;
     }
 
     public int getExtraAttack() {
@@ -202,5 +206,13 @@ public class SkillPropetry {
 
     public void setMaxMoveDistance(float maxMoveDistance) {
         this.maxMoveDistance = maxMoveDistance;
+    }
+
+    public int getSkillType() {
+        return skillType;
+    }
+
+    public void setSkillType(int skillType) {
+        this.skillType = skillType;
     }
 }

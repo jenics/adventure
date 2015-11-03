@@ -1,5 +1,9 @@
 package com.cb.adventures.data;
 
+import com.cb.adventures.observer.IPropetryObserver;
+
+import java.util.LinkedList;
+
 /**
  * 属性类
  * Created by jenics on 2015/10/24.
@@ -48,7 +52,20 @@ public class Propetry {
      */
     private int height;
 
+    /**
+     * 封装一套属性改变，用来做观察者模式
+     * 放在纯净数据里显得不合适
+     */
+    private LinkedList<IPropetryObserver> propetryObservers;
+    public void notifyPropetryChange() {
+        for(IPropetryObserver observer : propetryObservers) {
+            observer.onPropetryChange(this);
+        }
+    }
+
+
     public Propetry() {
+        propetryObservers = new LinkedList<>();
         this.attackPower = 0;
         this.defensivePower = 0;
         this.bloodVolume = 0;
@@ -67,6 +84,7 @@ public class Propetry {
 
     public void setAttackPower(int attackPower) {
         this.attackPower = attackPower;
+        notifyPropetryChange();
     }
 
     public int getDefensivePower() {
@@ -75,6 +93,7 @@ public class Propetry {
 
     public void setDefensivePower(int defensivePower) {
         this.defensivePower = defensivePower;
+        notifyPropetryChange();
     }
 
     public int getBloodVolume() {
@@ -82,23 +101,36 @@ public class Propetry {
     }
 
     public void setBloodVolume(int bloodVolume) {
-        this.bloodVolume = bloodVolume;
+        if(bloodVolume < 0) {
+            this.bloodVolume = 0;
+        } else {
+            this.bloodVolume = bloodVolume;
+        }
+        notifyPropetryChange();
     }
 
     public int getMagicVolume() {
+
         return magicVolume;
     }
 
     public float getMagicRatio() {
+
         return magicVolume*1.0f / magicTotalVolume;
     }
 
     public float getBloodRatio() {
+
         return bloodVolume*1.0f / bloodTotalVolume;
     }
 
     public void setMagicVolume(int magicVolume) {
-        this.magicVolume = magicVolume;
+        if(magicVolume < 0) {
+            this.magicVolume = 0;
+        } else {
+            this.magicVolume = magicVolume;
+        }
+        notifyPropetryChange();
     }
 
     public int getAttackLength() {
@@ -107,6 +139,7 @@ public class Propetry {
 
     public void setAttackLength(int attackLength) {
         this.attackLength = attackLength;
+        notifyPropetryChange();
     }
 
     public int getRank() {
@@ -115,6 +148,7 @@ public class Propetry {
 
     public void setRank(int rank) {
         this.rank = rank;
+        notifyPropetryChange();
     }
 
     public int getWidth() {
@@ -123,6 +157,7 @@ public class Propetry {
 
     public void setWidth(int width) {
         this.width = width;
+        notifyPropetryChange();
     }
 
     public int getHeight() {
@@ -131,6 +166,7 @@ public class Propetry {
 
     public void setHeight(int height) {
         this.height = height;
+        notifyPropetryChange();
     }
 
     public int getMagicTotalVolume() {
@@ -139,6 +175,7 @@ public class Propetry {
 
     public void setMagicTotalVolume(int magicTotalVolume) {
         this.magicTotalVolume = magicTotalVolume;
+        notifyPropetryChange();
     }
 
     public int getBloodTotalVolume() {
@@ -147,5 +184,6 @@ public class Propetry {
 
     public void setBloodTotalVolume(int bloodTotalVolume) {
         this.bloodTotalVolume = bloodTotalVolume;
+        notifyPropetryChange();
     }
 }

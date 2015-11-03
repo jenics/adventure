@@ -19,7 +19,11 @@ public class Animation implements IAnimation {
     protected boolean isStop = false;
     protected BaseView mView;
     public interface OnAniamtionListener{
-        void onAnimationEnd(BaseView view);
+        /**
+         * @param view
+         * @param isForce 是否外界强制停止
+         */
+        void onAnimationEnd(BaseView view,boolean isForce);
         void onAnimationBegin();
     }
 
@@ -54,10 +58,14 @@ public class Animation implements IAnimation {
         return isStop();
     }
 
-    protected void onAnimationEnd(){
+    /**
+     * 动画停止
+     * @param isForce   是否外界强制停止
+     */
+    protected void notifyAnimationEnd(boolean isForce){
         if(mAnimationListeners != null && mAnimationListeners.size() > 0){
             for(OnAniamtionListener listener : mAnimationListeners)
-                listener.onAnimationEnd(mView);
+                listener.onAnimationEnd(mView,isForce);
         }
     }
 

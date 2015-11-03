@@ -3,7 +3,7 @@ package com.cb.adventures.data;
 import android.content.res.AssetManager;
 import android.util.Xml;
 
-import com.cb.adventures.common.MyApplication;
+import com.cb.adventures.application.MyApplication;
 import com.cb.adventures.constants.GameConstants;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -12,7 +12,6 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Reader;
 import java.util.HashMap;
 
 /**
@@ -71,6 +70,8 @@ public class GameData {
                             skillPropetry.setSkillId(Integer.parseInt(parser.nextText()));
                         } else if ("skillType".equals(nodeName)) {
                             skillPropetry.setSkillType(Integer.parseInt(parser.nextText()));
+                        }  else if ("skillAnimationType".equals(nodeName)) {
+                            skillPropetry.setSkillAnimationType(Integer.parseInt(parser.nextText()));
                         } else if ("extraAttack".equals(nodeName)) {
                             skillPropetry.setExtraAttack(Integer.parseInt(parser.nextText()));
                         } else if ("effectTarget".equals(nodeName)) {

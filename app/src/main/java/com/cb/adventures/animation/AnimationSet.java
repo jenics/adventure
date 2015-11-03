@@ -34,7 +34,7 @@ public class AnimationSet implements Animation.OnAniamtionListener {
         animationSize = 0;
     }
     @Override
-    public void onAnimationEnd(BaseView view) {
+    public void onAnimationEnd(BaseView view,boolean isForce) {
         if(isSyn) {
             animationCount++;
             if (animationCount == animationSize) {

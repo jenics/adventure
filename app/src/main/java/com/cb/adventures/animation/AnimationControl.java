@@ -59,7 +59,7 @@ public class AnimationControl implements IView
             Animation animation = iterator.next();
             if (animation.animate() || animation.isStop()) {
                 iterator.remove();
-                animation.onAnimationEnd();
+                animation.notifyAnimationEnd(animation.isStop);
             }
         }
         if (!delayAddAnimations.isEmpty()) {

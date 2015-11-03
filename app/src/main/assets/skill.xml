@@ -2,7 +2,8 @@
 <root>
 	<skill>
 		<skillId>1</skillId>
-		<skillType>1</skillType>
+		<skillType>0</skillType>
+		<skillAnimationType>1</skillAnimationType>
 		<extraAttack>5</extraAttack>
 		<effectTarget>4</effectTarget>
 		<extraBlood>5</extraBlood>
@@ -45,6 +46,7 @@
 	<skill>
 		<skillId>2</skillId>
 		<skillType>0</skillType>
+		<skillAnimationType>0</skillAnimationType>
 		<srcInfo>
 			<srcName>attack.png</srcName>
 			<rowFramCount>7</rowFramCount>
@@ -72,7 +74,8 @@
 	
 	<skill>
 		<skillId>3</skillId>
-		<skillType>1</skillType>
+		<skillType>0</skillType>
+		<skillAnimationType>1</skillAnimationType>
 		<extraAttack>5</extraAttack>
 		<effectTarget>4</effectTarget>
 		<extraBlood>5</extraBlood>
@@ -114,13 +117,14 @@
 	
 	<skill>
 		<skillId>4</skillId>
-		<skillType>3</skillType>
+		<skillType>2</skillType>
+		<skillAnimationType>3</skillAnimationType>
 		<effectTarget>1</effectTarget>
 		<extraBlood>5</extraBlood>
 		<extraMagic>5</extraMagic>
 		<extraDefensive>5</extraDefensive>
-		<freeMagic>5</freeMagic>
-		<timeDuration>-1</timeDuration>
+		<freeMagic>5</freeMagic>			<!--释放需要的魔力值-->
+		<timeDuration>5000</timeDuration> <!--如果为(-1)则是无限时间，单位为ms-->
 		<name>BUFF1</name>
 		<srcInfo>
 			<srcName>buff1.png</srcName>
@@ -131,7 +135,8 @@
 	
 	<skill>
 		<skillId>5</skillId>
-		<skillType>1</skillType>
+		<skillType>0</skillType>
+		<skillAnimationType>1</skillAnimationType>
 		<extraAttack>5</extraAttack>
 		<effectTarget>4</effectTarget>
 		<extraBlood>5</extraBlood>
@@ -173,7 +178,8 @@
 	
 	<skill>
 		<skillId>6</skillId>
-		<skillType>1</skillType>
+		<skillType>0</skillType>
+		<skillAnimationType>1</skillAnimationType>
 		<extraAttack>5</extraAttack>
 		<effectTarget>4</effectTarget>
 		<extraBlood>5</extraBlood>
@@ -227,7 +233,8 @@
 	
 	<skill>
 		<skillId>7</skillId>
-		<skillType>2</skillType>
+		<skillType>0</skillType>
+		<skillAnimationType>2</skillAnimationType>
 		<extraAttack>5</extraAttack>
 		<effectTarget>4</effectTarget>
 		<extraBlood>5</extraBlood>
@@ -306,6 +313,7 @@
 	<skill>
 		<skillId>8</skillId>
 		<skillType>0</skillType>
+		<skillAnimationType>0</skillAnimationType>
 		<srcInfo>
 			<srcName>attack.png</srcName>
 			<rowFramCount>7</rowFramCount>
@@ -333,7 +341,8 @@
 	
 	<skill>
 		<skillId>9</skillId>
-		<skillType>1</skillType>
+		<skillType>2</skillType>
+		<skillAnimationType>1</skillAnimationType>
 		<name>level-up</name>
 		<srcInfo>
 			<srcName>level_up.png</srcName>
@@ -344,7 +353,8 @@
 	
 	<skill>
 		<skillId>10</skillId>
-		<skillType>2</skillType>
+		<skillType>0</skillType>
+		<skillAnimationType>2</skillAnimationType>
 		<extraAttack>5</extraAttack>
 		<effectTarget>4</effectTarget>
 		<extraBlood>5</extraBlood>

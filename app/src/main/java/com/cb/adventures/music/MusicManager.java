@@ -7,8 +7,7 @@ import android.media.SoundPool;
 
 
 import com.cb.adventures.R;
-import com.cb.adventures.activity.MainActivity;
-import com.cb.adventures.common.MyApplication;
+import com.cb.adventures.application.MyApplication;
 import com.cb.adventures.utils.CLog;
 
 import java.util.HashMap;

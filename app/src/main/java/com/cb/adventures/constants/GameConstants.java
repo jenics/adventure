@@ -79,12 +79,20 @@ public class GameConstants {
     public static final int EQUIPMENT_CLOTHING = 1; ///衣服
 
     /**
-     * 技能类型
+     * 技能动画类型
      */
-    public static final int SKILL_TYPE_HIT_EFFECTIVE = 0;    ///技能击中效果
-    public static final int SKILL_TYPE_STATIC_FRAME = 1;     ///静止帧技能，播放完一个序列集结束
-    public static final int SKILL_TYPE_MOVE_FRAME = 2;       ///移动帧技能，到指定距离结束
-    public static final int SKILL_TYPE_TIME_FRAME = 3;       ///时间限制技能，超过限定时间结束
+    public static final int SKILL_ANIMATION_HIT_EFFECTIVE = 0;    ///技能击中效果
+    public static final int SKILL_ANIMATION_STATIC_FRAME = 1;     ///静止帧技能，播放完一个序列集结束
+    public static final int SKILL_ANIMATION_MOVE_FRAME = 2;       ///移动帧技能，到指定距离结束
+    public static final int SKILL_ANIMATION_TIME_FRAME = 3;       ///时间限制技能，超过限定时间结束
+
+    /**
+     * 技能分类
+     */
+    public static final int SKILL_TYPE_ACTIVE_ATTACK = 0;    ///主动攻击类技能
+    public static final int SKILL_TYPE_PASSIVE = 1;          ///被动技能
+    public static final int SKILL_TYPE_BUFF = 2;             ///BUFF技能
+    public static final int SKILL_TYPE_DEBUFF = 2;           ///DEBUFF技能
 
     /**
      * 技能作用目标

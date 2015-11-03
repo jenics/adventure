@@ -97,7 +97,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                 player.getmPropetry().setBloodTotalVolume(100);
                 player.getmPropetry().setBloodVolume(70);
                 player.getmPropetry().setMagicTotalVolume(100);
-                player.getmPropetry().setMagicVolume(10);
+                player.getmPropetry().setMagicVolume(25);
             }
 
 
