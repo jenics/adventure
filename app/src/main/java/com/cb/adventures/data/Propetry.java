@@ -81,7 +81,7 @@ public class Propetry {
         this.rank = 0;
         this.width = 0;
         this.height = 0;
-        this.speed = 6;
+        this.speed = 0;
     }
 
     public int getAttackPower() {

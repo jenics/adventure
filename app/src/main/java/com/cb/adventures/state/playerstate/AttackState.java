@@ -3,8 +3,12 @@ package com.cb.adventures.state.playerstate;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+
+import com.cb.adventures.R;
+import com.cb.adventures.application.MyApplication;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.music.MusicManager;
 import com.cb.adventures.view.Player;
@@ -52,11 +56,14 @@ public class AttackState extends PlayerBaseState {
     @Override
     public void draw(Canvas canvas) {
         //super.draw(canvas);
-        float x = player.getPt().x - width/2;
-        float y = player.getPt().y - height/2;
+        int disWidth = (int) (width*GameConstants.zoomRatio);
+        int disHeight = (int) (height*GameConstants.zoomRatio);
+        float x = player.getPt().x - disWidth/2;
+        float y = player.getPt().y - disHeight/2;
 
         ///画攻击效果
         if(stateId == GameConstants.STATE_ATTACK_LEFT) {
+
             canvas.drawBitmap(bitmap,
                     new Rect(   ///src rect
                             width * frameIndex,
@@ -65,8 +72,8 @@ public class AttackState extends PlayerBaseState {
                             rowIndex * height + height),
                     new RectF(x,
                             y,
-                            x + width,
-                            y + height), null);
+                            x + disWidth,
+                            y + disHeight), null);
 
         }else if(stateId == GameConstants.STATE_ATTACK_RIGHT) {
             Matrix matrix = new Matrix();
@@ -87,21 +94,9 @@ public class AttackState extends PlayerBaseState {
                             height),
                     new RectF(x,
                             y,
-                            x + width,
-                            y + height), null);
+                            x + disWidth,
+                            y + disHeight), null);
             bmpTmp.recycle();
-            bmpTmp = null;
-
-            Bitmap bmpTmp2 = Bitmap.createBitmap(bitmap,
-                    width * frameIndex,
-                    (rowIndex + 1) * height,
-                    width,
-                    height,
-                    matrix,
-                    true);
-
-            bmpTmp2.recycle();
-            bmpTmp2 = null;
         }
     }
 

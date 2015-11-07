@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 
 import com.cb.adventures.animation.Animation;
 import com.cb.adventures.animation.SkillAnimationProxy;
+import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.SkillPropetry;
 import com.cb.adventures.utils.ImageLoader;
 import com.cb.adventures.view.BaseView;
@@ -19,6 +20,10 @@ public class Skill extends BaseView implements Animation.OnAniamtionListener{
     protected Bitmap mBitmap;
     protected long mLastTime;
     protected long mBeginTime;  ///开始时间
+
+    protected int disWidth = (int) (width* GameConstants.zoomRatio);
+    protected int disHeight = (int) (height*GameConstants.zoomRatio);
+
 
     protected BaseView mAttachView;     ///挂靠的目标
 
@@ -70,7 +75,7 @@ public class Skill extends BaseView implements Animation.OnAniamtionListener{
         return mAttachView;
     }
 
-    public void setmAttachView(BaseView mAttachView) {
+    public void setAttachView(BaseView mAttachView) {
         this.mAttachView = mAttachView;
     }
 
@@ -84,11 +89,41 @@ public class Skill extends BaseView implements Animation.OnAniamtionListener{
             mBitmap = ImageLoader.getmInstance().loadBitmap(mSkillPropetry.getSrcInfo().getSrcName());
             width = mBitmap.getWidth() / mSkillPropetry.getSrcInfo().getColFramCont();
             height = mBitmap.getHeight() / mSkillPropetry.getSrcInfo().getRowFramCount();
+
+            disWidth = (int) (width* GameConstants.zoomRatio);
+            disHeight = (int) (height*GameConstants.zoomRatio);
         }
 
         mFrameCount = mSkillPropetry.getFrames().size();
     }
 
+    /**
+     * 技能起始坐标应该是技能大小的一半的偏移量
+     * @param x x坐标
+     * @param y y坐标
+     */
+    @Override
+    public void setPt(float x, float y) {
+        if (mDirection == GameConstants.DIRECT_LEFT) {
+            super.setPt(x-disWidth/2, y);
+        }else {
+            super.setPt(x+disWidth/2, y);
+        }
+    }
+
+    /**
+     * 技能起始坐标应该是技能大小的一半的偏移量
+     * @param x x坐标
+     * @param y y坐标
+     */
+    @Override
+    public void setPt(int x, int y) {
+        if (mDirection == GameConstants.DIRECT_LEFT) {
+            super.setPt(x-disWidth/2, y);
+        }else {
+            super.setPt(x+disWidth/2, y);
+        }
+    }
 
     public void startSkill() {
         proxy = new SkillAnimationProxy(this);

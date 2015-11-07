@@ -126,8 +126,6 @@ public class GameData {
                         } else if("colFramCount".equals(nodeName)){
                             int colFramCount = Integer.parseInt(parser.nextText());
                             srcInfo.setColFramCont(colFramCount);
-                        } else if ("offsetX".equals(nodeName)) {
-                            skillPropetry.setOffsetX(Integer.parseInt(parser.nextText()));
                         } else if ("frame".equals(nodeName)) {
                             frame = new Frame();
                             skillPropetry.getFrames().add(frame);

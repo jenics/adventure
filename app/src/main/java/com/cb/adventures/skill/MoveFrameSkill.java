@@ -13,7 +13,7 @@ import com.cb.adventures.constants.GameConstants;
  */
 public class MoveFrameSkill extends Skill{
     //技能设置的每次位移距离，也可以直接设置技能需要释放的距离，然后在nextFrame中计算单步位移距离
-    private int mSkillMoveStep = 20;
+    private int mSkillMoveStep = 30;
     private int mMoveCount = 0;
     @Override
     public boolean nextFrame() {
@@ -47,9 +47,8 @@ public class MoveFrameSkill extends Skill{
     
     @Override
     public void draw(Canvas canvas) {
-        
-        float x = getPt().x - width/2;
-        float y = getPt().y - height/2;
+        float x = getPt().x - disWidth/2;
+        float y = getPt().y - disHeight/2;
         int rowIndex = getSkillPropetry().getFrames().get(mFrameIndex).getRow();
         int colIndex = getSkillPropetry().getFrames().get(mFrameIndex).getCol();
         ///画攻击效果
@@ -64,8 +63,8 @@ public class MoveFrameSkill extends Skill{
                             rowIndex * height + height),
                     new RectF(x,
                             y,
-                            x + width,
-                            y + height), null);
+                            x + disWidth,
+                            y + disHeight), null);
         }else if(mDirection == GameConstants.DIRECT_RIGHT) {
             Matrix matrix = new Matrix();
             matrix.postScale(-1, 1); //镜像垂直翻转
@@ -83,8 +82,8 @@ public class MoveFrameSkill extends Skill{
                             0, 0, width, height),
                     new RectF(x,
                             y,
-                            x + width,
-                            y + height), null);
+                            x + disWidth,
+                            y + disHeight), null);
 
             bmpTmp2.recycle();
         }

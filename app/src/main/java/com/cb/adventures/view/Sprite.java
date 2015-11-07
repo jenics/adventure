@@ -59,6 +59,9 @@ public class Sprite extends BaseView{
         setMonsterPropetry(monsterPropetry);
         mMoveStep = monsterPropetry.getSpeed();
         mIsStop = false;
+
+        disWidth = (int) (mPerWidth* GameConstants.zoomRatio);
+        disHeight = (int) (mPerHeight*GameConstants.zoomRatio);
     }
 
     public void setmSpriteListener(OnSpriteListener mSpriteListener) {
@@ -129,6 +132,7 @@ public class Sprite extends BaseView{
                 if (mFrameIndex >= mMonsterPropetry.getLeftFrames().size()) {
                     mFrameIndex = 0;
                 }
+                lastTime = nowTime;
             }
         }
         return true;
@@ -187,12 +191,12 @@ public class Sprite extends BaseView{
         }
     }
 
+    protected int disWidth;
+    protected int disHeight;
     public void draw(Canvas canvas) {
         nextFrame();
-
-
-        float x = getPt().x - mPerWidth/2;
-        float y = getPt().y - mPerHeight/2;
+        float x = getPt().x - disWidth/2;
+        float y = getPt().y - disHeight/2;
 
         if (GameConstants.getDirection(mDirection) == GameConstants.DIRECT_LEFT) {
             canvas.drawBitmap(mBitmap,
@@ -203,8 +207,8 @@ public class Sprite extends BaseView{
                             mMonsterPropetry.getLeftFrames().get(mFrameIndex).getRow() * mPerHeight + mPerHeight),
                     new RectF(x,
                             y,
-                            x + mPerWidth,
-                            y + mPerHeight), null);
+                            x + disWidth,
+                            y + disHeight), null);
         }else {
             canvas.drawBitmap(mBitmap,
                     new Rect(   ///src rect
@@ -214,8 +218,8 @@ public class Sprite extends BaseView{
                             mMonsterPropetry.getRightFrames().get(mFrameIndex).getRow() * mPerHeight + mPerHeight),
                     new RectF(x,
                             y,
-                            x + mPerWidth,
-                            y + mPerHeight), null);
+                            x + disWidth,
+                            y + disHeight), null);
         }
     }
 }

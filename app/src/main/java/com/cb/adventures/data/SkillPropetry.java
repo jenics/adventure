@@ -63,11 +63,6 @@ public class SkillPropetry {
     private long timeDuration;
 
     /**
-     * 技能起始偏移
-     */
-    private int offsetX;
-
-    /**
      * 击中效果技能id
      */
     private int hitEffectId;
@@ -166,14 +161,6 @@ public class SkillPropetry {
 
     public void setHitEffectId(int hitEffectId) {
         this.hitEffectId = hitEffectId;
-    }
-
-    public int getOffsetX() {
-        return offsetX;
-    }
-
-    public void setOffsetX(int offsetX) {
-        this.offsetX = offsetX;
     }
 
     public long getTimeDuration() {

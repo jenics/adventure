@@ -6,9 +6,7 @@ import android.graphics.Canvas;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.EquipmentPropetry;
 import com.cb.adventures.data.Propetry;
-import com.cb.adventures.data.SkillPropetry;
 import com.cb.adventures.factory.SkillFactory;
-import com.cb.adventures.observer.IPropetryObserver;
 import com.cb.adventures.skill.Skill;
 import com.cb.adventures.state.BaseState;
 import com.cb.adventures.state.IStateMgr;
@@ -19,7 +17,6 @@ import com.cb.adventures.state.playerstate.StopState;
 import com.cb.adventures.utils.CLog;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 
 /**
  * Created by jenics on 2015/10/21.
@@ -93,6 +90,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
             if (skillTmp != null) {
                 skillTmp.stopSkill();///该技能已作用,停止旧的
             }
+            skill.setAttachView(this);
         }
 
         /**
@@ -102,13 +100,13 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
 
         if (GameConstants.getDirection(curState.getStateId()) == GameConstants.DIRECT_LEFT) {
             changeState(GameConstants.STATE_ATTACK_LEFT);
-            skill.setPt(getPt().x - skill.getSkillPropetry().getOffsetX(), getPt().y);
             skill.setDirection(GameConstants.DIRECT_LEFT);
+            skill.setPt(getPt().x, getPt().y);
             skill.startSkill();
         } else if (GameConstants.getDirection(curState.getStateId()) == GameConstants.DIRECT_RIGHT) {
             changeState(GameConstants.STATE_ATTACK_RIGHT);
-            skill.setPt(getPt().x + skill.getSkillPropetry().getOffsetX(), getPt().y);
             skill.setDirection(GameConstants.DIRECT_RIGHT);
+            skill.setPt(getPt().x, getPt().y);
             skill.startSkill();
         }
     }
@@ -173,7 +171,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
         this.attackFrameCount = attackCount;
 
         pt.x = GameConstants.sGameWidth / 2;
-        pt.y = GameConstants.sGameHeight * 0.7f;
+        pt.y = GameConstants.sGameHeight * GameConstants.sYpointRatio;
 
         stop();
     }

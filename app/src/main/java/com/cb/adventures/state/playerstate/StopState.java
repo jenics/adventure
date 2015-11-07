@@ -36,8 +36,10 @@ public class StopState extends PlayerBaseState {
     @Override
     public void draw(Canvas canvas) {
         //super.draw(canvas);
-        float x = player.getPt().x - width/2;
-        float y = player.getPt().y - height/2;
+        int disWidth = (int) (width* GameConstants.zoomRatio);
+        int disHeight = (int) (height*GameConstants.zoomRatio);
+        float x = player.getPt().x - disWidth/2;
+        float y = player.getPt().y - disHeight/2;
 
         if (stateId == GameConstants.STATE_STOP_LEFT) {
             canvas.drawBitmap(bitmap,
@@ -48,8 +50,8 @@ public class StopState extends PlayerBaseState {
                             leftRowIndex * height + height),
                     new RectF(x,
                             y,
-                            x + width,
-                            y + width), null);
+                            x + disWidth,
+                            y + disHeight), null);
         } else {
             canvas.drawBitmap(bitmap,
                     new Rect(   ///src rect
@@ -59,8 +61,8 @@ public class StopState extends PlayerBaseState {
                             rightRowIndex * height + height),
                     new RectF(x,
                             y,
-                            x + width,
-                            y + height), null);
+                            x + disWidth,
+                            y + disHeight), null);
         }
     }
 

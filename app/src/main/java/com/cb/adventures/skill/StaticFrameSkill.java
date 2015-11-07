@@ -37,8 +37,8 @@ public class StaticFrameSkill extends Skill{
 
     @Override
     public void draw(Canvas canvas) {
-        float x = getPt().x - width/2;
-        float y = getPt().y - height/2;
+        float x = getPt().x - disWidth/2;
+        float y = getPt().y - disHeight/2;
 
         /**
          * index的有效性确认
@@ -58,8 +58,8 @@ public class StaticFrameSkill extends Skill{
                             rowIndex * height + height),
                     new RectF(x,
                             y,
-                            x + width,
-                            y + height), null);
+                            x + disWidth,
+                            y + disHeight), null);
         }else if(mDirection == GameConstants.DIRECT_RIGHT) {
             Matrix matrix = new Matrix();
             matrix.postScale(-1, 1); //镜像垂直翻转
@@ -79,8 +79,8 @@ public class StaticFrameSkill extends Skill{
                             0,0,width,height),
                     new RectF(x,
                             y,
-                            x + width,
-                            y + height), null);
+                            x + disWidth,
+                            y + disHeight), null);
 
             bmpTmp2.recycle();
             bmpTmp2 = null;

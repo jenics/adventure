@@ -16,8 +16,6 @@
 			<rowFramCount>7</rowFramCount>
 			<colFramCount>6</colFramCount>
 		</srcInfo>
-		
-		<offsetX>50</offsetX>
 		<frames>
 			<frame>
 				<row>1</row>
@@ -88,8 +86,6 @@
 			<rowFramCount>6</rowFramCount>
 			<colFramCount>6</colFramCount>
 		</srcInfo>
-		
-		<offsetX>100</offsetX>
 		<frames>
 			<frame>
 				<row>2</row>
@@ -149,8 +145,6 @@
 			<rowFramCount>6</rowFramCount>
 			<colFramCount>6</colFramCount>
 		</srcInfo>
-		
-		<offsetX>100</offsetX>
 		<frames>
 			<frame>
 				<row>3</row>
@@ -192,8 +186,6 @@
 			<rowFramCount>6</rowFramCount>
 			<colFramCount>6</colFramCount>
 		</srcInfo>
-		
-		<offsetX>100</offsetX>
 		<frames>
 			<frame>
 				<row>4</row>
@@ -248,8 +240,6 @@
 			<rowFramCount>7</rowFramCount>
 			<colFramCount>6</colFramCount>
 		</srcInfo>
-		
-		<offsetX>100</offsetX>
 		<frames>
 			<frame>
 				<row>3</row>
@@ -368,7 +358,6 @@
 			<rowFramCount>7</rowFramCount>
 			<colFramCount>6</colFramCount>
 		</srcInfo>
-		<offsetX>10</offsetX>
 		<frames>
 			<frame>
 				<row>1</row>

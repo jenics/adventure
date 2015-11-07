@@ -6,6 +6,12 @@ package com.cb.adventures.constants;
 public class GameConstants {
 
     /**
+     * 由于所有的素材都是以任务105*105为比例缩放的
+     * 所以要计算
+     */
+    public static float zoomRatio;
+
+    /**
      * 状态，每个状态都具有方向信息
      */
     public static final int DIRECT_NONE = -1;
@@ -49,6 +55,10 @@ public class GameConstants {
     public static int sRightBoundary;
     public static int sGameWidth;
     public static int sGameHeight;
+    /**
+     * 玩家和怪物在屏幕的位置比例
+     */
+    public final static float sYpointRatio = 0.6f;
 
     /**
      * 资源名字

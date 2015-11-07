@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
+import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.view.BaseView;
 
 
@@ -31,8 +32,9 @@ public class HitEffectSkill extends Skill {
     @Override
     public void draw(Canvas canvas) {
         BaseView baseView = mAttachView == null ? this : mAttachView;
-        float x = baseView.getPt().x - width / 2;
-        float y = baseView.getPt().y - height / 2;
+
+        float x = baseView.getPt().x - disWidth / 2;
+        float y = baseView.getPt().y - disHeight / 2;
 
         /**
          * index的有效性确认
@@ -52,8 +54,8 @@ public class HitEffectSkill extends Skill {
                         rowIndex * height + height),
                 new RectF(x,
                         y,
-                        x + width,
-                        y + height), null);
+                        x + disWidth,
+                        y + disHeight), null);
 
     }
 }

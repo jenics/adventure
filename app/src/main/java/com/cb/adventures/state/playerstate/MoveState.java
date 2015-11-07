@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.Log;
 
+import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.utils.CLog;
 import com.cb.adventures.view.Player;
 import com.cb.adventures.view.Sprite;
@@ -42,9 +43,11 @@ public class MoveState extends PlayerBaseState {
 
     @Override
     public void draw(Canvas canvas) {
-        ///假设人物在中心点，按60*70截取
-        float x = player.getPt().x - width/2;
-        float y = player.getPt().y - height/2;
+        int disWidth = (int) (width* GameConstants.zoomRatio);
+        int disHeight = (int) (height*GameConstants.zoomRatio);
+        float x = player.getPt().x - disWidth/2;
+        float y = player.getPt().y - disHeight/2;
+
         canvas.drawBitmap(bitmap,
                 new Rect(   ///src rect
                         width * frameIndex,
@@ -53,8 +56,8 @@ public class MoveState extends PlayerBaseState {
                         rowIndex * height + height),
                 new RectF(x,
                         y,
-                        x + width,
-                        y + height), null);
+                        x + disWidth,
+                        y + disHeight), null);
     }
 
     @Override

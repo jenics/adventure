@@ -83,6 +83,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             GameConstants.sRightBoundary = getWidth();
             GameConstants.sGameWidth = getWidth();
             GameConstants.sGameHeight = getHeight();
+            GameConstants.zoomRatio = getWidth()*0.15f/105.0f;
 
             GameData.getInstance().synParseSkills();
             GameData.getInstance().synParseMonsters();
@@ -100,6 +101,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                 player.getmPropetry().setBloodVolume(70);
                 player.getmPropetry().setMagicTotalVolume(100);
                 player.getmPropetry().setMagicVolume(25);
+                player.getmPropetry().setSpeed(12);
             }
 
 

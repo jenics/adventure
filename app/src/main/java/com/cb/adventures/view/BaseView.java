@@ -55,6 +55,7 @@ public class BaseView implements IView {
     }
 
     public void setPt(float x,float y) {
+
         this.pt.x = x;
         this.pt.y = y;
     }
