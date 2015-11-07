@@ -69,7 +69,7 @@ public class GameConstants {
     /**
      * 怪物类型
      */
-    public static final int BLACK_PIG_ID = 0;
+    public static final int BLACK_PIG_ID = 1;
 
     /**
      * 物品槽

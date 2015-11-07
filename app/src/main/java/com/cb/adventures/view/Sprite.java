@@ -6,7 +6,8 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 import com.cb.adventures.constants.GameConstants;
-import com.cb.adventures.data.Propetry;
+import com.cb.adventures.data.MonsterPropetry;
+import com.cb.adventures.utils.ImageLoader;
 
 /**
  * Created by jenics on 2015/10/7.
@@ -27,9 +28,7 @@ public class Sprite extends BaseView{
     protected int mPerWidth;    ///每一帧宽
     protected int mPerHeight;   ///每一帧高
     protected int mFrameIndex;  ///当前帧
-    protected int mLeftRowIndex;    ///左方向是第几行
-    protected int mRightRowIndex;   ///右方向是第几行
-    protected int mFrameCount;      ///横向帧总数
+
     protected long lastTime;        ///时间间隔控制帧的切换
     protected boolean mIsRest;      ///是否休息
     protected boolean mIsStop;      ///是否停止，和休息有区别
@@ -39,34 +38,26 @@ public class Sprite extends BaseView{
     protected long workBeginTime;       ///干活开始时间
     protected long mRestTime;           ///休息时间
     protected long mWorkTime;           ///工作时间
+    protected MonsterPropetry mMonsterPropetry;
 
-    public Sprite(Bitmap bitmap,int leftRowIndex,int rightRowIndex,
-                  int frameCount,int rowCount,int moveStep ,int frameInterval) {
-        Sprite.sIdNum++;
-        mId = sIdNum;
-        mBitmap = bitmap;
-        mFrameInterval = frameInterval;            ///100ms换一帧
-        mPerWidth = bitmap.getWidth()/9;
-        mPerHeight = bitmap.getHeight()/rowCount;
-        mLeftRowIndex = leftRowIndex;
-        mRightRowIndex = rightRowIndex;
-        mFrameCount = frameCount;
-        mMoveStep = moveStep;
-        mIsStop = false;
+    public MonsterPropetry getMonsterPropetry() {
+        return mMonsterPropetry;
     }
 
-    public Sprite(Bitmap bitmap,int leftRowIndex,int rightRowIndex,
-                  int frameCount,int rowCount,int moveStep) {
+    public void setMonsterPropetry(MonsterPropetry mMonsterPropetry) {
+        this.mMonsterPropetry = mMonsterPropetry;
+    }
+
+
+    public Sprite(MonsterPropetry monsterPropetry) {
         Sprite.sIdNum++;
         mId = sIdNum;
-        mBitmap = bitmap;
+        mBitmap = ImageLoader.getmInstance().loadBitmap(monsterPropetry.getSrcInfo().getSrcName());
         mFrameInterval = 100;            ///100ms换一帧
-        mPerWidth = bitmap.getWidth()/9;
-        mPerHeight = bitmap.getHeight()/rowCount;
-        mLeftRowIndex = leftRowIndex;
-        mRightRowIndex = rightRowIndex;
-        mFrameCount = frameCount;
-        mMoveStep = moveStep;
+        mPerWidth = mBitmap.getWidth()/monsterPropetry.getSrcInfo().getColFramCont();
+        mPerHeight = mBitmap.getHeight()/monsterPropetry.getSrcInfo().getRowFramCount();
+        setMonsterPropetry(monsterPropetry);
+        mMoveStep = monsterPropetry.getSpeed();
         mIsStop = false;
     }
 
@@ -102,7 +93,12 @@ public class Sprite extends BaseView{
     public void rest(long time) {
         mIsRest = true;
         mIsStop = false;
-        mDirection = GameConstants.DIRECT_NONE;
+        if(GameConstants.getDirection(mDirection) == GameConstants.DIRECT_LEFT) {
+            mDirection = GameConstants.STATE_STOP_LEFT;
+        } else {
+            mDirection = GameConstants.STATE_STOP_RIGHT;
+        }
+
         mFrameIndex = 0;
         restBeginTime = System.currentTimeMillis();
         mRestTime = time;
@@ -130,7 +126,7 @@ public class Sprite extends BaseView{
             long nowTime = System.currentTimeMillis();
             if (nowTime - lastTime > mFrameInterval) {
                 mFrameIndex++;
-                if (mFrameIndex >= mFrameCount) {
+                if (mFrameIndex >= mMonsterPropetry.getLeftFrames().size()) {
                     mFrameIndex = 0;
                 }
             }
@@ -194,20 +190,32 @@ public class Sprite extends BaseView{
     public void draw(Canvas canvas) {
         nextFrame();
 
-        int rowIndex = mDirection == GameConstants.STATE_MOVE_LEFT ? mLeftRowIndex : mRightRowIndex;
 
         float x = getPt().x - mPerWidth/2;
         float y = getPt().y - mPerHeight/2;
 
-        canvas.drawBitmap(mBitmap,
-                new Rect(   ///src rect
-                        mPerWidth * mFrameIndex,
-                        rowIndex * mPerHeight,
-                        mPerWidth * mFrameIndex + mPerWidth,
-                        rowIndex * mPerHeight + mPerHeight),
-                new RectF(x,
-                        y,
-                        x + mPerWidth,
-                        y + mPerHeight), null);
+        if (GameConstants.getDirection(mDirection) == GameConstants.DIRECT_LEFT) {
+            canvas.drawBitmap(mBitmap,
+                    new Rect(   ///src rect
+                            mPerWidth * mFrameIndex,
+                            mMonsterPropetry.getLeftFrames().get(mFrameIndex).getRow() * mPerHeight,
+                            mPerWidth * mFrameIndex + mPerWidth,
+                            mMonsterPropetry.getLeftFrames().get(mFrameIndex).getRow() * mPerHeight + mPerHeight),
+                    new RectF(x,
+                            y,
+                            x + mPerWidth,
+                            y + mPerHeight), null);
+        }else {
+            canvas.drawBitmap(mBitmap,
+                    new Rect(   ///src rect
+                            mPerWidth * mFrameIndex,
+                            mMonsterPropetry.getRightFrames().get(mFrameIndex).getRow() * mPerHeight,
+                            mPerWidth * mFrameIndex + mPerWidth,
+                            mMonsterPropetry.getRightFrames().get(mFrameIndex).getRow() * mPerHeight + mPerHeight),
+                    new RectF(x,
+                            y,
+                            x + mPerWidth,
+                            y + mPerHeight), null);
+        }
     }
 }

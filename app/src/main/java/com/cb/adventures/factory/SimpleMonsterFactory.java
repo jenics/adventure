@@ -1,7 +1,7 @@
 package com.cb.adventures.factory;
 
-import com.cb.adventures.constants.GameConstants;
-import com.cb.adventures.utils.ImageLoader;
+import com.cb.adventures.data.GameData;
+import com.cb.adventures.data.MonsterPropetry;
 import com.cb.adventures.view.Sprite;
 
 /**
@@ -15,9 +15,8 @@ public class SimpleMonsterFactory implements IFactory {
     @Override
     public Sprite create(int id) {
         Sprite sprite = null;
-        if(id == GameConstants.BLACK_PIG_ID) {
-            sprite = new Sprite(ImageLoader.getmInstance().loadBitmap(GameConstants.monsterNames[id]),1,2,4,4,5);
-        }
+        MonsterPropetry monsterPropetry = GameData.getInstance().getMonsterPropetry(id);
+        sprite = new Sprite(monsterPropetry);
         return sprite;
     }
 }

@@ -13,6 +13,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 /**
  * Created by jenics on 2015/10/25.
@@ -21,10 +22,18 @@ public class GameData {
     private static GameData mInstance;
     private XmlPullParser parser;
     private HashMap<Integer, SkillPropetry> mSkillMap;
+    private HashMap<Integer,MonsterPropetry> mMonsterMap;
+    private HashMap<Integer,MapPropetry> mMapInfo;
 
     private GameData() {
         if (mSkillMap == null) {
             mSkillMap = new HashMap<>();
+        }
+        if(mMonsterMap == null) {
+            mMonsterMap = new HashMap<>();
+        }
+        if(mMapInfo == null) {
+            mMapInfo = new HashMap<>();
         }
     }
 
@@ -40,8 +49,26 @@ public class GameData {
      *
      * @param id 属性id
      */
-    public SkillPropetry findSkill(int id) {
+    public SkillPropetry getSkillPropetry(int id) {
         return mSkillMap.get(id);
+    }
+
+    /**
+     * 获取skill属性
+     *
+     * @param id 属性id
+     */
+    public MonsterPropetry getMonsterPropetry(int id) {
+        return mMonsterMap.get(id);
+    }
+
+    /**
+     * 获取地图属性
+     *
+     * @param id 属性id
+     */
+    public MapPropetry getMapPropetry(int id) {
+        return mMapInfo.get(id);
     }
 
     public void synParseSkills() {
@@ -90,6 +117,7 @@ public class GameData {
                             skillPropetry.setHitEffectId(Integer.parseInt(parser.nextText()));
                         } else if("srcInfo".equals(nodeName)) {
                             srcInfo = new SrcInfo();
+                            skillPropetry.setSrcInfo(srcInfo);
                         } else if ("srcName".equals(nodeName)) {
                             srcInfo.setSrcName(parser.nextText());
                         } else if("rowFramCount".equals(nodeName)) {
@@ -102,6 +130,7 @@ public class GameData {
                             skillPropetry.setOffsetX(Integer.parseInt(parser.nextText()));
                         } else if ("frame".equals(nodeName)) {
                             frame = new Frame();
+                            skillPropetry.getFrames().add(frame);
                         } else if ("row".equals(nodeName)) {
                         frame.setRow(Integer.parseInt(parser.nextText()));
                         } else if ("col".equals(nodeName)) {
@@ -126,12 +155,6 @@ public class GameData {
                                     skillPropetry.getFrames().add(frame);
                                 }
                             }
-                        } else if ("frame".equals(nodeName)) {
-                            skillPropetry.getFrames().add(frame);
-                        } else if("srcInfo".equals(nodeName)) {
-                            skillPropetry.setSrcInfo(srcInfo);
-
-
                         }
                         break;
                     default:
@@ -145,11 +168,152 @@ public class GameData {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        asyParseSkills();
     }
 
     public void asyParseSkills() {
+
+    }
+
+    public void synParseMonsters() {
+        try {
+            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+            parser = Xml.newPullParser();
+            AssetManager am = MyApplication.getContextObj().getAssets();
+            InputStream is = am.open("monster.xml");
+            parser.setInput(is, "UTF-8");
+
+            MonsterPropetry monsterPropetry = null;
+            Frame frame = null;
+            SrcInfo srcInfo = null;
+
+            final int LEFT_FRAME = 0;
+            final int RIGHT_FRAME = 1;
+            final int ATTACK_FRAME = 2;
+            int frameIndicater = LEFT_FRAME;     ///frame指示器
+
+            int eventType = parser.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                String nodeName = parser.getName();
+                switch (eventType) {
+                    case XmlPullParser.START_DOCUMENT:
+                        break;
+                    ///第一个开始节点
+                    case XmlPullParser.START_TAG:
+                        if ("monster".equals(nodeName)) {
+                            monsterPropetry = new MonsterPropetry();
+                        } else if ("monsterId".equals(nodeName)) {
+                            monsterPropetry.setMonsterId(Integer.parseInt(parser.nextText()));
+                        } else if ("monsterName".equals(nodeName)) {
+                            monsterPropetry.setMonsterName(parser.nextText());
+                        } else if("srcInfo".equals(nodeName)) {
+                            srcInfo = new SrcInfo();
+                            monsterPropetry.setSrcInfo(srcInfo);
+                        } else if ("srcName".equals(nodeName)) {
+                            srcInfo.setSrcName(parser.nextText());
+                        } else if("rowFramCount".equals(nodeName)) {
+                            int rowFrameCount = Integer.parseInt(parser.nextText());
+                            srcInfo.setRowFramCount(rowFrameCount);
+                        } else if("colFramCount".equals(nodeName)){
+                            int colFramCount = Integer.parseInt(parser.nextText());
+                            srcInfo.setColFramCont(colFramCount);
+                        } else if ("frame".equals(nodeName)) {
+                            frame = new Frame();
+                        } else if ("row".equals(nodeName)) {
+                            frame.setRow(Integer.parseInt(parser.nextText()));
+                        } else if ("col".equals(nodeName)) {
+                            frame.setCol(Integer.parseInt(parser.nextText()));
+                        } else if ("leftFrames".equals(nodeName)) {
+                            frameIndicater = LEFT_FRAME;
+                            monsterPropetry.setLeftFrames(new LinkedList<Frame>());
+                        } else if ("rightFrames".equals(nodeName)) {
+                            frameIndicater = RIGHT_FRAME;
+                            monsterPropetry.setRightFrames(new LinkedList<Frame>());
+                        } else if ("speed".equals(nodeName)) {
+                            monsterPropetry.setSpeed(Integer.parseInt(parser.nextText()));
+                        }
+                        break;
+                    case XmlPullParser.END_TAG:
+                        if ("monster".equals(nodeName)) {
+                            mMonsterMap.put(monsterPropetry.getMonsterId(), monsterPropetry);
+                        } else if ("frame".equals(nodeName)) {
+                            if (frameIndicater == LEFT_FRAME) {
+                                monsterPropetry.getLeftFrames().add(frame);
+                            } else if(frameIndicater == RIGHT_FRAME) {
+                                monsterPropetry.getRightFrames().add(frame);
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+
+                }
+                eventType = parser.next();
+            }
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void asyParseMonsters() {
+
+    }
+
+    public void synParseMaps() {
+        try {
+            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+            parser = Xml.newPullParser();
+            AssetManager am = MyApplication.getContextObj().getAssets();
+            InputStream is = am.open("map.xml");
+            parser.setInput(is, "UTF-8");
+
+            MapPropetry mapPropetry = null;
+            MapPropetry.MonsterPack monsterPack = null;
+            int eventType = parser.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                String nodeName = parser.getName();
+                switch (eventType) {
+                    case XmlPullParser.START_DOCUMENT:
+                        break;
+                    ///第一个开始节点
+                    case XmlPullParser.START_TAG:
+                        if ("map".equals(nodeName)) {
+                            mapPropetry = new MapPropetry();
+                        } else if ("mapId".equals(nodeName)) {
+                            mapPropetry.setMapId(Integer.parseInt(parser.nextText()));
+                        } else if ("srcName".equals(nodeName)) {
+                            mapPropetry.setSrcName(parser.nextText());
+                        } else if("mapLenRatio".equals(nodeName)) {
+                            mapPropetry.setMapLenRatio(Float.parseFloat(parser.nextText()));
+                        } else if ("monster".equals(nodeName)) {
+                            monsterPack = mapPropetry.new MonsterPack();
+                            mapPropetry.getMonsterPaks().add(monsterPack);
+                        } else if ("monsterId".equals(nodeName)) {
+                            monsterPack.setMonsterId(Integer.parseInt(parser.nextText()));
+                        } else if ("monsterNum".equals(nodeName)) {
+                            monsterPack.setMonsterNum(Integer.parseInt(parser.nextText()));
+                        }
+                        break;
+                    case XmlPullParser.END_TAG:
+                        if ("map".equals(nodeName)) {
+                            mMapInfo.put(mapPropetry.getMapId(),mapPropetry);
+                        }
+                        break;
+                    default:
+                        break;
+
+                }
+                eventType = parser.next();
+            }
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void asyParseMaps() {
 
     }
 

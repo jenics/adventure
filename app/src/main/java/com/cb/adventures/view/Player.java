@@ -24,7 +24,7 @@ import java.util.LinkedList;
 /**
  * Created by jenics on 2015/10/21.
  */
-public class Player extends BaseView implements IStateMgr, AttackState.OnAttackListener ,Skill.OnSkillAnimationListener {
+public class Player extends BaseView implements IStateMgr, AttackState.OnAttackListener, Skill.OnSkillAnimationListener {
     private Propetry mPropetry;
     protected PlayerBaseState curState;
     protected HashMap<Integer, PlayerBaseState> stateHashMap;
@@ -46,7 +46,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
      * Integer 技能（BUFF)ID
      * SkillPropetry buff属性
      */
-    private HashMap<Integer,Skill> bufferMap;
+    private HashMap<Integer, Skill> bufferMap;
 
     private EquipmentPropetry[] mEquipmentPropetrys;
 
@@ -67,6 +67,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
 
     /**
      * 攻击
+     *
      * @param skillId 技能ID
      */
     public void attack(int skillId) {
@@ -76,27 +77,20 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
              */
             return;
         }
-
-
         Skill skill = new SkillFactory().create(skillId);
 
-        /**
-         * 普通攻击不耗蓝，直接过
-         */
-        if(skillId == GameConstants.SKILL_ID_NORMAL) {
-
-        }else if(skill.getSkillPropetry().getFreeMagic() > mPropetry.getMagicVolume()){
+        if (skill.getSkillPropetry().getFreeMagic() > mPropetry.getMagicVolume()) {
             /**
              * 蓝不够
              */
             return;
         }
 
-        if(skill.getSkillPropetry().getSkillType() == GameConstants.SKILL_TYPE_BUFF
+        if (skill.getSkillPropetry().getSkillType() == GameConstants.SKILL_TYPE_BUFF
                 || skill.getSkillPropetry().getSkillType() == GameConstants.SKILL_TYPE_DEBUFF) {
-            ///该技能已作用
+            ///BUFF技能已作用
             Skill skillTmp = bufferMap.get(skillId);
-            if(skillTmp != null) {
+            if (skillTmp != null) {
                 skillTmp.stopSkill();///该技能已作用,停止旧的
             }
         }
@@ -113,7 +107,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
             skill.startSkill();
         } else if (GameConstants.getDirection(curState.getStateId()) == GameConstants.DIRECT_RIGHT) {
             changeState(GameConstants.STATE_ATTACK_RIGHT);
-            skill.setPt(getPt().x+skill.getSkillPropetry().getOffsetX(),getPt().y);
+            skill.setPt(getPt().x + skill.getSkillPropetry().getOffsetX(), getPt().y);
             skill.setDirection(GameConstants.DIRECT_RIGHT);
             skill.startSkill();
         }
@@ -264,6 +258,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
 
     /**
      * 装备物品
+     *
      * @param equipmentId 装备ID
      */
     public void equipment(int equipmentId) {
@@ -272,6 +267,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
 
     /**
      * 卸下物品
+     *
      * @param equipmentId 装备ID
      */
     public void unEquipment(int equipmentId) {
@@ -280,6 +276,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
 
     /**
      * 使用消耗品
+     *
      * @param consumId 消耗品ID
      */
     public void use(int consumId) {
@@ -292,8 +289,8 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     }
 
     @Override
-    public void onSkillEnd(Skill skill,boolean isForce) {
-        if(skill.getSkillPropetry().getSkillType() == GameConstants.SKILL_TYPE_BUFF
+    public void onSkillEnd(Skill skill, boolean isForce) {
+        if (skill.getSkillPropetry().getSkillType() == GameConstants.SKILL_TYPE_BUFF
                 || skill.getSkillPropetry().getSkillType() == GameConstants.SKILL_TYPE_DEBUFF) {
             /**
              * 卸下该属性,属性变化。
@@ -302,7 +299,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
             /**
              * 非强制停止的动画，才需要进行加减属性，否则外部已经处理过了
              */
-            if(isForce) {
+            if (isForce) {
                 ///非强制
                 ///设置属性之类的。
                 ///mPropetry.setDefensivePower(0);

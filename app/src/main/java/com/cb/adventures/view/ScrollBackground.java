@@ -2,10 +2,15 @@ package com.cb.adventures.view;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.media.Image;
 
 import com.cb.adventures.constants.GameConstants;
+import com.cb.adventures.controller.MonsterController;
+import com.cb.adventures.data.MapPropetry;
+import com.cb.adventures.utils.ImageLoader;
 
 /**
  * Created by jenics on 2015/10/7.
@@ -18,12 +23,17 @@ public class ScrollBackground extends BaseView{
     private RectF rt2;
 
     private int screemWidth;
-    private int screemHeight;
-    private long lastTime;
     private int mDirection;
 
-    private static final int STEP_LENGTH = 5;   ///没帧，地图移动的步长
+    private int cursor;         ///地图游标
+    private float mapLenRatio;
+    private int mapWidth;
+    private Player mPlayer;
+    private MapPropetry mapPropetry;
 
+    public MapPropetry getMapPropetry() {
+        return mapPropetry;
+    }
 
     public ScrollBackground(){
         isClickable = false;
@@ -32,11 +42,12 @@ public class ScrollBackground extends BaseView{
         mDirection = GameConstants.STATE_NONE;
     }
 
-    public void init(Bitmap bmp1,Bitmap bmp2,int screemWidth,int screemHeight){
-        this.bmp1 = bmp1;
-        this.bmp2 = bmp2;
+    public void init(MapPropetry propetry,int screemWidth,int screemHeight,Player player){
+        mPlayer = player;
+        mapPropetry = propetry;
+        this.bmp1 = ImageLoader.getmInstance().loadBitmap(mapPropetry.getSrcName());
+        this.bmp2 = ImageLoader.getmInstance().loadBitmap(mapPropetry.getSrcName());
         this.screemWidth = screemWidth;
-        this.screemHeight = screemHeight;
         rt1.left = 0.0f;
         rt1.top = 0.0f;
         rt1.right = screemWidth;
@@ -45,6 +56,8 @@ public class ScrollBackground extends BaseView{
         rt2.top = 0.0f;
         rt2.right = screemWidth+screemWidth;
         rt2.bottom = screemHeight;
+        cursor = screemWidth/2;
+        mapWidth = (int) (screemWidth*1.5f);
     }
 
     @Override
@@ -79,10 +92,36 @@ public class ScrollBackground extends BaseView{
 
     private void scroll() {
         if(mDirection == GameConstants.DIRECT_RIGHT) {
-            rt1.left -= STEP_LENGTH;
-            rt1.right -= STEP_LENGTH;
-            rt2.left -= STEP_LENGTH;
-            rt2.right -= STEP_LENGTH;
+            if(cursor >= mapWidth -screemWidth/2) {
+                PointF pointF = mPlayer.getPt();
+                if (pointF.x <= screemWidth-mPlayer.getmPropetry().getSpeed()) {
+                    pointF.x += mPlayer.getmPropetry().getSpeed();
+                }
+                return;
+            }else {
+                PointF pointF = mPlayer.getPt();
+                if (pointF.x < screemWidth/2) {
+                    pointF.x += mPlayer.getmPropetry().getSpeed();
+                    if(pointF.x > screemWidth/2) {
+                        pointF.x = screemWidth/2;
+                    }
+                    return;
+                }
+            }
+            cursor += mPlayer.getmPropetry().getSpeed();
+            rt1.left -= mPlayer.getmPropetry().getSpeed();
+            rt1.right -= mPlayer.getmPropetry().getSpeed();
+            rt2.left -= mPlayer.getmPropetry().getSpeed();
+            rt2.right -= mPlayer.getmPropetry().getSpeed();
+
+            for(BaseView view :
+                MonsterController.getInstance().getMonters()) {
+                PointF pt = view.getPt();
+                pt.x -= mPlayer.getmPropetry().getSpeed();
+            }
+
+
+
 
             if (rt1.left < -screemWidth) {
                 rt1.left = screemWidth;
@@ -96,10 +135,33 @@ public class ScrollBackground extends BaseView{
                 rt2.right = screemWidth + screemWidth;
             }
         }else if(mDirection == GameConstants.DIRECT_LEFT){
-            rt1.left += STEP_LENGTH;
-            rt1.right += STEP_LENGTH;
-            rt2.left += STEP_LENGTH;
-            rt2.right += STEP_LENGTH;
+            if(cursor <= screemWidth/2) {
+                PointF pointF = mPlayer.getPt();
+                if (pointF.x >= mPlayer.getmPropetry().getSpeed()) {
+                   pointF.x -= mPlayer.getmPropetry().getSpeed();
+                }
+                return;
+            }else {
+                PointF pointF = mPlayer.getPt();
+                if (pointF.x > screemWidth/2) {
+                    pointF.x -= mPlayer.getmPropetry().getSpeed();
+                    if(pointF.x < screemWidth/2) {
+                        pointF.x = screemWidth/2;
+                    }
+                    return;
+                }
+            }
+            cursor -= mPlayer.getmPropetry().getSpeed();
+            rt1.left += mPlayer.getmPropetry().getSpeed();
+            rt1.right += mPlayer.getmPropetry().getSpeed();
+            rt2.left += mPlayer.getmPropetry().getSpeed();
+            rt2.right += mPlayer.getmPropetry().getSpeed();
+
+            for(BaseView view :
+                    MonsterController.getInstance().getMonters()) {
+                PointF pt = view.getPt();
+                pt.x += mPlayer.getmPropetry().getSpeed();
+            }
 
             if (rt1.left > screemWidth) {
                 rt1.left = -screemWidth;

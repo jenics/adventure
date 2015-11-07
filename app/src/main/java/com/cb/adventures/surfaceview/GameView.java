@@ -17,6 +17,7 @@ import com.cb.adventures.animation.AnimationControl;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.controller.MonsterController;
 import com.cb.adventures.data.GameData;
+import com.cb.adventures.data.MapPropetry;
 import com.cb.adventures.data.SkillPropetry;
 import com.cb.adventures.factory.SimpleMonsterFactory;
 import com.cb.adventures.utils.ImageLoader;
@@ -83,10 +84,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             GameConstants.sGameWidth = getWidth();
             GameConstants.sGameHeight = getHeight();
 
-            MonsterController.getInstance().setmMonsterFactory(new SimpleMonsterFactory());
-            MonsterController.getInstance().generateMonster(GameConstants.BLACK_PIG_ID, 5);
-
             GameData.getInstance().synParseSkills();
+            GameData.getInstance().synParseMonsters();
+            GameData.getInstance().synParseMaps();
+
+
 
             if (player == null) {
                 player = new Player();
@@ -106,10 +108,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                 mGameController.init();
                 mGameController.setmOnControllerListener(this);
 
-                mGameController.getFunctionController(0).setSkillPropetry(GameData.getInstance().findSkill(GameConstants.SKILL_ID_BINGHJIAN));
-                mGameController.getFunctionController(1).setSkillPropetry(GameData.getInstance().findSkill(GameConstants.SKILL_ID_BUFF_1));
-                mGameController.getFunctionController(2).setSkillPropetry(GameData.getInstance().findSkill(GameConstants.SKILL_ID_HUOJIAN));
-                mGameController.getFunctionController(3).setSkillPropetry(GameData.getInstance().findSkill(GameConstants.SKILL_ID_RENDAOFEIBIAO));
+                mGameController.getFunctionController(0).setSkillPropetry(GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_BINGHJIAN));
+                mGameController.getFunctionController(1).setSkillPropetry(GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_BUFF_1));
+                mGameController.getFunctionController(2).setSkillPropetry(GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_HUOJIAN));
+                mGameController.getFunctionController(3).setSkillPropetry(GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_RENDAOFEIBIAO));
             }
 
             if (bloodReservoir == null) {
@@ -118,11 +120,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                 bloodReservoir.setPropetry(player.getmPropetry());
             }
 
+            /**
+             * 载入关卡数据
+             */
             if (scrollBackground == null) {
                 scrollBackground = new ScrollBackground();
-                Bitmap bitmap1 = ImageLoader.getmInstance().loadBitmap("back3.jpg");
-                Bitmap bitmap2 = ImageLoader.getmInstance().loadBitmap("back3.jpg");
-                scrollBackground.init(bitmap1, bitmap2, getWidth(), getHeight());
+                scrollBackground.init(GameData.getInstance().getMapPropetry(1), getWidth(), getHeight(),player);
+
+                MonsterController.getInstance().setmMonsterFactory(new SimpleMonsterFactory());
+                MapPropetry mapPropetry = scrollBackground.getMapPropetry();
+                for(MapPropetry.MonsterPack pack : mapPropetry.getMonsterPaks()) {
+                    MonsterController.getInstance().generateMonster(pack.getMonsterId(),pack.getMonsterNum());
+                }
             }
 
 

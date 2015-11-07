@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<map>
+		<mapId>1</mapId>
+		<srcName>back1.jpg</srcName>
+		<mapLenRatio>1.5</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
+		<monster>
+			<monsterId>1</monsterId>
+			<monsterNum>3</monsterNum>
+		</monster>
+		<monster>
+			<monsterId>2</monsterId>
+			<monsterNum>2</monsterNum>
+		</monster>
+	</map>
+</root>

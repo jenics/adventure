@@ -17,6 +17,10 @@ public class MonsterController implements Sprite.OnSpriteListener {
     private LinkedList<Sprite> mMonters;
     private IFactory mMonsterFactory;
 
+    public LinkedList<Sprite> getMonters() {
+        return mMonters;
+    }
+
     public void setmMonsterFactory(IFactory monsterFactory) {
         this.mMonsterFactory = monsterFactory;
     }

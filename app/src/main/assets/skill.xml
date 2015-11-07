@@ -9,7 +9,6 @@
 		<extraBlood>5</extraBlood>
 		<extraMagic>5</extraMagic>
 		<extraDefensive>5</extraDefensive>
-		<freeMagic>5</freeMagic>
 		<name>迅雷普通攻击</name>
 		<hitEffectId>2</hitEffectId>
 		<srcInfo>

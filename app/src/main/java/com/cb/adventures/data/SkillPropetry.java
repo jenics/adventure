@@ -190,6 +190,11 @@ public class SkillPropetry {
         if(frames == null) {
             frames = new LinkedList<>();
         }
+        freeMagic = 0;  ///技能释放魔力值默认为0
+        extraDefensive = 0; ///技能附加防御默认为0;
+        extraAttack = 0;    ///技能附加攻击默认为0;
+        extraBlood = 0;     ///技能附加血量默认为0;
+        extraMagic = 0;     ///技能附加蓝默认为0
     }
 
     public SrcInfo getSrcInfo() {

@@ -15,7 +15,7 @@ import com.cb.adventures.skill.TimeFrameSkill;
 public class SkillFactory implements IFactory {
     @Override
     public Skill create(int id) {
-        SkillPropetry skillPropetry = GameData.getInstance().findSkill(id);
+        SkillPropetry skillPropetry = GameData.getInstance().getSkillPropetry(id);
         Skill skill = null;
         if(skillPropetry != null) {
             if(skillPropetry.getSkillAnimationType() == GameConstants.SKILL_ANIMATION_STATIC_FRAME) {

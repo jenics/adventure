@@ -53,6 +53,11 @@ public class Propetry {
     private int height;
 
     /**
+     * 速度
+     */
+    private int speed;
+
+    /**
      * 封装一套属性改变，用来做观察者模式
      * 放在纯净数据里显得不合适
      */
@@ -76,6 +81,7 @@ public class Propetry {
         this.rank = 0;
         this.width = 0;
         this.height = 0;
+        this.speed = 6;
     }
 
     public int getAttackPower() {
@@ -185,5 +191,13 @@ public class Propetry {
     public void setBloodTotalVolume(int bloodTotalVolume) {
         this.bloodTotalVolume = bloodTotalVolume;
         notifyPropetryChange();
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 }
