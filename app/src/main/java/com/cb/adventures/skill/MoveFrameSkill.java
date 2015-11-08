@@ -47,8 +47,8 @@ public class MoveFrameSkill extends Skill{
     
     @Override
     public void draw(Canvas canvas) {
-        float x = getPt().x - disWidth/2;
-        float y = getPt().y - disHeight/2;
+        float x = getPt().x - width/2;
+        float y = getPt().y - height/2;
         int rowIndex = getSkillPropetry().getFrames().get(mFrameIndex).getRow();
         int colIndex = getSkillPropetry().getFrames().get(mFrameIndex).getCol();
         ///画攻击效果
@@ -57,33 +57,33 @@ public class MoveFrameSkill extends Skill{
             ///画技能
             canvas.drawBitmap(mBitmap,
                     new Rect(   ///src rect
-                            width * colIndex,
-                            rowIndex * height,
-                            width * colIndex + width,
-                            rowIndex * height + height),
+                            mFrameWidth * colIndex,
+                            rowIndex * mFrameHeight,
+                            mFrameWidth * colIndex + mFrameWidth,
+                            rowIndex * mFrameHeight + mFrameHeight),
                     new RectF(x,
                             y,
-                            x + disWidth,
-                            y + disHeight), null);
+                            x + width,
+                            y + height), null);
         }else if(mDirection == GameConstants.DIRECT_RIGHT) {
             Matrix matrix = new Matrix();
             matrix.postScale(-1, 1); //镜像垂直翻转
             Bitmap bmpTmp2 = Bitmap.createBitmap(mBitmap,
-                    width * colIndex,
-                    rowIndex * height,
-                    width,
-                    height,
+                    mFrameWidth * colIndex,
+                    rowIndex * mFrameHeight,
+                    mFrameWidth,
+                    mFrameHeight,
                     matrix,
                     true);
 
             ///画技能
             canvas.drawBitmap(bmpTmp2,
                     new Rect(   ///src rect
-                            0, 0, width, height),
+                            0, 0, mFrameWidth, mFrameHeight),
                     new RectF(x,
                             y,
-                            x + disWidth,
-                            y + disHeight), null);
+                            x + width,
+                            y + height), null);
 
             bmpTmp2.recycle();
         }

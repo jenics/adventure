@@ -91,4 +91,8 @@ public class AnimationControl implements IView
             animation.getView().draw(canvas);
         }
     }
+
+    public LinkedList<Animation> getQueueAnimaion() {
+        return mQueueAnimaion;
+    }
 }

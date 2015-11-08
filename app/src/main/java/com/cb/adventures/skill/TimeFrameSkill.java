@@ -40,8 +40,8 @@ public class TimeFrameSkill extends Skill {
     public void draw(Canvas canvas) {
         BaseView baseView = mAttachView == null ? this : mAttachView;
 
-        float x = baseView.getPt().x - disWidth / 2;
-        float y = baseView.getPt().y - disHeight / 2;
+        float x = baseView.getPt().x - width / 2;
+        float y = baseView.getPt().y - height / 2;
 
         /**
          * index的有效性确认
@@ -55,14 +55,14 @@ public class TimeFrameSkill extends Skill {
         ///画技能
         canvas.drawBitmap(mBitmap,
                 new Rect(   ///src rect
-                        width * colIndex,
-                        rowIndex * height,
-                        width * colIndex + width,
-                        rowIndex * height + height),
+                        mFrameWidth * colIndex,
+                        rowIndex * mFrameHeight,
+                        mFrameWidth * colIndex + mFrameWidth,
+                        rowIndex * mFrameHeight + mFrameHeight),
                 new RectF(x,
                         y,
-                        x + disWidth,
-                        y + disHeight), null);
+                        x + width,
+                        y + height), null);
 
     }
 }

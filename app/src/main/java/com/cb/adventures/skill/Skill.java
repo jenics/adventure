@@ -21,9 +21,41 @@ public class Skill extends BaseView implements Animation.OnAniamtionListener{
     protected long mLastTime;
     protected long mBeginTime;  ///开始时间
 
-    protected int disWidth = (int) (width* GameConstants.zoomRatio);
-    protected int disHeight = (int) (height*GameConstants.zoomRatio);
+    /**
+     * 一帧的宽度，不带表实际宽度
+     */
+    protected int mFrameWidth;
+    /**
+     * 一帧的高度，不代表实际高度
+     */
+    protected int mFrameHeight;
 
+    /**
+     * 技能施放方
+     */
+    protected int cast;
+    /**
+     * 施放者ID
+     * 如果技能释放方是玩家，这个字段代表玩家ID
+     * 如果技能施放方是怪物，这个字段代表怪物ID
+     */
+    protected int castId;
+
+    public int getCast() {
+        return cast;
+    }
+
+    public void setCast(int cast) {
+        this.cast = cast;
+    }
+
+    public int getCastId() {
+        return castId;
+    }
+
+    public void setCastId(int castId) {
+        this.castId = castId;
+    }
 
     protected BaseView mAttachView;     ///挂靠的目标
 
@@ -54,6 +86,12 @@ public class Skill extends BaseView implements Animation.OnAniamtionListener{
      */
     protected int mHurtId;
 
+    /**
+     * 是否已经作用过该伤害
+     */
+    protected boolean isHurted;
+
+
     protected int mDirection;
 
     public int getDirection() {
@@ -69,6 +107,7 @@ public class Skill extends BaseView implements Animation.OnAniamtionListener{
         mHurtId = sHurtId;
         mSkillPropetry = new SkillPropetry();
         mFrameIndex = 0;
+        isHurted = false;
     }
 
     public BaseView getmAttachView() {
@@ -87,11 +126,11 @@ public class Skill extends BaseView implements Animation.OnAniamtionListener{
         this.mSkillPropetry = mSkillPropetry;
         if(mBitmap == null) {
             mBitmap = ImageLoader.getmInstance().loadBitmap(mSkillPropetry.getSrcInfo().getSrcName());
-            width = mBitmap.getWidth() / mSkillPropetry.getSrcInfo().getColFramCont();
-            height = mBitmap.getHeight() / mSkillPropetry.getSrcInfo().getRowFramCount();
+            mFrameWidth = mBitmap.getWidth() / mSkillPropetry.getSrcInfo().getColFramCont();
+            mFrameHeight = mBitmap.getHeight() / mSkillPropetry.getSrcInfo().getRowFramCount();
 
-            disWidth = (int) (width* GameConstants.zoomRatio);
-            disHeight = (int) (height*GameConstants.zoomRatio);
+            width = (int) (mFrameWidth* GameConstants.zoomRatio) ;
+            height = (int) (mFrameHeight*GameConstants.zoomRatio);
         }
 
         mFrameCount = mSkillPropetry.getFrames().size();
@@ -105,9 +144,9 @@ public class Skill extends BaseView implements Animation.OnAniamtionListener{
     @Override
     public void setPt(float x, float y) {
         if (mDirection == GameConstants.DIRECT_LEFT) {
-            super.setPt(x-disWidth/2, y);
+            super.setPt(x-width/2, y);
         }else {
-            super.setPt(x+disWidth/2, y);
+            super.setPt(x+width/2, y);
         }
     }
 
@@ -119,9 +158,9 @@ public class Skill extends BaseView implements Animation.OnAniamtionListener{
     @Override
     public void setPt(int x, int y) {
         if (mDirection == GameConstants.DIRECT_LEFT) {
-            super.setPt(x-disWidth/2, y);
+            super.setPt(x-width/2, y);
         }else {
-            super.setPt(x+disWidth/2, y);
+            super.setPt(x+width/2, y);
         }
     }
 
@@ -161,5 +200,21 @@ public class Skill extends BaseView implements Animation.OnAniamtionListener{
         if(listener != null) {
             listener.onSkillBegin(this);
         }
+    }
+
+    public int getHurtId() {
+        return mHurtId;
+    }
+
+    public void setHurtId(int mHurtId) {
+        this.mHurtId = mHurtId;
+    }
+
+    public boolean isHurted() {
+        return isHurted;
+    }
+
+    public void setIsHurted(boolean isHurted) {
+        this.isHurted = isHurted;
     }
 }

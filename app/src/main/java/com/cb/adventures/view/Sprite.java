@@ -7,13 +7,36 @@ import android.graphics.RectF;
 
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.MonsterPropetry;
+import com.cb.adventures.factory.SkillFactory;
+import com.cb.adventures.skill.Skill;
 import com.cb.adventures.utils.ImageLoader;
 
 /**
  * Created by jenics on 2015/10/7.
  * Sprite类最简单，只管理怪物左右跑。
  */
-public class Sprite extends BaseView{
+public class Sprite extends BaseView implements IHurtable{
+    @Override
+    public void onHurted(Skill skill) {
+        /**
+         * 扣除怪物血量
+         */
+        /*
+        int hurt = mMonsterPropetry.get()-skill.getSkillPropetry().getExtraAttack();
+        if (hurt > 0) {
+            hurt = 1;
+        }
+        mPropetry.setBloodVolume(mPropetry.getBloodVolume() - hurt);
+        */
+        skill.setIsHurted(true);
+
+        Skill skillEffect = new SkillFactory().create(skill.getSkillPropetry().getHitEffectId());
+        skillEffect.setAttachView(this);
+        skillEffect.startSkill();
+
+        rest(1000);
+
+    }
 
     public interface OnSpriteListener {
         void OnRestEnd(int id);
@@ -25,8 +48,10 @@ public class Sprite extends BaseView{
     protected int mDirection;
     private static int sIdNum = 0;
     protected int mId;          ///该怪物唯一标识符，自动生成，自动递增
+
     protected int mPerWidth;    ///每一帧宽
     protected int mPerHeight;   ///每一帧高
+
     protected int mFrameIndex;  ///当前帧
 
     protected long lastTime;        ///时间间隔控制帧的切换
@@ -60,8 +85,8 @@ public class Sprite extends BaseView{
         mMoveStep = monsterPropetry.getSpeed();
         mIsStop = false;
 
-        disWidth = (int) (mPerWidth* GameConstants.zoomRatio);
-        disHeight = (int) (mPerHeight*GameConstants.zoomRatio);
+        width = (int) (mPerWidth* GameConstants.zoomRatio);
+        height = (int) (mPerHeight*GameConstants.zoomRatio);
     }
 
     public void setmSpriteListener(OnSpriteListener mSpriteListener) {
@@ -191,12 +216,10 @@ public class Sprite extends BaseView{
         }
     }
 
-    protected int disWidth;
-    protected int disHeight;
     public void draw(Canvas canvas) {
         nextFrame();
-        float x = getPt().x - disWidth/2;
-        float y = getPt().y - disHeight/2;
+        float x = getPt().x - width/2;
+        float y = getPt().y - height/2;
 
         if (GameConstants.getDirection(mDirection) == GameConstants.DIRECT_LEFT) {
             canvas.drawBitmap(mBitmap,
@@ -207,8 +230,8 @@ public class Sprite extends BaseView{
                             mMonsterPropetry.getLeftFrames().get(mFrameIndex).getRow() * mPerHeight + mPerHeight),
                     new RectF(x,
                             y,
-                            x + disWidth,
-                            y + disHeight), null);
+                            x + width,
+                            y + height), null);
         }else {
             canvas.drawBitmap(mBitmap,
                     new Rect(   ///src rect
@@ -218,8 +241,8 @@ public class Sprite extends BaseView{
                             mMonsterPropetry.getRightFrames().get(mFrameIndex).getRow() * mPerHeight + mPerHeight),
                     new RectF(x,
                             y,
-                            x + disWidth,
-                            y + disHeight), null);
+                            x + width,
+                            y + height), null);
         }
     }
 }

@@ -21,7 +21,7 @@ import java.util.HashMap;
 /**
  * Created by jenics on 2015/10/21.
  */
-public class Player extends BaseView implements IStateMgr, AttackState.OnAttackListener, Skill.OnSkillAnimationListener {
+public class Player extends BaseView implements IStateMgr, AttackState.OnAttackListener, Skill.OnSkillAnimationListener,IHurtable {
     private Propetry mPropetry;
     protected PlayerBaseState curState;
     protected HashMap<Integer, PlayerBaseState> stateHashMap;
@@ -75,7 +75,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
             return;
         }
         Skill skill = new SkillFactory().create(skillId);
-
+        skill.setCast(GameConstants.CAST_PLAYER);
         if (skill.getSkillPropetry().getFreeMagic() > mPropetry.getMagicVolume()) {
             /**
              * 蓝不够
@@ -96,7 +96,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
         /**
          * 扣除魔法值
          */
-        mPropetry.setMagicVolume(mPropetry.getMagicVolume() - skill.getSkillPropetry().getFreeMagic());
+        //mPropetry.setMagicVolume(mPropetry.getMagicVolume() - skill.getSkillPropetry().getFreeMagic());
 
         if (GameConstants.getDirection(curState.getStateId()) == GameConstants.DIRECT_LEFT) {
             changeState(GameConstants.STATE_ATTACK_LEFT);
@@ -307,5 +307,22 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
 
 
         }
+    }
+
+    @Override
+    public void onHurted(Skill skill) {
+
+        /**
+         * 扣除血量
+         */
+        int hurt = mPropetry.getDefensivePower()-skill.getSkillPropetry().getExtraAttack();
+        if (hurt > 0) {
+            hurt = 1;
+        }
+        mPropetry.setBloodVolume(mPropetry.getBloodVolume() - hurt);
+
+        Skill skillEffect = new SkillFactory().create(skill.getSkillPropetry().getHitEffectId());
+        skillEffect.setAttachView(this);
+        skillEffect.startSkill();
     }
 }

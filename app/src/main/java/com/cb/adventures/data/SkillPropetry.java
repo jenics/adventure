@@ -13,6 +13,16 @@ public class SkillPropetry {
     private int skillId;
 
     /**
+     * 技能帧宽度的比例,有些技能帧过大，修正一下，比如0.3
+     */
+    private float actionRange;
+
+    /**
+     * 命中目标时中止技能
+     */
+    private boolean interruptWhileHit;
+
+    /**
      * 技能动画类型
      */
     private int skillAnimationType;
@@ -177,11 +187,21 @@ public class SkillPropetry {
         if(frames == null) {
             frames = new LinkedList<>();
         }
-        freeMagic = 0;  ///技能释放魔力值默认为0
+        freeMagic = 0;      ///技能释放魔力值默认为0
         extraDefensive = 0; ///技能附加防御默认为0;
         extraAttack = 0;    ///技能附加攻击默认为0;
         extraBlood = 0;     ///技能附加血量默认为0;
         extraMagic = 0;     ///技能附加蓝默认为0
+        interruptWhileHit = false;
+        actionRange = 1.0f;
+    }
+
+    public void setActionRange(float actionRange) {
+        this.actionRange = actionRange;
+    }
+
+    public float getActionRange() {
+        return actionRange;
     }
 
     public SrcInfo getSrcInfo() {
@@ -207,4 +227,14 @@ public class SkillPropetry {
     public void setSkillType(int skillType) {
         this.skillType = skillType;
     }
+
+    public boolean isInterruptWhileHit() {
+        return interruptWhileHit;
+    }
+
+    public void setInterruptWhileHit(boolean interruptWhileHit) {
+        this.interruptWhileHit = interruptWhileHit;
+    }
+
+
 }

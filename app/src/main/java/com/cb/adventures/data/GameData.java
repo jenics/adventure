@@ -138,6 +138,11 @@ public class GameData {
                         } else if ("maxMoveDistance".equals(nodeName)) {
                             float maxMoveDistanceRatio = Float.parseFloat(parser.nextText());
                             skillPropetry.setMaxMoveDistance(GameConstants.sGameWidth*maxMoveDistanceRatio);
+                        } else if ("isInterruptWhileHit".equals(nodeName)) {
+                            Boolean bInterruptWhileHit = Boolean.parseBoolean(parser.nextText());
+                            skillPropetry.setInterruptWhileHit(bInterruptWhileHit);
+                        } else if ("actionRange".equals(nodeName)) {
+                            skillPropetry.setActionRange(Float.parseFloat(parser.nextText()));
                         }
 
                         break;

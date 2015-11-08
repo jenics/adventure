@@ -103,6 +103,7 @@ public class GameConstants {
     public static final int SKILL_TYPE_PASSIVE = 1;          ///被动技能
     public static final int SKILL_TYPE_BUFF = 2;             ///BUFF技能
     public static final int SKILL_TYPE_DEBUFF = 2;           ///DEBUFF技能
+    public static final int SKILL_TYPE_ANIMATION = 3;       ///不产生任何作用，仅仅是动画
 
     /**
      * 技能作用目标
@@ -124,6 +125,12 @@ public class GameConstants {
     public static final int SKILL_ID_HIT_EFFECTIVE_RENDAO = 8;  ///忍道飞镖击中效果
     public static final int SKILL_ID_LEVEL_UP = 9;              ///升级效果
     public static final int SKILL_ID_XIAOFEIBIAO = 10;              ///小飞镖
+
+    /**
+     * 技能施放者标识
+     */
+    public static final int CAST_PLAYER = 0;
+    public static final int CAST_MONSTER = 1;
 
     public static boolean isTargetSelf(int target) {
         return ((target & EFFECT_TARGET_SELF) > 0);

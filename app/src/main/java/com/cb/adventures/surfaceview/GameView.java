@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -13,18 +14,24 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.cb.adventures.animation.Animation;
 import com.cb.adventures.animation.AnimationControl;
+import com.cb.adventures.animation.SkillAnimationProxy;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.controller.MonsterController;
 import com.cb.adventures.data.GameData;
 import com.cb.adventures.data.MapPropetry;
 import com.cb.adventures.data.SkillPropetry;
 import com.cb.adventures.factory.SimpleMonsterFactory;
+import com.cb.adventures.factory.SkillFactory;
+import com.cb.adventures.skill.Skill;
+import com.cb.adventures.utils.CLog;
 import com.cb.adventures.utils.ImageLoader;
 import com.cb.adventures.view.BloodReservoir;
 import com.cb.adventures.view.GameController;
 import com.cb.adventures.view.Player;
 import com.cb.adventures.view.ScrollBackground;
+import com.cb.adventures.view.Sprite;
 
 /**
  * 游戏主view
@@ -83,12 +90,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             GameConstants.sRightBoundary = getWidth();
             GameConstants.sGameWidth = getWidth();
             GameConstants.sGameHeight = getHeight();
-            GameConstants.zoomRatio = getWidth()*0.15f/105.0f;
+            GameConstants.zoomRatio = getWidth() * 0.15f / 105.0f;
 
             GameData.getInstance().synParseSkills();
             GameData.getInstance().synParseMonsters();
             GameData.getInstance().synParseMaps();
-
 
 
             if (player == null) {
@@ -127,12 +133,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
              */
             if (scrollBackground == null) {
                 scrollBackground = new ScrollBackground();
-                scrollBackground.init(GameData.getInstance().getMapPropetry(1), getWidth(), getHeight(),player);
+                scrollBackground.init(GameData.getInstance().getMapPropetry(1), getWidth(), getHeight(), player);
 
                 MonsterController.getInstance().setmMonsterFactory(new SimpleMonsterFactory());
                 MapPropetry mapPropetry = scrollBackground.getMapPropetry();
-                for(MapPropetry.MonsterPack pack : mapPropetry.getMonsterPaks()) {
-                    MonsterController.getInstance().generateMonster(pack.getMonsterId(),pack.getMonsterNum());
+                for (MapPropetry.MonsterPack pack : mapPropetry.getMonsterPaks()) {
+                    MonsterController.getInstance().generateMonster(pack.getMonsterId(), pack.getMonsterNum());
                 }
             }
 
@@ -165,6 +171,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                 if (canvas == null)
                     continue;
                 logicAnimate();
+                collisionDetection();
                 drawGame(canvas);
                 /**绘制结束后解锁显示在屏幕上**/
                 mSurfaceHolder.unlockCanvasAndPost(canvas);
@@ -186,7 +193,83 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     private void logicAnimate() {
         MonsterController.getInstance().animate();
         AnimationControl.getInstance().animate();
+
     }
+
+    /**
+     * 碰撞检测
+     */
+    private void collisionDetection() {
+        /**
+         * 碰撞检测，涉及到玩家与技能的碰撞，怪物与玩家释放技能的碰撞。
+         */
+        for (Animation animation : AnimationControl.getInstance().getQueueAnimaion()) {
+            /**
+             * 查询是否是技能
+             */
+            if (animation instanceof SkillAnimationProxy) {
+                Skill skill = (Skill) animation.getView();
+                if (skill.getSkillPropetry().getSkillType() == GameConstants.SKILL_TYPE_ACTIVE_ATTACK) {
+
+                    /**
+                     * 该技能已作用过伤害，不再继续产生伤害
+                     */
+                    if (skill.isHurted()) {
+                        continue;
+                    }
+
+                    if (skill.getCast() == GameConstants.CAST_PLAYER) {
+                        /**
+                         * 遍历怪物，看击中了哪个怪物
+                         * 怪物顺便与玩家做碰撞测试，看是否撞到了玩家
+                         */
+                        for (Sprite sprite : MonsterController.getInstance().getMonters()) {
+                            if (judgeIntersect(
+                                    new RectF(skill.getPt().x - skill.getWidth() / 2,
+                                            skill.getPt().y - skill.getHeight() / 2,
+                                            skill.getPt().x + skill.getWidth() / 2,
+                                            skill.getPt().y + skill.getHeight() / 2),
+                                    new RectF(sprite.getPt().x - sprite.getWidth() / 2,
+                                            sprite.getPt().y - sprite.getHeight() / 2,
+                                            sprite.getPt().x + sprite.getWidth() / 2,
+                                            sprite.getPt().y + sprite.getHeight() / 2))) {
+
+                                sprite.onHurted(skill);
+                                if (skill.getSkillPropetry().isInterruptWhileHit()) {
+                                    skill.stopSkill();
+                                    break;
+                                }
+                            }
+                        }
+                    } else if (skill.getCast() == GameConstants.CAST_MONSTER) {
+                        /**
+                         * 与玩家作碰撞检测
+                         */
+                    } else {
+                        CLog.w("logicAnimate", "no definition cast");
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean judgeIntersect(RectF rect1, RectF rect2) {
+        float x1 = rect1.left;
+        float y1 = rect1.top;
+        float x2 = rect1.right;
+        float y2 = rect1.bottom;
+        float x3 = rect2.left;
+        float y3 = rect2.top;
+        float x4 = rect2.right;
+        float y4 = rect2.bottom;
+        if (Math.abs((x1 + x2) / 2 - (x3 + x4) / 2) >= (Math.abs(x1 - x2) + Math.abs(x3 - x4)) / 2) {
+            return false;
+        } else if (Math.abs((y1 + y2) / 2 - (y3 + y4) / 2) >= (Math.abs(y1 - y2) + Math.abs(y3 - y4)) / 2) {
+            return false;
+        }
+        return true;
+    }
+
 
     private void drawGame(Canvas canvas) {
         scrollBackground.draw(canvas);
@@ -243,10 +326,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     public void onFunction(int index) {
         if (mGameController.getFunctionController(index).getType() == GameConstants.FUNCTION_TYPE_CONSUMABLE) {
             ///使用消耗品
-        }else if(mGameController.getFunctionController(index).getType() == GameConstants.FUNCTION_TYPE_SKILL) {
+        } else if (mGameController.getFunctionController(index).getType() == GameConstants.FUNCTION_TYPE_SKILL) {
             ///使用技能
             SkillPropetry skillPropetry = mGameController.getFunctionController(index).getSkillPropetry();
-            if(skillPropetry != null) {
+            if (skillPropetry != null) {
                 player.attack(skillPropetry.getSkillId());
             }
         }

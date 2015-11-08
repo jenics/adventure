@@ -11,6 +11,7 @@
 		<extraDefensive>5</extraDefensive>
 		<name>迅雷普通攻击</name>
 		<hitEffectId>2</hitEffectId>
+		<actionRange>0.3</actionRange> <!--技能帧宽度的比例,有些技能帧过大，修正一下-->
 		<srcInfo>
 			<srcName>attack.png</srcName>
 			<rowFramCount>7</rowFramCount>
@@ -42,7 +43,7 @@
 	
 	<skill>
 		<skillId>2</skillId>
-		<skillType>0</skillType>
+		<skillType>3</skillType>
 		<skillAnimationType>0</skillAnimationType>
 		<srcInfo>
 			<srcName>attack.png</srcName>
@@ -233,8 +234,10 @@
 		<extraDefensive>5</extraDefensive>
 		<freeMagic>5</freeMagic>
 		<name>忍道飞镖</name>
+		<isInterruptWhileHit>true</isInterruptWhileHit>
 		<hitEffectId>8</hitEffectId>
 		<maxMoveDistance>0.3</maxMoveDistance>
+		<actionRange>0.3</actionRange> <!--技能帧宽度的比例,有些技能帧过大，修正一下-->
 		<srcInfo>
 			<srcName>attack.png</srcName>
 			<rowFramCount>7</rowFramCount>
@@ -301,7 +304,7 @@
 	
 	<skill>
 		<skillId>8</skillId>
-		<skillType>0</skillType>
+		<skillType>3</skillType>
 		<skillAnimationType>0</skillAnimationType>
 		<srcInfo>
 			<srcName>attack.png</srcName>
@@ -330,7 +333,7 @@
 	
 	<skill>
 		<skillId>9</skillId>
-		<skillType>2</skillType>
+		<skillType>3</skillType>
 		<skillAnimationType>1</skillAnimationType>
 		<name>level-up</name>
 		<srcInfo>
@@ -351,8 +354,10 @@
 		<extraDefensive>5</extraDefensive>
 		<freeMagic>5</freeMagic>
 		<name>小飞镖</name>
+		<isInterruptWhileHit>true</isInterruptWhileHit>
 		<hitEffectId>2</hitEffectId>
 		<maxMoveDistance>0.3</maxMoveDistance>
+		<actionRange>0.3</actionRange> <!--技能帧宽度的比例,有些技能帧过大，修正一下-->
 		<srcInfo>
 			<srcName>attack.png</srcName>
 			<rowFramCount>7</rowFramCount>
