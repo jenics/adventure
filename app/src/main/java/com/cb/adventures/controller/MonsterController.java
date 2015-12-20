@@ -59,6 +59,16 @@ public class MonsterController implements Sprite.OnSpriteListener {
         }
     }
 
+    /**
+     * 清空所有怪物
+     */
+    public synchronized void clearMonster() {
+        for(Sprite sprite : mMonters) {
+            sprite.onDestory();
+        }
+        mMonters.clear();
+    }
+
     private Random mRandom;
     /**
      * 取得[1,range]随机数
@@ -105,8 +115,8 @@ public class MonsterController implements Sprite.OnSpriteListener {
     @Override
     public void OnRestEnd(int id) {
         for (Sprite sprite : mMonters) {
-            if (sprite.getId() == id) {
-                sprite.work(GameConstants.STATE_MOVE_LEFT,getRandom(5,10)*1000);  ///跑2-3秒
+            if (sprite.getId() == id && !sprite.isDead()) {
+                sprite.work(sprite.getmDirection(), getRandom(5, 10) * 1000);  ///跑2-3秒
                 return;
             }
         }

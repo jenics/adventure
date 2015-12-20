@@ -9,7 +9,7 @@ import java.util.LinkedList;
 /**
  * Created by jenics on 2015/10/22.
  */
-public class GameController implements IView {
+public class GameController extends BaseView implements IControl {
     private DirectionController mDirectionController;
     private DirectionCenterCircle mDirectionCenterCircle;
     private AttackController mAttackController;
@@ -61,6 +61,7 @@ public class GameController implements IView {
     }
 
     private boolean isDirectionControllerDown;
+    @Override
     public void onMouseDown(int x, int y) {
         int controll = onMouseEvent(x,y);
 
@@ -72,14 +73,14 @@ public class GameController implements IView {
             mOnControllerListener.onFunction(controll-GameConstants.CONTROL_SPECIAL_KEY_0);
         }
     }
-
+    @Override
     public void onMouseMove(int x,int y) {
         int controll = onMouseEvent(x,y);
         if(controll == GameConstants.CONTROL_LEFT || controll == GameConstants.CONTROL_RIGHT) {
             mOnControllerListener.onDirectionChange(controll);
         }
     }
-
+    @Override
     public void onMouseUp(int x,int y) {
         resetCenterCircle();
         if(isDirectionControllerDown) {

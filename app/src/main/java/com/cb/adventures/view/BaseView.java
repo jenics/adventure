@@ -60,6 +60,14 @@ public class BaseView implements IView {
         this.pt.y = y;
     }
 
+    public void setIsClickable(boolean isClickable) {
+        this.isClickable = isClickable;
+    }
+
+    public void setIsVisiable(boolean isVisiable) {
+        this.isVisiable = isVisiable;
+    }
+
     @Override
     public boolean isClickable() {
         return isClickable;

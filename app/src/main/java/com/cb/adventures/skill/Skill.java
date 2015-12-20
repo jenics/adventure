@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import com.cb.adventures.animation.Animation;
-import com.cb.adventures.animation.SkillAnimationProxy;
+import com.cb.adventures.animation.AnimationProxy;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.SkillPropetry;
 import com.cb.adventures.utils.ImageLoader;
@@ -59,7 +59,7 @@ public class Skill extends BaseView implements Animation.OnAniamtionListener{
 
     protected BaseView mAttachView;     ///挂靠的目标
 
-    private SkillAnimationProxy proxy;
+    private AnimationProxy proxy;
 
     private SkillPropetry mSkillPropetry;
 
@@ -134,38 +134,12 @@ public class Skill extends BaseView implements Animation.OnAniamtionListener{
         }
 
         mFrameCount = mSkillPropetry.getFrames().size();
+
     }
 
-    /**
-     * 技能起始坐标应该是技能大小的一半的偏移量
-     * @param x x坐标
-     * @param y y坐标
-     */
-    @Override
-    public void setPt(float x, float y) {
-        if (mDirection == GameConstants.DIRECT_LEFT) {
-            super.setPt(x-width/2, y);
-        }else {
-            super.setPt(x+width/2, y);
-        }
-    }
-
-    /**
-     * 技能起始坐标应该是技能大小的一半的偏移量
-     * @param x x坐标
-     * @param y y坐标
-     */
-    @Override
-    public void setPt(int x, int y) {
-        if (mDirection == GameConstants.DIRECT_LEFT) {
-            super.setPt(x-width/2, y);
-        }else {
-            super.setPt(x+width/2, y);
-        }
-    }
 
     public void startSkill() {
-        proxy = new SkillAnimationProxy(this);
+        proxy = new AnimationProxy(this);
         proxy.setOnAnimationListener(this);
         proxy.startAnimation();
         mBeginTime = mLastTime = System.currentTimeMillis();

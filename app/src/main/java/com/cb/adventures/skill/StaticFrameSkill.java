@@ -7,7 +7,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 import com.cb.adventures.constants.GameConstants;
-import com.cb.adventures.utils.CLog;
+import com.cb.adventures.data.SkillPropetry;
 import com.cb.adventures.view.BaseView;
 
 /**
@@ -15,7 +15,33 @@ import com.cb.adventures.view.BaseView;
  */
 public class StaticFrameSkill extends Skill{
     public StaticFrameSkill() {
+        isNeedStopLastFrame = false;        ///是否需要停止在最后一帧
+        isLoop = false;                     ///是否循环
+    }
 
+    private boolean isNeedStopLastFrame;
+    private boolean isLoop;
+
+    public boolean isNeedStopLastFrame() {
+        return isNeedStopLastFrame;
+    }
+
+    public void setIsNeedLastFrame(boolean isNeedLastFrame) {
+        this.isNeedStopLastFrame = isNeedLastFrame;
+    }
+
+    public void setIsLoop(boolean isLoop) {
+        this.isLoop = isLoop;
+    }
+
+    @Override
+    public void setSkillPropetry(SkillPropetry mSkillPropetry) {
+        super.setSkillPropetry(mSkillPropetry);
+        if (mSkillPropetry.getAnimationPropetry().getLoopTimes() == -1) {
+            setIsLoop(true);
+        } else if(mSkillPropetry.getAnimationPropetry().isStopInLast()) {
+            setIsNeedLastFrame(true);
+        }
     }
 
     @Override
@@ -28,8 +54,20 @@ public class StaticFrameSkill extends Skill{
 
         mFrameIndex++;
         if (mFrameIndex >= mFrameCount) {
-            mFrameIndex = 0;
-            return true;
+
+            if (isLoop) {
+                mFrameIndex = 0;
+                return false;
+            }
+
+            if(isNeedStopLastFrame) {
+                mFrameIndex = mFrameCount-1;
+                return false;
+            } else {
+                mFrameIndex = 0;
+                return true;
+            }
+
         }
 
         return false;
@@ -37,13 +75,16 @@ public class StaticFrameSkill extends Skill{
 
     @Override
     public void draw(Canvas canvas) {
-        float x = getPt().x - width/2;
-        float y = getPt().y - height/2;
+        BaseView baseView = mAttachView == null ? this : mAttachView;
+        float x = baseView.getPt().x - width / 2;
+        float y = baseView.getPt().y - height / 2;
 
         /**
          * index的有效性确认
          */
         mFrameIndex = Math.min(mFrameIndex,mFrameCount-1);
+
+
 
         int rowIndex = getSkillPropetry().getFrames().get(mFrameIndex).getRow();
         int colIndex = getSkillPropetry().getFrames().get(mFrameIndex).getCol();

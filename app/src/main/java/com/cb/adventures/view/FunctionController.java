@@ -16,6 +16,7 @@ import com.cb.adventures.utils.ImageLoader;
 public class FunctionController extends BaseView {
     public static float WIDTH_RATIO = 0.1f;
     private Bitmap bitmap;
+    private Bitmap icon;
     private int type;
     private SkillPropetry skillPropetry;
     private ConsumablePropetry consumablePropetry;
@@ -36,6 +37,7 @@ public class FunctionController extends BaseView {
 
     public void setSkillPropetry(SkillPropetry skillPropetry) {
         this.skillPropetry = skillPropetry;
+        icon = ImageLoader.getmInstance().loadBitmap(skillPropetry.getIcon());
         type = GameConstants.FUNCTION_TYPE_SKILL;
     }
 
@@ -51,6 +53,7 @@ public class FunctionController extends BaseView {
 
     public void init() {
         bitmap = ImageLoader.getmInstance().loadBitmap(GameConstants.GAME_SKILL_NAME);
+
         ///宽度是屏幕宽度的0.1
         width = height = (int) (GameConstants.sGameWidth*WIDTH_RATIO);
         ///
@@ -77,5 +80,38 @@ public class FunctionController extends BaseView {
                         x + width,
                         y + height), null);
 
+        ///画icon
+        float ratio;
+        float disWidth;
+        float disHeight;
+        if(icon.getWidth() > icon.getHeight()) {
+            ///宽
+            ratio = icon.getHeight()*1.0f/icon.getWidth()*1.0f;
+            disHeight = height*ratio;
+            canvas.drawBitmap(icon,
+                    new Rect(   ///src rect
+                            0,
+                            0,
+                            icon.getWidth(),
+                            icon.getHeight()),
+                    new RectF(x,
+                            getPt().y - disHeight/2,
+                            x + width,
+                            getPt().y + disHeight/2), null);
+        } else {
+            ///高
+            ratio = icon.getWidth()*1.0f/icon.getHeight()*1.0f;
+            disWidth = height * ratio;
+            canvas.drawBitmap(icon,
+                    new Rect(   ///src rect
+                            0,
+                            0,
+                            icon.getWidth(),
+                            icon.getHeight()),
+                    new RectF(getPt().x - disWidth/2,
+                            y,
+                            getPt().x + disWidth/2,
+                            y + height), null);
+        }
     }
 }

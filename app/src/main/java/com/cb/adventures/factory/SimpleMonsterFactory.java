@@ -16,7 +16,7 @@ public class SimpleMonsterFactory implements IFactory {
     public Sprite create(int id) {
         Sprite sprite = null;
         MonsterPropetry monsterPropetry = GameData.getInstance().getMonsterPropetry(id);
-        sprite = new Sprite(monsterPropetry);
+        sprite = new Sprite((MonsterPropetry) monsterPropetry.clone());
         return sprite;
     }
 }

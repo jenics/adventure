@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.EquipmentPropetry;
+import com.cb.adventures.data.GameData;
 import com.cb.adventures.data.Propetry;
 import com.cb.adventures.factory.SkillFactory;
 import com.cb.adventures.skill.Skill;
@@ -101,14 +102,21 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
         if (GameConstants.getDirection(curState.getStateId()) == GameConstants.DIRECT_LEFT) {
             changeState(GameConstants.STATE_ATTACK_LEFT);
             skill.setDirection(GameConstants.DIRECT_LEFT);
-            skill.setPt(getPt().x, getPt().y);
+            skill.setPt(getPt().x-skill.getWidth()/2, getPt().y);
             skill.startSkill();
         } else if (GameConstants.getDirection(curState.getStateId()) == GameConstants.DIRECT_RIGHT) {
             changeState(GameConstants.STATE_ATTACK_RIGHT);
             skill.setDirection(GameConstants.DIRECT_RIGHT);
-            skill.setPt(getPt().x, getPt().y);
+            skill.setPt(getPt().x+skill.getWidth()/2, getPt().y);
             skill.startSkill();
         }
+
+        ScrollAnimationView scrollAnimationView = new ScrollAnimationView();
+        scrollAnimationView.setPt(GameConstants.sGameWidth / 2, GameConstants.sGameHeight*0.4f);
+        scrollAnimationView.setAnimationPropetry(GameData.getInstance().getAnimationPropetry(GameConstants.SKILL_ID_AUTO_SCROLL));
+        scrollAnimationView.setTimeDuration(800);
+        scrollAnimationView.setmStrTitle(skill.getSkillPropetry().getName());
+        scrollAnimationView.startAnimation();
     }
 
     /**

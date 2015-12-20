@@ -1,5 +1,7 @@
 package com.cb.adventures.data;
 
+import com.cb.adventures.animation.Animation;
+
 import java.util.LinkedList;
 
 /**
@@ -13,19 +15,18 @@ public class SkillPropetry {
     private int skillId;
 
     /**
-     * 技能帧宽度的比例,有些技能帧过大，修正一下，比如0.3
+     * 动画属性
      */
-    private float actionRange;
+    private AnimationPropetry animationPropetry;
+
+
 
     /**
      * 命中目标时中止技能
      */
     private boolean interruptWhileHit;
 
-    /**
-     * 技能动画类型
-     */
-    private int skillAnimationType;
+
 
     /**
      * 技能类型
@@ -65,24 +66,21 @@ public class SkillPropetry {
 
     private String name;
 
-    private SrcInfo srcInfo;
 
-    /**
-     * 技能持续时间,单位ms
-     */
-    private long timeDuration;
+
 
     /**
      * 击中效果技能id
      */
     private int hitEffectId;
 
-    /**
-     * 最大移动距离，只有MoveFrameSkill关心
-     */
-    private float maxMoveDistance;
 
-    private LinkedList<Frame> frames;
+
+    /**
+     * 技能ICON资源名
+     */
+    private String icon;
+
 
     public int getSkillId() {
         return skillId;
@@ -92,13 +90,10 @@ public class SkillPropetry {
         this.skillId = skillId;
     }
 
-    public int getSkillAnimationType() {
-        return skillAnimationType;
+    public int getAnimationType() {
+        return animationPropetry.getAnimationType();
     }
 
-    public void setSkillAnimationType(int skillAnimationType) {
-        this.skillAnimationType = skillAnimationType;
-    }
 
     public int getExtraAttack() {
         return extraAttack;
@@ -158,11 +153,7 @@ public class SkillPropetry {
 
 
     public LinkedList<Frame> getFrames() {
-        return frames;
-    }
-
-    public void setFrames(LinkedList<Frame> frames) {
-        this.frames = frames;
+        return animationPropetry.getFrames();
     }
 
     public int getHitEffectId() {
@@ -174,50 +165,34 @@ public class SkillPropetry {
     }
 
     public long getTimeDuration() {
-        return timeDuration;
+        return animationPropetry.getTimeDuration();
     }
 
-    public void setTimeDuration(long timeDuration) {
-        this.timeDuration = timeDuration;
-    }
+
 
 
 
     public SkillPropetry() {
-        if(frames == null) {
-            frames = new LinkedList<>();
-        }
         freeMagic = 0;      ///技能释放魔力值默认为0
         extraDefensive = 0; ///技能附加防御默认为0;
         extraAttack = 0;    ///技能附加攻击默认为0;
         extraBlood = 0;     ///技能附加血量默认为0;
         extraMagic = 0;     ///技能附加蓝默认为0
         interruptWhileHit = false;
-        actionRange = 1.0f;
     }
 
-    public void setActionRange(float actionRange) {
-        this.actionRange = actionRange;
-    }
+
 
     public float getActionRange() {
-        return actionRange;
+        return animationPropetry.getActionRange();
     }
 
     public SrcInfo getSrcInfo() {
-        return srcInfo;
-    }
-
-    public void setSrcInfo(SrcInfo srcInfo) {
-        this.srcInfo = srcInfo;
+        return animationPropetry.getSrcInfo();
     }
 
     public float getMaxMoveDistance() {
-        return maxMoveDistance;
-    }
-
-    public void setMaxMoveDistance(float maxMoveDistance) {
-        this.maxMoveDistance = maxMoveDistance;
+        return animationPropetry.getMaxMoveDistance();
     }
 
     public int getSkillType() {
@@ -236,5 +211,19 @@ public class SkillPropetry {
         this.interruptWhileHit = interruptWhileHit;
     }
 
+    public AnimationPropetry getAnimationPropetry() {
+        return animationPropetry;
+    }
 
+    public void setAnimationPropetry(AnimationPropetry animationPropetry) {
+        this.animationPropetry = animationPropetry;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 }

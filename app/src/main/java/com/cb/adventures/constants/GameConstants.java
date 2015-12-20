@@ -47,6 +47,7 @@ public class GameConstants {
      */
     public static final long TIME_INFINITE = -1;    ///无限时间
 
+    public static final long INFINITE = -1;    ///无限
 
     /**
      * 屏幕属性
@@ -61,16 +62,26 @@ public class GameConstants {
     public final static float sYpointRatio = 0.6f;
 
     /**
+     * 地图底部占比
+     */
+    public final static float sBottomRatio = 0.714f;
+
+    /**
      * 资源名字
      */
-    public static final String DIRECTION_CONTROLLER_NAME = "direction_controller.png";
-    public static final String DIRECTION_CENTER_NAME = "direction_center.png";
-    public static final String DIRECTION_ATTACK_NAME = "controller_attack.png";
-    public static final String RED_BLUE_NAME = "redblue.png";
-    public static final String RED_BLUE_BOTTOM = "redbluebottom.png";
-    public static final String PLAYER1_ATTACK_NAME = "attack.png";
-    public static final String SKILL_BINGHUOSHENGJIAN_NAME = "binghuoshengjian.png";
-    public static final String GAME_SKILL_NAME = "skill_back.png";
+    public static final String DIRECTION_CONTROLLER_NAME = "ui/direction_controller.png";
+    public static final String DIRECTION_CENTER_NAME = "ui/direction_center.png";
+    public static final String DIRECTION_ATTACK_NAME = "ui/controller_attack.png";
+    public static final String RED_BLUE_NAME = "ui/redblue.png";
+    public static final String RED_BLUE_BOTTOM = "ui/redbluebottom.png";
+    public static final String GAME_SKILL_NAME = "ui/skill_back.png";
+    public static final String INVENTORY_NAME = "ui/inventory.jpg";
+    public static final String INVENTORY_SELECTED_NAME = "ui/selected.png";
+    public static final String MAP_BOTTOM_NAME = "map/bottom.jpg";
+
+    public static final String PLAYER1_ATTACK_NAME = "player/attack.png";
+    public static final String PLAYER1_NAME = "player/xunlei.png";
+
 
     public static final String[] monsterNames = {
             "blackpig.png"
@@ -89,12 +100,11 @@ public class GameConstants {
     public static final int EQUIPMENT_CLOTHING = 1; ///衣服
 
     /**
-     * 技能动画类型
+     * 动画类型
      */
-    public static final int SKILL_ANIMATION_HIT_EFFECTIVE = 0;    ///技能击中效果
-    public static final int SKILL_ANIMATION_STATIC_FRAME = 1;     ///静止帧技能，播放完一个序列集结束
-    public static final int SKILL_ANIMATION_MOVE_FRAME = 2;       ///移动帧技能，到指定距离结束
-    public static final int SKILL_ANIMATION_TIME_FRAME = 3;       ///时间限制技能，超过限定时间结束
+    public static final int ANIMATION_STATIC_FRAME = 1;               ///静止帧动画，在固定坐标静静播
+    public static final int ANIMATION_MOVE_FRAME = 2;                 ///移动帧动画，到指定距离结束
+    public static final int ANIMATION_STATIC_TIME_FRAME = 3;          ///时间静止帧限制动画，超过限定时间结束
 
     /**
      * 技能分类
@@ -124,7 +134,11 @@ public class GameConstants {
     public static final int SKILL_ID_RENDAOFEIBIAO = 7;         ///忍道飞镖
     public static final int SKILL_ID_HIT_EFFECTIVE_RENDAO = 8;  ///忍道飞镖击中效果
     public static final int SKILL_ID_LEVEL_UP = 9;              ///升级效果
-    public static final int SKILL_ID_XIAOFEIBIAO = 10;              ///小飞镖
+    public static final int SKILL_ID_XIAOFEIBIAO = 10;           ///小飞镖
+    public static final int SKILL_ID_DEAD = 11;                 ///死亡
+    public static final int SKILL_ID_REVIVE = 12;               ///复活
+    public static final int SKILL_ID_TRANSFER_MATRIX = 13;      ///关卡
+    public static final int SKILL_ID_AUTO_SCROLL = 14;          ///自动滚动
 
     /**
      * 技能施放者标识

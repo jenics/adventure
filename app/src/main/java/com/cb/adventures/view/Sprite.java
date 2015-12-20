@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 import com.cb.adventures.constants.GameConstants;
+import com.cb.adventures.data.GameData;
 import com.cb.adventures.data.MonsterPropetry;
 import com.cb.adventures.factory.SkillFactory;
 import com.cb.adventures.skill.Skill;
@@ -21,21 +22,29 @@ public class Sprite extends BaseView implements IHurtable{
         /**
          * 扣除怪物血量
          */
-        /*
-        int hurt = mMonsterPropetry.get()-skill.getSkillPropetry().getExtraAttack();
-        if (hurt > 0) {
+        int hurt = skill.getSkillPropetry().getExtraAttack() - mMonsterPropetry.getDefensivePower();
+        if (hurt < 0) {
             hurt = 1;
         }
-        mPropetry.setBloodVolume(mPropetry.getBloodVolume() - hurt);
-        */
-        skill.setIsHurted(true);
+        int mCurrentBlood = mMonsterPropetry.getBloodVolume();
+        mCurrentBlood = mCurrentBlood-hurt;
+        if(mCurrentBlood <= 0) {
+            mCurrentBlood = 0;
+            mMonsterPropetry.setBloodVolume(0);
+            /**
+             * dead,播放死亡动画，掉落物品
+             */
+            mDeadEffect = new SkillFactory().create(GameConstants.SKILL_ID_DEAD);
+            mDeadEffect.setAttachView(this);
+            mDeadEffect.startSkill();
+        }
+        mMonsterPropetry.setBloodVolume(mCurrentBlood);
 
+        skill.setIsHurted(true);
         Skill skillEffect = new SkillFactory().create(skill.getSkillPropetry().getHitEffectId());
         skillEffect.setAttachView(this);
         skillEffect.startSkill();
-
-        rest(1000);
-
+        rest(300);
     }
 
     public interface OnSpriteListener {
@@ -63,6 +72,7 @@ public class Sprite extends BaseView implements IHurtable{
     protected long workBeginTime;       ///干活开始时间
     protected long mRestTime;           ///休息时间
     protected long mWorkTime;           ///工作时间
+    protected Skill mDeadEffect;        ///死亡效果
     protected MonsterPropetry mMonsterPropetry;
 
     public MonsterPropetry getMonsterPropetry() {
@@ -73,6 +83,12 @@ public class Sprite extends BaseView implements IHurtable{
         this.mMonsterPropetry = mMonsterPropetry;
     }
 
+    public void onDestory() {
+        if (mDeadEffect != null) {
+            mDeadEffect.stopSkill();
+            mDeadEffect = null;
+        }
+    }
 
     public Sprite(MonsterPropetry monsterPropetry) {
         Sprite.sIdNum++;
@@ -107,6 +123,8 @@ public class Sprite extends BaseView implements IHurtable{
         return mId;
     }
 
+    public boolean isDead() {return mMonsterPropetry.getBloodVolume() <= 0;}
+
     public long getRestBeginTime() {
         return restBeginTime;
     }
@@ -130,6 +148,10 @@ public class Sprite extends BaseView implements IHurtable{
         mFrameIndex = 0;
         restBeginTime = System.currentTimeMillis();
         mRestTime = time;
+    }
+
+    public int getmDirection() {
+        return  GameConstants.getDirection(mDirection);
     }
 
     /**
@@ -221,28 +243,44 @@ public class Sprite extends BaseView implements IHurtable{
         float x = getPt().x - width/2;
         float y = getPt().y - height/2;
 
+
+
         if (GameConstants.getDirection(mDirection) == GameConstants.DIRECT_LEFT) {
-            canvas.drawBitmap(mBitmap,
-                    new Rect(   ///src rect
-                            mPerWidth * mFrameIndex,
-                            mMonsterPropetry.getLeftFrames().get(mFrameIndex).getRow() * mPerHeight,
-                            mPerWidth * mFrameIndex + mPerWidth,
-                            mMonsterPropetry.getLeftFrames().get(mFrameIndex).getRow() * mPerHeight + mPerHeight),
-                    new RectF(x,
-                            y,
-                            x + width,
-                            y + height), null);
+            if (isDead()) {
+                /**
+                 * 渐隐
+                 */
+
+            } else {
+                canvas.drawBitmap(mBitmap,
+                        new Rect(   ///src rect
+                                mPerWidth * mFrameIndex,
+                                mMonsterPropetry.getLeftFrames().get(mFrameIndex).getRow() * mPerHeight,
+                                mPerWidth * mFrameIndex + mPerWidth,
+                                mMonsterPropetry.getLeftFrames().get(mFrameIndex).getRow() * mPerHeight + mPerHeight),
+                        new RectF(x,
+                                y,
+                                x + width,
+                                y + height), null);
+            }
         }else {
-            canvas.drawBitmap(mBitmap,
-                    new Rect(   ///src rect
-                            mPerWidth * mFrameIndex,
-                            mMonsterPropetry.getRightFrames().get(mFrameIndex).getRow() * mPerHeight,
-                            mPerWidth * mFrameIndex + mPerWidth,
-                            mMonsterPropetry.getRightFrames().get(mFrameIndex).getRow() * mPerHeight + mPerHeight),
-                    new RectF(x,
-                            y,
-                            x + width,
-                            y + height), null);
+            if (isDead()) {
+                /**
+                 * 渐隐
+                 */
+
+            } else {
+                canvas.drawBitmap(mBitmap,
+                        new Rect(   ///src rect
+                                mPerWidth * mFrameIndex,
+                                mMonsterPropetry.getRightFrames().get(mFrameIndex).getRow() * mPerHeight,
+                                mPerWidth * mFrameIndex + mPerWidth,
+                                mMonsterPropetry.getRightFrames().get(mFrameIndex).getRow() * mPerHeight + mPerHeight),
+                        new RectF(x,
+                                y,
+                                x + width,
+                                y + height), null);
+            }
         }
     }
 }

@@ -5,57 +5,57 @@ import com.cb.adventures.observer.IPropetryObserver;
 import java.util.LinkedList;
 
 /**
- * 属性类
+ * 属性类,所有有生命的，都继承自这个属性，比如怪物，玩家，BOSS
  * Created by jenics on 2015/10/24.
  */
 public class Propetry {
     /**
      * 攻击力
      */
-    private int attackPower;
+    protected int attackPower;
     /**
      * 防御力
      */
-    private int defensivePower;
+    protected int defensivePower;
     /**
      * 血量
      */
-    private int bloodVolume;
+    protected int bloodVolume;
     /**
      * 魔力值
      */
-    private int magicVolume;
+    protected int magicVolume;
     /**
      * 血量总量
      */
-    private int bloodTotalVolume;
+    protected int bloodTotalVolume;
     /**
      * 魔力值总量
      */
-    private int magicTotalVolume;
+    protected int magicTotalVolume;
     /**
      * 攻击距离
      */
-    private int attackLength;
+    protected int attackLength;
     /**
      * 等级
      */
-    private int rank;
+    protected int rank;
 
     /**
      * 宽度
      */
-    private int width;
+    protected int width;
 
     /**
      * 高度
      */
-    private int height;
+    protected int height;
 
     /**
      * 速度
      */
-    private int speed;
+    protected int speed;
 
     /**
      * 封装一套属性改变，用来做观察者模式

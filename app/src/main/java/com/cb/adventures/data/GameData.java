@@ -8,8 +8,6 @@ import com.cb.adventures.constants.GameConstants;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -21,11 +19,15 @@ import java.util.LinkedList;
 public class GameData {
     private static GameData mInstance;
     private XmlPullParser parser;
+    private HashMap<Integer,AnimationPropetry> mAnimationMap;
     private HashMap<Integer, SkillPropetry> mSkillMap;
     private HashMap<Integer,MonsterPropetry> mMonsterMap;
     private HashMap<Integer,MapPropetry> mMapInfo;
 
     private GameData() {
+        if (mAnimationMap == null) {
+            mAnimationMap = new HashMap<>();
+        }
         if (mSkillMap == null) {
             mSkillMap = new HashMap<>();
         }
@@ -54,12 +56,21 @@ public class GameData {
     }
 
     /**
-     * 获取skill属性
+     * 获取monster属性
      *
      * @param id 属性id
      */
     public MonsterPropetry getMonsterPropetry(int id) {
         return mMonsterMap.get(id);
+    }
+
+    /**
+     * 获取Animation属性
+     *
+     * @param id 属性id
+     */
+    public AnimationPropetry getAnimationPropetry(int id) {
+        return mAnimationMap.get(id);
     }
 
     /**
@@ -71,17 +82,102 @@ public class GameData {
         return mMapInfo.get(id);
     }
 
+    public void synParseAnimations() {
+        try {
+            parser = Xml.newPullParser();
+            AssetManager am = MyApplication.getContextObj().getAssets();
+            InputStream is = am.open("animation.xml");
+            parser.setInput(is, "UTF-8");
+
+            AnimationPropetry animationPropetry = new AnimationPropetry();
+            Frame frame = new Frame();
+            SrcInfo srcInfo = new SrcInfo();
+
+            int eventType = parser.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                String nodeName = parser.getName();
+                switch (eventType) {
+                    case XmlPullParser.START_DOCUMENT:
+                        break;
+                    ///第一个开始节点
+                    case XmlPullParser.START_TAG:
+                        if ("animation".equals(nodeName)) {
+                            animationPropetry = new AnimationPropetry();
+                        } else if ("animationId".equals(nodeName)) {
+                            animationPropetry.setAnimationId(Integer.parseInt(parser.nextText()));
+                        } else if ("loopTimes".equals(nodeName)) {
+                            animationPropetry.setLoopTimes(Integer.parseInt(parser.nextText()));
+                        } else if ("isStopInLast".equals(nodeName)) {
+                            animationPropetry.setIsStopInLast(Boolean.parseBoolean(parser.nextText()));
+                        } else if ("name".equals(nodeName)) {
+                            animationPropetry.setName(parser.nextText());
+                        }  else if ("animationType".equals(nodeName)) {
+                            animationPropetry.setAnimationType(Integer.parseInt(parser.nextText()));
+                        } else if("srcInfo".equals(nodeName)) {
+                            srcInfo = new SrcInfo();
+                            animationPropetry.setSrcInfo(srcInfo);
+                        } else if ("srcName".equals(nodeName)) {
+                            srcInfo.setSrcName(parser.nextText());
+                        } else if("rowFramCount".equals(nodeName)) {
+                            int rowFrameCount = Integer.parseInt(parser.nextText());
+                            srcInfo.setRowFramCount(rowFrameCount);
+                        } else if("colFramCount".equals(nodeName)){
+                            int colFramCount = Integer.parseInt(parser.nextText());
+                            srcInfo.setColFramCont(colFramCount);
+                        } else if ("frame".equals(nodeName)) {
+                            frame = new Frame();
+                            animationPropetry.getFrames().add(frame);
+                        } else if ("row".equals(nodeName)) {
+                        frame.setRow(Integer.parseInt(parser.nextText()));
+                        } else if ("col".equals(nodeName)) {
+                        frame.setCol(Integer.parseInt(parser.nextText()));
+                        } else if ("timeDuration".equals(nodeName)) {
+                            animationPropetry.setTimeDuration(Long.parseLong(parser.nextText()));
+                        } else if ("maxMoveDistance".equals(nodeName)) {
+                            float maxMoveDistanceRatio = Float.parseFloat(parser.nextText());
+                            animationPropetry.setMaxMoveDistance(GameConstants.sGameWidth * maxMoveDistanceRatio);
+                        } else if ("actionRange".equals(nodeName)) {
+                            animationPropetry.setActionRange(Float.parseFloat(parser.nextText()));
+                        }
+
+                        break;
+                    case XmlPullParser.END_TAG:
+                        if ("animation".equals(nodeName)) {
+                            mAnimationMap.put(animationPropetry.getAnimationId(), animationPropetry);
+                            if(srcInfo.getRowFramCount() == 1 && animationPropetry.getFrames().isEmpty()) {
+                                ///行数等于1并且没有指定帧
+                                for(int i=0; i<srcInfo.getColFramCont(); ++i) {
+                                    frame = new Frame();
+                                    frame.setRow(0);
+                                    frame.setCol(i);
+                                    animationPropetry.getFrames().add(frame);
+                                }
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+
+                }
+                eventType = parser.next();
+            }
+        } catch (XmlPullParserException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void asyParseAnimations() {
+
+    }
+
     public void synParseSkills() {
         try {
-            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             parser = Xml.newPullParser();
             AssetManager am = MyApplication.getContextObj().getAssets();
             InputStream is = am.open("skill.xml");
             parser.setInput(is, "UTF-8");
 
-            SkillPropetry skillPropetry = null;
-            Frame frame = null;
-            SrcInfo srcInfo = null;
+            SkillPropetry skillPropetry = new SkillPropetry();
 
             int eventType = parser.getEventType();
             while (eventType != XmlPullParser.END_DOCUMENT) {
@@ -97,8 +193,6 @@ public class GameData {
                             skillPropetry.setSkillId(Integer.parseInt(parser.nextText()));
                         } else if ("skillType".equals(nodeName)) {
                             skillPropetry.setSkillType(Integer.parseInt(parser.nextText()));
-                        }  else if ("skillAnimationType".equals(nodeName)) {
-                            skillPropetry.setSkillAnimationType(Integer.parseInt(parser.nextText()));
                         } else if ("extraAttack".equals(nodeName)) {
                             skillPropetry.setExtraAttack(Integer.parseInt(parser.nextText()));
                         } else if ("effectTarget".equals(nodeName)) {
@@ -115,49 +209,20 @@ public class GameData {
                             skillPropetry.setName(parser.nextText());
                         } else if ("hitEffectId".equals(nodeName)) {
                             skillPropetry.setHitEffectId(Integer.parseInt(parser.nextText()));
-                        } else if("srcInfo".equals(nodeName)) {
-                            srcInfo = new SrcInfo();
-                            skillPropetry.setSrcInfo(srcInfo);
-                        } else if ("srcName".equals(nodeName)) {
-                            srcInfo.setSrcName(parser.nextText());
-                        } else if("rowFramCount".equals(nodeName)) {
-                            int rowFrameCount = Integer.parseInt(parser.nextText());
-                            srcInfo.setRowFramCount(rowFrameCount);
-                        } else if("colFramCount".equals(nodeName)){
-                            int colFramCount = Integer.parseInt(parser.nextText());
-                            srcInfo.setColFramCont(colFramCount);
-                        } else if ("frame".equals(nodeName)) {
-                            frame = new Frame();
-                            skillPropetry.getFrames().add(frame);
-                        } else if ("row".equals(nodeName)) {
-                        frame.setRow(Integer.parseInt(parser.nextText()));
-                        } else if ("col".equals(nodeName)) {
-                        frame.setCol(Integer.parseInt(parser.nextText()));
-                        } else if ("timeDuration".equals(nodeName)) {
-                            skillPropetry.setTimeDuration(Long.parseLong(parser.nextText()));
-                        } else if ("maxMoveDistance".equals(nodeName)) {
-                            float maxMoveDistanceRatio = Float.parseFloat(parser.nextText());
-                            skillPropetry.setMaxMoveDistance(GameConstants.sGameWidth*maxMoveDistanceRatio);
+                        }  else if ("icon".equals(nodeName)) {
+                            skillPropetry.setIcon(parser.nextText());
                         } else if ("isInterruptWhileHit".equals(nodeName)) {
                             Boolean bInterruptWhileHit = Boolean.parseBoolean(parser.nextText());
                             skillPropetry.setInterruptWhileHit(bInterruptWhileHit);
-                        } else if ("actionRange".equals(nodeName)) {
-                            skillPropetry.setActionRange(Float.parseFloat(parser.nextText()));
+                        } else if ("animationId".equals(nodeName)) {
+                            int animationId = Integer.parseInt(parser.nextText());
+                            skillPropetry.setAnimationPropetry(mAnimationMap.get(animationId));
                         }
 
                         break;
                     case XmlPullParser.END_TAG:
                         if ("skill".equals(nodeName)) {
                             mSkillMap.put(skillPropetry.getSkillId(), skillPropetry);
-                            if(srcInfo.getRowFramCount() == 1 && skillPropetry.getFrames().isEmpty()) {
-                                ///行数等于1并且没有指定帧
-                                for(int i=0; i<srcInfo.getColFramCont(); ++i) {
-                                    frame = new Frame();
-                                    frame.setRow(0);
-                                    frame.setCol(i);
-                                    skillPropetry.getFrames().add(frame);
-                                }
-                            }
                         }
                         break;
                     default:
@@ -166,9 +231,7 @@ public class GameData {
                 }
                 eventType = parser.next();
             }
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (XmlPullParserException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -179,15 +242,14 @@ public class GameData {
 
     public void synParseMonsters() {
         try {
-            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             parser = Xml.newPullParser();
             AssetManager am = MyApplication.getContextObj().getAssets();
             InputStream is = am.open("monster.xml");
             parser.setInput(is, "UTF-8");
 
-            MonsterPropetry monsterPropetry = null;
-            Frame frame = null;
-            SrcInfo srcInfo = null;
+            MonsterPropetry monsterPropetry = new MonsterPropetry();
+            Frame frame = new Frame();
+            SrcInfo srcInfo = new SrcInfo();
 
             final int LEFT_FRAME = 0;
             final int RIGHT_FRAME = 1;
@@ -233,6 +295,22 @@ public class GameData {
                             monsterPropetry.setRightFrames(new LinkedList<Frame>());
                         } else if ("speed".equals(nodeName)) {
                             monsterPropetry.setSpeed(Integer.parseInt(parser.nextText()));
+                        }else if ("attackPower".equals(nodeName)) {
+                            monsterPropetry.setAttackPower(Integer.parseInt(parser.nextText()));
+                        }else if ("defensivePower".equals(nodeName)) {
+                            monsterPropetry.setDefensivePower(Integer.parseInt(parser.nextText()));
+                        }else if ("bloodTotalVolume".equals(nodeName)) {
+                            int blood = Integer.parseInt(parser.nextText());
+                            monsterPropetry.setBloodTotalVolume(blood);
+                            monsterPropetry.setBloodVolume(blood);
+                        }else if ("magicTotalVolume".equals(nodeName)) {
+                            int magic = Integer.parseInt(parser.nextText());
+                            monsterPropetry.setMagicTotalVolume(magic);
+                            monsterPropetry.setMagicVolume(magic);
+                        }else if ("attackLength".equals(nodeName)) {
+                            monsterPropetry.setAttackLength(Integer.parseInt(parser.nextText()));
+                        }else if ("rank".equals(nodeName)) {
+                            monsterPropetry.setRank(Integer.parseInt(parser.nextText()));
                         }
                         break;
                     case XmlPullParser.END_TAG:
@@ -252,9 +330,7 @@ public class GameData {
                 }
                 eventType = parser.next();
             }
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (XmlPullParserException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -265,14 +341,13 @@ public class GameData {
 
     public void synParseMaps() {
         try {
-            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             parser = Xml.newPullParser();
             AssetManager am = MyApplication.getContextObj().getAssets();
             InputStream is = am.open("map.xml");
             parser.setInput(is, "UTF-8");
 
-            MapPropetry mapPropetry = null;
-            MapPropetry.MonsterPack monsterPack = null;
+            MapPropetry mapPropetry = new MapPropetry();
+            MapPropetry.MonsterPack monsterPack = mapPropetry.new MonsterPack();
             int eventType = parser.getEventType();
             while (eventType != XmlPullParser.END_DOCUMENT) {
                 String nodeName = parser.getName();
@@ -284,7 +359,10 @@ public class GameData {
                         if ("map".equals(nodeName)) {
                             mapPropetry = new MapPropetry();
                         } else if ("mapId".equals(nodeName)) {
-                            mapPropetry.setMapId(Integer.parseInt(parser.nextText()));
+                            int id = Integer.parseInt(parser.nextText());
+                            mapPropetry.setMapId(id);
+                            mapPropetry.setPreGate(id-1);   ///默认值
+                            mapPropetry.setNextGate(id+1);   ///默认值
                         } else if ("srcName".equals(nodeName)) {
                             mapPropetry.setSrcName(parser.nextText());
                         } else if("mapLenRatio".equals(nodeName)) {
@@ -296,6 +374,12 @@ public class GameData {
                             monsterPack.setMonsterId(Integer.parseInt(parser.nextText()));
                         } else if ("monsterNum".equals(nodeName)) {
                             monsterPack.setMonsterNum(Integer.parseInt(parser.nextText()));
+                        } else if ("preGate".equals(nodeName)) {
+                            mapPropetry.setPreGate(Integer.parseInt(parser.nextText()));
+                        } else if ("nextGate".equals(nodeName)) {
+                            mapPropetry.setNextGate(Integer.parseInt(parser.nextText()));
+                        } else if ("name".equals(nodeName)) {
+                            mapPropetry.setName(parser.nextText());
                         }
                         break;
                     case XmlPullParser.END_TAG:
@@ -309,9 +393,7 @@ public class GameData {
                 }
                 eventType = parser.next();
             }
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (XmlPullParserException | IOException e) {
             e.printStackTrace();
         }
     }

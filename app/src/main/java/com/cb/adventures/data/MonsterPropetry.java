@@ -6,11 +6,10 @@ import java.util.LinkedList;
 /**
  * Created by jenics on 2015/11/7.
  */
-public class MonsterPropetry {
+public class MonsterPropetry extends Propetry implements Cloneable{
     private int monsterId;
     private String monsterName;
     private SrcInfo srcInfo;
-    private int speed;
     private LinkedList<Frame> leftFrames;
     private LinkedList<Frame> rightFrames;
     public MonsterPropetry(){
@@ -63,5 +62,15 @@ public class MonsterPropetry {
 
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    public Object clone() {
+        MonsterPropetry o = null;
+        try {
+            o = (MonsterPropetry) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return o;
     }
 }

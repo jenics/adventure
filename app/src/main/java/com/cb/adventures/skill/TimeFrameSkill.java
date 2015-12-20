@@ -23,7 +23,7 @@ public class TimeFrameSkill extends Skill {
             mFrameIndex = 0;
         }
 
-        if (getSkillPropetry().getTimeDuration() == GameConstants.TIME_INFINITE) {
+        if (getSkillPropetry().getTimeDuration() == GameConstants.INFINITE) {
             /**
              * 无限时间
              */
