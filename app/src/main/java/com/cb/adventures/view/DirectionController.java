@@ -26,6 +26,8 @@ public class DirectionController extends BaseView {
         ///宽度是屏幕宽度的0.18倍
         width = height = (int) (GameConstants.sGameWidth*0.18);
 
+        mPaint.setAlpha(170);
+
     }
 
     @Override
@@ -43,7 +45,7 @@ public class DirectionController extends BaseView {
                 new RectF(x,
                         y,
                         x + width,
-                        y + height), null);
+                        y + height), mPaint);
 
     }
 }

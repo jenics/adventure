@@ -6,10 +6,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 
 import com.cb.adventures.animation.AnimationProxy;
+import com.cb.adventures.application.MyApplication;
 import com.cb.adventures.data.AnimationPropetry;
 import com.cb.adventures.utils.ImageLoader;
+
+import java.lang.reflect.Type;
 
 /**
  * Created by jenics on 2015/12/13.
@@ -100,7 +104,6 @@ public class ScrollAnimationView extends BaseView {
             mPaint.setTextSize(50);
             mPaint.setColor(Color.BLUE);
             mPaint.setTextAlign(Paint.Align.CENTER);
-
             mFontMetricsInt = mPaint.getFontMetricsInt();
         }
     }
@@ -130,7 +133,7 @@ public class ScrollAnimationView extends BaseView {
         /**
          * 时间限制动画
          */
-        if (timeDuration > 0) {
+             if (timeDuration > 0) {
             if ((nowTime - mBeginTime) > timeDuration) {
                 return true;
             }

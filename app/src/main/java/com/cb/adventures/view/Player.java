@@ -3,9 +3,11 @@ package com.cb.adventures.view;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import com.cb.adventures.animation.FlashAnimation;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.EquipmentPropetry;
 import com.cb.adventures.data.GameData;
+import com.cb.adventures.data.MonsterPropetry;
 import com.cb.adventures.data.Propetry;
 import com.cb.adventures.factory.SkillFactory;
 import com.cb.adventures.skill.Skill;
@@ -38,6 +40,11 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     private long lastTime;
     private int leftRowIndex = 0;           ///方向左在第几行
     private int rightRowIndex = 1;          ///方向右在第几行
+
+    /**
+     * 最后一次受伤害的时间
+     */
+    private long beInjuredTime = 0;
 
     /**
      * buff容器，同一个buff不允许同时存在
@@ -321,16 +328,42 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     public void onHurted(Skill skill) {
 
         /**
+         * 两秒内无敌
+         */
+        if (beInjuredTime != 0 && (System.currentTimeMillis()-beInjuredTime<2000)) {
+            return;
+        }
+
+        beInjuredTime = System.currentTimeMillis();
+
+        /**
          * 扣除血量
          */
-        int hurt = mPropetry.getDefensivePower()-skill.getSkillPropetry().getExtraAttack();
-        if (hurt > 0) {
+        int hurt = skill.getSkillPropetry().getExtraAttack() - mPropetry.getDefensivePower();
+        if (hurt <= 0) {
+            ///防御力大于等于攻击力，强制扣除1血
             hurt = 1;
         }
-        mPropetry.setBloodVolume(mPropetry.getBloodVolume() - hurt);
 
-        Skill skillEffect = new SkillFactory().create(skill.getSkillPropetry().getHitEffectId());
-        skillEffect.setAttachView(this);
-        skillEffect.startSkill();
+        mPropetry.setBloodVolume(mPropetry.getBloodVolume() - hurt);
+        if (skill.getSkillPropetry().getSkillId() == GameConstants.SKILL_ID_MONSTER_NORMAL) {
+            InjuredValueView injuredValueView = new InjuredValueView(this,-hurt,false);
+            injuredValueView.startAnimation();
+            skill.stopSkill();
+        }
+
+        FlashAnimation flashAnimation = new FlashAnimation(this);
+        flashAnimation.setTimeDuration(2000);
+        flashAnimation.startAnimation();
+
+//            Skill skillEffect = new SkillFactory().create(skill.getSkillPropetry().getHitEffectId());
+//            skillEffect.setAttachView(this);
+//            skillEffect.startSkill();
+
+
+        if (mPropetry.getBloodVolume() <= 0) {
+            ///游戏结束
+
+        }
     }
 }

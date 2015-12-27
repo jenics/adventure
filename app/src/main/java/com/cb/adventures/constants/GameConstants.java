@@ -139,6 +139,7 @@ public class GameConstants {
     public static final int SKILL_ID_REVIVE = 12;               ///复活
     public static final int SKILL_ID_TRANSFER_MATRIX = 13;      ///关卡
     public static final int SKILL_ID_AUTO_SCROLL = 14;          ///自动滚动
+    public static final int SKILL_ID_MONSTER_NORMAL = 15;       ///怪物普通攻击
 
     /**
      * 技能施放者标识

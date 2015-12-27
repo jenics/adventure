@@ -155,4 +155,12 @@
 		
 		<name>传送阵</name>
 	</skill>
+	
+	<skill>
+		<skillId>15</skillId>
+		<animationId>-1</animationId>
+		<skillType>0</skillType>
+		<effectTarget>4</effectTarget>
+		<name>怪物普攻</name>
+	</skill>
 </root>

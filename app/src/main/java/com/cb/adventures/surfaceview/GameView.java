@@ -22,6 +22,7 @@ import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.controller.MonsterController;
 import com.cb.adventures.data.GameData;
 import com.cb.adventures.data.SkillPropetry;
+import com.cb.adventures.factory.SkillFactory;
 import com.cb.adventures.skill.Skill;
 import com.cb.adventures.utils.CLog;
 import com.cb.adventures.utils.ImageLoader;
@@ -265,6 +266,25 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                         }
                     }
                 }
+            }
+        }
+
+        /**
+         * 玩家与怪物的碰撞检测
+         */
+        for (Sprite sprite : MonsterController.getInstance().getMonters()) {
+            if (judgeIntersect(
+                    new RectF(player.getPt().x - player.getWidth() / 2,
+                            player.getPt().y - player.getHeight() / 2,
+                            player.getPt().x + player.getWidth() / 2,
+                            player.getPt().y + player.getHeight() / 2),
+                    new RectF(sprite.getPt().x - sprite.getWidth() / 2,
+                            sprite.getPt().y - sprite.getHeight() / 2,
+                            sprite.getPt().x + sprite.getWidth() / 2,
+                            sprite.getPt().y + sprite.getHeight() / 2)) && !sprite.isDead()) {
+                Skill skill = new SkillFactory().create(GameConstants.SKILL_ID_MONSTER_NORMAL);
+                skill.getSkillPropetry().setExtraAttack(sprite.getMonsterPropetry().getAttackPower());
+                player.onHurted(skill);
             }
         }
     }

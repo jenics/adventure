@@ -5,6 +5,7 @@ import com.cb.adventures.view.BaseView;
 import java.util.LinkedList;
 
 /**
+ * 直接控制baseview的动画
  * Created by jenics on 2015/9/17.
  */
 public class Animation implements IAnimation {
@@ -15,6 +16,8 @@ public class Animation implements IAnimation {
     public void setStop(boolean isStop) {
         this.isStop = isStop;
     }
+
+    protected long mStartTime;
 
     protected boolean isStop = false;
     protected BaseView mView;
@@ -46,6 +49,7 @@ public class Animation implements IAnimation {
                 listener.onAnimationBegin();
         }
         AnimationControl.getInstance().addAnimation(this);
+        mStartTime = System.currentTimeMillis();
     }
 
     @Override

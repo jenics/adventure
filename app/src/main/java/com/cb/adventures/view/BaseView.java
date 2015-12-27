@@ -1,6 +1,7 @@
 package com.cb.adventures.view;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
@@ -35,10 +36,13 @@ public class BaseView implements IView {
     protected boolean isClickable;
     protected boolean isVisiable;
 
+    protected Paint mPaint;
+
     public BaseView() {
         isClickable = true;
         isVisiable = true;
         pt = new PointF();
+        mPaint = new Paint();
     }
 
     public PointF getPt() {
@@ -83,5 +87,13 @@ public class BaseView implements IView {
     }
     public void draw(Canvas canvas) {
 
+    }
+
+    public Paint getmPaint() {
+        return mPaint;
+    }
+
+    public void setmPaint(Paint mPaint) {
+        this.mPaint = mPaint;
     }
 }

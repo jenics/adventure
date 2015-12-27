@@ -26,6 +26,9 @@ public class SkillFactory implements IFactory {
             } else if (skillPropetry.getAnimationType() == GameConstants.ANIMATION_MOVE_FRAME) {
                 skill = new MoveFrameSkill();
                 skill.setSkillPropetry(skillPropetry);
+            } else if (skillPropetry.getAnimationType() == -1) {
+                skill = new Skill();
+                skill.setSkillPropetry(skillPropetry);
             }
         }
         return skill;

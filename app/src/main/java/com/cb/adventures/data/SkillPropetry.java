@@ -91,7 +91,10 @@ public class SkillPropetry {
     }
 
     public int getAnimationType() {
-        return animationPropetry.getAnimationType();
+        if (animationPropetry != null) {
+            return animationPropetry.getAnimationType();
+        }
+        return -1;
     }
 
 

@@ -57,7 +57,7 @@ public class MoveState extends PlayerBaseState {
                 new RectF(x,
                         y,
                         x + disWidth,
-                        y + disHeight), null);
+                        y + disHeight), player.getmPaint());
     }
 
     @Override

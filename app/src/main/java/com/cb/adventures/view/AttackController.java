@@ -24,6 +24,8 @@ public class AttackController extends BaseView {
         ///
         pt.x = GameConstants.sGameWidth - width/2 - 15;
         pt.y = (float) (GameConstants.sGameHeight - height/2 - GameConstants.sGameHeight*0.1);
+
+        mPaint.setAlpha(170);
     }
 
     @Override
@@ -41,7 +43,7 @@ public class AttackController extends BaseView {
                 new RectF(x,
                         y,
                         x + width,
-                        y + height), null);
+                        y + height), mPaint);
 
     }
 }

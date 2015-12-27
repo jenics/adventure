@@ -59,6 +59,8 @@ public class FunctionController extends BaseView {
         ///
         //pt.x = GameConstants.sGameWidth - width/2 - 15;
         //pt.y = (float) (GameConstants.sGameHeight - height/2 - GameConstants.sGameHeight*0.1);
+
+        mPaint.setAlpha(170);
     }
 
 
@@ -78,7 +80,7 @@ public class FunctionController extends BaseView {
                 new RectF(x,
                         y,
                         x + width,
-                        y + height), null);
+                        y + height), mPaint);
 
         ///画icon
         float ratio;

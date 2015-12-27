@@ -25,7 +25,7 @@ public class DirectionCenterCircle extends BaseView {
 
         ///宽度是屏幕宽度的0.18倍
         width = height = (int) (directionControlWidth*0.3);
-
+        mPaint.setAlpha(170);
     }
 
     public void reset() {
@@ -48,7 +48,7 @@ public class DirectionCenterCircle extends BaseView {
                 new RectF(x,
                         y,
                         x + width,
-                        y + height), null);
+                        y + height), mPaint);
 
     }
 }

@@ -2,8 +2,12 @@ package com.cb.adventures.state.playerstate;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
@@ -37,6 +41,7 @@ public class AttackState extends PlayerBaseState {
         this.width = width;
         this.height = height;
         onAttackListener = listener;
+
     }
 
     @Override
@@ -63,7 +68,6 @@ public class AttackState extends PlayerBaseState {
 
         ///画攻击效果
         if(stateId == GameConstants.STATE_ATTACK_LEFT) {
-
             canvas.drawBitmap(bitmap,
                     new Rect(   ///src rect
                             width * frameIndex,
@@ -73,11 +77,12 @@ public class AttackState extends PlayerBaseState {
                     new RectF(x,
                             y,
                             x + disWidth,
-                            y + disHeight), null);
+                            y + disHeight), player.getmPaint());
 
         }else if(stateId == GameConstants.STATE_ATTACK_RIGHT) {
             Matrix matrix = new Matrix();
             matrix.postScale(-1, 1); //镜像垂直翻转
+
             Bitmap bmpTmp = Bitmap.createBitmap(bitmap,
                     width * frameIndex,
                     rowIndex * height,
@@ -95,7 +100,7 @@ public class AttackState extends PlayerBaseState {
                     new RectF(x,
                             y,
                             x + disWidth,
-                            y + disHeight), null);
+                            y + disHeight), player.getmPaint());
             bmpTmp.recycle();
         }
     }

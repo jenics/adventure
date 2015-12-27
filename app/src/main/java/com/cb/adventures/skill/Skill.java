@@ -124,16 +124,16 @@ public class Skill extends BaseView implements Animation.OnAniamtionListener{
 
     public void setSkillPropetry(SkillPropetry mSkillPropetry) {
         this.mSkillPropetry = mSkillPropetry;
-        if(mBitmap == null) {
+        if(mBitmap == null && mSkillPropetry.getAnimationPropetry() != null) {
             mBitmap = ImageLoader.getmInstance().loadBitmap(mSkillPropetry.getSrcInfo().getSrcName());
             mFrameWidth = mBitmap.getWidth() / mSkillPropetry.getSrcInfo().getColFramCont();
             mFrameHeight = mBitmap.getHeight() / mSkillPropetry.getSrcInfo().getRowFramCount();
 
             width = (int) (mFrameWidth* GameConstants.zoomRatio) ;
             height = (int) (mFrameHeight*GameConstants.zoomRatio);
-        }
 
-        mFrameCount = mSkillPropetry.getFrames().size();
+            mFrameCount = mSkillPropetry.getFrames().size();
+        }
 
     }
 

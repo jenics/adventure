@@ -51,7 +51,7 @@ public class StopState extends PlayerBaseState {
                     new RectF(x,
                             y,
                             x + disWidth,
-                            y + disHeight), null);
+                            y + disHeight), player.getmPaint());
         } else {
             canvas.drawBitmap(bitmap,
                     new Rect(   ///src rect
@@ -62,7 +62,7 @@ public class StopState extends PlayerBaseState {
                     new RectF(x,
                             y,
                             x + disWidth,
-                            y + disHeight), null);
+                            y + disHeight), player.getmPaint());
         }
     }
 

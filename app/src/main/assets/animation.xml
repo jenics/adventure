@@ -7,32 +7,10 @@
 		<name>迅雷普通攻击</name>
 		<actionRange>0.3</actionRange> <!--技能帧宽度的比例,有些技能帧过大，修正一下-->
 		<srcInfo>
-			<srcName>animation/attack.png</srcName>
-			<rowFramCount>7</rowFramCount>
-			<colFramCount>6</colFramCount>
+			<srcName>animation/normal_attack.png</srcName>
+			<rowFramCount>1</rowFramCount>
+			<colFramCount>5</colFramCount>
 		</srcInfo>
-		<frames>
-			<frame>
-				<row>1</row>
-				<col>4</col>
-			</frame>
-			<frame>
-				<row>1</row>
-				<col>5</col>
-			</frame>
-			<frame>
-				<row>2</row>
-				<col>0</col>
-			</frame>
-			<frame>
-				<row>2</row>
-				<col>1</col>
-			</frame>
-			<frame>
-				<row>2</row>
-				<col>2</col>
-			</frame>
-		</frames>
 	</animation>
 	
 	<animation>

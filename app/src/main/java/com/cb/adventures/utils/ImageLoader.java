@@ -62,4 +62,8 @@ public class ImageLoader {
         mMap.put(name,bmpReturn);
         return bmpReturn;
     }
+
+    public AssetManager getAssets() {
+        return mContext.getAssets();
+    }
 }

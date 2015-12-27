@@ -23,7 +23,8 @@ public class Sprite extends BaseView implements IHurtable{
          * 扣除怪物血量
          */
         int hurt = skill.getSkillPropetry().getExtraAttack() - mMonsterPropetry.getDefensivePower();
-        if (hurt < 0) {
+        if (hurt <= 0) {
+            ///防御力大于等于攻击力，强制扣除1血
             hurt = 1;
         }
         int mCurrentBlood = mMonsterPropetry.getBloodVolume();
@@ -44,7 +45,11 @@ public class Sprite extends BaseView implements IHurtable{
         Skill skillEffect = new SkillFactory().create(skill.getSkillPropetry().getHitEffectId());
         skillEffect.setAttachView(this);
         skillEffect.startSkill();
-        rest(300);
+
+        InjuredValueView injuredValueView = new InjuredValueView(this,-hurt,false);
+        injuredValueView.startAnimation();
+
+        rest(400);
     }
 
     public interface OnSpriteListener {

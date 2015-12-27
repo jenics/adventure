@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.cb.adventures.utils.CLog;
+import com.cb.adventures.utils.FontFace;
 import com.cb.adventures.utils.ImageLoader;
 
 /**
@@ -19,6 +20,7 @@ public class MyApplication extends Application {
 
         CLog.setLogEnable(true);
         ImageLoader.getmInstance().init(mContext);
+        FontFace.getInstance().init(mContext);
     }
 
     public static Context getContextObj() {
