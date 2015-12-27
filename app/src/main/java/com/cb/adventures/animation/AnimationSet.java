@@ -7,7 +7,7 @@ import java.util.Stack;
 /**
  * Created by jenics on 2015/9/20.
  */
-public class AnimationSet implements Animation.OnAniamtionListener {
+public class AnimationSet implements ViewAnimation.OnAniamtionListener {
     public static int ANIMATION_DEAL = 0;           ///发牌动画
     public static int ANIMATION_MOVE = 1;           ///移动扑克动画
     public static int ANIMATION_WIN_GROUP = 2;        ///胜利一组
@@ -23,12 +23,12 @@ public class AnimationSet implements Animation.OnAniamtionListener {
         onAnimationSetListener = listener;
     }
 
-    private Stack<Animation> animations;
+    private Stack<ViewAnimation> viewAnimations;
     private int animationSize = 0;
     private int animationCount = 0;
     private boolean isSyn = false;
     public AnimationSet(int type) {
-        animations = new Stack<>();
+        viewAnimations = new Stack<>();
         animationType = type;
         animationCount = 0;
         animationSize = 0;
@@ -43,17 +43,17 @@ public class AnimationSet implements Animation.OnAniamtionListener {
                 }
             }
 
-            animations.clear();
+            viewAnimations.clear();
         }else {
-            Animation animation = animations.pop();
-            if(animation != null){
-                animation.setOnAnimationListener(this);
-                animation.startAnimation();
+            ViewAnimation viewAnimation = viewAnimations.pop();
+            if(viewAnimation != null){
+                viewAnimation.setOnAnimationListener(this);
+                viewAnimation.startAnimation();
             }else {
                 if(onAnimationSetListener != null) {
                     onAnimationSetListener.onAnimationSetEnd(animationType);
                 }
-                animations.clear();
+                viewAnimations.clear();
             }
         }
     }
@@ -63,8 +63,8 @@ public class AnimationSet implements Animation.OnAniamtionListener {
 
     }
 
-    public void pushAnimation(Animation animation) {
-        animations.add(animation);
+    public void pushAnimation(ViewAnimation viewAnimation) {
+        viewAnimations.add(viewAnimation);
     }
 
     /**
@@ -72,15 +72,15 @@ public class AnimationSet implements Animation.OnAniamtionListener {
      */
     public void synStartAnimations() {
         isSyn = true;
-        animationSize = animations.size();
+        animationSize = viewAnimations.size();
         if(animationSize == 0) {
             if(onAnimationSetListener != null) {
                 onAnimationSetListener.onAnimationSetEnd(animationType);
             }
         }
-        for(Animation animation : animations) {
-            animation.setOnAnimationListener(this);
-            animation.startAnimation();
+        for(ViewAnimation viewAnimation : viewAnimations) {
+            viewAnimation.setOnAnimationListener(this);
+            viewAnimation.startAnimation();
         }
     }
 
@@ -89,16 +89,16 @@ public class AnimationSet implements Animation.OnAniamtionListener {
      */
     public void asynStartAnimations() {
         isSyn = false;
-        animationSize = animations.size();
+        animationSize = viewAnimations.size();
         if(animationSize == 0) {
             if(onAnimationSetListener != null) {
                 onAnimationSetListener.onAnimationSetEnd(animationType);
             }
         }
-        Animation animation = animations.pop();
-        if(animation != null){
-            animation.setOnAnimationListener(this);
-            animation.startAnimation();
+        ViewAnimation viewAnimation = viewAnimations.pop();
+        if(viewAnimation != null){
+            viewAnimation.setOnAnimationListener(this);
+            viewAnimation.startAnimation();
         }
     }
 }

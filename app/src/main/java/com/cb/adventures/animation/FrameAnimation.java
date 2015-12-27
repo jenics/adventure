@@ -1,29 +1,26 @@
-package com.cb.adventures.view;
+package com.cb.adventures.animation;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
-import com.cb.adventures.animation.Animation;
-import com.cb.adventures.animation.AnimationProxy;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.AnimationPropetry;
 import com.cb.adventures.utils.ImageLoader;
+import com.cb.adventures.view.BaseView;
 
 /**
  * Created by jenics on 2015/11/29.
  */
-public class FrameAnimationView extends BaseView implements Animation.OnAniamtionListener {
+public class FrameAnimation extends SelfAnimation {
     protected int mFrameIndex;
     protected int mFrameCount;
-    protected Bitmap mBitmap;
     protected long mLastTime;
-    protected long mBeginTime;  ///开始时间
+
     protected boolean mIsStopInLast;          ///完成后是否需要停止在最后一帧
     protected int mCurrentLoopTimes;
 
-    private int mSkillMoveStep = 30;
+    private final int mSkillMoveStep = 30;
     private int mMoveCount = 0;
 
     /**
@@ -37,8 +34,6 @@ public class FrameAnimationView extends BaseView implements Animation.OnAniamtio
 
     protected BaseView mAttachView;     ///挂靠的目标
 
-    private AnimationProxy proxy;
-
     private AnimationPropetry mAnimationPropetry;
 
     protected int mDirection;
@@ -51,16 +46,10 @@ public class FrameAnimationView extends BaseView implements Animation.OnAniamtio
         this.mDirection = mDirection;
     }
 
-
-
-    public FrameAnimationView() {
+    public FrameAnimation() {
         mAnimationPropetry = new AnimationPropetry();
         mFrameIndex = 0;
         mCurrentLoopTimes = 0;
-    }
-
-    public BaseView getmAttachView() {
-        return mAttachView;
     }
 
     public void setAttachView(BaseView mAttachView) {
@@ -82,25 +71,6 @@ public class FrameAnimationView extends BaseView implements Animation.OnAniamtio
         }
 
         mFrameCount = mAnimationPropetry.getFrames().size();
-    }
-
-
-    public void startAnimation() {
-        proxy = new AnimationProxy(this);
-        proxy.setOnAnimationListener(this);
-        proxy.startAnimation();
-        mBeginTime = mLastTime = System.currentTimeMillis();
-        mFrameIndex = 0;
-    }
-
-    /**
-     * 停止技能，将会从动画列表中移除
-     */
-    public void stopAnimation() {
-        if(proxy != null) {
-            proxy.stopAnimation();
-            proxy = null;
-        }
     }
 
     @Override
@@ -179,15 +149,5 @@ public class FrameAnimationView extends BaseView implements Animation.OnAniamtio
                         y,
                         x + width,
                         y + height), null);
-    }
-
-    @Override
-    public void onAnimationEnd(BaseView view,boolean isForce) {
-
-    }
-
-    @Override
-    public void onAnimationBegin() {
-
     }
 }

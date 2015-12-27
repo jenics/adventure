@@ -1,7 +1,5 @@
 package com.cb.adventures.data;
 
-import com.cb.adventures.animation.Animation;
-
 import java.util.LinkedList;
 
 /**

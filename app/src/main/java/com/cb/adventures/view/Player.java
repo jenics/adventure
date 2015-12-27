@@ -3,11 +3,12 @@ package com.cb.adventures.view;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import com.cb.adventures.animation.FlashAnimation;
+import com.cb.adventures.animation.FlashViewAnimation;
+import com.cb.adventures.animation.InjuredValueAnimation;
+import com.cb.adventures.animation.ScrollAnimation;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.EquipmentPropetry;
 import com.cb.adventures.data.GameData;
-import com.cb.adventures.data.MonsterPropetry;
 import com.cb.adventures.data.Propetry;
 import com.cb.adventures.factory.SkillFactory;
 import com.cb.adventures.skill.Skill;
@@ -55,7 +56,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
 
     private EquipmentPropetry[] mEquipmentPropetrys;
 
-    private Bitmap bmp;
+
     private Bitmap accackBmp;
 
     public Player() {
@@ -118,12 +119,12 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
             skill.startSkill();
         }
 
-        ScrollAnimationView scrollAnimationView = new ScrollAnimationView();
-        scrollAnimationView.setPt(GameConstants.sGameWidth / 2, GameConstants.sGameHeight*0.4f);
-        scrollAnimationView.setAnimationPropetry(GameData.getInstance().getAnimationPropetry(GameConstants.SKILL_ID_AUTO_SCROLL));
-        scrollAnimationView.setTimeDuration(800);
-        scrollAnimationView.setmStrTitle(skill.getSkillPropetry().getName());
-        scrollAnimationView.startAnimation();
+        ScrollAnimation scrollAnimation = new ScrollAnimation();
+        scrollAnimation.setPt(GameConstants.sGameWidth / 2, GameConstants.sGameHeight*0.4f);
+        scrollAnimation.setAnimationPropetry(GameData.getInstance().getAnimationPropetry(GameConstants.SKILL_ID_AUTO_SCROLL));
+        scrollAnimation.setTimeDuration(800);
+        scrollAnimation.setmStrTitle(skill.getSkillPropetry().getName());
+        scrollAnimation.startAnimation();
     }
 
     /**
@@ -172,7 +173,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
 
     public void init(Bitmap bitmap, int frameCount, int perWidth, int perHeght, int leftRowIndex, int rightRowIndex
             , Bitmap attack, int attackWidth, int attackHeight, int attackCount) {
-        bmp = bitmap;
+        mBitmap = bitmap;
 
         this.frameCount = frameCount;
         this.perWidth = perWidth;
@@ -210,7 +211,6 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
 
     @Override
     public void changeState(int stateId) {
-        CLog.d("changestate:", String.format("%d", stateId));
         PlayerBaseState disState = stateHashMap.get(stateId);
 
         if (curState == null || disState == null) {
@@ -240,10 +240,10 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
         BaseState state;
         switch (stateId) {
             case GameConstants.STATE_MOVE_LEFT:
-                state = new MoveState(stateId, this, frameCount, leftRowIndex, bmp, perWidth, perHeight);
+                state = new MoveState(stateId, this, frameCount, leftRowIndex, mBitmap, perWidth, perHeight);
                 break;
             case GameConstants.STATE_MOVE_RIGHT:
-                state = new MoveState(stateId, this, frameCount, rightRowIndex, bmp, perWidth, perHeight);
+                state = new MoveState(stateId, this, frameCount, rightRowIndex, mBitmap, perWidth, perHeight);
                 break;
             case GameConstants.STATE_ATTACK_LEFT:
                 state = new AttackState(stateId, this, attackFrameCount, 0, accackBmp, attackPerWidth, attackPerHeight, this);
@@ -252,10 +252,10 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
                 state = new AttackState(stateId, this, attackFrameCount, 0, accackBmp, attackPerWidth, attackPerHeight, this);
                 break;
             case GameConstants.STATE_STOP_LEFT:
-                state = new StopState(stateId, this, leftRowIndex, rightRowIndex, bmp, perWidth, perHeight);
+                state = new StopState(stateId, this, leftRowIndex, rightRowIndex, mBitmap, perWidth, perHeight);
                 break;
             case GameConstants.STATE_STOP_RIGHT:
-                state = new StopState(stateId, this, leftRowIndex, rightRowIndex, bmp, perWidth, perHeight);
+                state = new StopState(stateId, this, leftRowIndex, rightRowIndex, mBitmap, perWidth, perHeight);
                 break;
             default:
                 state = null;
@@ -347,12 +347,12 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
 
         mPropetry.setBloodVolume(mPropetry.getBloodVolume() - hurt);
         if (skill.getSkillPropetry().getSkillId() == GameConstants.SKILL_ID_MONSTER_NORMAL) {
-            InjuredValueView injuredValueView = new InjuredValueView(this,-hurt,false);
-            injuredValueView.startAnimation();
+            InjuredValueAnimation injuredValueAnimation = new InjuredValueAnimation(this,-hurt,false);
+            injuredValueAnimation.startAnimation();
             skill.stopSkill();
         }
 
-        FlashAnimation flashAnimation = new FlashAnimation(this);
+        FlashViewAnimation flashAnimation = new FlashViewAnimation(this);
         flashAnimation.setTimeDuration(2000);
         flashAnimation.startAnimation();
 

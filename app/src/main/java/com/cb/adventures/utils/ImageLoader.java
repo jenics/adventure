@@ -5,7 +5,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.cb.adventures.application.MyApplication;
+import com.cb.adventures.application.AdventureApplication;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -16,17 +16,12 @@ import java.util.HashMap;
  */
 public class ImageLoader {
     private static ImageLoader mInstance;
-    private Context mContext;
     /**
      * 享元模式
      */
     private HashMap<String,Bitmap> mMap;
     private ImageLoader() {
         mMap = new HashMap<>();
-    }
-
-    public void init(Context ctx) {
-        mContext = ctx;
     }
 
     public synchronized static ImageLoader getmInstance() {
@@ -36,16 +31,25 @@ public class ImageLoader {
         return mInstance;
     }
 
-    public Bitmap loadBitmap(String name) {
-        if(mContext == null) {
-            throw new IllegalStateException("ImageLoader,context is null!!!");
+    /**
+     * 自己回收bmp
+     * @param name 资源名
+     */
+    public synchronized void recycleBitmap(String name) {
+        Bitmap bitmap = mMap.remove(name);
+        if (bitmap != null) {
+            bitmap.recycle();
         }
+    }
+
+    public Bitmap loadBitmap(String name) {
+
         Bitmap bitmap = mMap.get(name);
         if(bitmap != null) {
             return bitmap;
         }
 
-        AssetManager am = MyApplication.getContextObj().getAssets();
+        AssetManager am = AdventureApplication.getContextObj().getAssets();
         InputStream is = null;
         try {
             is = am.open(name);
@@ -63,7 +67,4 @@ public class ImageLoader {
         return bmpReturn;
     }
 
-    public AssetManager getAssets() {
-        return mContext.getAssets();
-    }
 }

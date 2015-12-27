@@ -6,6 +6,8 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
+import com.cb.adventures.animation.FrameAnimation;
+import com.cb.adventures.animation.ScrollAnimation;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.controller.MonsterController;
 import com.cb.adventures.data.GameData;
@@ -33,8 +35,8 @@ public class Map extends BaseView {
     private Player mPlayer;
     private MapPropetry mapPropetry;
 
-    private FrameAnimationView preGate;          ///上一关
-    private FrameAnimationView nextGate;         ///下一关
+    private FrameAnimation preGate;          ///上一关
+    private FrameAnimation nextGate;         ///下一关
 
     public MapPropetry getMapPropetry() {
         return mapPropetry;
@@ -96,7 +98,7 @@ public class Map extends BaseView {
 
 
         if (getMapPropetry().getPreGate() != -1) {
-            preGate = new FrameAnimationView();
+            preGate = new FrameAnimation();
             preGate.setAnimationPropetry(GameData.getInstance().getAnimationPropetry(GameConstants.SKILL_ID_TRANSFER_MATRIX));
             preGate.setPt(1532 / 9 / 2 * GameConstants.zoomRatio, GameConstants.sGameHeight * (GameConstants.sYpointRatio-0.05f));
             preGate.startAnimation();
@@ -104,7 +106,7 @@ public class Map extends BaseView {
 
         int x = (int) (1532 / 9 / 2 * GameConstants.zoomRatio);
         if (getMapPropetry().getNextGate() != -1) {
-            nextGate = new FrameAnimationView();
+            nextGate = new FrameAnimation();
             nextGate.setAnimationPropetry(GameData.getInstance().getAnimationPropetry(GameConstants.SKILL_ID_TRANSFER_MATRIX));
             nextGate.setPt(mapWidth - x, GameConstants.sGameHeight * (GameConstants.sYpointRatio-0.05f));
             nextGate.startAnimation();
@@ -134,7 +136,7 @@ public class Map extends BaseView {
         int x = (int) (1532 / 9 / 2 * GameConstants.zoomRatio);
         if (getMapPropetry().getNextGate() != -1) {
 
-            nextGate = new FrameAnimationView();
+            nextGate = new FrameAnimation();
             nextGate.setAnimationPropetry(GameData.getInstance().getAnimationPropetry(GameConstants.SKILL_ID_TRANSFER_MATRIX));
             nextGate.setPt(mScreemWidth - x, GameConstants.sGameHeight * (GameConstants.sYpointRatio-0.05f));
             nextGate.startAnimation();
@@ -142,7 +144,7 @@ public class Map extends BaseView {
 
         int y = mapWidth - mScreemWidth;
         if (getMapPropetry().getPreGate() != -1) {
-            preGate = new FrameAnimationView();
+            preGate = new FrameAnimation();
             preGate.setAnimationPropetry(GameData.getInstance().getAnimationPropetry(GameConstants.SKILL_ID_TRANSFER_MATRIX));
 
             preGate.setPt(-y + x, GameConstants.sGameHeight * (GameConstants.sYpointRatio-0.05f));
@@ -162,21 +164,31 @@ public class Map extends BaseView {
             preGate.stopAnimation();
             preGate = null;
         }
+        String curMapSrcName = null;
+        if (mapPropetry != null) {
+            curMapSrcName = mapPropetry.getSrcName();
+        }
+
         mapPropetry = GameData.getInstance().getMapPropetry(mapId);
         if (mapPropetry == null) {
             CLog.d(getClass().getSimpleName(), String.format("error in gotoGate,the mapId is %d", mapId));
             return false;
         }
+
         this.bmpTop = ImageLoader.getmInstance().loadBitmap(mapPropetry.getSrcName());
         this.bmpBottom = ImageLoader.getmInstance().loadBitmap(GameConstants.MAP_BOTTOM_NAME);
 
+        if (curMapSrcName != null) {
+            ImageLoader.getmInstance().recycleBitmap(curMapSrcName);
+        }
+
         mapWidth = (int) (mScreemWidth * mapPropetry.getMapLenRatio());
 
-        ScrollAnimationView scrollAnimationView = new ScrollAnimationView();
-        scrollAnimationView.setPt(mScreemWidth / 2, mScreemHeight*0.25f);
-        scrollAnimationView.setAnimationPropetry(GameData.getInstance().getAnimationPropetry(GameConstants.SKILL_ID_AUTO_SCROLL));
-        scrollAnimationView.setmStrTitle(mapPropetry.getName());
-        scrollAnimationView.startAnimation();
+        ScrollAnimation scrollAnimation = new ScrollAnimation();
+        scrollAnimation.setPt(mScreemWidth / 2, mScreemHeight*0.25f);
+        scrollAnimation.setAnimationPropetry(GameData.getInstance().getAnimationPropetry(GameConstants.SKILL_ID_AUTO_SCROLL));
+        scrollAnimation.setmStrTitle(mapPropetry.getName());
+        scrollAnimation.startAnimation();
 
 
         /**

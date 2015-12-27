@@ -1,12 +1,11 @@
 package com.cb.adventures.view;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
+import com.cb.adventures.animation.InjuredValueAnimation;
 import com.cb.adventures.constants.GameConstants;
-import com.cb.adventures.data.GameData;
 import com.cb.adventures.data.MonsterPropetry;
 import com.cb.adventures.factory.SkillFactory;
 import com.cb.adventures.skill.Skill;
@@ -16,7 +15,7 @@ import com.cb.adventures.utils.ImageLoader;
  * Created by jenics on 2015/10/7.
  * Sprite类最简单，只管理怪物左右跑。
  */
-public class Sprite extends BaseView implements IHurtable{
+public class Sprite extends FrameView implements IHurtable{
     @Override
     public void onHurted(Skill skill) {
         /**
@@ -46,8 +45,8 @@ public class Sprite extends BaseView implements IHurtable{
         skillEffect.setAttachView(this);
         skillEffect.startSkill();
 
-        InjuredValueView injuredValueView = new InjuredValueView(this,-hurt,false);
-        injuredValueView.startAnimation();
+        InjuredValueAnimation injuredValueAnimation = new InjuredValueAnimation(this,-hurt,false);
+        injuredValueAnimation.startAnimation();
 
         rest(400);
     }
@@ -58,7 +57,6 @@ public class Sprite extends BaseView implements IHurtable{
     }
 
     protected OnSpriteListener mSpriteListener;
-    protected Bitmap mBitmap;
     protected int mDirection;
     private static int sIdNum = 0;
     protected int mId;          ///该怪物唯一标识符，自动生成，自动递增

@@ -1,4 +1,4 @@
-package com.cb.adventures.view;
+package com.cb.adventures.animation;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -6,78 +6,43 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Typeface;
 
-import com.cb.adventures.animation.AnimationProxy;
-import com.cb.adventures.application.MyApplication;
 import com.cb.adventures.data.AnimationPropetry;
 import com.cb.adventures.utils.ImageLoader;
 
-import java.lang.reflect.Type;
-
 /**
+ * 卷轴效果动画，用来做新地图名字显示，技能名字显示，有点像跑马灯那样
  * Created by jenics on 2015/12/13.
  */
-public class ScrollAnimationView extends BaseView {
-    protected Bitmap mBitmap;
-
+public class ScrollAnimation extends SelfAnimation {
     private RectF rt1;
     private RectF rt2;
 
     protected long mLastTime;
-    protected long mBeginTime;  ///开始时间
 
     private int cursor;         ///游标
 
-    private Paint mPaint;
     private Paint.FontMetricsInt mFontMetricsInt;
 
     private long timeDuration;
 
-    protected BaseView mAttachView;     ///挂靠的目标
-
-    private AnimationProxy proxy;
-
     private AnimationPropetry mAnimationPropetry;
 
-    protected int mDirection;
-
-    public int getDirection() {
-        return mDirection;
-    }
-
-    public void setDirection(int mDirection) {
-        this.mDirection = mDirection;
-    }
-
     private String mStrTitle;
-
-    public String getmStrTitle() {
-        return mStrTitle;
-    }
 
     public void setmStrTitle(String mStrTitle) {
         this.mStrTitle = mStrTitle;
     }
 
-    public ScrollAnimationView() {
+    public ScrollAnimation() {
         mAnimationPropetry = new AnimationPropetry();
         rt1 = new RectF();
         rt2 = new RectF();
     }
 
-    public BaseView getmAttachView() {
-        return mAttachView;
-    }
-
-    public void setAttachView(BaseView mAttachView) {
-        this.mAttachView = mAttachView;
-    }
-
     public AnimationPropetry getAnimationPropetry() {
         return mAnimationPropetry;
     }
-
 
     /**
      * @param timeDuration 持续时间，单位s
@@ -105,24 +70,6 @@ public class ScrollAnimationView extends BaseView {
             mPaint.setColor(Color.BLUE);
             mPaint.setTextAlign(Paint.Align.CENTER);
             mFontMetricsInt = mPaint.getFontMetricsInt();
-        }
-    }
-
-
-    public void startAnimation() {
-        proxy = new AnimationProxy(this);
-        //proxy.setOnAnimationListener(this);
-        proxy.startAnimation();
-        mBeginTime = mLastTime = System.currentTimeMillis();
-    }
-
-    /**
-     * 停止技能，将会从动画列表中移除
-     */
-    public void stopAnimation() {
-        if (proxy != null) {
-            proxy.stopAnimation();
-            proxy = null;
         }
     }
 

@@ -1,35 +1,20 @@
 package com.cb.adventures.skill;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import com.cb.adventures.animation.Animation;
-import com.cb.adventures.animation.AnimationProxy;
+import com.cb.adventures.animation.FrameAnimation;
+import com.cb.adventures.animation.ViewAnimation;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.SkillPropetry;
 import com.cb.adventures.utils.ImageLoader;
 import com.cb.adventures.view.BaseView;
 
+
 /**
  * 技能类
  * Created by jenics on 2015/10/25.
  */
-public class Skill extends BaseView implements Animation.OnAniamtionListener{
-    protected int mFrameIndex;
-    protected int mFrameCount;
-    protected Bitmap mBitmap;
-    protected long mLastTime;
-    protected long mBeginTime;  ///开始时间
-
-    /**
-     * 一帧的宽度，不带表实际宽度
-     */
-    protected int mFrameWidth;
-    /**
-     * 一帧的高度，不代表实际高度
-     */
-    protected int mFrameHeight;
-
+public class Skill extends FrameAnimation implements ViewAnimation.OnAniamtionListener{
     /**
      * 技能施放方
      */
@@ -57,11 +42,13 @@ public class Skill extends BaseView implements Animation.OnAniamtionListener{
         this.castId = castId;
     }
 
-    protected BaseView mAttachView;     ///挂靠的目标
-
-    private AnimationProxy proxy;
+    /**
+     * 技能挂靠的目标
+     */
+    protected BaseView mAttachView;
 
     private SkillPropetry mSkillPropetry;
+
 
     public interface OnSkillAnimationListener {
         void onSkillBegin(Skill skill);
@@ -92,6 +79,9 @@ public class Skill extends BaseView implements Animation.OnAniamtionListener{
     protected boolean isHurted;
 
 
+    /**
+     * 技能方向
+     */
     protected int mDirection;
 
     public int getDirection() {
@@ -139,9 +129,7 @@ public class Skill extends BaseView implements Animation.OnAniamtionListener{
 
 
     public void startSkill() {
-        proxy = new AnimationProxy(this);
-        proxy.setOnAnimationListener(this);
-        proxy.startAnimation();
+        startAnimation();
         mBeginTime = mLastTime = System.currentTimeMillis();
         mFrameIndex = 0;
     }
@@ -150,10 +138,7 @@ public class Skill extends BaseView implements Animation.OnAniamtionListener{
      * 停止技能，将会从动画列表中移除
      */
     public void stopSkill() {
-        if(proxy != null) {
-            proxy.stopAnimation();
-            proxy = null;
-        }
+        stopAnimation();
     }
 
 
@@ -190,5 +175,14 @@ public class Skill extends BaseView implements Animation.OnAniamtionListener{
 
     public void setIsHurted(boolean isHurted) {
         this.isHurted = isHurted;
+    }
+
+
+    public boolean isStop() {
+        return isStop;
+    }
+
+    public void setStop(boolean isStop) {
+        this.isStop = isStop;
     }
 }

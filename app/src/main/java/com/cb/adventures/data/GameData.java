@@ -3,7 +3,7 @@ package com.cb.adventures.data;
 import android.content.res.AssetManager;
 import android.util.Xml;
 
-import com.cb.adventures.application.MyApplication;
+import com.cb.adventures.application.AdventureApplication;
 import com.cb.adventures.constants.GameConstants;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -85,7 +85,7 @@ public class GameData {
     public void synParseAnimations() {
         try {
             parser = Xml.newPullParser();
-            AssetManager am = MyApplication.getContextObj().getAssets();
+            AssetManager am = AdventureApplication.getContextObj().getAssets();
             InputStream is = am.open("animation.xml");
             parser.setInput(is, "UTF-8");
 
@@ -173,7 +173,7 @@ public class GameData {
     public void synParseSkills() {
         try {
             parser = Xml.newPullParser();
-            AssetManager am = MyApplication.getContextObj().getAssets();
+            AssetManager am = AdventureApplication.getContextObj().getAssets();
             InputStream is = am.open("skill.xml");
             parser.setInput(is, "UTF-8");
 
@@ -243,7 +243,7 @@ public class GameData {
     public void synParseMonsters() {
         try {
             parser = Xml.newPullParser();
-            AssetManager am = MyApplication.getContextObj().getAssets();
+            AssetManager am = AdventureApplication.getContextObj().getAssets();
             InputStream is = am.open("monster.xml");
             parser.setInput(is, "UTF-8");
 
@@ -342,7 +342,7 @@ public class GameData {
     public void synParseMaps() {
         try {
             parser = Xml.newPullParser();
-            AssetManager am = MyApplication.getContextObj().getAssets();
+            AssetManager am = AdventureApplication.getContextObj().getAssets();
             InputStream is = am.open("map.xml");
             parser.setInput(is, "UTF-8");
 

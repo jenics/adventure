@@ -10,18 +10,14 @@ import com.cb.adventures.view.BaseView;
  * 闪烁动画
  * Created by jenics on 2015/12/27.
  */
-public class FlashAnimation extends Animation {
+public class FlashViewAnimation extends ViewAnimation {
     /**
      * 闪烁的时间，单位ms
      */
     protected long timeDuration;
     protected long timeCycle = 200;
-    public FlashAnimation(BaseView view) {
+    public FlashViewAnimation(BaseView view) {
         super(view);
-    }
-
-    public long getTimeDuration() {
-        return timeDuration;
     }
 
     public void setTimeDuration(long timeDuration) {

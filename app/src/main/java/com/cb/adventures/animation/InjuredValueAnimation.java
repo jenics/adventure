@@ -1,37 +1,27 @@
-package com.cb.adventures.view;
+package com.cb.adventures.animation;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import com.cb.adventures.animation.AnimationProxy;
+
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.utils.FontFace;
+import com.cb.adventures.view.BaseView;
 
 /**
  * Created by jenics on 2015/12/26.
  * 受伤数值显示view
  */
-public class InjuredValueView extends BaseView{
-
-    protected long mBeginTime;  ///开始时间
-
-    private Paint mPaint;
+public class InjuredValueAnimation extends SelfAnimation{
     private Paint.FontMetricsInt mFontMetricsInt;
-
-
     protected BaseView mAttachView;     ///挂靠的目标
-
-    private AnimationProxy proxy;
-
     private String mStrTitle;
 
     /**
      * 初始y坐标
      */
     private float mSrcY;
-
-
 
     /**
      * 将向上移动的距离
@@ -54,7 +44,7 @@ public class InjuredValueView extends BaseView{
     private int mTextSize;
 
 
-    public InjuredValueView(BaseView view,long injured,boolean isCritical) {
+    public InjuredValueAnimation(BaseView view, long injured, boolean isCritical) {
         setAttachView(view);
 
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -83,28 +73,8 @@ public class InjuredValueView extends BaseView{
 
     }
 
-    public BaseView getmAttachView() {
-        return mAttachView;
-    }
-
     public void setAttachView(BaseView mAttachView) {
         this.mAttachView = mAttachView;
-    }
-
-    public void startAnimation() {
-        proxy = new AnimationProxy(this);
-        proxy.startAnimation();
-        mBeginTime = System.currentTimeMillis();
-    }
-
-    /**
-     * 停止技能，将会从动画列表中移除
-     */
-    public void stopAnimation() {
-        if (proxy != null) {
-            proxy.stopAnimation();
-            proxy = null;
-        }
     }
 
     @Override

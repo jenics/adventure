@@ -1,5 +1,7 @@
 package com.cb.adventures.animation;
 
+import android.graphics.Canvas;
+
 import com.cb.adventures.view.BaseView;
 
 import java.util.LinkedList;
@@ -8,19 +10,24 @@ import java.util.LinkedList;
  * 直接控制baseview的动画
  * Created by jenics on 2015/9/17.
  */
-public class Animation implements IAnimation {
+public class ViewAnimation implements IAnimation {
+    @Override
     public boolean isStop() {
         return isStop;
-    }
-
-    public void setStop(boolean isStop) {
-        this.isStop = isStop;
     }
 
     protected long mStartTime;
 
     protected boolean isStop = false;
     protected BaseView mView;
+
+    @Override
+    public void draw(Canvas canvas) {
+        if (mView != null) {
+            mView.draw(canvas);
+        }
+    }
+
     public interface OnAniamtionListener{
         /**
          * @param view
@@ -34,7 +41,7 @@ public class Animation implements IAnimation {
         return mView;
     }
 
-    public Animation(BaseView view){
+    public ViewAnimation(BaseView view){
         mView = view;
         mAnimationListeners = new LinkedList<>();
     }
@@ -66,7 +73,8 @@ public class Animation implements IAnimation {
      * 动画停止
      * @param isForce   是否外界强制停止
      */
-    protected void notifyAnimationEnd(boolean isForce){
+    @Override
+    public void notifyAnimationEnd(boolean isForce){
         if(mAnimationListeners != null && mAnimationListeners.size() > 0){
             for(OnAniamtionListener listener : mAnimationListeners)
                 listener.onAnimationEnd(mView,isForce);

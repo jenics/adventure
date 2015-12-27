@@ -13,11 +13,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.ActionMenuView;
 
-import com.cb.adventures.animation.Animation;
+import com.cb.adventures.animation.IAnimation;
 import com.cb.adventures.animation.AnimationControl;
-import com.cb.adventures.animation.AnimationProxy;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.controller.MonsterController;
 import com.cb.adventures.data.GameData;
@@ -208,7 +206,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     private void logicAnimate() {
         MonsterController.getInstance().animate();
         AnimationControl.getInstance().animate();
-
     }
 
     /**
@@ -218,13 +215,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         /**
          * 碰撞检测，涉及到玩家与技能的碰撞，怪物与玩家释放技能的碰撞。
          */
-        for (Animation animation : AnimationControl.getInstance().getQueueAnimaion()) {
+        for (IAnimation viewAnimation : AnimationControl.getInstance().getQueueAnimaion()) {
             /**
              * 查询是否是技能
              */
-            if (animation instanceof AnimationProxy) {
-                if(animation.getView() instanceof Skill) {
-                    Skill skill = (Skill) animation.getView();
+            if (viewAnimation instanceof Skill) {
+                //if(viewAnimation.getView() instanceof Skill) {
+                    Skill skill = (Skill) viewAnimation;
                     if (skill.getSkillPropetry().getSkillType() == GameConstants.SKILL_TYPE_ACTIVE_ATTACK) {
 
                         /**
@@ -265,7 +262,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                             CLog.w("logicAnimate", "no definition cast");
                         }
                     }
-                }
+                //}
             }
         }
 

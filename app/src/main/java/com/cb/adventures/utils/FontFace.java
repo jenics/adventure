@@ -2,6 +2,9 @@ package com.cb.adventures.utils;
 
 import android.content.Context;
 import android.graphics.Typeface;
+
+import com.cb.adventures.application.AdventureApplication;
+
 import java.util.HashMap;
 
 
@@ -15,13 +18,10 @@ public class FontFace {
     }
 
     private static FontFace mInstance;
-    private Context mContext;
+
 
     private HashMap<E_Font_Face , Typeface> mFaces;
 
-    public void init(Context ctx) {
-        mContext = ctx;
-    }
 
     private FontFace() {
         mFaces = new HashMap<>();
@@ -53,7 +53,7 @@ public class FontFace {
         Typeface typeface = null;
         switch (face) {
             case COMIXHEAVY:
-                typeface = Typeface.createFromAsset(mContext.getAssets(),"fonts/comixheavy.ttf");
+                typeface = Typeface.createFromAsset(AdventureApplication.getContextObj().getAssets(),"fonts/comixheavy.ttf");
             default:
                 break;
         }

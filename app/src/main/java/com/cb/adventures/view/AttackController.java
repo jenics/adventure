@@ -13,12 +13,11 @@ import com.cb.adventures.utils.ImageLoader;
  */
 public class AttackController extends BaseView {
     public static float WIDTH_RATIO = 0.15f;
-    private Bitmap bitmap;
     public AttackController() {
     }
 
     public void init() {
-        bitmap = ImageLoader.getmInstance().loadBitmap(GameConstants.DIRECTION_ATTACK_NAME);
+        mBitmap = ImageLoader.getmInstance().loadBitmap(GameConstants.DIRECTION_ATTACK_NAME);
         ///宽度是屏幕宽度的0.15倍
         width = height = (int) (GameConstants.sGameWidth*WIDTH_RATIO);
         ///
@@ -34,12 +33,12 @@ public class AttackController extends BaseView {
         float y = getPt().y - height/2;
 
         ///画控制器框框
-        canvas.drawBitmap(bitmap,
+        canvas.drawBitmap(mBitmap,
                 new Rect(   ///src rect
                         0,
                         0,
-                        bitmap.getWidth(),
-                        bitmap.getHeight()),
+                        mBitmap.getWidth(),
+                        mBitmap.getHeight()),
                 new RectF(x,
                         y,
                         x + width,

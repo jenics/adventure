@@ -124,7 +124,6 @@ public class StaticFrameSkill extends Skill{
                             y + height), null);
 
             bmpTmp2.recycle();
-            bmpTmp2 = null;
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.cb.adventures.view;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
@@ -8,8 +9,13 @@ import android.graphics.RectF;
 /**
  * Created by jenics on 2015/10/7.
  */
-public class BaseView implements IView {
+public class BaseView implements IView  {
     protected PointF pt;    ///中心点
+
+    /**
+     * Z轴深度
+     */
+    protected int mZorder;
 
     public int getWidth() {
         return width;
@@ -27,16 +33,13 @@ public class BaseView implements IView {
         this.height = height;
     }
 
-    public boolean nextFrame(){
-        return true;
-    }
-
     protected int width;    ///宽度
     protected int height;   ///高度
     protected boolean isClickable;
     protected boolean isVisiable;
 
     protected Paint mPaint;
+    protected Bitmap mBitmap;
 
     public BaseView() {
         isClickable = true;
@@ -95,5 +98,10 @@ public class BaseView implements IView {
 
     public void setmPaint(Paint mPaint) {
         this.mPaint = mPaint;
+    }
+
+    @Override
+    public int getZOrder() {
+        return mZorder;
     }
 }

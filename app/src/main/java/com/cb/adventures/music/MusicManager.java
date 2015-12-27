@@ -7,7 +7,7 @@ import android.media.SoundPool;
 
 
 import com.cb.adventures.R;
-import com.cb.adventures.application.MyApplication;
+import com.cb.adventures.application.AdventureApplication;
 import com.cb.adventures.utils.CLog;
 
 import java.util.HashMap;
@@ -57,7 +57,7 @@ public class MusicManager {
         if (IS_DEBUG) {
             CLog.e(TAG, "MusicManager");
         }
-        mContext = MyApplication.getContextObj();
+        mContext = AdventureApplication.getContextObj();
         initMediaPlayer();
         initSoundPool();
     }

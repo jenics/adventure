@@ -2,17 +2,10 @@ package com.cb.adventures.state.playerstate;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
-import com.cb.adventures.R;
-import com.cb.adventures.application.MyApplication;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.music.MusicManager;
 import com.cb.adventures.view.Player;

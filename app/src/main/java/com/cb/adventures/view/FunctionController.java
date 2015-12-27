@@ -15,7 +15,6 @@ import com.cb.adventures.utils.ImageLoader;
  */
 public class FunctionController extends BaseView {
     public static float WIDTH_RATIO = 0.1f;
-    private Bitmap bitmap;
     private Bitmap icon;
     private int type;
     private SkillPropetry skillPropetry;
@@ -52,7 +51,7 @@ public class FunctionController extends BaseView {
     }
 
     public void init() {
-        bitmap = ImageLoader.getmInstance().loadBitmap(GameConstants.GAME_SKILL_NAME);
+        mBitmap = ImageLoader.getmInstance().loadBitmap(GameConstants.GAME_SKILL_NAME);
 
         ///宽度是屏幕宽度的0.1
         width = height = (int) (GameConstants.sGameWidth*WIDTH_RATIO);
@@ -71,12 +70,12 @@ public class FunctionController extends BaseView {
         float y = getPt().y - height/2;
 
         ///画控制器框框
-        canvas.drawBitmap(bitmap,
+        canvas.drawBitmap(mBitmap,
                 new Rect(   ///src rect
                         0,
                         0,
-                        bitmap.getWidth(),
-                        bitmap.getHeight()),
+                        mBitmap.getWidth(),
+                        mBitmap.getHeight()),
                 new RectF(x,
                         y,
                         x + width,

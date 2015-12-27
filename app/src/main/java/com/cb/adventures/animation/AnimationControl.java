@@ -2,7 +2,7 @@ package com.cb.adventures.animation;
 
 import android.graphics.Canvas;
 
-import com.cb.adventures.animation.Animation;
+import com.cb.adventures.view.IDrawable;
 import com.cb.adventures.view.IView;
 
 import java.util.Iterator;
@@ -11,16 +11,15 @@ import java.util.LinkedList;
 /**
  * Created by jenics on 2015/9/17.
  */
-public class AnimationControl implements IView
-{
+public class AnimationControl implements IDrawable {
     private static AnimationControl mInstance;
 
-    private LinkedList<Animation> mQueueAnimaion;
-    private LinkedList<Animation> delayAddAnimations;
+    private LinkedList<IAnimation> mQueueAnimaion;
+    private LinkedList<IAnimation> delayAddViewAnimations;
 
     private AnimationControl() {
         mQueueAnimaion = new LinkedList<>();
-        delayAddAnimations = new LinkedList<>();
+        delayAddViewAnimations = new LinkedList<>();
     }
 
     /**
@@ -38,61 +37,45 @@ public class AnimationControl implements IView
     /**
      * 加入动画列表
      *
-     * @param animation
+     * @param animation 动画接口
      */
-    public synchronized void addAnimation(Animation animation) {
-        delayAddAnimations.add(animation);
+    public synchronized void addAnimation(IAnimation animation) {
+        delayAddViewAnimations.add(animation);
     }
 
+    /**
+     * 清空所有动画
+     */
     public synchronized void clear() {
-
         if (mQueueAnimaion != null)
             mQueueAnimaion.clear();
-        if (delayAddAnimations != null)
-            delayAddAnimations.clear();
-
+        if (delayAddViewAnimations != null)
+            delayAddViewAnimations.clear();
     }
 
     public synchronized void animate() {
-        Iterator<Animation> iterator = mQueueAnimaion.iterator();
+        Iterator<IAnimation> iterator = mQueueAnimaion.iterator();
         while (iterator.hasNext()) {
-            Animation animation = iterator.next();
+            IAnimation animation = iterator.next();
             if (animation.animate() || animation.isStop()) {
                 iterator.remove();
-                animation.notifyAnimationEnd(animation.isStop);
+                animation.notifyAnimationEnd(animation.isStop());
             }
         }
-        if (!delayAddAnimations.isEmpty()) {
-            mQueueAnimaion.addAll(delayAddAnimations);
-            delayAddAnimations.clear();
+        if (!delayAddViewAnimations.isEmpty()) {
+            mQueueAnimaion.addAll(delayAddViewAnimations);
+            delayAddViewAnimations.clear();
         }
-    }
-
-    @Override
-    public boolean isClickable() {
-        return false;
-    }
-
-    @Override
-    public boolean isVisiable() {
-        return false;
-    }
-
-    @Override
-    public void onClick() {
-
     }
 
     @Override
     public synchronized void draw(Canvas canvas) {
-        Iterator<Animation> iterator = mQueueAnimaion.iterator();
-        while (iterator.hasNext()) {
-            Animation animation = iterator.next();
-            animation.getView().draw(canvas);
+        for (IAnimation animation : mQueueAnimaion) {
+            animation.draw(canvas);
         }
     }
 
-    public LinkedList<Animation> getQueueAnimaion() {
+    public LinkedList<IAnimation> getQueueAnimaion() {
         return mQueueAnimaion;
     }
 }

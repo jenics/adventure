@@ -15,7 +15,6 @@ import java.util.ArrayList;
  * 物品栏控件
  */
 public class InventoryView extends BaseView implements IControl{
-    private Bitmap mBitmap;
     private Bitmap mSelectBitmap;
     private int mSelectIndex;
     private Paint mPaint;
@@ -141,7 +140,7 @@ public class InventoryView extends BaseView implements IControl{
         }
         int control = ptInRegion(x,y);
         if (control >= 0) {
-            //Toast.makeText(MyApplication.getContextObj(),String.format("u pressed %d", control),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(AdventureApplication.getContextObj(),String.format("u pressed %d", control),Toast.LENGTH_SHORT).show();
             mSelectIndex = control;
         }
     }

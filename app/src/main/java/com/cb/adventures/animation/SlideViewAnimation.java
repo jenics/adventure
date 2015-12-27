@@ -6,8 +6,8 @@ import com.cb.adventures.view.BaseView;
 /**
  * Created by jenics on 2015/9/17.
  */
-public class SlideAnimation extends Animation {
-    public SlideAnimation(BaseView view) {
+public class SlideViewAnimation extends ViewAnimation {
+    public SlideViewAnimation(BaseView view) {
         super(view);
     }
 
