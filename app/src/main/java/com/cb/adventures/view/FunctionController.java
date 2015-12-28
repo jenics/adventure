@@ -6,7 +6,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 import com.cb.adventures.constants.GameConstants;
-import com.cb.adventures.data.ConsumablePropetry;
+import com.cb.adventures.data.ConsumePropetry;
 import com.cb.adventures.data.SkillPropetry;
 import com.cb.adventures.utils.ImageLoader;
 
@@ -18,7 +18,7 @@ public class FunctionController extends BaseView {
     private Bitmap icon;
     private int type;
     private SkillPropetry skillPropetry;
-    private ConsumablePropetry consumablePropetry;
+    private ConsumePropetry consumePropetry;
     public FunctionController() {
     }
 
@@ -40,13 +40,13 @@ public class FunctionController extends BaseView {
         type = GameConstants.FUNCTION_TYPE_SKILL;
     }
 
-    public ConsumablePropetry getConsumablePropetry() {
-        return consumablePropetry;
+    public ConsumePropetry getConsumePropetry() {
+        return consumePropetry;
 
     }
 
-    public void setConsumablePropetry(ConsumablePropetry consumablePropetry) {
-        this.consumablePropetry = consumablePropetry;
+    public void setConsumePropetry(ConsumePropetry consumePropetry) {
+        this.consumePropetry = consumePropetry;
         type = GameConstants.FUNCTION_TYPE_CONSUMABLE;
     }
 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<consume>
+		<consumeId>1</consumeId>
+		<bloodVolume>50</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<desc>红牛，回血。</desc>
+		<icon>articles/consumes/hong.png</icon>
+	</consume>
+	
+	<consume>
+		<consumeId>2</consumeId>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>50</magicVolume>
+		<desc>洋河蓝色经典，回蓝。</desc>
+		<icon>articles/consumes/lan.png</icon>
+	</consume>
+</root>

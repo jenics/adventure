@@ -11,6 +11,7 @@ import com.cb.adventures.data.EquipmentPropetry;
 import com.cb.adventures.data.GameData;
 import com.cb.adventures.data.Propetry;
 import com.cb.adventures.factory.SkillFactory;
+import com.cb.adventures.prop.Equipment;
 import com.cb.adventures.skill.Skill;
 import com.cb.adventures.state.BaseState;
 import com.cb.adventures.state.IStateMgr;
@@ -272,19 +273,19 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     /**
      * 装备物品
      *
-     * @param equipmentId 装备ID
+     * @param equipment 装备
      */
-    public void equipment(int equipmentId) {
-        ///重新计算属性值
+    public void equipment(Equipment equipment) {
+
     }
 
     /**
      * 卸下物品
      *
-     * @param equipmentId 装备ID
+     * @param equipment 装备
      */
-    public void unEquipment(int equipmentId) {
-        ///重新计算属性值
+    public void unEquipment(Equipment equipment) {
+
     }
 
     /**

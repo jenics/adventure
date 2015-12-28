@@ -1,40 +1,22 @@
 package com.cb.adventures.data;
 
 /**
- * 装备属性
+ * 消耗品属性
  * Created by jenics on 2015/10/24.
  */
-public class EquipmentPropetry {
+public class ConsumePropetry {
     /**
-     * 装备id
+     * 消耗品id
      */
-    private int equipmentId;
+    private int consumeId;
     /**
-     * 攻击力
-     */
-    private int attackPower;
-    /**
-     * 防御力
-     */
-    private int defensivePower;
-    /**
-     * 血量增幅
+     * 使用后增加血量
      */
     private int bloodVolume;
     /**
-     * 魔力增幅
+     * 使用后增加魔力值
      */
     private int magicVolume;
-
-    /**
-     * 穿戴等级
-     */
-    private int rank;
-
-    /**
-     * 装备位置
-     */
-    private int loc;
 
     /**
      * 描述
@@ -75,28 +57,17 @@ public class EquipmentPropetry {
         this.desc = desc;
     }
 
-    public int getEquipmentId() {
-        return equipmentId;
+    /**
+     * 最大堆叠数量
+     */
+    private int maxStackSize;
+
+    public int getConsumeId() {
+        return consumeId;
     }
 
-    public void setEquipmentId(int equipmentId) {
-        this.equipmentId = equipmentId;
-    }
-
-    public int getAttackPower() {
-        return attackPower;
-    }
-
-    public void setAttackPower(int attackPower) {
-        this.attackPower = attackPower;
-    }
-
-    public int getDefensivePower() {
-        return defensivePower;
-    }
-
-    public void setDefensivePower(int defensivePower) {
-        this.defensivePower = defensivePower;
+    public void setConsumeId(int consumeId) {
+        this.consumeId = consumeId;
     }
 
     public int getBloodVolume() {
@@ -115,19 +86,11 @@ public class EquipmentPropetry {
         this.magicVolume = magicVolume;
     }
 
-    public int getRank() {
-        return rank;
+    public int getMaxStackSize() {
+        return maxStackSize;
     }
 
-    public void setRank(int rank) {
-        this.rank = rank;
-    }
-
-    public int getLoc() {
-        return loc;
-    }
-
-    public void setLoc(int loc) {
-        this.loc = loc;
+    public void setMaxStackSize(int maxStackSize) {
+        this.maxStackSize = maxStackSize;
     }
 }
