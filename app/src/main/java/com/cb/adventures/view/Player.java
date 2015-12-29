@@ -197,7 +197,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     public void draw(Canvas canvas) {
         if (curState == null)
             return;
-        super.draw(canvas);
+        //super.draw(canvas);
 
         long nowTime = System.currentTimeMillis();
         if (nowTime - lastTime < 100) {

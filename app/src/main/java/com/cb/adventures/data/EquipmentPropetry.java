@@ -4,11 +4,8 @@ package com.cb.adventures.data;
  * 装备属性
  * Created by jenics on 2015/10/24.
  */
-public class EquipmentPropetry {
-    /**
-     * 装备id
-     */
-    private int equipmentId;
+public class EquipmentPropetry extends PropPropetry{
+
     /**
      * 攻击力
      */
@@ -36,52 +33,7 @@ public class EquipmentPropetry {
      */
     private int loc;
 
-    /**
-     * 描述
-     */
-    private String desc;
 
-    /**
-     * 图标名
-     */
-    private String icon;
-
-    /**
-     * 名字
-     */
-    private String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
-    public int getEquipmentId() {
-        return equipmentId;
-    }
-
-    public void setEquipmentId(int equipmentId) {
-        this.equipmentId = equipmentId;
-    }
 
     public int getAttackPower() {
         return attackPower;

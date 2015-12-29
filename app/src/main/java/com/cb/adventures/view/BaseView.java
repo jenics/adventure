@@ -4,18 +4,45 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.graphics.RectF;
 
 /**
  * Created by jenics on 2015/10/7.
  */
 public class BaseView implements IView  {
-    protected PointF pt;    ///中心点
-
+    /**
+     * view的中心点
+     */
+    protected PointF pt;
     /**
      * Z轴深度
      */
     protected int mZorder;
+    /**
+     * 宽度
+     */
+    protected int width;
+    /**
+     * 高度
+     */
+    protected int height;
+    /**
+     * 是否可点击
+     */
+    protected boolean isClickable;
+    /**
+     * 是否可见
+     */
+    protected boolean isVisiable;
+    /**
+     * 画刷
+     */
+    protected Paint mPaint;
+    /**
+     * 位图
+     */
+    protected Bitmap mBitmap;
 
     public int getWidth() {
         return width;
@@ -32,14 +59,6 @@ public class BaseView implements IView  {
     public void setHeight(int height) {
         this.height = height;
     }
-
-    protected int width;    ///宽度
-    protected int height;   ///高度
-    protected boolean isClickable;
-    protected boolean isVisiable;
-
-    protected Paint mPaint;
-    protected Bitmap mBitmap;
 
     public BaseView() {
         isClickable = true;
@@ -62,7 +81,6 @@ public class BaseView implements IView  {
     }
 
     public void setPt(float x,float y) {
-
         this.pt.x = x;
         this.pt.y = y;
     }
@@ -89,7 +107,28 @@ public class BaseView implements IView  {
 
     }
     public void draw(Canvas canvas) {
+        if (!isVisiable || mBitmap == null) {
+            return;
+        }
+        float x = pt.x-mBitmap.getWidth()/2;
+        float y = pt.y-mBitmap.getHeight()/2;
+        canvas.drawBitmap(mBitmap,
+                new Rect(0,
+                        0,
+                        mBitmap.getWidth(),
+                        mBitmap.getHeight()),
+                new RectF(x,
+                        y,
+                        x + getWidth(),
+                        y + getHeight()),
+                mPaint);
+    }
 
+    public void calcSize() {
+        if (mBitmap != null) {
+            width = mBitmap.getWidth();
+            height = mBitmap.getHeight();
+        }
     }
 
     public Paint getmPaint() {

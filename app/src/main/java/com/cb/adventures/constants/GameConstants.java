@@ -81,6 +81,7 @@ public class GameConstants {
 
     public static final String PLAYER1_ATTACK_NAME = "player/attack.png";
     public static final String PLAYER1_NAME = "player/xunlei.png";
+    public static final String LOADING_NAME = "ui/loading.png";
 
 
     public static final String[] monsterNames = {

@@ -19,4 +19,9 @@ public interface IProp extends IUsable , IStackable{
      * @return 返回道具名
      */
     String getName();
+
+    /**
+     * @return 道具icon
+     */
+    String getIcon();
 }

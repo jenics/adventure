@@ -66,5 +66,4 @@ public class ImageLoader {
         mMap.put(name,bmpReturn);
         return bmpReturn;
     }
-
 }

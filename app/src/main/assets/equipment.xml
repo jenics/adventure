@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
 	<equipment>
-		<equipmentId>500000</equipmentId>
+		<propId>500000</propId>
 		<loc>1</loc>
 		<attackPower>15</attackPower>
 		<defensivePower>0</defensivePower>
@@ -13,7 +13,7 @@
 		<icon>articles/equipments/wuqi1.png</icon>
 	</equipment>
 	<equipment>
-		<equipmentId>500001</equipmentId>
+		<propId>500001</propId>
 		<loc>1</loc>
 		<attackPower>20</attackPower>
 		<defensivePower>0</defensivePower>
@@ -25,7 +25,7 @@
 		<icon>articles/equipments/wuqi2.png</icon>
 	</equipment>
 	<equipment>
-		<equipmentId>500002</equipmentId>
+		<propId>500002</propId>
 		<loc>1</loc>
 		<attackPower>25</attackPower>
 		<defensivePower>0</defensivePower>
@@ -37,7 +37,7 @@
 		<icon>articles/equipments/wuqi3.png</icon>
 	</equipment>
 	<equipment>
-		<equipmentId>500003</equipmentId>
+		<propId>500003</propId>
 		<loc>1</loc>
 		<attackPower>30</attackPower>
 		<defensivePower>0</defensivePower>
@@ -49,7 +49,7 @@
 		<icon>articles/equipments/wuqi4.png</icon>
 	</equipment>
 	<equipment>
-		<equipmentId>500004</equipmentId>
+		<propId>500004</propId>
 		<loc>1</loc>
 		<attackPower>35</attackPower>
 		<defensivePower>0</defensivePower>
@@ -61,7 +61,7 @@
 		<icon>articles/equipments/wuqi5.png</icon>
 	</equipment>
 	<equipment>
-		<equipmentId>500005</equipmentId>
+		<propId>500005</propId>
 		<loc>1</loc>
 		<attackPower>40</attackPower>
 		<defensivePower>0</defensivePower>
@@ -73,7 +73,7 @@
 		<icon>articles/equipments/wuqi6.png</icon>
 	</equipment>
 	<equipment>
-		<equipmentId>500006</equipmentId>
+		<propId>500006</propId>
 		<loc>0</loc>
 		<attackPower>0</attackPower>
 		<defensivePower>5</defensivePower>
@@ -85,7 +85,7 @@
 		<icon>articles/equipments/kaijia1.png</icon>
 	</equipment>
 	<equipment>
-		<equipmentId>500007</equipmentId>
+		<propId>500007</propId>
 		<loc>0</loc>
 		<attackPower>0</attackPower>
 		<defensivePower>10</defensivePower>
@@ -97,7 +97,7 @@
 		<icon>articles/equipments/kaijia2.png</icon>
 	</equipment>
 	<equipment>
-		<equipmentId>500008</equipmentId>
+		<propId>500008</propId>
 		<loc>0</loc>
 		<attackPower>0</attackPower>
 		<defensivePower>15</defensivePower>
@@ -109,7 +109,7 @@
 		<icon>articles/equipments/kaijia3.png</icon>
 	</equipment>
 	<equipment>
-		<equipmentId>500009</equipmentId>
+		<propId>500009</propId>
 		<loc>0</loc>
 		<attackPower>0</attackPower>
 		<defensivePower>20</defensivePower>
@@ -121,7 +121,7 @@
 		<icon>articles/equipments/kaijia4.png</icon>
 	</equipment>
 	<equipment>
-		<equipmentId>500010</equipmentId>
+		<propId>500010</propId>
 		<loc>0</loc>
 		<attackPower>0</attackPower>
 		<defensivePower>25</defensivePower>
@@ -133,7 +133,7 @@
 		<icon>articles/equipments/kaijia5.png</icon>
 	</equipment>
 	<equipment>
-		<equipmentId>500011</equipmentId>
+		<propId>500011</propId>
 		<loc>0</loc>
 		<attackPower>0</attackPower>
 		<defensivePower>30</defensivePower>
@@ -145,7 +145,7 @@
 		<icon>articles/equipments/kaijia6.png</icon>
 	</equipment>
 	<equipment>
-		<equipmentId>500012</equipmentId>
+		<propId>500012</propId>
 		<loc>0</loc>
 		<attackPower>0</attackPower>
 		<defensivePower>35</defensivePower>
@@ -157,7 +157,7 @@
 		<icon>articles/equipments/kaijia7.png</icon>
 	</equipment>
 	<equipment>
-		<equipmentId>500013</equipmentId>
+		<propId>500013</propId>
 		<loc>0</loc>
 		<attackPower>5</attackPower>
 		<defensivePower>40</defensivePower>
@@ -169,7 +169,7 @@
 		<icon>articles/equipments/kaijia8.png</icon>
 	</equipment>
 	<equipment>
-		<equipmentId>500014</equipmentId>
+		<propId>500014</propId>
 		<loc>0</loc>
 		<attackPower>0</attackPower>
 		<defensivePower>45</defensivePower>
@@ -181,7 +181,7 @@
 		<icon>articles/equipments/kaijia9.png</icon>
 	</equipment>
 	<equipment>
-		<equipmentId>500015</equipmentId>
+		<propId>500015</propId>
 		<loc>0</loc>
 		<attackPower>0</attackPower>
 		<defensivePower>50</defensivePower>

@@ -21,13 +21,6 @@ public class ViewAnimation implements IAnimation {
     protected boolean isStop = false;
     protected BaseView mView;
 
-    @Override
-    public void draw(Canvas canvas) {
-        if (mView != null) {
-            mView.draw(canvas);
-        }
-    }
-
     public interface OnAniamtionListener{
         /**
          * @param view

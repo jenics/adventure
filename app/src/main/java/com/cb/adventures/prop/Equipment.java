@@ -32,7 +32,7 @@ public class Equipment implements IEquipment{
 
     @Override
     public long getPropId() {
-        return equipmentPropetry.getEquipmentId();
+        return equipmentPropetry.getPropId();
     }
 
     @Override
@@ -69,5 +69,10 @@ public class Equipment implements IEquipment{
     @Override
     public String getName() {
         return equipmentPropetry.getName();
+    }
+
+    @Override
+    public String getIcon() {
+        return equipmentPropetry.getIcon();
     }
 }

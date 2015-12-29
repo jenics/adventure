@@ -26,14 +26,7 @@ public class SelfAnimation extends FrameView implements IAnimation {
 
     }
 
-    public interface OnAniamtionListener{
-        /**
-         * @param view
-         * @param isForce 是否外界强制停止
-         */
-        void onAnimationEnd(BaseView view,boolean isForce);
-        void onAnimationBegin();
-    }
+
 
 
     public SelfAnimation(){

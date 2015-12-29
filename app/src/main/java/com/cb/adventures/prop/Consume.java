@@ -28,9 +28,8 @@ public class Consume implements IProp{
 
     @Override
     public long getPropId() {
-        return consumePropetry.getConsumeId();
+        return consumePropetry.getPropId();
     }
-
 
     @Override
     public String getDescription() {
@@ -40,6 +39,11 @@ public class Consume implements IProp{
     @Override
     public String getName() {
         return consumePropetry.getName();
+    }
+
+    @Override
+    public String getIcon() {
+        return consumePropetry.getIcon();
     }
 
     @Override

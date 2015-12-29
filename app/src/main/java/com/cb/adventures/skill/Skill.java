@@ -144,7 +144,7 @@ public class Skill extends FrameAnimation implements ViewAnimation.OnAniamtionLi
 
     @Override
     public void draw(Canvas canvas) {
-        super.draw(canvas);
+        //super.draw(canvas);
     }
 
     @Override

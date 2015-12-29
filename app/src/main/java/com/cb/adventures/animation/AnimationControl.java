@@ -71,7 +71,8 @@ public class AnimationControl implements IDrawable {
     @Override
     public synchronized void draw(Canvas canvas) {
         for (IAnimation animation : mQueueAnimaion) {
-            animation.draw(canvas);
+            if (animation instanceof IView)
+                ((IView)animation).draw(canvas);
         }
     }
 

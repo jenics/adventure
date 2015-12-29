@@ -205,7 +205,7 @@ public class Map extends BaseView {
 
     @Override
     public void draw(Canvas canvas) {
-        super.draw(canvas);
+        //super.draw(canvas);
         scroll();
         canvas.drawBitmap(bmpTop,
                 new Rect(   ///src rect
