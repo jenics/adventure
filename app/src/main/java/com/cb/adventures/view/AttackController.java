@@ -1,6 +1,5 @@
 package com.cb.adventures.view;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -17,7 +16,7 @@ public class AttackController extends BaseView {
     }
 
     public void init() {
-        mBitmap = ImageLoader.getmInstance().loadBitmap(GameConstants.DIRECTION_ATTACK_NAME);
+        mBitmap = ImageLoader.getInstance().loadBitmap(GameConstants.DIRECTION_ATTACK_NAME);
         ///宽度是屏幕宽度的0.15倍
         width = height = (int) (GameConstants.sGameWidth*WIDTH_RATIO);
         ///

@@ -115,7 +115,7 @@ public class Skill extends FrameAnimation implements ViewAnimation.OnAniamtionLi
     public void setSkillPropetry(SkillPropetry mSkillPropetry) {
         this.mSkillPropetry = mSkillPropetry;
         if(mBitmap == null && mSkillPropetry.getAnimationPropetry() != null) {
-            mBitmap = ImageLoader.getmInstance().loadBitmap(mSkillPropetry.getSrcInfo().getSrcName());
+            mBitmap = ImageLoader.getInstance().loadBitmap(mSkillPropetry.getSrcInfo().getSrcName());
             mFrameWidth = mBitmap.getWidth() / mSkillPropetry.getSrcInfo().getColFramCont();
             mFrameHeight = mBitmap.getHeight() / mSkillPropetry.getSrcInfo().getRowFramCount();
 

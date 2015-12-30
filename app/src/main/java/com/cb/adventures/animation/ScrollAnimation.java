@@ -55,7 +55,7 @@ public class ScrollAnimation extends SelfAnimation {
         this.mAnimationPropetry = animationPropetry;
         timeDuration = animationPropetry.getTimeDuration();
         if (mBitmap == null) {
-            mBitmap = ImageLoader.getmInstance().loadBitmap(mAnimationPropetry.getSrcInfo().getSrcName());
+            mBitmap = ImageLoader.getInstance().loadBitmap(mAnimationPropetry.getSrcInfo().getSrcName());
             setWidth(mBitmap.getWidth());
             setHeight(mBitmap.getHeight());
             cursor = 0;

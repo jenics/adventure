@@ -5,20 +5,24 @@ import android.graphics.PointF;
 
 import com.cb.adventures.animation.DropPropAnimation;
 import com.cb.adventures.animation.IAnimation;
+import com.cb.adventures.animation.PickUpPropAnimation;
 import com.cb.adventures.data.PropPropetry;
-import com.cb.adventures.prop.IProp;
 import com.cb.adventures.utils.ImageLoader;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Created by chengbo01 on 2015/12/29.
  * 掉落的物品
  * email : jenics@live.com
  */
-public class DropProp extends BaseView implements IAnimation.OnAniamtionListener{
+public class PropView extends BaseView implements IAnimation.OnAniamtionListener{
+    private WeakReference<DropPropAnimation> mDropPropAnimation;
+    private WeakReference<PickUpPropAnimation> mPickUpPropAnimation;
     @Override
     public void onAnimationEnd(BaseView view, boolean isForce) {
         if (isPicking && null != mPickUpPropListener) {
-            mPickUpPropListener.onPickUpOver(prop);
+            mPickUpPropListener.onPickUpOver(this);
         }
     }
 
@@ -32,12 +36,12 @@ public class DropProp extends BaseView implements IAnimation.OnAniamtionListener
          * 开始捡起
          * @param prop 道具接口
          */
-        void onPickUpBegin(PropPropetry prop);
+        void onPickUpBegin(PropView prop);
         /**
          * 捡起完成
          * @param prop 道具接口
          */
-        void onPickUpOver(PropPropetry prop);
+        void onPickUpOver(PropView prop);
     }
     private PickUpPropListener mPickUpPropListener;
     private PropPropetry prop;
@@ -45,10 +49,10 @@ public class DropProp extends BaseView implements IAnimation.OnAniamtionListener
      * 如果开始动画了就是开始捡了
      */
     private boolean isPicking;
-    public DropProp(PropPropetry prop) {
+    public PropView(PropPropetry prop) {
         isPicking = false;
         this.prop = prop;
-        mBitmap = ImageLoader.getmInstance().loadBitmap(prop.getIcon());
+        mBitmap = ImageLoader.getInstance().loadBitmap(prop.getIcon());
         calcSize();
     }
 
@@ -69,8 +73,8 @@ public class DropProp extends BaseView implements IAnimation.OnAniamtionListener
      */
     public void drop(PointF pt) {
         setPt(pt);
-        DropPropAnimation dropPropAnimation = new DropPropAnimation(this);
-        dropPropAnimation.startAnimation();
+        mDropPropAnimation = new WeakReference<>(new DropPropAnimation(this));
+        mDropPropAnimation.get().startAnimation();
     }
 
     /**
@@ -78,7 +82,17 @@ public class DropProp extends BaseView implements IAnimation.OnAniamtionListener
      * @param pt 跟随这个坐标。
      */
     public void pickUp(PointF pt) {
-
+        if (!canPickedUp()) {
+            return;
+        }
+        isPicking = true;
+        final DropPropAnimation dropPropAnimation = mDropPropAnimation.get();
+        if (dropPropAnimation != null) {
+            dropPropAnimation.stopAnimation();
+        }
+        mPickUpPropAnimation = new WeakReference<>(new PickUpPropAnimation(this,pt));
+        mPickUpPropAnimation.get().setOnAnimationListener(this);
+        mPickUpPropAnimation.get().startAnimation();
     }
 
     public boolean canPickedUp() {

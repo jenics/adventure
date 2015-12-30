@@ -87,8 +87,8 @@ public class InventoryView extends BaseView implements IControl{
     }
 
     public void init() {
-        mBitmap = ImageLoader.getmInstance().loadBitmap(GameConstants.INVENTORY_NAME);
-        mSelectBitmap = ImageLoader.getmInstance().loadBitmap(GameConstants.INVENTORY_SELECTED_NAME);
+        mBitmap = ImageLoader.getInstance().loadBitmap(GameConstants.INVENTORY_NAME);
+        mSelectBitmap = ImageLoader.getInstance().loadBitmap(GameConstants.INVENTORY_SELECTED_NAME);
         ///宽度是屏幕宽度的0.15倍
         width = (int) (GameConstants.sGameWidth*0.7f);
         height = (int) (GameConstants.sGameHeight*0.7f);

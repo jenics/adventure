@@ -2,7 +2,6 @@ package com.cb.adventures.view;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
@@ -29,8 +28,8 @@ public class BloodReservoir extends BaseView {
     }
 
     public void init() {
-        bitmap = ImageLoader.getmInstance().loadBitmap(GameConstants.RED_BLUE_NAME);
-        background = ImageLoader.getmInstance().loadBitmap(GameConstants.RED_BLUE_BOTTOM);
+        bitmap = ImageLoader.getInstance().loadBitmap(GameConstants.RED_BLUE_NAME);
+        background = ImageLoader.getInstance().loadBitmap(GameConstants.RED_BLUE_BOTTOM);
 
         ///宽度是屏幕宽度的0.2倍
         width = (int) (GameConstants.sGameWidth*0.2);

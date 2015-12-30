@@ -63,7 +63,7 @@ public class FrameAnimation extends SelfAnimation {
     public void setAnimationPropetry(AnimationPropetry animationPropetry) {
         this.mAnimationPropetry = animationPropetry;
         if(mBitmap == null) {
-            mBitmap = ImageLoader.getmInstance().loadBitmap(mAnimationPropetry.getSrcInfo().getSrcName());
+            mBitmap = ImageLoader.getInstance().loadBitmap(mAnimationPropetry.getSrcInfo().getSrcName());
             mFrameWidth = mBitmap.getWidth() / mAnimationPropetry.getSrcInfo().getColFramCont();
             mFrameHeight = mBitmap.getHeight() / mAnimationPropetry.getSrcInfo().getRowFramCount();
             width = (int) (mFrameWidth* GameConstants.zoomRatio) ;

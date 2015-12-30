@@ -1,6 +1,5 @@
 package com.cb.adventures.view;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -16,7 +15,7 @@ public class DirectionController extends BaseView {
     }
 
     public void init() {
-        mBitmap = ImageLoader.getmInstance().loadBitmap(GameConstants.DIRECTION_CONTROLLER_NAME);
+        mBitmap = ImageLoader.getInstance().loadBitmap(GameConstants.DIRECTION_CONTROLLER_NAME);
 
         ///与下面有个屏幕左下有宽度*0.125的距离
         pt.x = GameConstants.sGameWidth*0.125f;

@@ -48,7 +48,7 @@ public class GameMenuView extends BaseView implements IControl {
         int i = 0;
         for (String item : items) {
             MenuTtemView menuTtemView = new MenuTtemView();
-            menuTtemView.bitmap = ImageLoader.getmInstance().loadBitmap(item);
+            menuTtemView.bitmap = ImageLoader.getInstance().loadBitmap(item);
             menuTtemView.rectF = new RectF(
                     GameConstants.sGameWidth - (i+1)*width - interval*(i+1),
                     0,

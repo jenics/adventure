@@ -37,6 +37,11 @@ public class Sprite extends FrameView implements IHurtable{
             mDeadEffect = new SkillFactory().create(GameConstants.SKILL_ID_DEAD);
             mDeadEffect.setAttachView(this);
             mDeadEffect.startSkill();
+
+            /**
+             * 查询掉落列表，根据掉率随机掉出
+             */
+            DropPropMgr.getInstance().drop(getPt(),1);
         }
         mMonsterPropetry.setBloodVolume(mCurrentBlood);
 
@@ -96,7 +101,7 @@ public class Sprite extends FrameView implements IHurtable{
     public Sprite(MonsterPropetry monsterPropetry) {
         Sprite.sIdNum++;
         mId = sIdNum;
-        mBitmap = ImageLoader.getmInstance().loadBitmap(monsterPropetry.getSrcInfo().getSrcName());
+        mBitmap = ImageLoader.getInstance().loadBitmap(monsterPropetry.getSrcInfo().getSrcName());
         mFrameInterval = 100;            ///100ms换一帧
         mPerWidth = mBitmap.getWidth()/monsterPropetry.getSrcInfo().getColFramCont();
         mPerHeight = mBitmap.getHeight()/monsterPropetry.getSrcInfo().getRowFramCount();

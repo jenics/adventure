@@ -21,14 +21,6 @@ public class ViewAnimation implements IAnimation {
     protected boolean isStop = false;
     protected BaseView mView;
 
-    public interface OnAniamtionListener{
-        /**
-         * @param view
-         * @param isForce 是否外界强制停止
-         */
-        void onAnimationEnd(BaseView view,boolean isForce);
-        void onAnimationBegin();
-    }
 
     public BaseView getView() {
         return mView;
@@ -41,8 +33,9 @@ public class ViewAnimation implements IAnimation {
 
     protected LinkedList<OnAniamtionListener> mAnimationListeners;
 
+
     @Override
-    public void startAnimation() {
+    public synchronized void startAnimation() {
         isStop = false;
         if(mAnimationListeners != null && mAnimationListeners.size() > 0){
             for(OnAniamtionListener listener : mAnimationListeners)
@@ -67,14 +60,14 @@ public class ViewAnimation implements IAnimation {
      * @param isForce   是否外界强制停止
      */
     @Override
-    public void notifyAnimationEnd(boolean isForce){
+    public synchronized void notifyAnimationEnd(boolean isForce){
         if(mAnimationListeners != null && mAnimationListeners.size() > 0){
             for(OnAniamtionListener listener : mAnimationListeners)
                 listener.onAnimationEnd(mView,isForce);
         }
     }
 
-    public void setOnAnimationListener(OnAniamtionListener listener){
+    public synchronized void setOnAnimationListener(OnAniamtionListener listener){
         if(listener != null)
             mAnimationListeners.add(listener);
     }

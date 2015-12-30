@@ -36,7 +36,7 @@ public class FunctionController extends BaseView {
 
     public void setSkillPropetry(SkillPropetry skillPropetry) {
         this.skillPropetry = skillPropetry;
-        icon = ImageLoader.getmInstance().loadBitmap(skillPropetry.getIcon());
+        icon = ImageLoader.getInstance().loadBitmap(skillPropetry.getIcon());
         type = GameConstants.FUNCTION_TYPE_SKILL;
     }
 
@@ -51,7 +51,7 @@ public class FunctionController extends BaseView {
     }
 
     public void init() {
-        mBitmap = ImageLoader.getmInstance().loadBitmap(GameConstants.GAME_SKILL_NAME);
+        mBitmap = ImageLoader.getInstance().loadBitmap(GameConstants.GAME_SKILL_NAME);
 
         ///宽度是屏幕宽度的0.1
         width = height = (int) (GameConstants.sGameWidth*WIDTH_RATIO);

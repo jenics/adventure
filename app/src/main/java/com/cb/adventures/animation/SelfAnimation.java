@@ -26,9 +26,6 @@ public class SelfAnimation extends FrameView implements IAnimation {
 
     }
 
-
-
-
     public SelfAnimation(){
         mAnimationListeners = new LinkedList<>();
     }
@@ -36,7 +33,7 @@ public class SelfAnimation extends FrameView implements IAnimation {
     protected LinkedList<OnAniamtionListener> mAnimationListeners;
 
     @Override
-    public void startAnimation() {
+    public synchronized void startAnimation() {
         isStop = false;
         if(mAnimationListeners != null && mAnimationListeners.size() > 0){
             for(OnAniamtionListener listener : mAnimationListeners)
@@ -61,14 +58,14 @@ public class SelfAnimation extends FrameView implements IAnimation {
      * @param isForce   是否外界强制停止
      */
     @Override
-    public void notifyAnimationEnd(boolean isForce){
+    public synchronized void notifyAnimationEnd(boolean isForce){
         if(mAnimationListeners != null && mAnimationListeners.size() > 0){
             for(OnAniamtionListener listener : mAnimationListeners)
                 listener.onAnimationEnd(this,isForce);
         }
     }
 
-    public void setOnAnimationListener(OnAniamtionListener listener){
+    public synchronized void setOnAnimationListener(OnAniamtionListener listener){
         if(listener != null)
             mAnimationListeners.add(listener);
     }

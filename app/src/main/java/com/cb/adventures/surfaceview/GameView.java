@@ -10,9 +10,9 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -24,24 +24,20 @@ import com.cb.adventures.controller.MonsterController;
 import com.cb.adventures.data.GameData;
 import com.cb.adventures.data.SkillPropetry;
 import com.cb.adventures.factory.SkillFactory;
-import com.cb.adventures.prop.IProp;
 import com.cb.adventures.skill.Skill;
 import com.cb.adventures.utils.CLog;
 import com.cb.adventures.utils.ImageLoader;
 import com.cb.adventures.utils.WeakRefHandler;
-import com.cb.adventures.view.BaseView;
 import com.cb.adventures.view.BloodReservoir;
-import com.cb.adventures.view.DropProp;
+import com.cb.adventures.view.DropPropMgr;
 import com.cb.adventures.view.GameController;
 import com.cb.adventures.view.GameMenuView;
-import com.cb.adventures.view.IView;
 import com.cb.adventures.view.InventoryView;
 import com.cb.adventures.view.Player;
 import com.cb.adventures.view.Map;
 import com.cb.adventures.view.Sprite;
 
 import java.lang.ref.WeakReference;
-import java.util.LinkedList;
 
 /**
  * 游戏主view
@@ -49,7 +45,8 @@ import java.util.LinkedList;
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback, Runnable, GameController.OnControllerListener ,GameMenuView.OnMenuItemClickListener ,GameData.OnLoadDataListener {
     private boolean mIsRunning;
-    private Thread mThread;
+    private Thread mDrawThread;
+    private Thread mWorkThread;
     private SurfaceHolder mSurfaceHolder;
     private Paint mPaint;
     private Map map;
@@ -57,13 +54,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     private GameController mGameController;
     private boolean mIsLoadFinish;
     private Bitmap mBitmapLoading;
-    /**
-     * 掉落的物品
-     */
-    private LinkedList<DropProp> mDropProps;
 
     public static final int LOAD_FINISH = 1;
 
+    public Map getMap() {
+        return map;
+    }
 
     static class GameHandler<GameView> extends WeakRefHandler<GameView> {
         public GameHandler(GameView t) {
@@ -73,13 +69,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         @Override
         public void handleMessage(Message msg) {
             final com.cb.adventures.surfaceview.GameView gameView = (com.cb.adventures.surfaceview.GameView) getReference().get();
-            switch (msg.what) {
-                case LOAD_FINISH:
-                    gameView.initGameData();
-                    gameView.mIsLoadFinish = true;
-                    break;
-                default:
-                    break;
+            if (gameView != null) {
+                switch (msg.what) {
+                    case LOAD_FINISH:
+                        gameView.initGameData();
+                        gameView.mIsLoadFinish = true;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
@@ -128,11 +126,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         if (mGameHandler == null) {
             mGameHandler = new GameHandler(this);
         }
-        if (mDropProps == null) {
-            mDropProps = new LinkedList<>();
-        }
 
-        mBitmapLoading = ImageLoader.getmInstance().loadBitmap(GameConstants.LOADING_NAME);
+
+        mBitmapLoading = ImageLoader.getInstance().loadBitmap(GameConstants.LOADING_NAME);
 
         if (mPaint == null)
             mPaint = new Paint();
@@ -141,6 +137,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         mPaint.setTypeface(font);
     }
 
+    /**
+     * @param holder
+     */
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Configuration mConfiguration = this.getResources().getConfiguration(); //获取设置的配置信息
@@ -154,17 +153,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
 
             GameData.getInstance().asyParsAll(this);
 
+            ///开启绘图线程
             mIsRunning = true;
-            mThread = new Thread(this);
-            mThread.start();
+            mDrawThread = new Thread(this);
+            mDrawThread.start();
+
         }
     }
 
     private void initGameData() {
         if (player == null) {
             player = new Player();
-            Bitmap bitmap = ImageLoader.getmInstance().loadBitmap(GameConstants.PLAYER1_NAME);
-            Bitmap attackBitmap = ImageLoader.getmInstance().loadBitmap(GameConstants.PLAYER1_ATTACK_NAME);
+            Bitmap bitmap = ImageLoader.getInstance().loadBitmap(GameConstants.PLAYER1_NAME);
+            Bitmap attackBitmap = ImageLoader.getInstance().loadBitmap(GameConstants.PLAYER1_ATTACK_NAME);
             player.init(bitmap, 9, 946 / 9, 420 / 4, 1, 2,
                     attackBitmap, 1151 / 6, 103, 6);
             player.getmPropetry().setBloodTotalVolume(100);
@@ -213,6 +214,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             map = new Map();
             map.init(2, getWidth(), getHeight(), player);
         }
+
+        /**
+         * 加入观察者到map类中
+         */
+        map.addObserver(DropPropMgr.getInstance());
+        map.addObserver(MonsterController.getInstance());
+
+
+        ///开启工作线程
+        mWorkThread = new Thread(new WorkRunnable(this));
+        mWorkThread.start();
     }
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
@@ -238,8 +250,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                 if (!mIsLoadFinish) {
                     drawLoading(canvas);
                 } else {
-                    logicAnimate();
-                    collisionDetection();
+
                     drawGame(canvas);
                 }
 
@@ -261,8 +272,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     }
 
     private void logicAnimate() {
-        MonsterController.getInstance().animate();
         AnimationControl.getInstance().animate();
+        MonsterController.getInstance().animate();
+        DropPropMgr.getInstance().pickUp(player.getPt());
     }
 
     /**
@@ -319,7 +331,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                             CLog.w("logicAnimate", "no definition cast");
                         }
                     }
-                //}
             }
         }
 
@@ -393,9 +404,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         }
 
         ///画掉落的物品
-        for(IView prop : mDropProps) {
-            prop.draw(canvas);
-        }
+        DropPropMgr.getInstance().draw(canvas);
     }
 
     @Override
@@ -448,24 +457,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         }
     }
 
+
+
     @Override
     public void onAttack() {
         ///判断下是否到了地图入口与出口
-//        if(map.getPreGate() != null && player.getPt().x > map.getPreGate().getPt().x-map.getPreGate().getWidth()/2
-//                && player.getPt().x < map.getPreGate().getPt().x+map.getPreGate().getWidth()/2) {
-//            map.preGate();
-//        }else if (map.getNextGate() != null && player.getPt().x > map.getNextGate().getPt().x-map.getNextGate().getWidth()/2
-//                && player.getPt().x < map.getNextGate().getPt().x+map.getNextGate().getWidth()/2) {
-//            map.nextGate();
-//        }else {
-//            player.attack(GameConstants.SKILL_ID_NORMAL);
-//            map.stopScroll();
-//        }
-
-        DropProp dropProp = new DropProp( GameData.getInstance().getConsumePropetry(1));
-
-        dropProp.drop(player.getPt());
-        mDropProps.add(dropProp);
+        if(map.getPreGate() != null && player.getPt().x > map.getPreGate().getPt().x-map.getPreGate().getWidth()/2
+                && player.getPt().x < map.getPreGate().getPt().x+map.getPreGate().getWidth()/2) {
+            map.preGate();
+        }else if (map.getNextGate() != null && player.getPt().x > map.getNextGate().getPt().x-map.getNextGate().getWidth()/2
+                && player.getPt().x < map.getNextGate().getPt().x+map.getNextGate().getWidth()/2) {
+            map.nextGate();
+        }else {
+            player.attack(GameConstants.SKILL_ID_NORMAL);
+            map.stopScroll();
+        }
     }
 
     @Override
@@ -505,5 +511,39 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     @Override
     public void onLoadFailed(GameData.LoadStepEnum step) {
 
+    }
+
+    private static class WorkRunnable implements Runnable {
+        WeakReference<GameView> mReference;
+        public WorkRunnable(GameView view) {
+            mReference = new WeakReference<>(view);
+        }
+        @Override
+        public void run() {
+            GameView gameView = mReference.get();
+            if (gameView == null) {
+                CLog.e("GameView","work thread error,gameview is null");
+                return;
+            }
+            while (gameView.mIsRunning) {
+                long startTime = System.currentTimeMillis();
+
+                //gameView.getMap().scroll();
+                gameView.logicAnimate();
+                gameView.collisionDetection();
+
+
+                long endTime = System.currentTimeMillis();
+                /**计算出游戏一次更新的毫秒数**/
+                int diffTime = (int) (endTime - startTime);
+
+                /**确保每次更新时间为30帧**/
+                while (diffTime <= 20) {
+                    diffTime = (int) (System.currentTimeMillis() - startTime);
+                    /**线程等待**/
+                    Thread.yield();
+                }
+            }
+        }
     }
 }

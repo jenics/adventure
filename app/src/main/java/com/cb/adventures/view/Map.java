@@ -16,6 +16,8 @@ import com.cb.adventures.factory.SimpleMonsterFactory;
 import com.cb.adventures.utils.CLog;
 import com.cb.adventures.utils.ImageLoader;
 
+import java.util.LinkedList;
+
 /**
  * Created by jenics on 2015/10/7.
  */
@@ -42,11 +44,35 @@ public class Map extends BaseView {
         return mapPropetry;
     }
 
+    /**
+     * 观察者模式，看谁都关心这个滚动事件，在地图滚动的时候，
+     * 有些图元是需要跟着移动的，于是设置了这个观察者
+     */
+    private LinkedList<MapScrollObserver> mapScrollObservers;
+    public interface MapScrollObserver {
+        void onScroll(int direction,int speed);
+    }
+
+    private synchronized void notifyAll(int dir,int speed) {
+        for (MapScrollObserver observer : mapScrollObservers) {
+            observer.onScroll(dir,speed);
+        }
+    }
+
+    public synchronized void addObserver(MapScrollObserver observer) {
+        mapScrollObservers.add(observer);
+    }
+
+    public synchronized void removeObserver(MapScrollObserver observer) {
+        mapScrollObservers.remove(observer);
+    }
+
     public Map() {
         isClickable = false;
         rt1 = new RectF();
         rt2 = new RectF();
         mDirection = GameConstants.STATE_NONE;
+        mapScrollObservers = new LinkedList<>();
     }
 
     /**
@@ -175,11 +201,11 @@ public class Map extends BaseView {
             return false;
         }
 
-        this.bmpTop = ImageLoader.getmInstance().loadBitmap(mapPropetry.getSrcName());
-        this.bmpBottom = ImageLoader.getmInstance().loadBitmap(GameConstants.MAP_BOTTOM_NAME);
+        this.bmpTop = ImageLoader.getInstance().loadBitmap(mapPropetry.getSrcName());
+        this.bmpBottom = ImageLoader.getInstance().loadBitmap(GameConstants.MAP_BOTTOM_NAME);
 
         if (curMapSrcName != null) {
-            ImageLoader.getmInstance().recycleBitmap(curMapSrcName);
+            ImageLoader.getInstance().recycleBitmap(curMapSrcName);
         }
 
         mapWidth = (int) (mScreemWidth * mapPropetry.getMapLenRatio());
@@ -200,6 +226,11 @@ public class Map extends BaseView {
         for (MapPropetry.MonsterPack pack : mapPropetry.getMonsterPaks()) {
             MonsterController.getInstance().generateMonster(pack.getMonsterId(), pack.getMonsterNum());
         }
+
+        /**
+         * 清空地上的物品
+         */
+        DropPropMgr.getInstance().clearProps();
         return true;
     }
 
@@ -249,7 +280,7 @@ public class Map extends BaseView {
         mDirection = GameConstants.DIRECT_NONE;
     }
 
-    private void scroll() {
+    public void scroll() {
         if (mDirection == GameConstants.DIRECT_RIGHT) {
             if (cursor >= mapWidth - mScreemWidth / 2) {
                 PointF pointF = mPlayer.getPt();
@@ -273,12 +304,6 @@ public class Map extends BaseView {
             rt2.left -= mPlayer.getmPropetry().getSpeed();
             rt2.right -= mPlayer.getmPropetry().getSpeed();
 
-            for (BaseView view :
-                    MonsterController.getInstance().getMonters()) {
-                PointF pt = view.getPt();
-                pt.x -= mPlayer.getmPropetry().getSpeed();
-            }
-
             if (preGate != null) {
                 PointF pt = preGate.getPt();
                 pt.x -= mPlayer.getmPropetry().getSpeed();
@@ -288,6 +313,7 @@ public class Map extends BaseView {
                 pt.x -= mPlayer.getmPropetry().getSpeed();
             }
 
+            ///矫正地图位置
             if (rt1.left < -mScreemWidth) {
                 rt1.left = mScreemWidth;
                 rt1.right = mScreemWidth + mScreemWidth;
@@ -299,6 +325,8 @@ public class Map extends BaseView {
                 rt2.left = mScreemWidth;
                 rt2.right = mScreemWidth + mScreemWidth;
             }
+
+            notifyAll(mDirection,mPlayer.getmPropetry().getSpeed());
         } else if (mDirection == GameConstants.DIRECT_LEFT) {
             if (cursor <= mScreemWidth / 2) {
                 PointF pointF = mPlayer.getPt();
@@ -322,12 +350,6 @@ public class Map extends BaseView {
             rt2.left += mPlayer.getmPropetry().getSpeed();
             rt2.right += mPlayer.getmPropetry().getSpeed();
 
-            for (BaseView view :
-                    MonsterController.getInstance().getMonters()) {
-                PointF pt = view.getPt();
-                pt.x += mPlayer.getmPropetry().getSpeed();
-            }
-
             ///移动关卡
             if (preGate != null) {
                 PointF pt = preGate.getPt();
@@ -338,6 +360,7 @@ public class Map extends BaseView {
                 pt.x += mPlayer.getmPropetry().getSpeed();
             }
 
+            ///矫正地图位置
             if (rt1.left > mScreemWidth) {
                 rt1.left = -mScreemWidth;
                 rt1.right = 0;
@@ -349,6 +372,8 @@ public class Map extends BaseView {
                 rt2.left = 0;
                 rt2.right = mScreemWidth;
             }
+
+            notifyAll(mDirection,mPlayer.getmPropetry().getSpeed());
         }
     }
 }

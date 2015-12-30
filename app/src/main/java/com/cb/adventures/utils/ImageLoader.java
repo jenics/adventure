@@ -24,7 +24,7 @@ public class ImageLoader {
         mMap = new HashMap<>();
     }
 
-    public synchronized static ImageLoader getmInstance() {
+    public synchronized static ImageLoader getInstance() {
         if(mInstance == null) {
             mInstance = new ImageLoader();
         }
