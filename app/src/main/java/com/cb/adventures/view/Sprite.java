@@ -21,7 +21,7 @@ public class Sprite extends FrameView implements IHurtable{
         /**
          * 扣除怪物血量
          */
-        int hurt = skill.getSkillPropetry().getExtraAttack() - mMonsterPropetry.getDefensivePower();
+        int hurt = skill.getAttackPower() - mMonsterPropetry.getDefensivePower();
         if (hurt <= 0) {
             ///防御力大于等于攻击力，强制扣除1血
             hurt = 1;

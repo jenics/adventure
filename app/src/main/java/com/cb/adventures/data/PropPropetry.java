@@ -31,6 +31,10 @@ public class PropPropetry {
      */
     private int maxStackSize;
 
+    public PropPropetry() {
+        maxStackSize = 1;
+    }
+
     public int getPropId() {
         return propId;
     }

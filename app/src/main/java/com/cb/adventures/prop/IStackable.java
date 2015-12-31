@@ -6,7 +6,7 @@ package com.cb.adventures.prop;
  */
 public interface IStackable {
     /**
-     * @return 最大可堆叠数量
+     * @return 当前堆叠数量
      */
-    int getMaxStackSize();
+    int getCurrentStackSize();
 }

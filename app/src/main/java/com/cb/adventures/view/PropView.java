@@ -16,34 +16,23 @@ import java.lang.ref.WeakReference;
  * 掉落的物品
  * email : jenics@live.com
  */
-public class PropView extends BaseView implements IAnimation.OnAniamtionListener{
+public class PropView extends BaseView {
     private WeakReference<DropPropAnimation> mDropPropAnimation;
     private WeakReference<PickUpPropAnimation> mPickUpPropAnimation;
-    @Override
-    public void onAnimationEnd(BaseView view, boolean isForce) {
-        if (isPicking && null != mPickUpPropListener) {
-            mPickUpPropListener.onPickUpOver(this);
-        }
-    }
 
-    @Override
-    public void onAnimationBegin() {
-
-    }
 
     public interface PickUpPropListener {
         /**
          * 开始捡起
          * @param prop 道具接口
          */
-        void onPickUpBegin(PropView prop);
+        void onPickUpBegin(PropPropetry prop);
         /**
          * 捡起完成
          * @param prop 道具接口
          */
-        void onPickUpOver(PropView prop);
+        void onPickUpOver(PropPropetry prop);
     }
-    private PickUpPropListener mPickUpPropListener;
     private PropPropetry prop;
     /**
      * 如果开始动画了就是开始捡了
@@ -81,7 +70,7 @@ public class PropView extends BaseView implements IAnimation.OnAniamtionListener
      * 外面在发起这个捡起动作的时候，会做一系列检测，比如背包还有没有空位，能否叠加
      * @param pt 跟随这个坐标。
      */
-    public void pickUp(PointF pt) {
+    public void pickUp(PointF pt,IAnimation.OnAniamtionListener l) {
         if (!canPickedUp()) {
             return;
         }
@@ -91,7 +80,7 @@ public class PropView extends BaseView implements IAnimation.OnAniamtionListener
             dropPropAnimation.stopAnimation();
         }
         mPickUpPropAnimation = new WeakReference<>(new PickUpPropAnimation(this,pt));
-        mPickUpPropAnimation.get().setOnAnimationListener(this);
+        mPickUpPropAnimation.get().setOnAnimationListener(l);
         mPickUpPropAnimation.get().startAnimation();
     }
 
@@ -99,7 +88,5 @@ public class PropView extends BaseView implements IAnimation.OnAniamtionListener
         return !isPicking;
     }
 
-    public void setPickUpPropListener(PickUpPropListener listener) {
-        mPickUpPropListener = listener;
-    }
+
 }

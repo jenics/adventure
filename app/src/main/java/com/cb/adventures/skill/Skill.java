@@ -43,6 +43,19 @@ public class Skill extends FrameAnimation implements ViewAnimation.OnAniamtionLi
     }
 
     /**
+     * 攻击力
+     */
+    private int attackPower;
+
+    public int getAttackPower() {
+        return attackPower;
+    }
+
+    public void setAttackPower(int attackPower) {
+        this.attackPower = attackPower;
+    }
+
+    /**
      * 技能挂靠的目标
      */
     protected BaseView mAttachView;

@@ -2,13 +2,19 @@ package com.cb.adventures.view;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.ConsumePropetry;
 import com.cb.adventures.data.SkillPropetry;
+import com.cb.adventures.prop.Consume;
+import com.cb.adventures.utils.FontFace;
 import com.cb.adventures.utils.ImageLoader;
+
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Created by jenics on 2015/11/1.
@@ -17,10 +23,13 @@ public class FunctionController extends BaseView {
     public static float WIDTH_RATIO = 0.1f;
     private Bitmap icon;
     private int type;
+    private Paint.FontMetricsInt mFontMetricsInt;
     private SkillPropetry skillPropetry;
-    private ConsumePropetry consumePropetry;
+    private Consume consume;
     public FunctionController() {
     }
+
+    private final ReentrantReadWriteLock mReentrantReadWriteLock = new ReentrantReadWriteLock();
 
     public int getType() {
         return type;
@@ -35,19 +44,25 @@ public class FunctionController extends BaseView {
     }
 
     public void setSkillPropetry(SkillPropetry skillPropetry) {
+        mReentrantReadWriteLock.writeLock().lock();
         this.skillPropetry = skillPropetry;
+        consume = null;
         icon = ImageLoader.getInstance().loadBitmap(skillPropetry.getIcon());
         type = GameConstants.FUNCTION_TYPE_SKILL;
+        mReentrantReadWriteLock.writeLock().unlock();
     }
 
-    public ConsumePropetry getConsumePropetry() {
-        return consumePropetry;
-
+    public Consume getConsume() {
+        return consume;
     }
 
-    public void setConsumePropetry(ConsumePropetry consumePropetry) {
-        this.consumePropetry = consumePropetry;
+    public void setConsume(Consume consume) {
+        mReentrantReadWriteLock.writeLock().lock();
+        this.consume = consume;
+        skillPropetry = null;
+        icon = ImageLoader.getInstance().loadBitmap(consume.getIcon());
         type = GameConstants.FUNCTION_TYPE_CONSUMABLE;
+        mReentrantReadWriteLock.writeLock().unlock();
     }
 
     public void init() {
@@ -55,19 +70,24 @@ public class FunctionController extends BaseView {
 
         ///宽度是屏幕宽度的0.1
         width = height = (int) (GameConstants.sGameWidth*WIDTH_RATIO);
-        ///
-        //pt.x = GameConstants.sGameWidth - width/2 - 15;
-        //pt.y = (float) (GameConstants.sGameHeight - height/2 - GameConstants.sGameHeight*0.1);
-
         mPaint.setAlpha(170);
+
+        if (mPaint == null)
+            mPaint = new Paint();
+        mPaint.setAntiAlias(true);  ///抗锯齿
+        mPaint.setTypeface(FontFace.getInstance().getFontFace(FontFace.E_Font_Face.COMIXHEAVY));
+        mPaint.setTextSize(30);
+        mPaint.setColor(Color.YELLOW);
+        mPaint.setTextAlign(Paint.Align.CENTER);
+        mFontMetricsInt = mPaint.getFontMetricsInt();
     }
-
-
 
     @Override
     public void draw(Canvas canvas) {
         float x = getPt().x - width/2;
         float y = getPt().y - height/2;
+
+        mReentrantReadWriteLock.readLock().lock();
 
         ///画控制器框框
         canvas.drawBitmap(mBitmap,
@@ -114,5 +134,20 @@ public class FunctionController extends BaseView {
                             getPt().x + disWidth/2,
                             y + height), null);
         }
+
+        if (type == GameConstants.FUNCTION_TYPE_CONSUMABLE) {
+            if (consume != null) {
+                ///画叠加数量
+                if (consume instanceof Consume) {
+                    ratio = icon.getWidth()*1.0f/icon.getHeight()*1.0f;
+                    disWidth = height * ratio;
+                    String text = Integer.valueOf(consume.getCurrentStackSize()).toString();
+                    float textWidth = mPaint.measureText(text);
+                    canvas.drawText(text, getPt().x+disWidth/2-textWidth,y-mFontMetricsInt.descent,mPaint);
+                }
+            }
+        }
+
+        mReentrantReadWriteLock.readLock().unlock();
     }
 }

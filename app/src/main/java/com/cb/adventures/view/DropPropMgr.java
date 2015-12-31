@@ -2,6 +2,8 @@ package com.cb.adventures.view;
 
 import android.graphics.Canvas;
 import android.graphics.PointF;
+
+import com.cb.adventures.animation.IAnimation;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.GameData;
 import com.cb.adventures.data.PropPropetry;
@@ -14,7 +16,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * email : jenics@live.com
  * 掉落物品管理器
  */
-public class DropPropMgr implements IDrawable ,IFactory ,Map.MapScrollObserver , PropView.PickUpPropListener{
+public class DropPropMgr implements IDrawable ,IFactory ,Map.MapScrollObserver , IAnimation.OnAniamtionListener{
     private LinkedList<PropView> propViews;
     private static DropPropMgr mInstance;
     private final ReentrantReadWriteLock mReentrantReadWriteLock = new ReentrantReadWriteLock();
@@ -27,6 +29,12 @@ public class DropPropMgr implements IDrawable ,IFactory ,Map.MapScrollObserver ,
     }
     private DropPropMgr() {
         propViews = new LinkedList<>();
+    }
+
+    private PropView.PickUpPropListener mListener;
+
+    public void setPickUpPropListener(PropView.PickUpPropListener l) {
+        mListener = l;
     }
 
     public void addDrop(PropView propView) {
@@ -62,7 +70,7 @@ public class DropPropMgr implements IDrawable ,IFactory ,Map.MapScrollObserver ,
 
     @Override
     public Object create(int id) {
-        PropView propView = new PropView(GameData.getInstance().getConsumePropetry(id));
+        PropView propView = new PropView(GameData.getInstance().getProp(id));
         return propView;
     }
 
@@ -85,8 +93,10 @@ public class DropPropMgr implements IDrawable ,IFactory ,Map.MapScrollObserver ,
         mReentrantReadWriteLock.readLock().lock();
         for (PropView propView : propViews) {
             if (pt.x >= propView.getPt().x- propView.getWidth()*1.0f/2 && pt.x <= propView.getPt().x+ propView.getWidth()*1.0f/2 ) {
-                propView.setPickUpPropListener(this);
-                propView.pickUp(pt);
+                if (InventoryView.getInstance().canPickUp(propView.getProp())) {
+                    setPickUpPropListener(InventoryView.getInstance());
+                    propView.pickUp(pt, this);
+                }
             }
         }
         mReentrantReadWriteLock.readLock().unlock();
@@ -109,13 +119,22 @@ public class DropPropMgr implements IDrawable ,IFactory ,Map.MapScrollObserver ,
         mReentrantReadWriteLock.readLock().unlock();
     }
 
-    @Override
-    public void onPickUpBegin(PropView prop) {
 
+    @Override
+    public void onAnimationEnd(BaseView view, boolean isForce) {
+        if (view instanceof PropView) {
+            PropView prop = (PropView) view;
+            if (!prop.canPickedUp()) {
+                removeDrop(prop);
+                if (mListener != null) {
+                    mListener.onPickUpOver(prop.getProp());
+                }
+            }
+        }
     }
 
     @Override
-    public void onPickUpOver(PropView prop) {
-        removeDrop(prop);
+    public void onAnimationBegin() {
+
     }
 }

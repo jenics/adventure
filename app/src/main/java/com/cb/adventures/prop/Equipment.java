@@ -1,6 +1,7 @@
 package com.cb.adventures.prop;
 
 import com.cb.adventures.data.EquipmentPropetry;
+import com.cb.adventures.data.PropPropetry;
 import com.cb.adventures.view.Player;
 
 /**
@@ -18,17 +19,16 @@ public class Equipment implements IEquipment{
     public static final int EQUIP_WEAPON = 1;
     private Player mPlayer;
     private EquipmentPropetry equipmentPropetry;
-    Equipment(Player player) {
+    public Equipment(Player player, PropPropetry propetry) {
         mPlayer = player;
+        equipmentPropetry = (EquipmentPropetry) propetry;
     }
 
     public EquipmentPropetry getEquipmentPropetry() {
         return equipmentPropetry;
     }
 
-    public void setEquipmentPropetry(EquipmentPropetry equipmentPropetry) {
-        this.equipmentPropetry = equipmentPropetry;
-    }
+
 
     @Override
     public long getPropId() {
@@ -43,12 +43,6 @@ public class Equipment implements IEquipment{
     @Override
     public void use() {
         equip();
-    }
-
-
-    @Override
-    public int getMaxStackSize() {
-        return 0;
     }
 
     @Override
@@ -74,5 +68,10 @@ public class Equipment implements IEquipment{
     @Override
     public String getIcon() {
         return equipmentPropetry.getIcon();
+    }
+
+    @Override
+    public int getCurrentStackSize() {
+        return 1;
     }
 }

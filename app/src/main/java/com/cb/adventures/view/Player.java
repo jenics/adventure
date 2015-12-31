@@ -108,6 +108,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
          */
         //mPropetry.setMagicVolume(mPropetry.getMagicVolume() - skill.getSkillPropetry().getFreeMagic());
 
+        skill.setAttackPower(skill.getSkillPropetry().getExtraAttack() + getmPropetry().getAttackPower());
         if (GameConstants.getDirection(curState.getStateId()) == GameConstants.DIRECT_LEFT) {
             changeState(GameConstants.STATE_ATTACK_LEFT);
             skill.setDirection(GameConstants.DIRECT_LEFT);

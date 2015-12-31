@@ -24,6 +24,7 @@ import com.cb.adventures.controller.MonsterController;
 import com.cb.adventures.data.GameData;
 import com.cb.adventures.data.SkillPropetry;
 import com.cb.adventures.factory.SkillFactory;
+import com.cb.adventures.prop.Consume;
 import com.cb.adventures.skill.Skill;
 import com.cb.adventures.utils.CLog;
 import com.cb.adventures.utils.ImageLoader;
@@ -83,17 +84,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     }
 
     private GameHandler mGameHandler;
-
-    /*
-    *case LOAD_FINISH:
-                    initGameData();
-                    mIsLoadFinish = true;
-                    break;
-     */
-    /**
-     * 物品栏控件
-     */
-    private InventoryView inventoryView;
     private GameMenuView gameMenuView;
     private BloodReservoir bloodReservoir;
 
@@ -173,6 +163,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             player.getmPropetry().setMagicTotalVolume(100);
             player.getmPropetry().setMagicVolume(25);
             player.getmPropetry().setSpeed(16);
+            player.getmPropetry().setAttackPower(20);
         }
 
 
@@ -194,11 +185,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             bloodReservoir.setPropetry(player.getmPropetry());
         }
 
-        if (inventoryView == null) {
-            inventoryView = new InventoryView();
-            inventoryView.init();
-            inventoryView.setIsVisiable(false);
-        }
+
+        InventoryView.getInstance().init();
+        InventoryView.getInstance().setIsVisiable(false);
+
 
         if (gameMenuView == null) {
             gameMenuView = new GameMenuView();
@@ -393,18 +383,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         MonsterController.getInstance().draw(canvas);
         player.draw(canvas);
         AnimationControl.getInstance().draw(canvas);
+        ///画掉落的物品
+        DropPropMgr.getInstance().draw(canvas);
         mGameController.draw(canvas);
         bloodReservoir.draw(canvas);
-        if (inventoryView.isVisiable()) {
-            inventoryView.draw(canvas);
-        }
-
+        InventoryView.getInstance().draw(canvas);
         if (gameMenuView.isVisiable()) {
             gameMenuView.draw(canvas);
         }
-
-        ///画掉落的物品
-        DropPropMgr.getInstance().draw(canvas);
     }
 
     @Override
@@ -421,12 +407,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             /**
              * 不管是不是第一次按下，都去判断下mose down。
              */
-            if (inventoryView.isVisiable()) {
+            if (InventoryView.getInstance().isVisiable()) {
                 /**
                  * 只要物品栏出现，就接管所有消息。
                  */
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    inventoryView.onMouseUp((int) event.getX(i), (int) event.getY(i));
+                    InventoryView.getInstance().onMouseUp((int) event.getX(i), (int) event.getY(i));
                 }
             } else {
                 if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_DOWN ||
@@ -484,6 +470,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     public void onFunction(int index) {
         if (mGameController.getFunctionController(index).getType() == GameConstants.FUNCTION_TYPE_CONSUMABLE) {
             ///使用消耗品
+            Consume consume = mGameController.getFunctionController(index).getConsume();
+            if (consume != null) {
+                consume.use();
+            }
         } else if (mGameController.getFunctionController(index).getType() == GameConstants.FUNCTION_TYPE_SKILL) {
             ///使用技能
             SkillPropetry skillPropetry = mGameController.getFunctionController(index).getSkillPropetry();
@@ -497,7 +487,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     @Override
     public void onItemClick(int itemIndex) {
         if (itemIndex == GameMenuView.MENU_ITEM_INVENTORY) {
-            inventoryView.setIsVisiable(!inventoryView.isVisiable());
+            InventoryView.getInstance().setIsVisiable(!InventoryView.getInstance().isVisiable());
         }
     }
 

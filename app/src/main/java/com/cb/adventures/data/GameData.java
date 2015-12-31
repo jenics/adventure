@@ -41,8 +41,7 @@ public class GameData {
     private HashMap<Integer, SkillPropetry> mSkillMap;
     private HashMap<Integer,MonsterPropetry> mMonsterMap;
     private HashMap<Integer,MapPropetry> mMapInfo;
-    private HashMap<Integer,ConsumePropetry> mConsumesMap;
-    private HashMap<Integer,EquipmentPropetry> mEquipsMap;
+    private HashMap<Integer,PropPropetry> mPropMap;
 
     private GameData() {
         if (mAnimationMap == null) {
@@ -57,11 +56,8 @@ public class GameData {
         if(mMapInfo == null) {
             mMapInfo = new HashMap<>();
         }
-        if (mConsumesMap == null) {
-            mConsumesMap = new HashMap<>();
-        }
-        if (mEquipsMap == null) {
-            mEquipsMap = new HashMap<>();
+        if (mPropMap == null) {
+            mPropMap = new HashMap<>();
         }
     }
 
@@ -135,19 +131,12 @@ public class GameData {
 
     /**
      * @param id 属性ID
-     * @return 装备属性
+     * @return 装备道具
      */
-    public EquipmentPropetry getEquipPropetry(int id) {
-        return mEquipsMap.get(id);
+    public PropPropetry getProp(int id) {
+        return mPropMap.get(id);
     }
 
-    /**
-     * @param id 属性ID
-     * @return 装备属性
-     */
-    public ConsumePropetry getConsumePropetry(int id) {
-        return mConsumesMap.get(id);
-    }
 
     public void synParseConsumes() {
         try {
@@ -180,12 +169,14 @@ public class GameData {
                             consumePropetry.setIcon(parser.nextText());
                         } else if ("name".equals(nodeName)) {
                             consumePropetry.setName(parser.nextText());
+                        } else if ("maxStackSize".equals(nodeName)) {
+                            consumePropetry.setMaxStackSize(Integer.parseInt(parser.nextText()));
                         }
 
                         break;
                     case XmlPullParser.END_TAG:
                         if ("consume".equals(nodeName)) {
-                            mConsumesMap.put(consumePropetry.getPropId(), consumePropetry);
+                            mPropMap.put(consumePropetry.getPropId(), consumePropetry);
                         }
                         break;
                     default:
@@ -242,12 +233,14 @@ public class GameData {
                             equipmentPropetry.setIcon(parser.nextText());
                         } else if ("name".equals(nodeName)) {
                             equipmentPropetry.setName(parser.nextText());
+                        }  else if ("maxStackSize".equals(nodeName)) {
+                            equipmentPropetry.setMaxStackSize(Integer.parseInt(parser.nextText()));
                         }
 
                         break;
                     case XmlPullParser.END_TAG:
                         if ("equipment".equals(nodeName)) {
-                            mEquipsMap.put(equipmentPropetry.getPropId(), equipmentPropetry);
+                            mPropMap.put(equipmentPropetry.getPropId(), equipmentPropetry);
                         }
                         break;
                     default:
