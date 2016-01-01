@@ -107,7 +107,7 @@ public class NetStatus {
         sInstance.startListening(context);
     }
 
-    public static NetStatus getInstance() {
+    public static synchronized NetStatus getInstance() {
         return sInstance;
     }
 

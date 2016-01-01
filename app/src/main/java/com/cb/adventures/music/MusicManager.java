@@ -62,7 +62,7 @@ public class MusicManager {
         initSoundPool();
     }
 
-    public static MusicManager getInstance() {
+    public static synchronized MusicManager getInstance() {
         if (mMusicManager == null) {
             mMusicManager = new MusicManager();
         }

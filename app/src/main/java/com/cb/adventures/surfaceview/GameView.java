@@ -12,20 +12,18 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
 import com.cb.adventures.animation.IAnimation;
 import com.cb.adventures.animation.AnimationControl;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.controller.MonsterController;
 import com.cb.adventures.data.GameData;
-import com.cb.adventures.data.SkillPropetry;
 import com.cb.adventures.factory.SkillFactory;
-import com.cb.adventures.prop.Consume;
+import com.cb.adventures.prop.IUsable;
 import com.cb.adventures.skill.Skill;
+import com.cb.adventures.skill.SkillLancher;
 import com.cb.adventures.utils.CLog;
 import com.cb.adventures.utils.ImageLoader;
 import com.cb.adventures.utils.WeakRefHandler;
@@ -37,30 +35,25 @@ import com.cb.adventures.view.InventoryView;
 import com.cb.adventures.view.Player;
 import com.cb.adventures.view.Map;
 import com.cb.adventures.view.Sprite;
-
 import java.lang.ref.WeakReference;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * 游戏主view
  * Created by jenics on 2015/10/7.
  */
-public class GameView extends SurfaceView implements SurfaceHolder.Callback, Runnable, GameController.OnControllerListener ,GameMenuView.OnMenuItemClickListener ,GameData.OnLoadDataListener {
+public class GameView extends SurfaceView implements SurfaceHolder.Callback, Runnable, GameController.OnControllerListener, GameMenuView.OnMenuItemClickListener, GameData.OnLoadDataListener {
     private boolean mIsRunning;
     private Thread mDrawThread;
     private Thread mWorkThread;
     private SurfaceHolder mSurfaceHolder;
     private Paint mPaint;
-    private Map map;
-    private Player player;
     private GameController mGameController;
     private boolean mIsLoadFinish;
     private Bitmap mBitmapLoading;
 
     public static final int LOAD_FINISH = 1;
 
-    public Map getMap() {
-        return map;
-    }
 
     static class GameHandler<GameView> extends WeakRefHandler<GameView> {
         public GameHandler(GameView t) {
@@ -117,7 +110,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             mGameHandler = new GameHandler(this);
         }
 
-
         mBitmapLoading = ImageLoader.getInstance().loadBitmap(GameConstants.LOADING_NAME);
 
         if (mPaint == null)
@@ -147,42 +139,39 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             mIsRunning = true;
             mDrawThread = new Thread(this);
             mDrawThread.start();
-
         }
     }
 
     private void initGameData() {
-        if (player == null) {
-            player = new Player();
-            Bitmap bitmap = ImageLoader.getInstance().loadBitmap(GameConstants.PLAYER1_NAME);
-            Bitmap attackBitmap = ImageLoader.getInstance().loadBitmap(GameConstants.PLAYER1_ATTACK_NAME);
-            player.init(bitmap, 9, 946 / 9, 420 / 4, 1, 2,
-                    attackBitmap, 1151 / 6, 103, 6);
-            player.getmPropetry().setBloodTotalVolume(100);
-            player.getmPropetry().setBloodVolume(70);
-            player.getmPropetry().setMagicTotalVolume(100);
-            player.getmPropetry().setMagicVolume(25);
-            player.getmPropetry().setSpeed(16);
-            player.getmPropetry().setAttackPower(20);
-        }
-
+        Player player = Player.getInstance();
+        Bitmap bitmap = ImageLoader.getInstance().loadBitmap(GameConstants.PLAYER1_NAME);
+        Bitmap attackBitmap = ImageLoader.getInstance().loadBitmap(GameConstants.PLAYER1_ATTACK_NAME);
+        player.init(bitmap, 9, 946 / 9, 420 / 4, 1, 2,
+                attackBitmap, 1151 / 6, 103, 6);
+        player.getPropetry().setBloodTotalVolume(100);
+        player.getPropetry().setBloodVolume(70);
+        player.getPropetry().setMagicTotalVolume(100);
+        player.getPropetry().setMagicVolume(25);
+        player.getPropetry().setSpeed(16);
+        player.getPropetry().setAttackPower(20);
+        InventoryView.getInstance().setPlayer(player);
 
         if (mGameController == null) {
             mGameController = new GameController();
             mGameController.init();
-            mGameController.setmOnControllerListener(this);
+            mGameController.setOnControllerListener(this);
 
-            mGameController.getFunctionController(0).setSkillPropetry(GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_BINGHJIAN));
-            mGameController.getFunctionController(1).setSkillPropetry(GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_BUFF_1));
-            mGameController.getFunctionController(2).setSkillPropetry(GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_HUOJIAN));
-            mGameController.getFunctionController(3).setSkillPropetry(GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_RENDAOFEIBIAO));
+            mGameController.getFunctionController(0).setUseable(new SkillLancher(player, GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_BINGHJIAN)));
+            mGameController.getFunctionController(1).setUseable(new SkillLancher(player, GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_BUFF_1)));
+            mGameController.getFunctionController(2).setUseable(new SkillLancher(player, GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_HUOJIAN)));
+            mGameController.getFunctionController(3).setUseable(new SkillLancher(player, GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_RENDAOFEIBIAO)));
         }
 
 
         if (bloodReservoir == null) {
             bloodReservoir = new BloodReservoir();
             bloodReservoir.init();
-            bloodReservoir.setPropetry(player.getmPropetry());
+            bloodReservoir.setPropetry(player.getPropetry());
         }
 
 
@@ -200,22 +189,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         /**
          * 载入关卡数据
          */
-        if (map == null) {
-            map = new Map();
-            map.init(2, getWidth(), getHeight(), player);
-        }
-
+        Map.getInstance().init(2, getWidth(), getHeight(), player);
         /**
          * 加入观察者到map类中
          */
-        map.addObserver(DropPropMgr.getInstance());
-        map.addObserver(MonsterController.getInstance());
+        Map.getInstance().addObserver(DropPropMgr.getInstance());
+        Map.getInstance().addObserver(MonsterController.getInstance());
 
 
         ///开启工作线程
         mWorkThread = new Thread(new WorkRunnable(this));
         mWorkThread.start();
     }
+
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 
@@ -240,7 +226,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                 if (!mIsLoadFinish) {
                     drawLoading(canvas);
                 } else {
-
+                    logicAnimate();
                     drawGame(canvas);
                 }
 
@@ -264,7 +250,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     private void logicAnimate() {
         AnimationControl.getInstance().animate();
         MonsterController.getInstance().animate();
-        DropPropMgr.getInstance().pickUp(player.getPt());
+        Map.getInstance().scroll();
     }
 
     /**
@@ -274,60 +260,69 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         /**
          * 碰撞检测，涉及到玩家与技能的碰撞，怪物与玩家释放技能的碰撞。
          */
+        ReentrantReadWriteLock animationLock = AnimationControl.getInstance().getReentrantReadWriteLock();
+        animationLock.writeLock().lock();
         for (IAnimation viewAnimation : AnimationControl.getInstance().getQueueAnimaion()) {
             /**
              * 查询是否是技能
              */
             if (viewAnimation instanceof Skill) {
                 //if(viewAnimation.getView() instanceof Skill) {
-                    Skill skill = (Skill) viewAnimation;
-                    if (skill.getSkillPropetry().getSkillType() == GameConstants.SKILL_TYPE_ACTIVE_ATTACK) {
+                Skill skill = (Skill) viewAnimation;
+                if (skill.getSkillPropetry().getSkillType() == GameConstants.SKILL_TYPE_ACTIVE_ATTACK) {
 
+                    /**
+                     * 该技能已作用过伤害，不再继续产生伤害
+                     */
+                    if (skill.isHurted()) {
+                        continue;
+                    }
+
+                    if (skill.getCast() == GameConstants.CAST_PLAYER) {
                         /**
-                         * 该技能已作用过伤害，不再继续产生伤害
+                         * 遍历怪物，看击中了哪个怪物
+                         * 怪物顺便与玩家做碰撞测试，看是否撞到了玩家
                          */
-                        if (skill.isHurted()) {
-                            continue;
-                        }
+                        ReentrantReadWriteLock monsterLock = MonsterController.getInstance().getReentrantReadWriteLock();
+                        monsterLock.readLock().lock();
+                        for (Sprite sprite : MonsterController.getInstance().getMonters()) {
+                            if (judgeIntersect(
+                                    new RectF(skill.getPt().x - skill.getWidth() / 2,
+                                            skill.getPt().y - skill.getHeight() / 2,
+                                            skill.getPt().x + skill.getWidth() / 2,
+                                            skill.getPt().y + skill.getHeight() / 2),
+                                    new RectF(sprite.getPt().x - sprite.getWidth() / 2,
+                                            sprite.getPt().y - sprite.getHeight() / 2,
+                                            sprite.getPt().x + sprite.getWidth() / 2,
+                                            sprite.getPt().y + sprite.getHeight() / 2)) && !sprite.isDead()) {
 
-                        if (skill.getCast() == GameConstants.CAST_PLAYER) {
-                            /**
-                             * 遍历怪物，看击中了哪个怪物
-                             * 怪物顺便与玩家做碰撞测试，看是否撞到了玩家
-                             */
-                            for (Sprite sprite : MonsterController.getInstance().getMonters()) {
-                                if (judgeIntersect(
-                                        new RectF(skill.getPt().x - skill.getWidth() / 2,
-                                                skill.getPt().y - skill.getHeight() / 2,
-                                                skill.getPt().x + skill.getWidth() / 2,
-                                                skill.getPt().y + skill.getHeight() / 2),
-                                        new RectF(sprite.getPt().x - sprite.getWidth() / 2,
-                                                sprite.getPt().y - sprite.getHeight() / 2,
-                                                sprite.getPt().x + sprite.getWidth() / 2,
-                                                sprite.getPt().y + sprite.getHeight() / 2)) && !sprite.isDead()) {
-
-                                    sprite.onHurted(skill);
-                                    if (skill.getSkillPropetry().isInterruptWhileHit()) {
-                                        skill.stopSkill();
-                                        break;
-                                    }
+                                sprite.onHurted(skill);
+                                if (skill.getSkillPropetry().isInterruptWhileHit()) {
+                                    skill.stopSkill();
+                                    break;
                                 }
                             }
-                        } else if (skill.getCast() == GameConstants.CAST_MONSTER) {
-                            /**
-                             * 与玩家作碰撞检测
-                             */
-                        } else {
-                            CLog.w("logicAnimate", "no definition cast");
                         }
+                        monsterLock.readLock().unlock();
+                    } else if (skill.getCast() == GameConstants.CAST_MONSTER) {
+                        /**
+                         * 与玩家作碰撞检测
+                         */
+                    } else {
+                        CLog.w("logicAnimate", "no definition cast");
                     }
+                }
             }
         }
+        animationLock.writeLock().unlock();
 
         /**
          * 玩家与怪物的碰撞检测
          */
+        ReentrantReadWriteLock reentrantReadWriteLock = MonsterController.getInstance().getReentrantReadWriteLock();
+        reentrantReadWriteLock.readLock().lock();
         for (Sprite sprite : MonsterController.getInstance().getMonters()) {
+            Player player = Player.getInstance();
             if (judgeIntersect(
                     new RectF(player.getPt().x - player.getWidth() / 2,
                             player.getPt().y - player.getHeight() / 2,
@@ -340,8 +335,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                 Skill skill = new SkillFactory().create(GameConstants.SKILL_ID_MONSTER_NORMAL);
                 skill.getSkillPropetry().setExtraAttack(sprite.getMonsterPropetry().getAttackPower());
                 player.onHurted(skill);
+                break;
             }
         }
+        reentrantReadWriteLock.readLock().unlock();
+
+        /**
+         * 捡起检测
+         */
+        DropPropMgr.getInstance().pickUp(Player.getInstance().getPt());
     }
 
     private boolean judgeIntersect(RectF rect1, RectF rect2) {
@@ -362,26 +364,26 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     }
 
     private void drawLoading(Canvas canvas) {
-        float disX = (GameConstants.sGameWidth-mBitmapLoading.getWidth())/2;
-        float disY = (GameConstants.sGameHeight-mBitmapLoading.getHeight())/2;
+        float disX = (GameConstants.sGameWidth - mBitmapLoading.getWidth()) / 2;
+        float disY = (GameConstants.sGameHeight - mBitmapLoading.getHeight()) / 2;
         canvas.drawBitmap(mBitmapLoading,
                 new Rect(
                         0,
                         0,
                         mBitmapLoading.getWidth(),
                         mBitmapLoading.getHeight()
-                ),new RectF(
+                ), new RectF(
                         disX,
                         disY,
                         disX + mBitmapLoading.getWidth(),
                         disY + mBitmapLoading.getHeight()
-                ),null);
+                ), null);
     }
 
     private void drawGame(Canvas canvas) {
-        map.draw(canvas);
+        Map.getInstance().draw(canvas);
         MonsterController.getInstance().draw(canvas);
-        player.draw(canvas);
+        Player.getInstance().draw(canvas);
         AnimationControl.getInstance().draw(canvas);
         ///画掉落的物品
         DropPropMgr.getInstance().draw(canvas);
@@ -398,7 +400,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         if (mIsLoadFinish) {
             return touchDetection(event);
         }
-        return  true;
+        return true;
     }
 
     private boolean touchDetection(MotionEvent event) {
@@ -438,49 +440,39 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
 
     @Override
     public void onDirectionChange(int direction) {
-        if (player.move(direction)) {
-            map.scrollTo(direction);
+        if (Player.getInstance().move(direction)) {
+            Map.getInstance().scrollTo(direction);
         }
     }
-
 
 
     @Override
     public void onAttack() {
         ///判断下是否到了地图入口与出口
-        if(map.getPreGate() != null && player.getPt().x > map.getPreGate().getPt().x-map.getPreGate().getWidth()/2
-                && player.getPt().x < map.getPreGate().getPt().x+map.getPreGate().getWidth()/2) {
+        Map map = Map.getInstance();
+        Player player = Player.getInstance();
+        if (map.getPreGate() != null && player.getPt().x > map.getPreGate().getPt().x - map.getPreGate().getWidth() / 2
+                && player.getPt().x < map.getPreGate().getPt().x + map.getPreGate().getWidth() / 2) {
             map.preGate();
-        }else if (map.getNextGate() != null && player.getPt().x > map.getNextGate().getPt().x-map.getNextGate().getWidth()/2
-                && player.getPt().x < map.getNextGate().getPt().x+map.getNextGate().getWidth()/2) {
+        } else if (map.getNextGate() != null && player.getPt().x > map.getNextGate().getPt().x - map.getNextGate().getWidth() / 2
+                && player.getPt().x < map.getNextGate().getPt().x + map.getNextGate().getWidth() / 2) {
             map.nextGate();
-        }else {
+        } else {
             player.attack(GameConstants.SKILL_ID_NORMAL);
-            map.stopScroll();
         }
     }
 
     @Override
     public void onStop() {
-        player.stop();
-        map.stopScroll();
+        Player.getInstance().stop();
+        Map.getInstance().stopScroll();
     }
 
     @Override
     public void onFunction(int index) {
-        if (mGameController.getFunctionController(index).getType() == GameConstants.FUNCTION_TYPE_CONSUMABLE) {
-            ///使用消耗品
-            Consume consume = mGameController.getFunctionController(index).getConsume();
-            if (consume != null) {
-                consume.use();
-            }
-        } else if (mGameController.getFunctionController(index).getType() == GameConstants.FUNCTION_TYPE_SKILL) {
-            ///使用技能
-            SkillPropetry skillPropetry = mGameController.getFunctionController(index).getSkillPropetry();
-            if (skillPropetry != null) {
-                player.attack(skillPropetry.getSkillId());
-                map.stopScroll();
-            }
+        IUsable useable = mGameController.getFunctionController(index).getUseable();
+        if (useable != null) {
+            useable.use();
         }
     }
 
@@ -505,23 +497,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
 
     private static class WorkRunnable implements Runnable {
         WeakReference<GameView> mReference;
+
         public WorkRunnable(GameView view) {
             mReference = new WeakReference<>(view);
         }
+
         @Override
         public void run() {
             GameView gameView = mReference.get();
             if (gameView == null) {
-                CLog.e("GameView","work thread error,gameview is null");
+                CLog.e("GameView", "work thread error,gameview is null");
                 return;
             }
             while (gameView.mIsRunning) {
                 long startTime = System.currentTimeMillis();
 
-                //gameView.getMap().scroll();
-                gameView.logicAnimate();
                 gameView.collisionDetection();
-
 
                 long endTime = System.currentTimeMillis();
                 /**计算出游戏一次更新的毫秒数**/

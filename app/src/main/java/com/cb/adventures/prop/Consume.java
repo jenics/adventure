@@ -2,15 +2,15 @@ package com.cb.adventures.prop;
 
 import com.cb.adventures.data.ConsumePropetry;
 import com.cb.adventures.data.PropPropetry;
+import com.cb.adventures.data.Propetry;
 import com.cb.adventures.view.Player;
 
-import java.util.LinkedList;
 
 /**
  * 消耗品
  * Created by jenics on 2015/12/28.
  */
-public class Consume implements IProp{
+public class Consume implements IProp , IStackable{
     private ConsumePropetry consumePropetry;
     /**
      * 堆叠数量
@@ -28,7 +28,8 @@ public class Consume implements IProp{
      * @param size 欲增加的堆叠数量
      * @return 当前堆叠数量
      */
-    public int addProp(int size) {
+    @Override
+    public int addStack(int size) {
         if (currentStackSize + size > consumePropetry.getMaxStackSize()) {
             throw new IllegalStateException("overflow prop stack size");
         }
@@ -41,7 +42,8 @@ public class Consume implements IProp{
      * @param size 欲减少的堆叠数量
      * @return 当前堆叠数量
      */
-    public int reduceProp(int size) {
+    @Override
+    public int reduceStack(int size) {
         if (currentStackSize - size < 0) {
             throw new IllegalStateException("cur stacksize less than 0");
         }
@@ -63,13 +65,18 @@ public class Consume implements IProp{
     }
 
     @Override
-    public String getDescription() {
-        return consumePropetry.getDesc();
+    public String[] getDescription() {
+        return new String[] {consumePropetry.getDesc()};
     }
 
     @Override
     public String getName() {
         return consumePropetry.getName();
+    }
+
+    @Override
+    public String getExtra() {
+        return consumePropetry.getExtra();
     }
 
     @Override
@@ -79,7 +86,19 @@ public class Consume implements IProp{
 
     @Override
     public void use() {
+        Propetry propetry = mPlayer.getPropetry();
+        int add = propetry.getBloodVolume() + consumePropetry.getBloodVolume();
+        if (add > propetry.getBloodTotalVolume()) {
+            add = propetry.getBloodTotalVolume();
+        }
+        propetry.setBloodVolume(add);
 
+        add = propetry.getMagicVolume() + consumePropetry.getMagicVolume();
+        if (add > propetry.getMagicTotalVolume()) {
+            add = propetry.getMagicTotalVolume();
+        }
+        propetry.setMagicVolume(add);
+        reduceStack(1);
     }
 
     @Override

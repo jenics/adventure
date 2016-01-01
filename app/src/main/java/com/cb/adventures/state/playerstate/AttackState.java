@@ -70,7 +70,7 @@ public class AttackState extends PlayerBaseState {
                     new RectF(x,
                             y,
                             x + disWidth,
-                            y + disHeight), player.getmPaint());
+                            y + disHeight), player.getPaint());
 
         }else if(stateId == GameConstants.STATE_ATTACK_RIGHT) {
             Matrix matrix = new Matrix();
@@ -93,7 +93,7 @@ public class AttackState extends PlayerBaseState {
                     new RectF(x,
                             y,
                             x + disWidth,
-                            y + disHeight), player.getmPaint());
+                            y + disHeight), player.getPaint());
             bmpTmp.recycle();
         }
     }

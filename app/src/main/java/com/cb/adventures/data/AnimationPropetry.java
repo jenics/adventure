@@ -55,6 +55,7 @@ public class AnimationPropetry {
 
     private LinkedList<Frame> frames;
 
+
     public String getName() {
         return name;
     }
@@ -78,6 +79,8 @@ public class AnimationPropetry {
     public void setTimeDuration(long timeDuration) {
         this.timeDuration = timeDuration;
     }
+
+
 
     public AnimationPropetry() {
         if(frames == null) {

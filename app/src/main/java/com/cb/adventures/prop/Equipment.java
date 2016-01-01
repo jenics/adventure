@@ -36,8 +36,14 @@ public class Equipment implements IEquipment{
     }
 
     @Override
-    public String getDescription() {
-        return equipmentPropetry.getDesc();
+    public String[] getDescription() {
+        return new String[] {
+               String.format("攻击力: %d",equipmentPropetry.getAttackPower()),
+                String.format("防御力: %d",equipmentPropetry.getDefensivePower()),
+                String.format("血量增幅: %d",equipmentPropetry.getBloodVolume()),
+                String.format("魔量增幅: %d",equipmentPropetry.getMagicVolume()),
+                String.format("装备等级: %d", equipmentPropetry.getRank()),
+        };
     }
 
     @Override
@@ -66,12 +72,13 @@ public class Equipment implements IEquipment{
     }
 
     @Override
+    public String getExtra() {
+        return equipmentPropetry.getExtra();
+    }
+
+    @Override
     public String getIcon() {
         return equipmentPropetry.getIcon();
     }
 
-    @Override
-    public int getCurrentStackSize() {
-        return 1;
-    }
 }

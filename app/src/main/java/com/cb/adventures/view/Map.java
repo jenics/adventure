@@ -22,6 +22,14 @@ import java.util.LinkedList;
  * Created by jenics on 2015/10/7.
  */
 public class Map extends BaseView {
+    private static Map mInstance;
+    public static synchronized Map getInstance() {
+        if (mInstance == null) {
+            mInstance = new Map();
+        }
+        return mInstance;
+    }
+
     private Bitmap bmpTop;
     private Bitmap bmpBottom;
 
@@ -67,7 +75,7 @@ public class Map extends BaseView {
         mapScrollObservers.remove(observer);
     }
 
-    public Map() {
+    private Map() {
         isClickable = false;
         rt1 = new RectF();
         rt2 = new RectF();
@@ -211,9 +219,9 @@ public class Map extends BaseView {
         mapWidth = (int) (mScreemWidth * mapPropetry.getMapLenRatio());
 
         ScrollAnimation scrollAnimation = new ScrollAnimation();
-        scrollAnimation.setPt(mScreemWidth / 2, mScreemHeight*0.25f);
+        scrollAnimation.setPt(mScreemWidth / 2, mScreemHeight * 0.25f);
         scrollAnimation.setAnimationPropetry(GameData.getInstance().getAnimationPropetry(GameConstants.SKILL_ID_AUTO_SCROLL));
-        scrollAnimation.setmStrTitle(mapPropetry.getName());
+        scrollAnimation.setStrTitle(mapPropetry.getName());
         scrollAnimation.startAnimation();
 
 
@@ -221,7 +229,7 @@ public class Map extends BaseView {
          * 生成怪物
          */
         MonsterController.getInstance().clearMonster();
-        MonsterController.getInstance().setmMonsterFactory(new SimpleMonsterFactory());
+        MonsterController.getInstance().setMonsterFactory(new SimpleMonsterFactory());
         MapPropetry mapPropetry = getMapPropetry();
         for (MapPropetry.MonsterPack pack : mapPropetry.getMonsterPaks()) {
             MonsterController.getInstance().generateMonster(pack.getMonsterId(), pack.getMonsterNum());
@@ -237,7 +245,7 @@ public class Map extends BaseView {
     @Override
     public void draw(Canvas canvas) {
         //super.draw(canvas);
-        scroll();
+        //scroll();
         canvas.drawBitmap(bmpTop,
                 new Rect(   ///src rect
                         0,
@@ -284,33 +292,33 @@ public class Map extends BaseView {
         if (mDirection == GameConstants.DIRECT_RIGHT) {
             if (cursor >= mapWidth - mScreemWidth / 2) {
                 PointF pointF = mPlayer.getPt();
-                if (pointF.x <= mScreemWidth - mPlayer.getmPropetry().getSpeed()) {
-                    pointF.x += mPlayer.getmPropetry().getSpeed();
+                if (pointF.x <= mScreemWidth - mPlayer.getPropetry().getSpeed()) {
+                    pointF.x += mPlayer.getPropetry().getSpeed();
                 }
                 return;
             } else {
                 PointF pointF = mPlayer.getPt();
                 if (pointF.x < mScreemWidth / 2) {
-                    pointF.x += mPlayer.getmPropetry().getSpeed();
+                    pointF.x += mPlayer.getPropetry().getSpeed();
                     if (pointF.x > mScreemWidth / 2) {
                         pointF.x = mScreemWidth / 2;
                     }
                     return;
                 }
             }
-            cursor += mPlayer.getmPropetry().getSpeed();
-            rt1.left -= mPlayer.getmPropetry().getSpeed();
-            rt1.right -= mPlayer.getmPropetry().getSpeed();
-            rt2.left -= mPlayer.getmPropetry().getSpeed();
-            rt2.right -= mPlayer.getmPropetry().getSpeed();
+            cursor += mPlayer.getPropetry().getSpeed();
+            rt1.left -= mPlayer.getPropetry().getSpeed();
+            rt1.right -= mPlayer.getPropetry().getSpeed();
+            rt2.left -= mPlayer.getPropetry().getSpeed();
+            rt2.right -= mPlayer.getPropetry().getSpeed();
 
             if (preGate != null) {
                 PointF pt = preGate.getPt();
-                pt.x -= mPlayer.getmPropetry().getSpeed();
+                pt.x -= mPlayer.getPropetry().getSpeed();
             }
             if (nextGate != null) {
                 PointF pt = nextGate.getPt();
-                pt.x -= mPlayer.getmPropetry().getSpeed();
+                pt.x -= mPlayer.getPropetry().getSpeed();
             }
 
             ///矫正地图位置
@@ -326,38 +334,38 @@ public class Map extends BaseView {
                 rt2.right = mScreemWidth + mScreemWidth;
             }
 
-            notifyAll(mDirection,mPlayer.getmPropetry().getSpeed());
+            notifyAll(mDirection,mPlayer.getPropetry().getSpeed());
         } else if (mDirection == GameConstants.DIRECT_LEFT) {
             if (cursor <= mScreemWidth / 2) {
                 PointF pointF = mPlayer.getPt();
-                if (pointF.x >= mPlayer.getmPropetry().getSpeed()) {
-                    pointF.x -= mPlayer.getmPropetry().getSpeed();
+                if (pointF.x >= mPlayer.getPropetry().getSpeed()) {
+                    pointF.x -= mPlayer.getPropetry().getSpeed();
                 }
                 return;
             } else {
                 PointF pointF = mPlayer.getPt();
                 if (pointF.x > mScreemWidth / 2) {
-                    pointF.x -= mPlayer.getmPropetry().getSpeed();
+                    pointF.x -= mPlayer.getPropetry().getSpeed();
                     if (pointF.x < mScreemWidth / 2) {
                         pointF.x = mScreemWidth / 2;
                     }
                     return;
                 }
             }
-            cursor -= mPlayer.getmPropetry().getSpeed();
-            rt1.left += mPlayer.getmPropetry().getSpeed();
-            rt1.right += mPlayer.getmPropetry().getSpeed();
-            rt2.left += mPlayer.getmPropetry().getSpeed();
-            rt2.right += mPlayer.getmPropetry().getSpeed();
+            cursor -= mPlayer.getPropetry().getSpeed();
+            rt1.left += mPlayer.getPropetry().getSpeed();
+            rt1.right += mPlayer.getPropetry().getSpeed();
+            rt2.left += mPlayer.getPropetry().getSpeed();
+            rt2.right += mPlayer.getPropetry().getSpeed();
 
             ///移动关卡
             if (preGate != null) {
                 PointF pt = preGate.getPt();
-                pt.x += mPlayer.getmPropetry().getSpeed();
+                pt.x += mPlayer.getPropetry().getSpeed();
             }
             if (nextGate != null) {
                 PointF pt = nextGate.getPt();
-                pt.x += mPlayer.getmPropetry().getSpeed();
+                pt.x += mPlayer.getPropetry().getSpeed();
             }
 
             ///矫正地图位置
@@ -373,7 +381,7 @@ public class Map extends BaseView {
                 rt2.right = mScreemWidth;
             }
 
-            notifyAll(mDirection,mPlayer.getmPropetry().getSpeed());
+            notifyAll(mDirection,mPlayer.getPropetry().getSpeed());
         }
     }
 }

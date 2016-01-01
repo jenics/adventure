@@ -5,7 +5,8 @@
 		<bloodVolume>50</bloodVolume>
 		<magicVolume>0</magicVolume>
 		<name>小红</name>
-		<desc>一瓶激进的红牛，可以回春。</desc>
+		<desc>恢复50血量</desc>
+		<extra>一瓶激进的红牛，可以回春。</extra>
 		<icon>articles/consumes/hong.png</icon>
 		<maxStackSize>99</maxStackSize>
 	</consume>
@@ -15,7 +16,8 @@
 		<bloodVolume>0</bloodVolume>
 		<magicVolume>50</magicVolume>
 		<name>小蓝</name>
-		<desc>洋河蓝色经典，回蓝。</desc>
+		<extra>洋河蓝色经典，回蓝。</extra>
+		<desc>恢复50蓝量</desc>
 		<icon>articles/consumes/lan.png</icon>
 		<maxStackSize>99</maxStackSize>
 	</consume>

@@ -3,11 +3,16 @@ package com.cb.adventures.view;
 import android.graphics.Canvas;
 import android.graphics.PointF;
 
+import com.cb.adventures.animation.AnimationControl;
 import com.cb.adventures.animation.IAnimation;
 import com.cb.adventures.constants.GameConstants;
+import com.cb.adventures.data.AnimationPropetry;
+import com.cb.adventures.data.DropItem;
 import com.cb.adventures.data.GameData;
 import com.cb.adventures.data.PropPropetry;
 import com.cb.adventures.factory.IFactory;
+import com.cb.adventures.utils.Randomer;
+
 import java.util.LinkedList;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -78,10 +83,41 @@ public class DropPropMgr implements IDrawable ,IFactory ,Map.MapScrollObserver ,
      * 掉落
      * @param pt 掉落坐标原点
      */
-    public void drop(PointF pt,int id) {
+    private void drop(PointF pt,int id) {
         PropView propView = (PropView) create(id);
         propView.drop(pt);
         addDrop(propView);
+    }
+
+    /**
+     * @param dropItems 掉落列表
+     * @param pt 掉落坐标原点
+     */
+    public void drop(LinkedList<DropItem> dropItems, PointF pt) {
+        if (dropItems == null) {
+            return;
+        }
+        int random = Randomer.getInstance().getRandom(1000);
+        int x = 0;
+        for(DropItem dropItem : dropItems) {
+            PointF pointF;
+            if (x % 2 == 0) {
+                pointF = new PointF(
+                        pt.x - 50 * (x/2),
+                        pt.y
+                );
+            } else {
+                pointF = new PointF(
+                        pt.x + 50 * (x/2),
+                        pt.y
+                );
+            }
+            if (dropItem.getProbability() < random) {
+                drop(pointF,dropItem.getItemId());
+            }
+            random = Randomer.getInstance().getRandom(1000);
+            x ++;
+        }
     }
 
     /**
@@ -93,7 +129,7 @@ public class DropPropMgr implements IDrawable ,IFactory ,Map.MapScrollObserver ,
         mReentrantReadWriteLock.readLock().lock();
         for (PropView propView : propViews) {
             if (pt.x >= propView.getPt().x- propView.getWidth()*1.0f/2 && pt.x <= propView.getPt().x+ propView.getWidth()*1.0f/2 ) {
-                if (InventoryView.getInstance().canPickUp(propView.getProp())) {
+                if (propView.canPickedUp() && InventoryView.getInstance().canPickUp(propView.getProp())) {
                     setPickUpPropListener(InventoryView.getInstance());
                     propView.pickUp(pt, this);
                 }
@@ -125,10 +161,10 @@ public class DropPropMgr implements IDrawable ,IFactory ,Map.MapScrollObserver ,
         if (view instanceof PropView) {
             PropView prop = (PropView) view;
             if (!prop.canPickedUp()) {
-                removeDrop(prop);
                 if (mListener != null) {
                     mListener.onPickUpOver(prop.getProp());
                 }
+                removeDrop(prop);
             }
         }
     }

@@ -12,6 +12,7 @@ import com.cb.adventures.data.GameData;
 import com.cb.adventures.data.Propetry;
 import com.cb.adventures.factory.SkillFactory;
 import com.cb.adventures.prop.Equipment;
+import com.cb.adventures.prop.IEquipment;
 import com.cb.adventures.skill.Skill;
 import com.cb.adventures.state.BaseState;
 import com.cb.adventures.state.IStateMgr;
@@ -19,56 +20,57 @@ import com.cb.adventures.state.playerstate.AttackState;
 import com.cb.adventures.state.playerstate.MoveState;
 import com.cb.adventures.state.playerstate.PlayerBaseState;
 import com.cb.adventures.state.playerstate.StopState;
-import com.cb.adventures.utils.CLog;
 
 import java.util.HashMap;
 
 /**
  * Created by jenics on 2015/10/21.
  */
-public class Player extends BaseView implements IStateMgr, AttackState.OnAttackListener, Skill.OnSkillAnimationListener,IHurtable {
+public class Player extends BaseView implements IStateMgr, AttackState.OnAttackListener, Skill.OnSkillAnimationListener, IHurtable {
     private Propetry mPropetry;
+    private static Player mInstance;
+
+    public static synchronized Player getInstance() {
+        if (mInstance == null) {
+            mInstance = new Player();
+        }
+        return mInstance;
+    }
+
     protected PlayerBaseState curState;
     protected HashMap<Integer, PlayerBaseState> stateHashMap;
     protected int frameCount;               ///一个方向的帧总数
     protected int perWidth;                 ///每一帧的宽度
     protected int perHeight;                ///每一帧的高度
-
     protected int attackPerWidth;           ///每一个攻击帧宽度
     protected int attackPerHeight;          ///每一个攻击帧的高度
-
     protected boolean isNeedRepeatAttack;   ///是否需要重复攻击
     protected int attackFrameCount;         ///攻击总帧数
     private long lastTime;
     private int leftRowIndex = 0;           ///方向左在第几行
     private int rightRowIndex = 1;          ///方向右在第几行
-
     /**
      * 最后一次受伤害的时间
      */
     private long beInjuredTime = 0;
-
     /**
      * buff容器，同一个buff不允许同时存在
      * Integer 技能（BUFF)ID
      * SkillPropetry buff属性
      */
     private HashMap<Integer, Skill> bufferMap;
-
-    private EquipmentPropetry[] mEquipmentPropetrys;
-
-
+    private IEquipment[] mEquipments;
     private Bitmap accackBmp;
 
-    public Player() {
+    private Player() {
         isNeedRepeatAttack = false;
         stateHashMap = new HashMap<>();
         bufferMap = new HashMap<>();
         mPropetry = new Propetry();
-        mEquipmentPropetrys = new EquipmentPropetry[GameConstants.EQUIPMENT_NUM];
+        mEquipments = new Equipment[GameConstants.EQUIPMENT_NUM];
     }
 
-    public Propetry getmPropetry() {
+    public Propetry getPropetry() {
         return mPropetry;
     }
 
@@ -108,25 +110,27 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
          */
         //mPropetry.setMagicVolume(mPropetry.getMagicVolume() - skill.getSkillPropetry().getFreeMagic());
 
-        skill.setAttackPower(skill.getSkillPropetry().getExtraAttack() + getmPropetry().getAttackPower());
+        skill.setAttackPower(skill.getSkillPropetry().getExtraAttack() + getPropetry().getAttackPower());
         if (GameConstants.getDirection(curState.getStateId()) == GameConstants.DIRECT_LEFT) {
             changeState(GameConstants.STATE_ATTACK_LEFT);
             skill.setDirection(GameConstants.DIRECT_LEFT);
-            skill.setPt(getPt().x-skill.getWidth()/2, getPt().y);
+            skill.setPt(getPt().x - skill.getWidth() / 2, getPt().y);
             skill.startSkill();
         } else if (GameConstants.getDirection(curState.getStateId()) == GameConstants.DIRECT_RIGHT) {
             changeState(GameConstants.STATE_ATTACK_RIGHT);
             skill.setDirection(GameConstants.DIRECT_RIGHT);
-            skill.setPt(getPt().x+skill.getWidth()/2, getPt().y);
+            skill.setPt(getPt().x + skill.getWidth() / 2, getPt().y);
             skill.startSkill();
         }
 
         ScrollAnimation scrollAnimation = new ScrollAnimation();
-        scrollAnimation.setPt(GameConstants.sGameWidth / 2, GameConstants.sGameHeight*0.4f);
+        scrollAnimation.setPt(GameConstants.sGameWidth / 2, GameConstants.sGameHeight * 0.4f);
         scrollAnimation.setAnimationPropetry(GameData.getInstance().getAnimationPropetry(GameConstants.SKILL_ID_AUTO_SCROLL));
         scrollAnimation.setTimeDuration(800);
-        scrollAnimation.setmStrTitle(skill.getSkillPropetry().getName());
+        scrollAnimation.setStrTitle(skill.getSkillPropetry().getName());
         scrollAnimation.startAnimation();
+
+        Map.getInstance().stopScroll();
     }
 
     /**
@@ -277,7 +281,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
      * @param equipment 装备
      */
     public void equipment(Equipment equipment) {
-
+        mEquipments[equipment.getEquipLocation()] = equipment;
     }
 
     /**
@@ -286,7 +290,16 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
      * @param equipment 装备
      */
     public void unEquipment(Equipment equipment) {
+        mEquipments[equipment.getEquipLocation()] = null;
+    }
 
+    /**
+     * 卸下装备
+     *
+     * @param loc 装备位置
+     */
+    public void unEquipment(int loc) {
+        mEquipments[loc] = null;
     }
 
     /**
@@ -319,20 +332,16 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
                 ///设置属性之类的。
                 ///mPropetry.setDefensivePower(0);
             }
-
             bufferMap.remove(skill);
-
-
         }
     }
 
     @Override
     public void onHurted(Skill skill) {
-
         /**
          * 两秒内无敌
          */
-        if (beInjuredTime != 0 && (System.currentTimeMillis()-beInjuredTime<2000)) {
+        if (beInjuredTime != 0 && (System.currentTimeMillis() - beInjuredTime < 2000)) {
             return;
         }
 
@@ -349,7 +358,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
 
         mPropetry.setBloodVolume(mPropetry.getBloodVolume() - hurt);
         if (skill.getSkillPropetry().getSkillId() == GameConstants.SKILL_ID_MONSTER_NORMAL) {
-            InjuredValueAnimation injuredValueAnimation = new InjuredValueAnimation(this,-hurt,false);
+            InjuredValueAnimation injuredValueAnimation = new InjuredValueAnimation(this, -hurt, false);
             injuredValueAnimation.startAnimation();
             skill.stopSkill();
         }
@@ -357,15 +366,8 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
         FlashViewAnimation flashAnimation = new FlashViewAnimation(this);
         flashAnimation.setTimeDuration(2000);
         flashAnimation.startAnimation();
-
-//            Skill skillEffect = new SkillFactory().create(skill.getSkillPropetry().getHitEffectId());
-//            skillEffect.setAttachView(this);
-//            skillEffect.startSkill();
-
-
         if (mPropetry.getBloodVolume() <= 0) {
             ///游戏结束
-
         }
     }
 }

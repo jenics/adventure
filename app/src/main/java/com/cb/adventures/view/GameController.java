@@ -24,7 +24,7 @@ public class GameController extends BaseView implements IControl {
         }
     }
 
-    public void setmOnControllerListener(OnControllerListener mOnControllerListener) {
+    public void setOnControllerListener(OnControllerListener mOnControllerListener) {
         this.mOnControllerListener = mOnControllerListener;
     }
 

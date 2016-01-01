@@ -1,6 +1,8 @@
 package com.cb.adventures.data;
 
 
+import com.cb.adventures.utils.CLog;
+
 import java.util.LinkedList;
 
 /**
@@ -12,8 +14,18 @@ public class MonsterPropetry extends Propetry implements Cloneable{
     private SrcInfo srcInfo;
     private LinkedList<Frame> leftFrames;
     private LinkedList<Frame> rightFrames;
+    private LinkedList<DropItem> dropItems;
+
     public MonsterPropetry(){
         monsterId = 0;
+    }
+
+    public LinkedList<DropItem> getDropItems() {
+        return dropItems;
+    }
+
+    public void setDropItems(LinkedList<DropItem> dropItems) {
+        this.dropItems = dropItems;
     }
 
     public int getMonsterId() {
@@ -69,6 +81,7 @@ public class MonsterPropetry extends Propetry implements Cloneable{
         try {
             o = (MonsterPropetry) super.clone();
         } catch (CloneNotSupportedException e) {
+            CLog.e("MonsterPropetry","error in clone");
             e.printStackTrace();
         }
         return o;

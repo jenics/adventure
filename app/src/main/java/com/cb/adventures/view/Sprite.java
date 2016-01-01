@@ -6,10 +6,14 @@ import android.graphics.RectF;
 
 import com.cb.adventures.animation.InjuredValueAnimation;
 import com.cb.adventures.constants.GameConstants;
+import com.cb.adventures.data.DropItem;
 import com.cb.adventures.data.MonsterPropetry;
 import com.cb.adventures.factory.SkillFactory;
 import com.cb.adventures.skill.Skill;
+import com.cb.adventures.utils.CLog;
 import com.cb.adventures.utils.ImageLoader;
+
+import java.util.LinkedList;
 
 /**
  * Created by jenics on 2015/10/7.
@@ -41,7 +45,8 @@ public class Sprite extends FrameView implements IHurtable{
             /**
              * 查询掉落列表，根据掉率随机掉出
              */
-            DropPropMgr.getInstance().drop(getPt(),1);
+
+            DropPropMgr.getInstance().drop(mMonsterPropetry.getDropItems(), getPt());
         }
         mMonsterPropetry.setBloodVolume(mCurrentBlood);
 
@@ -113,7 +118,7 @@ public class Sprite extends FrameView implements IHurtable{
         height = (int) (mPerHeight*GameConstants.zoomRatio);
     }
 
-    public void setmSpriteListener(OnSpriteListener mSpriteListener) {
+    public void setSpriteListener(OnSpriteListener mSpriteListener) {
         this.mSpriteListener = mSpriteListener;
     }
 
@@ -122,6 +127,7 @@ public class Sprite extends FrameView implements IHurtable{
         try {
             return (Sprite) super.clone();
         } catch (CloneNotSupportedException e) {
+            CLog.e("Sprite", "error in clone");
             System.out.println("Clone failed.");
             return null;
         }
@@ -158,7 +164,7 @@ public class Sprite extends FrameView implements IHurtable{
         mRestTime = time;
     }
 
-    public int getmDirection() {
+    public int getDirection() {
         return  GameConstants.getDirection(mDirection);
     }
 

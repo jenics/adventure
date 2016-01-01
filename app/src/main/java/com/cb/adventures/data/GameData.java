@@ -9,6 +9,7 @@ import com.cb.adventures.prop.Consume;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import java.util.LinkedList;
 public class GameData {
     public interface OnLoadDataListener {
         void onLoadFinish(LoadStepEnum step);
+
         void onLoadFailed(LoadStepEnum step);
     }
 
@@ -34,14 +36,15 @@ public class GameData {
         ///全部载入完成回调此枚举
         STEP_END
     }
+
     private OnLoadDataListener mLoadDataListener;
     private static GameData mInstance;
     private XmlPullParser parser;
-    private HashMap<Integer,AnimationPropetry> mAnimationMap;
+    private HashMap<Integer, AnimationPropetry> mAnimationMap;
     private HashMap<Integer, SkillPropetry> mSkillMap;
-    private HashMap<Integer,MonsterPropetry> mMonsterMap;
-    private HashMap<Integer,MapPropetry> mMapInfo;
-    private HashMap<Integer,PropPropetry> mPropMap;
+    private HashMap<Integer, MonsterPropetry> mMonsterMap;
+    private HashMap<Integer, MapPropetry> mMapInfo;
+    private HashMap<Integer, PropPropetry> mPropMap;
 
     private GameData() {
         if (mAnimationMap == null) {
@@ -50,10 +53,10 @@ public class GameData {
         if (mSkillMap == null) {
             mSkillMap = new HashMap<>();
         }
-        if(mMonsterMap == null) {
+        if (mMonsterMap == null) {
             mMonsterMap = new HashMap<>();
         }
-        if(mMapInfo == null) {
+        if (mMapInfo == null) {
             mMapInfo = new HashMap<>();
         }
         if (mPropMap == null) {
@@ -171,6 +174,8 @@ public class GameData {
                             consumePropetry.setName(parser.nextText());
                         } else if ("maxStackSize".equals(nodeName)) {
                             consumePropetry.setMaxStackSize(Integer.parseInt(parser.nextText()));
+                        } else if ("extra".equals(nodeName)) {
+                            consumePropetry.setExtra(parser.nextText());
                         }
 
                         break;
@@ -233,8 +238,10 @@ public class GameData {
                             equipmentPropetry.setIcon(parser.nextText());
                         } else if ("name".equals(nodeName)) {
                             equipmentPropetry.setName(parser.nextText());
-                        }  else if ("maxStackSize".equals(nodeName)) {
+                        } else if ("maxStackSize".equals(nodeName)) {
                             equipmentPropetry.setMaxStackSize(Integer.parseInt(parser.nextText()));
+                        } else if ("extra".equals(nodeName)) {
+                            equipmentPropetry.setExtra(parser.nextText());
                         }
 
                         break;
@@ -267,6 +274,7 @@ public class GameData {
 
             AnimationPropetry animationPropetry = new AnimationPropetry();
             Frame frame = new Frame();
+
             SrcInfo srcInfo = new SrcInfo();
 
             int eventType = parser.getEventType();
@@ -287,26 +295,26 @@ public class GameData {
                             animationPropetry.setIsStopInLast(Boolean.parseBoolean(parser.nextText()));
                         } else if ("name".equals(nodeName)) {
                             animationPropetry.setName(parser.nextText());
-                        }  else if ("animationType".equals(nodeName)) {
+                        } else if ("animationType".equals(nodeName)) {
                             animationPropetry.setAnimationType(Integer.parseInt(parser.nextText()));
-                        } else if("srcInfo".equals(nodeName)) {
+                        } else if ("srcInfo".equals(nodeName)) {
                             srcInfo = new SrcInfo();
                             animationPropetry.setSrcInfo(srcInfo);
                         } else if ("srcName".equals(nodeName)) {
                             srcInfo.setSrcName(parser.nextText());
-                        } else if("rowFramCount".equals(nodeName)) {
+                        } else if ("rowFramCount".equals(nodeName)) {
                             int rowFrameCount = Integer.parseInt(parser.nextText());
                             srcInfo.setRowFramCount(rowFrameCount);
-                        } else if("colFramCount".equals(nodeName)){
+                        } else if ("colFramCount".equals(nodeName)) {
                             int colFramCount = Integer.parseInt(parser.nextText());
                             srcInfo.setColFramCont(colFramCount);
                         } else if ("frame".equals(nodeName)) {
                             frame = new Frame();
                             animationPropetry.getFrames().add(frame);
                         } else if ("row".equals(nodeName)) {
-                        frame.setRow(Integer.parseInt(parser.nextText()));
+                            frame.setRow(Integer.parseInt(parser.nextText()));
                         } else if ("col".equals(nodeName)) {
-                        frame.setCol(Integer.parseInt(parser.nextText()));
+                            frame.setCol(Integer.parseInt(parser.nextText()));
                         } else if ("timeDuration".equals(nodeName)) {
                             animationPropetry.setTimeDuration(Long.parseLong(parser.nextText()));
                         } else if ("maxMoveDistance".equals(nodeName)) {
@@ -315,14 +323,13 @@ public class GameData {
                         } else if ("actionRange".equals(nodeName)) {
                             animationPropetry.setActionRange(Float.parseFloat(parser.nextText()));
                         }
-
                         break;
                     case XmlPullParser.END_TAG:
                         if ("animation".equals(nodeName)) {
                             mAnimationMap.put(animationPropetry.getAnimationId(), animationPropetry);
-                            if(srcInfo.getRowFramCount() == 1 && animationPropetry.getFrames().isEmpty()) {
+                            if (srcInfo.getRowFramCount() == 1 && animationPropetry.getFrames().isEmpty()) {
                                 ///行数等于1并且没有指定帧
-                                for(int i=0; i<srcInfo.getColFramCont(); ++i) {
+                                for (int i = 0; i < srcInfo.getColFramCont(); ++i) {
                                     frame = new Frame();
                                     frame.setRow(0);
                                     frame.setCol(i);
@@ -385,7 +392,7 @@ public class GameData {
                             skillPropetry.setName(parser.nextText());
                         } else if ("hitEffectId".equals(nodeName)) {
                             skillPropetry.setHitEffectId(Integer.parseInt(parser.nextText()));
-                        }  else if ("icon".equals(nodeName)) {
+                        } else if ("icon".equals(nodeName)) {
                             skillPropetry.setIcon(parser.nextText());
                         } else if ("isInterruptWhileHit".equals(nodeName)) {
                             Boolean bInterruptWhileHit = Boolean.parseBoolean(parser.nextText());
@@ -425,6 +432,7 @@ public class GameData {
 
             MonsterPropetry monsterPropetry = new MonsterPropetry();
             Frame frame = new Frame();
+            DropItem dropItem = new DropItem();
             SrcInfo srcInfo = new SrcInfo();
 
             final int LEFT_FRAME = 0;
@@ -446,15 +454,15 @@ public class GameData {
                             monsterPropetry.setMonsterId(Integer.parseInt(parser.nextText()));
                         } else if ("monsterName".equals(nodeName)) {
                             monsterPropetry.setMonsterName(parser.nextText());
-                        } else if("srcInfo".equals(nodeName)) {
+                        } else if ("srcInfo".equals(nodeName)) {
                             srcInfo = new SrcInfo();
                             monsterPropetry.setSrcInfo(srcInfo);
                         } else if ("srcName".equals(nodeName)) {
                             srcInfo.setSrcName(parser.nextText());
-                        } else if("rowFramCount".equals(nodeName)) {
+                        } else if ("rowFramCount".equals(nodeName)) {
                             int rowFrameCount = Integer.parseInt(parser.nextText());
                             srcInfo.setRowFramCount(rowFrameCount);
-                        } else if("colFramCount".equals(nodeName)){
+                        } else if ("colFramCount".equals(nodeName)) {
                             int colFramCount = Integer.parseInt(parser.nextText());
                             srcInfo.setColFramCont(colFramCount);
                         } else if ("frame".equals(nodeName)) {
@@ -471,22 +479,31 @@ public class GameData {
                             monsterPropetry.setRightFrames(new LinkedList<Frame>());
                         } else if ("speed".equals(nodeName)) {
                             monsterPropetry.setSpeed(Integer.parseInt(parser.nextText()));
-                        }else if ("attackPower".equals(nodeName)) {
+                        } else if ("attackPower".equals(nodeName)) {
                             monsterPropetry.setAttackPower(Integer.parseInt(parser.nextText()));
-                        }else if ("defensivePower".equals(nodeName)) {
+                        } else if ("defensivePower".equals(nodeName)) {
                             monsterPropetry.setDefensivePower(Integer.parseInt(parser.nextText()));
-                        }else if ("bloodTotalVolume".equals(nodeName)) {
+                        } else if ("bloodTotalVolume".equals(nodeName)) {
                             int blood = Integer.parseInt(parser.nextText());
                             monsterPropetry.setBloodTotalVolume(blood);
                             monsterPropetry.setBloodVolume(blood);
-                        }else if ("magicTotalVolume".equals(nodeName)) {
+                        } else if ("magicTotalVolume".equals(nodeName)) {
                             int magic = Integer.parseInt(parser.nextText());
                             monsterPropetry.setMagicTotalVolume(magic);
                             monsterPropetry.setMagicVolume(magic);
-                        }else if ("attackLength".equals(nodeName)) {
+                        } else if ("attackLength".equals(nodeName)) {
                             monsterPropetry.setAttackLength(Integer.parseInt(parser.nextText()));
-                        }else if ("rank".equals(nodeName)) {
+                        } else if ("rank".equals(nodeName)) {
                             monsterPropetry.setRank(Integer.parseInt(parser.nextText()));
+                        } else if ("dropItems".equals(nodeName)) {
+                            monsterPropetry.setDropItems(new LinkedList<DropItem>());
+                        }
+                        else if ("dropItem".equals(nodeName)) {
+                            dropItem = new DropItem();
+                        } else if ("itemId".equals(nodeName)) {
+                            dropItem.setItemId(Integer.parseInt(parser.nextText()));
+                        } else if ("probability".equals(nodeName)) {
+                            dropItem.setProbability(Integer.parseInt(parser.nextText()));
                         }
                         break;
                     case XmlPullParser.END_TAG:
@@ -495,9 +512,11 @@ public class GameData {
                         } else if ("frame".equals(nodeName)) {
                             if (frameIndicater == LEFT_FRAME) {
                                 monsterPropetry.getLeftFrames().add(frame);
-                            } else if(frameIndicater == RIGHT_FRAME) {
+                            } else if (frameIndicater == RIGHT_FRAME) {
                                 monsterPropetry.getRightFrames().add(frame);
                             }
+                        } else if ("dropItem".equals(nodeName)) {
+                            monsterPropetry.getDropItems().add(dropItem);
                         }
                         break;
                     default:
@@ -537,11 +556,11 @@ public class GameData {
                         } else if ("mapId".equals(nodeName)) {
                             int id = Integer.parseInt(parser.nextText());
                             mapPropetry.setMapId(id);
-                            mapPropetry.setPreGate(id-1);   ///默认值
-                            mapPropetry.setNextGate(id+1);   ///默认值
+                            mapPropetry.setPreGate(id - 1);   ///默认值
+                            mapPropetry.setNextGate(id + 1);   ///默认值
                         } else if ("srcName".equals(nodeName)) {
                             mapPropetry.setSrcName(parser.nextText());
-                        } else if("mapLenRatio".equals(nodeName)) {
+                        } else if ("mapLenRatio".equals(nodeName)) {
                             mapPropetry.setMapLenRatio(Float.parseFloat(parser.nextText()));
                         } else if ("monster".equals(nodeName)) {
                             monsterPack = mapPropetry.new MonsterPack();
@@ -560,7 +579,7 @@ public class GameData {
                         break;
                     case XmlPullParser.END_TAG:
                         if ("map".equals(nodeName)) {
-                            mMapInfo.put(mapPropetry.getMapId(),mapPropetry);
+                            mMapInfo.put(mapPropetry.getMapId(), mapPropetry);
                         }
                         break;
                     default:

@@ -5,6 +5,7 @@ import android.graphics.PointF;
 
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.factory.IFactory;
+import com.cb.adventures.utils.Randomer;
 import com.cb.adventures.view.BaseView;
 import com.cb.adventures.view.IView;
 import com.cb.adventures.view.Map;
@@ -26,8 +27,12 @@ public class MonsterController implements Sprite.OnSpriteListener ,Map.MapScroll
         return mMonters;
     }
 
-    public void setmMonsterFactory(IFactory monsterFactory) {
+    public void setMonsterFactory(IFactory monsterFactory) {
         this.mMonsterFactory = monsterFactory;
+    }
+
+    public ReentrantReadWriteLock getReentrantReadWriteLock() {
+        return mReentrantReadWriteLock;
     }
 
 
@@ -57,8 +62,8 @@ public class MonsterController implements Sprite.OnSpriteListener ,Map.MapScroll
         for(int i=0; i<num; i++) {
             Sprite sprite = (Sprite) mMonsterFactory.create(monsterId);
             if(sprite != null) {
-                sprite.setmSpriteListener(this);
-                sprite.setPt(getRandom(GameConstants.sRightBoundary), GameConstants.sGameHeight*GameConstants.sYpointRatio);
+                sprite.setSpriteListener(this);
+                sprite.setPt(Randomer.getInstance().getRandom(GameConstants.sRightBoundary), GameConstants.sGameHeight*GameConstants.sYpointRatio);
                 sprite.work(GameConstants.STATE_MOVE_LEFT,3000);
                 mMonters.add(sprite);
             }
@@ -76,33 +81,6 @@ public class MonsterController implements Sprite.OnSpriteListener ,Map.MapScroll
         }
         mMonters.clear();
         mReentrantReadWriteLock.writeLock().unlock();
-    }
-
-    private Random mRandom;
-    /**
-     * 取得[1,range]随机数
-     * @param range
-     * @return
-     */
-    private int getRandom(int range) {
-        if(mRandom == null) {
-            mRandom = new Random(System.currentTimeMillis());
-        }
-        return (Math.abs(mRandom.nextInt()%range) + 1);
-    }
-
-    /**
-     * 获取[left,right]随机数
-     * @param left
-     * @param right
-     * @return
-     */
-    private int getRandom(int left,int right) {
-        if(mRandom == null) {
-            mRandom = new Random(System.currentTimeMillis());
-        }
-        int random = (Math.abs(mRandom.nextInt()%(right-left+1)) + left);
-        return random;
     }
 
     public void animate() {
@@ -130,7 +108,7 @@ public class MonsterController implements Sprite.OnSpriteListener ,Map.MapScroll
         mReentrantReadWriteLock.readLock().lock();
         for (Sprite sprite : mMonters) {
             if (sprite.getId() == id && !sprite.isDead()) {
-                sprite.work(sprite.getmDirection(), getRandom(5, 10) * 1000);  ///跑2-3秒
+                sprite.work(sprite.getDirection(), Randomer.getInstance().getRandom(5, 10) * 1000);  ///跑2-3秒
                 mReentrantReadWriteLock.readLock().unlock();
                 return;
             }
@@ -143,7 +121,7 @@ public class MonsterController implements Sprite.OnSpriteListener ,Map.MapScroll
         mReentrantReadWriteLock.readLock().lock();
         for (Sprite sprite : mMonters) {
             if (sprite.getId() == id) {
-                sprite.rest(getRandom(2)*1000);  ///休息1-2秒
+                sprite.rest(Randomer.getInstance().getRandom(2)*1000);  ///休息1-2秒
                 mReentrantReadWriteLock.readLock().unlock();
                 return;
             }

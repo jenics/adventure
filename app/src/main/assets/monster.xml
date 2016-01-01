@@ -52,6 +52,24 @@
 				<col>3</col>
 			</frame>
 		</rightFrames>
+		<dropItems>
+			<dropItem>
+				<itemId>1</itemId>
+				<probability>300</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>2</itemId>
+				<probability>300</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>500000</itemId>
+				<probability>300</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>500001</itemId>
+				<probability>300</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+		</dropItems>
 	</monster>
 	<monster>
 		<monsterId>2</monsterId>

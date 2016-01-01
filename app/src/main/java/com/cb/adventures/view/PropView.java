@@ -40,7 +40,7 @@ public class PropView extends BaseView {
     private boolean isPicking;
     public PropView(PropPropetry prop) {
         isPicking = false;
-        this.prop = prop;
+        this.prop = (PropPropetry) prop.clone();
         mBitmap = ImageLoader.getInstance().loadBitmap(prop.getIcon());
         calcSize();
     }

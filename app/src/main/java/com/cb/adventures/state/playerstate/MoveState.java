@@ -4,12 +4,9 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.util.Log;
 
 import com.cb.adventures.constants.GameConstants;
-import com.cb.adventures.utils.CLog;
 import com.cb.adventures.view.Player;
-import com.cb.adventures.view.Sprite;
 
 /**
  * Created by jenics on 2015/10/12.
@@ -57,7 +54,7 @@ public class MoveState extends PlayerBaseState {
                 new RectF(x,
                         y,
                         x + disWidth,
-                        y + disHeight), player.getmPaint());
+                        y + disHeight), player.getPaint());
     }
 
     @Override

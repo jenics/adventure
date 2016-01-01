@@ -7,7 +7,6 @@ import android.graphics.RectF;
 
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.view.Player;
-import com.cb.adventures.view.Sprite;
 
 /**
  * Created by jenics on 2015/10/12.
@@ -51,7 +50,7 @@ public class StopState extends PlayerBaseState {
                     new RectF(x,
                             y,
                             x + disWidth,
-                            y + disHeight), player.getmPaint());
+                            y + disHeight), player.getPaint());
         } else {
             canvas.drawBitmap(bitmap,
                     new Rect(   ///src rect
@@ -62,7 +61,7 @@ public class StopState extends PlayerBaseState {
                     new RectF(x,
                             y,
                             x + disWidth,
-                            y + disHeight), player.getmPaint());
+                            y + disHeight), player.getPaint());
         }
     }
 

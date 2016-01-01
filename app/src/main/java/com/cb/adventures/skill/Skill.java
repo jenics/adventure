@@ -113,7 +113,7 @@ public class Skill extends FrameAnimation implements ViewAnimation.OnAniamtionLi
         isHurted = false;
     }
 
-    public BaseView getmAttachView() {
+    public BaseView getAttachView() {
         return mAttachView;
     }
 

@@ -30,7 +30,7 @@ public class ScrollAnimation extends SelfAnimation {
 
     private String mStrTitle;
 
-    public void setmStrTitle(String mStrTitle) {
+    public void setStrTitle(String mStrTitle) {
         this.mStrTitle = mStrTitle;
     }
 

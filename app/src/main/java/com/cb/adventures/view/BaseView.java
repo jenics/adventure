@@ -131,11 +131,11 @@ public class BaseView implements IView  {
         }
     }
 
-    public Paint getmPaint() {
+    public Paint getPaint() {
         return mPaint;
     }
 
-    public void setmPaint(Paint mPaint) {
+    public void setPaint(Paint mPaint) {
         this.mPaint = mPaint;
     }
 

@@ -19,6 +19,10 @@ public class AnimationControl implements IDrawable {
     private LinkedList<IAnimation> delayAddViewAnimations;
     private final ReentrantReadWriteLock mReentrantReadWriteLock = new ReentrantReadWriteLock();
 
+    public ReentrantReadWriteLock getReentrantReadWriteLock() {
+        return mReentrantReadWriteLock;
+    }
+
     private AnimationControl() {
         mQueueAnimaion = new LinkedList<>();
         delayAddViewAnimations = new LinkedList<>();
@@ -29,7 +33,7 @@ public class AnimationControl implements IDrawable {
      *
      * @return 实例
      */
-    public synchronized static AnimationControl getInstance() {
+    public static synchronized AnimationControl getInstance() {
         if (mInstance == null) {
             mInstance = new AnimationControl();
         }
