@@ -21,17 +21,19 @@ import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.controller.MonsterController;
 import com.cb.adventures.data.GameData;
 import com.cb.adventures.factory.SkillFactory;
+import com.cb.adventures.prop.Equipment;
 import com.cb.adventures.prop.IUsable;
 import com.cb.adventures.skill.Skill;
 import com.cb.adventures.skill.SkillLancher;
 import com.cb.adventures.utils.CLog;
 import com.cb.adventures.utils.ImageLoader;
 import com.cb.adventures.utils.WeakRefHandler;
-import com.cb.adventures.view.BloodReservoir;
+import com.cb.adventures.view.ui.BloodReservoir;
 import com.cb.adventures.view.DropPropMgr;
-import com.cb.adventures.view.GameController;
-import com.cb.adventures.view.GameMenuView;
-import com.cb.adventures.view.InventoryView;
+import com.cb.adventures.view.ui.EquipmentBar;
+import com.cb.adventures.view.ui.GameController;
+import com.cb.adventures.view.ui.GameMenuView;
+import com.cb.adventures.view.ui.InventoryView;
 import com.cb.adventures.view.Player;
 import com.cb.adventures.view.Map;
 import com.cb.adventures.view.Sprite;
@@ -154,6 +156,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         player.getPropetry().setMagicVolume(25);
         player.getPropetry().setSpeed(16);
         player.getPropetry().setAttackPower(20);
+        player.getPropetry().setRank(1);
         InventoryView.getInstance().setPlayer(player);
 
         if (mGameController == null) {
@@ -177,6 +180,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
 
         InventoryView.getInstance().init();
         InventoryView.getInstance().setIsVisiable(false);
+
+        EquipmentBar.getInstance().init(player);
+        EquipmentBar.getInstance().setIsVisiable(false);
 
 
         if (gameMenuView == null) {
@@ -229,11 +235,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                     logicAnimate();
                     drawGame(canvas);
                 }
-
                 /**绘制结束后解锁显示在屏幕上**/
                 mSurfaceHolder.unlockCanvasAndPost(canvas);
             }
-
             long endTime = System.currentTimeMillis();
             /**计算出游戏一次更新的毫秒数**/
             int diffTime = (int) (endTime - startTime);
@@ -390,6 +394,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         mGameController.draw(canvas);
         bloodReservoir.draw(canvas);
         InventoryView.getInstance().draw(canvas);
+        EquipmentBar.getInstance().draw(canvas);
         if (gameMenuView.isVisiable()) {
             gameMenuView.draw(canvas);
         }
@@ -409,6 +414,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             /**
              * 不管是不是第一次按下，都去判断下mose down。
              */
+            if (gameMenuView.isVisiable()) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (true ==gameMenuView.onMouseUp((int) event.getX(i), (int) event.getY(i)))
+                        break;
+                }
+            }
             if (InventoryView.getInstance().isVisiable()) {
                 /**
                  * 只要物品栏出现，就接管所有消息。
@@ -416,7 +427,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     InventoryView.getInstance().onMouseUp((int) event.getX(i), (int) event.getY(i));
                 }
-            } else {
+            } else if (EquipmentBar.getInstance().isVisiable()) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    EquipmentBar.getInstance().onMouseUp((int) event.getX(i), (int) event.getY(i));
+                }
+            }
+            else {
                 if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_DOWN ||
                         (event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_POINTER_DOWN) {
                     mGameController.onMouseDown((int) event.getX(i), (int) event.getY(i));
@@ -427,13 +443,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                     mGameController.onMouseUp((int) event.getX(i), (int) event.getY(i));
                 }
             }
-
-            if (gameMenuView.isVisiable()) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    gameMenuView.onMouseUp((int) event.getX(i), (int) event.getY(i));
-                }
-            }
-
         }
         return true;
     }
@@ -479,7 +488,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     @Override
     public void onItemClick(int itemIndex) {
         if (itemIndex == GameMenuView.MENU_ITEM_INVENTORY) {
-            InventoryView.getInstance().setIsVisiable(!InventoryView.getInstance().isVisiable());
+            boolean isVisiable = InventoryView.getInstance().isVisiable();
+            InventoryView.getInstance().setIsVisiable(!isVisiable);
+            EquipmentBar.getInstance().setIsVisiable(false);
+        } else if (itemIndex == GameMenuView.MENU_ITEM_PROPETRY) {
+            boolean isVisiable = EquipmentBar.getInstance().isVisiable();
+            EquipmentBar.getInstance().setIsVisiable(!isVisiable);
+            InventoryView.getInstance().setIsVisiable(false);
         }
     }
 

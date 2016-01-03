@@ -9,8 +9,7 @@
 		<bloodTotalVolume>20</bloodTotalVolume>
 		<magicTotalVolume>20</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>1</rank>
-		
+		<rank>5</rank>
 		<srcInfo>
 			<srcName>monster/blackpig.png</srcName>
 			<rowFramCount>4</rowFramCount>
@@ -54,20 +53,36 @@
 		</rightFrames>
 		<dropItems>
 			<dropItem>
-				<itemId>1</itemId>
-				<probability>300</probability>		<!--掉落概率，单位‰ -->
-			</dropItem>
-			<dropItem>
-				<itemId>2</itemId>
-				<probability>300</probability>		<!--掉落概率，单位‰ -->
-			</dropItem>
-			<dropItem>
 				<itemId>500000</itemId>
-				<probability>300</probability>		<!--掉落概率，单位‰ -->
+				<probability>1000</probability>		<!--掉落概率，单位‰ -->
 			</dropItem>
 			<dropItem>
-				<itemId>500001</itemId>
-				<probability>300</probability>		<!--掉落概率，单位‰ -->
+				<itemId>500006</itemId>
+				<probability>1000</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>500016</itemId>
+				<probability>1000</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>500017</itemId>
+				<probability>1000</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>500018</itemId>
+				<probability>1000</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>500019</itemId>
+				<probability>1000</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>500020</itemId>
+				<probability>1000</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>500021</itemId>
+				<probability>1000</probability>		<!--掉落概率，单位‰ -->
 			</dropItem>
 		</dropItems>
 	</monster>
@@ -80,7 +95,7 @@
 		<bloodTotalVolume>30</bloodTotalVolume>
 		<magicTotalVolume>30</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>2</rank>
+		<rank>10</rank>
 		<srcInfo>
 			<srcName>monster/qq.png</srcName>
 			<rowFramCount>4</rowFramCount>
@@ -132,7 +147,7 @@
 		<bloodTotalVolume>30</bloodTotalVolume>
 		<magicTotalVolume>30</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>2</rank>
+		<rank>15</rank>
 		<srcInfo>
 			<srcName>monster/baiyanduguai.png</srcName>
 			<rowFramCount>4</rowFramCount>
@@ -184,7 +199,7 @@
 		<bloodTotalVolume>30</bloodTotalVolume>
 		<magicTotalVolume>30</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>2</rank>
+		<rank>20</rank>
 		<srcInfo>
 			<srcName>monster/baoxiangwang.png</srcName>
 			<rowFramCount>4</rowFramCount>
@@ -236,7 +251,7 @@
 		<bloodTotalVolume>30</bloodTotalVolume>
 		<magicTotalVolume>30</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>2</rank>
+		<rank>25</rank>
 		<srcInfo>
 			<srcName>monster/bianfu.png</srcName>
 			<rowFramCount>4</rowFramCount>
@@ -288,7 +303,7 @@
 		<bloodTotalVolume>30</bloodTotalVolume>
 		<magicTotalVolume>30</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>2</rank>
+		<rank>30</rank>
 		<srcInfo>
 			<srcName>monster/bianzhongshanyang.png</srcName>
 			<rowFramCount>4</rowFramCount>
@@ -340,7 +355,7 @@
 		<bloodTotalVolume>30</bloodTotalVolume>
 		<magicTotalVolume>30</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>2</rank>
+		<rank>35</rank>
 		<srcInfo>
 			<srcName>monster/bianzhongyouling.png</srcName>
 			<rowFramCount>4</rowFramCount>
@@ -392,7 +407,7 @@
 		<bloodTotalVolume>30</bloodTotalVolume>
 		<magicTotalVolume>30</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>2</rank>
+		<rank>40</rank>
 		<srcInfo>
 			<srcName>monster/bingmo.png</srcName>
 			<rowFramCount>4</rowFramCount>
@@ -444,7 +459,7 @@
 		<bloodTotalVolume>30</bloodTotalVolume>
 		<magicTotalVolume>30</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>2</rank>
+		<rank>45</rank>
 		<srcInfo>
 			<srcName>monster/cunzhang.png</srcName>
 			<rowFramCount>4</rowFramCount>
@@ -496,7 +511,7 @@
 		<bloodTotalVolume>30</bloodTotalVolume>
 		<magicTotalVolume>30</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>2</rank>
+		<rank>50</rank>
 		<srcInfo>
 			<srcName>monster/diaozhaqifuzhe.png</srcName>
 			<rowFramCount>4</rowFramCount>
@@ -548,7 +563,7 @@
 		<bloodTotalVolume>30</bloodTotalVolume>
 		<magicTotalVolume>30</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>2</rank>
+		<rank>55</rank>
 		<srcInfo>
 			<srcName>monster/gebulin.png</srcName>
 			<rowFramCount>4</rowFramCount>
@@ -600,7 +615,7 @@
 		<bloodTotalVolume>30</bloodTotalVolume>
 		<magicTotalVolume>30</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>2</rank>
+		<rank>60</rank>
 		<srcInfo>
 			<srcName>monster/houzi.png</srcName>
 			<rowFramCount>4</rowFramCount>
@@ -652,7 +667,7 @@
 		<bloodTotalVolume>30</bloodTotalVolume>
 		<magicTotalVolume>30</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>2</rank>
+		<rank>65</rank>
 		<srcInfo>
 			<srcName>monster/huoyezhu.png</srcName>
 			<rowFramCount>4</rowFramCount>
@@ -704,7 +719,7 @@
 		<bloodTotalVolume>30</bloodTotalVolume>
 		<magicTotalVolume>30</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>2</rank>
+		<rank>70</rank>
 		<srcInfo>
 			<srcName>monster/laohuwang.png</srcName>
 			<rowFramCount>4</rowFramCount>
@@ -756,7 +771,7 @@
 		<bloodTotalVolume>30</bloodTotalVolume>
 		<magicTotalVolume>30</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>2</rank>
+		<rank>75</rank>
 		<srcInfo>
 			<srcName>monster/longxia.png</srcName>
 			<rowFramCount>4</rowFramCount>
@@ -808,7 +823,7 @@
 		<bloodTotalVolume>30</bloodTotalVolume>
 		<magicTotalVolume>30</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>2</rank>
+		<rank>80</rank>
 		<srcInfo>
 			<srcName>monster/longxiawang.png</srcName>
 			<rowFramCount>4</rowFramCount>
@@ -860,7 +875,7 @@
 		<bloodTotalVolume>30</bloodTotalVolume>
 		<magicTotalVolume>30</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>2</rank>
+		<rank>85</rank>
 		<srcInfo>
 			<srcName>monster/pangxie.png</srcName>
 			<rowFramCount>4</rowFramCount>
@@ -912,7 +927,7 @@
 		<bloodTotalVolume>30</bloodTotalVolume>
 		<magicTotalVolume>30</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>2</rank>
+		<rank>90</rank>
 		<srcInfo>
 			<srcName>monster/laohu.png</srcName>
 			<rowFramCount>4</rowFramCount>
@@ -964,7 +979,7 @@
 		<bloodTotalVolume>30</bloodTotalVolume>
 		<magicTotalVolume>30</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>2</rank>
+		<rank>95</rank>
 		<srcInfo>
 			<srcName>monster/qiuzhangtudao.png</srcName>
 			<rowFramCount>4</rowFramCount>
@@ -1016,7 +1031,7 @@
 		<bloodTotalVolume>30</bloodTotalVolume>
 		<magicTotalVolume>30</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>2</rank>
+		<rank>100</rank>
 		<srcInfo>
 			<srcName>monster/xiaolaohu.png</srcName>
 			<rowFramCount>4</rowFramCount>
@@ -1068,7 +1083,7 @@
 		<bloodTotalVolume>30</bloodTotalVolume>
 		<magicTotalVolume>30</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>2</rank>
+		<rank>105</rank>
 		<srcInfo>
 			<srcName>monster/xuesheng.png</srcName>
 			<rowFramCount>4</rowFramCount>
@@ -1120,7 +1135,7 @@
 		<bloodTotalVolume>30</bloodTotalVolume>
 		<magicTotalVolume>30</magicTotalVolume>
 		<attackLength>5</attackLength>
-		<rank>2</rank>
+		<rank>110</rank>
 		<srcInfo>
 			<srcName>monster/yanmo.png</srcName>
 			<rowFramCount>4</rowFramCount>

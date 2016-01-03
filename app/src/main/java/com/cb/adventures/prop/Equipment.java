@@ -1,38 +1,38 @@
 package com.cb.adventures.prop;
 
+import android.widget.Toast;
+
+import com.cb.adventures.application.AdventureApplication;
 import com.cb.adventures.data.EquipmentPropetry;
 import com.cb.adventures.data.PropPropetry;
 import com.cb.adventures.view.Player;
+import com.cb.adventures.view.ui.EquipmentBar;
+import com.cb.adventures.view.ui.InventoryView;
 
 /**
  * 装备
  * Created by jenics on 2015/12/28.
  */
 public class Equipment implements IEquipment{
-    /**
-     * 盔甲
-     */
-    public static final int EQUIP_ARMOUR = 0;
-    /**
-     * 武器
-     */
-    public static final int EQUIP_WEAPON = 1;
-    private Player mPlayer;
     private EquipmentPropetry equipmentPropetry;
+    private Player mPlayer;
     public Equipment(Player player, PropPropetry propetry) {
-        mPlayer = player;
         equipmentPropetry = (EquipmentPropetry) propetry;
+        mPlayer = player;
     }
 
     public EquipmentPropetry getEquipmentPropetry() {
         return equipmentPropetry;
     }
 
-
-
     @Override
     public long getPropId() {
         return equipmentPropetry.getPropId();
+    }
+
+    @Override
+    public long getObjId() {
+        return equipmentPropetry.getObjId();
     }
 
     @Override
@@ -53,12 +53,20 @@ public class Equipment implements IEquipment{
 
     @Override
     public void equip() {
-        mPlayer.equipment(this);
+        if (mPlayer.getRank() >= getRank()) {
+            IEquipment iEquipment = EquipmentBar.getInstance().equipment(this);
+            int index = InventoryView.getInstance().removeProp(this);
+            if (iEquipment != null) {
+                InventoryView.getInstance().addProp(index,iEquipment);
+            }
+        } else {
+            Toast.makeText(AdventureApplication.getContextObj(),"装备等级过高",Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void unEquip() {
-        mPlayer.unEquipment(this);
+        EquipmentBar.getInstance().unEquipment(this);
     }
 
     @Override
@@ -81,4 +89,28 @@ public class Equipment implements IEquipment{
         return equipmentPropetry.getIcon();
     }
 
+    @Override
+    public int getAttackPower() {
+        return equipmentPropetry.getAttackPower();
+    }
+
+    @Override
+    public int getDefensivePower() {
+        return equipmentPropetry.getDefensivePower();
+    }
+
+    @Override
+    public int getRank() {
+        return equipmentPropetry.getRank();
+    }
+
+    @Override
+    public int getMagicTotalVolume() {
+        return equipmentPropetry.getMagicVolume();
+    }
+
+    @Override
+    public int getBloodTotalVolume() {
+        return equipmentPropetry.getBloodVolume();
+    }
 }

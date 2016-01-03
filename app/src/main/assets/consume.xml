@@ -21,4 +21,92 @@
 		<icon>articles/consumes/lan.png</icon>
 		<maxStackSize>99</maxStackSize>
 	</consume>
+	
+	<consume>
+		<propId>3</propId>
+		<bloodVolume>100</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<name>微红</name>
+		<extra>远古异兽精血，微瓶装</extra>
+		<desc>恢复100血量</desc>
+		<icon>articles/consumes/hong1.png</icon>
+		<maxStackSize>99</maxStackSize>
+	</consume>
+	
+	<consume>
+		<propId>4</propId>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>100</magicVolume>
+		<name>微蓝</name>
+		<extra>异界魔法泉水，微瓶装</extra>
+		<desc>恢复100蓝量</desc>
+		<icon>articles/consumes/lan1.png</icon>
+		<maxStackSize>99</maxStackSize>
+	</consume>
+	
+	<consume>
+		<propId>5</propId>
+		<bloodVolume>150</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<name>中红</name>
+		<extra>远古异兽精血，中瓶装</extra>
+		<desc>恢复150血量</desc>
+		<icon>articles/consumes/hong2.png</icon>
+		<maxStackSize>99</maxStackSize>
+	</consume>
+	
+	<consume>
+		<propId>6</propId>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>150</magicVolume>
+		<name>中蓝</name>
+		<extra>异界魔法泉水，中瓶装</extra>
+		<desc>恢复150蓝量</desc>
+		<icon>articles/consumes/lan2.png</icon>
+		<maxStackSize>99</maxStackSize>
+	</consume>
+	
+	<consume>
+		<propId>7</propId>
+		<bloodVolume>200</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<name>大红</name>
+		<extra>远古异兽精血，畅饮装</extra>
+		<desc>恢复200血量</desc>
+		<icon>articles/consumes/hong3.png</icon>
+		<maxStackSize>99</maxStackSize>
+	</consume>
+	
+	<consume>
+		<propId>8</propId>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>200</magicVolume>
+		<name>大蓝</name>
+		<extra>异界魔法泉水，畅饮装</extra>
+		<desc>恢复200蓝量</desc>
+		<icon>articles/consumes/lan3.png</icon>
+		<maxStackSize>99</maxStackSize>
+	</consume>
+	
+	<consume>
+		<propId>9</propId>
+		<bloodVolume>200</bloodVolume>
+		<magicVolume>200</magicVolume>
+		<name>能量液体</name>
+		<extra>这个巫师的一个伟大发明</extra>
+		<desc>恢复血量和蓝量各200</desc>
+		<icon>articles/consumes/nengliangyeti.png</icon>
+		<maxStackSize>99</maxStackSize>
+	</consume>
+	
+	<consume>
+		<propId>10</propId>
+		<bloodVolume>250</bloodVolume>
+		<magicVolume>250</magicVolume>
+		<name>仙界番茄</name>
+		<extra>王母娘娘的蟠桃和西方茄子杂交出的产物，甜而不腻</extra>
+		<desc>恢复血量和蓝量各250</desc>
+		<icon>articles/consumes/fanqie.png</icon>
+		<maxStackSize>99</maxStackSize>
+	</consume>
 </root>

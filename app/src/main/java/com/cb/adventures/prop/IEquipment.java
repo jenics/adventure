@@ -1,9 +1,11 @@
 package com.cb.adventures.prop;
 
+import com.cb.adventures.data.IPropetry;
+
 /**
  * Created by jenics on 2015/12/28.
  */
-public interface IEquipment extends IProp {
+public interface IEquipment extends IProp , IPropetry{
     /**
      * 装备
      */

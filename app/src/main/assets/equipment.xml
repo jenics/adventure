@@ -10,7 +10,7 @@
 		<rank>1</rank>
 		<name>傲娇锤</name>
 		<extra>一把蛮傲娇的锤子</extra>
-		<icon>articles/equipments/wuqi1.png</icon>
+		<icon>articles/equipments/wuqi/wuqi1.png</icon>
 	</equipment>
 	<equipment>
 		<propId>500001</propId>
@@ -22,7 +22,7 @@
 		<rank>2</rank>
 		<name>魔土锤</name>
 		<extra>土系能量横溢，潇洒有担当的锤子</extra>
-		<icon>articles/equipments/wuqi2.png</icon>
+		<icon>articles/equipments/wuqi/wuqi2.png</icon>
 	</equipment>
 	<equipment>
 		<propId>500002</propId>
@@ -34,7 +34,7 @@
 		<rank>3</rank>
 		<name>狼牙棒</name>
 		<extra>一把不一样的狼牙棒，感觉很舒服的样子《邪恶》</extra>
-		<icon>articles/equipments/wuqi3.png</icon>
+		<icon>articles/equipments/wuqi/wuqi3.png</icon>
 	</equipment>
 	<equipment>
 		<propId>500003</propId>
@@ -46,7 +46,7 @@
 		<rank>4</rank>
 		<name>毛锤</name>
 		<extra>传说一个很牛的道士使用过的锤子，没看见那根飘逸的羽毛吗</extra>
-		<icon>articles/equipments/wuqi4.png</icon>
+		<icon>articles/equipments/wuqi/wuqi4.png</icon>
 	</equipment>
 	<equipment>
 		<propId>500004</propId>
@@ -58,7 +58,7 @@
 		<rank>5</rank>
 		<name>骷髅号令者</name>
 		<extra>萨满祭司将敌对部落的首领骷髅晒干，献祭以魔法。它散发着令人胆颤的邪恶力量</extra>
-		<icon>articles/equipments/wuqi5.png</icon>
+		<icon>articles/equipments/wuqi/wuqi5.png</icon>
 	</equipment>
 	<equipment>
 		<propId>500005</propId>
@@ -70,8 +70,9 @@
 		<rank>6</rank>
 		<name>乾坤印</name>
 		<extra>魔帝耗费精血炼制的四方印记，流落凡间，小心，你很难掌控它的力量。</extra>
-		<icon>articles/equipments/wuqi6.png</icon>
+		<icon>articles/equipments/wuqi/wuqi6.png</icon>
 	</equipment>
+
 	<equipment>
 		<propId>500006</propId>
 		<loc>0</loc>
@@ -82,7 +83,7 @@
 		<rank>1</rank>
 		<name>刺客铠甲</name>
 		<extra>穿着它看起来很笨拙，但是它却表现得非常好，漂移，潇洒。</extra>
-		<icon>articles/equipments/kaijia1.png</icon>
+		<icon>articles/equipments/kuijia/kuijia1.png</icon>
 	</equipment>
 	<equipment>
 		<propId>500007</propId>
@@ -94,7 +95,7 @@
 		<rank>2</rank>
 		<name>百夫长皮衣</name>
 		<extra>高贵的象征，恭喜晋升小领导</extra>
-		<icon>articles/equipments/kaijia2.png</icon>
+		<icon>articles/equipments/kuijia/kuijia2.png</icon>
 	</equipment>
 	<equipment>
 		<propId>500008</propId>
@@ -106,7 +107,7 @@
 		<rank>3</rank>
 		<name>刺客羽翼</name>
 		<extra>神级刺客洛天离的羽翼，曾经响彻整个冒险大陆</extra>
-		<icon>articles/equipments/kaijia3.png</icon>
+		<icon>articles/equipments/kuijia/kuijia3.png</icon>
 	</equipment>
 	<equipment>
 		<propId>500009</propId>
@@ -118,7 +119,7 @@
 		<rank>4</rank>
 		<name>幽灵战甲</name>
 		<extra>在幽灵深渊中吸收灵力长达数百年，终于吸收千万冤魂，它看起来法力波动很大</extra>
-		<icon>articles/equipments/kaijia4.png</icon>
+		<icon>articles/equipments/kuijia/kuijia4.png</icon>
 	</equipment>
 	<equipment>
 		<propId>500010</propId>
@@ -130,7 +131,7 @@
 		<rank>5</rank>
 		<name>霓裳羽衣</name>
 		<extra>一个仙女洗澡时候忘在边上，被一个凡人偶尔得到。薄薄的布料却怎么也撕不烂《邪恶》</extra>
-		<icon>articles/equipments/kaijia5.png</icon>
+		<icon>articles/equipments/kuijia/kuijia5.png</icon>
 	</equipment>
 	<equipment>
 		<propId>500011</propId>
@@ -142,7 +143,7 @@
 		<rank>6</rank>
 		<name>皇帝长袍</name>
 		<extra>皇帝的心衣，它并不是透明的，举国之力造就了它惊人的防御力</extra>
-		<icon>articles/equipments/kaijia6.png</icon>
+		<icon>articles/equipments/kuijia/kuijia6.png</icon>
 	</equipment>
 	<equipment>
 		<propId>500012</propId>
@@ -154,7 +155,7 @@
 		<rank>7</rank>
 		<name>雷帝披风</name>
 		<extra>当年叱咤风云的雷帝在仙界争夺权势时，被悟空斩杀，他的衣服破烂后化作披风散落凡间</extra>
-		<icon>articles/equipments/kaijia7.png</icon>
+		<icon>articles/equipments/kuijia/kuijia7.png</icon>
 	</equipment>
 	<equipment>
 		<propId>500013</propId>
@@ -166,7 +167,7 @@
 		<rank>8</rank>
 		<name>迷你裙子</name>
 		<extra>穿上她，迷倒众生</extra>
-		<icon>articles/equipments/kaijia8.png</icon>
+		<icon>articles/equipments/kuijia/kuijia8.png</icon>
 	</equipment>
 	<equipment>
 		<propId>500014</propId>
@@ -178,7 +179,7 @@
 		<rank>9</rank>
 		<name>钢铁战甲</name>
 		<extra>钢铁侠澎湃的能量涌动着，穿上它你就像飞起来一样</extra>
-		<icon>articles/equipments/kaijia9.png</icon>
+		<icon>articles/equipments/kuijia/kuijia9.png</icon>
 	</equipment>
 	<equipment>
 		<propId>500015</propId>
@@ -189,7 +190,79 @@
 		<magicVolume>0</magicVolume>
 		<rank>10</rank>
 		<name>将军铠甲</name>
-		<extra>看起来他太普通了</extra>
-		<icon>articles/equipments/kaijia10.png</icon>
+		<extra>看起来他太普通了,但是不妨碍它展现出得惊人防御</extra>
+		<icon>articles/equipments/kuijia/kuijia10.png</icon>
+	</equipment>
+	<equipment>
+		<propId>500016</propId>
+		<loc>6</loc>
+		<attackPower>3</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>1</rank>
+		<name>星辰戒指</name>
+		<extra>星星碎片悬空连接而成，让人无法呼吸</extra>
+		<icon>articles/equipments/jiezhi/jiezhi1.png</icon>
+	</equipment>
+	<equipment>
+		<propId>500017</propId>
+		<loc>2</loc>
+		<attackPower>3</attackPower>
+		<defensivePower>3</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>1</rank>
+		<name>兽人护手</name>
+		<extra>真皮，真毛。兽人的气息扑面而至</extra>
+		<icon>articles/equipments/shoubu/shoubu1.png</icon>
+	</equipment>
+	<equipment>
+		<propId>500018</propId>
+		<loc>3</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>3</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>1</rank>
+		<name>星界头盔</name>
+		<extra>星界战士的头盔，不算什么稀罕物</extra>
+		<icon>articles/equipments/toukui/toukui1.png</icon>
+	</equipment>
+	<equipment>
+		<propId>500019</propId>
+		<loc>7</loc>
+		<attackPower>1</attackPower>
+		<defensivePower>2</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>1</rank>
+		<name>兽人项链</name>
+		<extra>雪狼的牙齿，透出让人心悸的锋利，小心点带，别划伤脖子。可得当心狂犬病</extra>
+		<icon>articles/equipments/xianglian/xianglian1.png</icon>
+	</equipment>
+	<equipment>
+		<propId>500020</propId>
+		<loc>5</loc>
+		<attackPower>1</attackPower>
+		<defensivePower>2</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>1</rank>
+		<name>兽皮短靴</name>
+		<extra>和添柏岚的短靴比起来可差远了</extra>
+		<icon>articles/equipments/xiezi/xiezi1.png</icon>
+	</equipment>
+	<equipment>
+		<propId>500021</propId>
+		<loc>4</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>2</defensivePower>
+		<bloodVolume>10</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>1</rank>
+		<name>人造革腰带</name>
+		<extra>江南皮革厂倒闭时候，用了点碎料制成的，别指望它有多出色</extra>
+		<icon>articles/equipments/yaodai/yaodai1.png</icon>
 	</equipment>
 </root>

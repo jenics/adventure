@@ -33,8 +33,6 @@ public class EquipmentPropetry extends PropPropetry{
      */
     private int loc;
 
-
-
     public int getAttackPower() {
         return attackPower;
     }

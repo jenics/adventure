@@ -4,20 +4,22 @@ import com.cb.adventures.data.ConsumePropetry;
 import com.cb.adventures.data.PropPropetry;
 import com.cb.adventures.data.Propetry;
 import com.cb.adventures.view.Player;
+import com.cb.adventures.view.ui.InventoryView;
 
 
 /**
  * 消耗品
  * Created by jenics on 2015/12/28.
  */
-public class Consume implements IProp , IStackable{
+public class Consume implements IProp, IStackable {
     private ConsumePropetry consumePropetry;
     /**
      * 堆叠数量
      */
     private int currentStackSize;
     private Player mPlayer;
-    public Consume(Player player , PropPropetry propPropetry) {
+
+    public Consume(Player player, PropPropetry propPropetry) {
         consumePropetry = (ConsumePropetry) propPropetry;
         mPlayer = player;
         currentStackSize = 1;
@@ -25,6 +27,7 @@ public class Consume implements IProp , IStackable{
 
     /**
      * 增加当前堆叠数量
+     *
      * @param size 欲增加的堆叠数量
      * @return 当前堆叠数量
      */
@@ -39,6 +42,7 @@ public class Consume implements IProp , IStackable{
 
     /**
      * 减少当前堆叠数量
+     *
      * @param size 欲减少的堆叠数量
      * @return 当前堆叠数量
      */
@@ -65,8 +69,13 @@ public class Consume implements IProp , IStackable{
     }
 
     @Override
+    public long getObjId() {
+        return consumePropetry.getObjId();
+    }
+
+    @Override
     public String[] getDescription() {
-        return new String[] {consumePropetry.getDesc()};
+        return new String[]{consumePropetry.getDesc()};
     }
 
     @Override
@@ -99,6 +108,12 @@ public class Consume implements IProp , IStackable{
         }
         propetry.setMagicVolume(add);
         reduceStack(1);
+
+        IStackable iStackable = (IStackable) this;
+        if (iStackable.getCurrentStackSize() == 0) {
+            ///使用完了
+            InventoryView.getInstance().removeProp(this);
+        }
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.cb.adventures.animation.ScrollAnimation;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.EquipmentPropetry;
 import com.cb.adventures.data.GameData;
+import com.cb.adventures.data.IPropetry;
 import com.cb.adventures.data.Propetry;
 import com.cb.adventures.factory.SkillFactory;
 import com.cb.adventures.prop.Equipment;
@@ -20,13 +21,14 @@ import com.cb.adventures.state.playerstate.AttackState;
 import com.cb.adventures.state.playerstate.MoveState;
 import com.cb.adventures.state.playerstate.PlayerBaseState;
 import com.cb.adventures.state.playerstate.StopState;
+import com.cb.adventures.view.ui.EquipmentBar;
 
 import java.util.HashMap;
 
 /**
  * Created by jenics on 2015/10/21.
  */
-public class Player extends BaseView implements IStateMgr, AttackState.OnAttackListener, Skill.OnSkillAnimationListener, IHurtable {
+public class Player extends BaseView implements IStateMgr, AttackState.OnAttackListener, Skill.OnSkillAnimationListener, IHurtable ,IPropetry{
     private Propetry mPropetry;
     private static Player mInstance;
 
@@ -59,7 +61,6 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
      * SkillPropetry buff属性
      */
     private HashMap<Integer, Skill> bufferMap;
-    private IEquipment[] mEquipments;
     private Bitmap accackBmp;
 
     private Player() {
@@ -67,7 +68,6 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
         stateHashMap = new HashMap<>();
         bufferMap = new HashMap<>();
         mPropetry = new Propetry();
-        mEquipments = new Equipment[GameConstants.EQUIPMENT_NUM];
     }
 
     public Propetry getPropetry() {
@@ -276,33 +276,6 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     }
 
     /**
-     * 装备物品
-     *
-     * @param equipment 装备
-     */
-    public void equipment(Equipment equipment) {
-        mEquipments[equipment.getEquipLocation()] = equipment;
-    }
-
-    /**
-     * 卸下物品
-     *
-     * @param equipment 装备
-     */
-    public void unEquipment(Equipment equipment) {
-        mEquipments[equipment.getEquipLocation()] = null;
-    }
-
-    /**
-     * 卸下装备
-     *
-     * @param loc 装备位置
-     */
-    public void unEquipment(int loc) {
-        mEquipments[loc] = null;
-    }
-
-    /**
      * 使用消耗品
      *
      * @param consumId 消耗品ID
@@ -369,5 +342,30 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
         if (mPropetry.getBloodVolume() <= 0) {
             ///游戏结束
         }
+    }
+
+    @Override
+    public int getAttackPower() {
+        return mPropetry.getAttackPower() + EquipmentBar.getInstance().getAttackPower();
+    }
+
+    @Override
+    public int getDefensivePower() {
+        return mPropetry.getDefensivePower() + EquipmentBar.getInstance().getDefensivePower();
+    }
+
+    @Override
+    public int getRank() {
+        return mPropetry.getRank();
+    }
+
+    @Override
+    public int getMagicTotalVolume() {
+        return mPropetry.getMagicTotalVolume() + EquipmentBar.getInstance().getMagicTotalVolume();
+    }
+
+    @Override
+    public int getBloodTotalVolume() {
+        return mPropetry.getBloodTotalVolume() + EquipmentBar.getInstance().getBloodTotalVolume();
     }
 }

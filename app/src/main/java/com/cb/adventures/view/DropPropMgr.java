@@ -2,16 +2,15 @@ package com.cb.adventures.view;
 
 import android.graphics.Canvas;
 import android.graphics.PointF;
+import android.util.Log;
 
-import com.cb.adventures.animation.AnimationControl;
 import com.cb.adventures.animation.IAnimation;
 import com.cb.adventures.constants.GameConstants;
-import com.cb.adventures.data.AnimationPropetry;
 import com.cb.adventures.data.DropItem;
 import com.cb.adventures.data.GameData;
-import com.cb.adventures.data.PropPropetry;
 import com.cb.adventures.factory.IFactory;
 import com.cb.adventures.utils.Randomer;
+import com.cb.adventures.view.ui.InventoryView;
 
 import java.util.LinkedList;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -112,8 +111,9 @@ public class DropPropMgr implements IDrawable ,IFactory ,Map.MapScrollObserver ,
                         pt.y
                 );
             }
-            if (dropItem.getProbability() < random) {
-                drop(pointF,dropItem.getItemId());
+            if (random <= dropItem.getProbability() ) {
+                Log.d("random :",String.format("%d",random));
+                drop(pointF, dropItem.getItemId());
             }
             random = Randomer.getInstance().getRandom(1000);
             x ++;

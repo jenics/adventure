@@ -1,0 +1,12 @@
+package com.cb.adventures.data;
+
+/**
+ * Created by jenics on 2016/1/2.
+ */
+public interface IPropetry {
+    int getAttackPower();
+    int getDefensivePower();
+    int getRank();
+    int getMagicTotalVolume();
+    int getBloodTotalVolume();
+}

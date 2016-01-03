@@ -12,6 +12,11 @@ public interface IProp extends IUsable  {
     long getPropId();
 
     /**
+     * @return 对象ID
+     */
+    long getObjId();
+
+    /**
      * @return 返回道具描述
      */
     String[] getDescription();
