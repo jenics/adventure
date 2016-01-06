@@ -4,7 +4,7 @@
 	<equipment>
 		<propId>500000</propId>
 		<loc>1</loc>
-		<attackPower>17</attackPower>
+		<attackPower>12</attackPower>
 		<defensivePower>0</defensivePower>
 		<bloodVolume>0</bloodVolume>
 		<magicVolume>0</magicVolume>
@@ -16,7 +16,7 @@
 	<equipment>
 		<propId>500001</propId>
 		<loc>1</loc>
-		<attackPower>34</attackPower>
+		<attackPower>24</attackPower>
 		<defensivePower>0</defensivePower>
 		<bloodVolume>0</bloodVolume>
 		<magicVolume>0</magicVolume>
@@ -28,7 +28,7 @@
 	<equipment>
 		<propId>500002</propId>
 		<loc>1</loc>
-		<attackPower>51</attackPower>
+		<attackPower>36</attackPower>
 		<defensivePower>0</defensivePower>
 		<bloodVolume>0</bloodVolume>
 		<magicVolume>0</magicVolume>
@@ -40,7 +40,7 @@
 	<equipment>
 		<propId>500003</propId>
 		<loc>1</loc>
-		<attackPower>68</attackPower>
+		<attackPower>48</attackPower>
 		<defensivePower>0</defensivePower>
 		<bloodVolume>0</bloodVolume>
 		<magicVolume>0</magicVolume>
@@ -52,7 +52,7 @@
 	<equipment>
 		<propId>500004</propId>
 		<loc>1</loc>
-		<attackPower>85</attackPower>
+		<attackPower>60</attackPower>
 		<defensivePower>0</defensivePower>
 		<bloodVolume>0</bloodVolume>
 		<magicVolume>0</magicVolume>
@@ -64,7 +64,7 @@
 	<equipment>
 		<propId>500005</propId>
 		<loc>1</loc>
-		<attackPower>102</attackPower>
+		<attackPower>72</attackPower>
 		<defensivePower>0</defensivePower>
 		<bloodVolume>0</bloodVolume>
 		<magicVolume>0</magicVolume>
@@ -73,13 +73,110 @@
 		<extra>魔帝耗费精血炼制的四方印记，流落凡间，小心，你很难掌控它的力量。</extra>
 		<icon>articles/equipments/wuqi/wuqi6.png</icon>
 	</equipment>
+	<equipment>
+		<propId>500006</propId>
+		<loc>1</loc>
+		<attackPower>84</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>35</rank>
+		<name>恶魔大便</name>
+		<extra>魔帝便秘了7天，终于排出这么一小坨。它看起来就像史莱姆</extra>
+		<icon>articles/equipments/wuqi/wuqi7.png</icon>
+	</equipment>
+	<equipment>
+		<propId>500007</propId>
+		<loc>1</loc>
+		<attackPower>96</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>40</rank>
+		<name>莎莉的旋转双刃</name>
+		<extra>莎莉平常他拿来当飞镖玩。遇到敌人，拔出双匕，享受见血封喉</extra>
+		<icon>articles/equipments/wuqi/wuqi8.png</icon>
+	</equipment>
+	<equipment>
+		<propId>500008</propId>
+		<loc>1</loc>
+		<attackPower>108</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>45</rank>
+		<name>世界卷轴</name>
+		<extra>混沌初开时裂变出得世界卷轴，充满着世界之力。</extra>
+		<icon>articles/equipments/wuqi/wuqi9.png</icon>
+	</equipment>
+	<equipment>
+		<propId>500009</propId>
+		<loc>1</loc>
+		<attackPower>120</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>50</rank>
+		<name>法术秘籍</name>
+		<extra>战斗中可以轻易让人将法术提升到大圆满境界</extra>
+		<icon>articles/equipments/wuqi/wuqi10.png</icon>
+	</equipment>
+	<equipment>
+		<propId>500010</propId>
+		<loc>1</loc>
+		<attackPower>133</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>55</rank>
+		<name>圣者宝典</name>
+		<extra>整个宝典散逸着无尽的邪恶力量</extra>
+		<icon>articles/equipments/wuqi/wuqi11.png</icon>
+	</equipment>
+	<equipment>
+		<propId>500011</propId>
+		<loc>1</loc>
+		<attackPower>145</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>60</rank>
+		<name>精神之鞭笞</name>
+		<extra>精神力量的凝结，挥之可裂山川</extra>
+		<icon>articles/equipments/wuqi/wuqi12.png</icon>
+	</equipment>
+	<equipment>
+		<propId>500012</propId>
+		<loc>1</loc>
+		<attackPower>157</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>65</rank>
+		<name>龙筋</name>
+		<extra>巨龙的筋，相传是被哪吒三太子从龙身所抽取。</extra>
+		<icon>articles/equipments/wuqi/wuqi13.png</icon>
+	</equipment>
+	
+	<equipment>
+		<propId>500013</propId>
+		<loc>1</loc>
+		<attackPower>169</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>70</rank>
+		<name>王者之断箭</name>
+		<extra>完整的王者之剑拥有毁天灭地之威，如今却只有远古时期的一半威能</extra>
+		<icon>articles/equipments/wuqi/wuqi14.png</icon>
+	</equipment>
 
 	<!--衣服从510000开始-->
 	<equipment>
 		<propId>510000</propId>
 		<loc>0</loc>
 		<attackPower>0</attackPower>
-		<defensivePower>13</defensivePower>
+		<defensivePower>10</defensivePower>
 		<bloodVolume>0</bloodVolume>
 		<magicVolume>0</magicVolume>
 		<rank>5</rank>
@@ -91,7 +188,7 @@
 		<propId>510001</propId>
 		<loc>0</loc>
 		<attackPower>0</attackPower>
-		<defensivePower>25</defensivePower>
+		<defensivePower>20</defensivePower>
 		<bloodVolume>0</bloodVolume>
 		<magicVolume>0</magicVolume>
 		<rank>10</rank>
@@ -103,7 +200,7 @@
 		<propId>510002</propId>
 		<loc>0</loc>
 		<attackPower>0</attackPower>
-		<defensivePower>38</defensivePower>
+		<defensivePower>30</defensivePower>
 		<bloodVolume>0</bloodVolume>
 		<magicVolume>0</magicVolume>
 		<rank>15</rank>
@@ -115,7 +212,7 @@
 		<propId>510003</propId>
 		<loc>0</loc>
 		<attackPower>0</attackPower>
-		<defensivePower>51</defensivePower>
+		<defensivePower>40</defensivePower>
 		<bloodVolume>0</bloodVolume>
 		<magicVolume>10</magicVolume>
 		<rank>20</rank>
@@ -127,7 +224,7 @@
 		<propId>510004</propId>
 		<loc>0</loc>
 		<attackPower>0</attackPower>
-		<defensivePower>64</defensivePower>
+		<defensivePower>50</defensivePower>
 		<bloodVolume>0</bloodVolume>
 		<magicVolume>0</magicVolume>
 		<rank>25</rank>
@@ -139,7 +236,7 @@
 		<propId>510005</propId>
 		<loc>0</loc>
 		<attackPower>0</attackPower>
-		<defensivePower>77</defensivePower>
+		<defensivePower>60</defensivePower>
 		<bloodVolume>0</bloodVolume>
 		<magicVolume>0</magicVolume>
 		<rank>30</rank>
@@ -151,7 +248,7 @@
 		<propId>510006</propId>
 		<loc>0</loc>
 		<attackPower>0</attackPower>
-		<defensivePower>90</defensivePower>
+		<defensivePower>70</defensivePower>
 		<bloodVolume>0</bloodVolume>
 		<magicVolume>0</magicVolume>
 		<rank>35</rank>
@@ -163,7 +260,7 @@
 		<propId>510007</propId>
 		<loc>0</loc>
 		<attackPower>5</attackPower>
-		<defensivePower>102</defensivePower>
+		<defensivePower>80</defensivePower>
 		<bloodVolume>0</bloodVolume>
 		<magicVolume>0</magicVolume>
 		<rank>40</rank>
@@ -175,7 +272,7 @@
 		<propId>510008</propId>
 		<loc>0</loc>
 		<attackPower>0</attackPower>
-		<defensivePower>115</defensivePower>
+		<defensivePower>90</defensivePower>
 		<bloodVolume>0</bloodVolume>
 		<magicVolume>0</magicVolume>
 		<rank>45</rank>
@@ -187,39 +284,379 @@
 		<propId>510009</propId>
 		<loc>0</loc>
 		<attackPower>0</attackPower>
-		<defensivePower>128</defensivePower>
+		<defensivePower>100</defensivePower>
 		<bloodVolume>0</bloodVolume>
 		<magicVolume>0</magicVolume>
 		<rank>50</rank>
+		<name>荆棘之甲</name>
+		<extra>南方瘴气中孕育而生，据说可以反弹伤害，只是据说</extra>
+		<icon>articles/equipments/kuijia/kuijia10.png</icon>
+	</equipment>
+	<equipment>
+		<propId>510010</propId>
+		<loc>0</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>110</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>55</rank>
 		<name>将军铠甲</name>
 		<extra>看起来他太普通了,但是不妨碍它展现出得惊人防御</extra>
-		<icon>articles/equipments/kuijia/kuijia10.png</icon>
+		<icon>articles/equipments/kuijia/kuijia11.png</icon>
+	</equipment>
+	<equipment>
+		<propId>510011</propId>
+		<loc>0</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>120</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>60</rank>
+		<name>骷髅铠甲</name>
+		<extra>西方骨族献祭许多大修士之骨灰凝结而成，坚不可摧</extra>
+		<icon>articles/equipments/kuijia/kuijia12.png</icon>
+	</equipment>
+	<equipment>
+		<propId>510012</propId>
+		<loc>0</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>130</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>65</rank>
+		<name>裁决者之衣</name>
+		<extra>当时响彻一时的裁决者，成就一方威名</extra>
+		<icon>articles/equipments/kuijia/kuijia13.png</icon>
+	</equipment>
+	<equipment>
+		<propId>510013</propId>
+		<loc>0</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>140</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>70</rank>
+		<name>背背佳</name>
+		<extra>传闻是魔族一个小头目为了治疗驼背，重金打造的背背佳</extra>
+		<icon>articles/equipments/kuijia/kuijia14.png</icon>
+	</equipment>
+	<equipment>
+		<propId>510014</propId>
+		<loc>0</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>150</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>75</rank>
+		<name>陈员外的衣袍</name>
+		<extra>陈员外由于太有钱，飞升后留下的衣袍，不愧仙人之物</extra>
+		<icon>articles/equipments/kuijia/kuijia15.png</icon>
+	</equipment>
+	<equipment>
+		<propId>510015</propId>
+		<loc>0</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>160</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>80</rank>
+		<name>幽冥战甲</name>
+		<extra>幽冥王爱时尚，蓝色的法力涌动在精心设计的战甲上相映成趣</extra>
+		<icon>articles/equipments/kuijia/kuijia16.png</icon>
+	</equipment>
+	<equipment>
+		<propId>510016</propId>
+		<loc>0</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>170</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>85</rank>
+		<name>哈里波特的隐形衣</name>
+		<extra>死神三件物品之一，死亡圣器</extra>
+		<icon>articles/equipments/kuijia/kuijia17.png</icon>
+	</equipment>
+	<equipment>
+		<propId>510017</propId>
+		<loc>0</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>180</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>90</rank>
+		<name>匪首皮衣</name>
+		<extra>他们不是普通的土匪，是仙盗，这件衣服是仙帝斩杀仙盗头子，从他身上拔下来的</extra>
+		<icon>articles/equipments/kuijia/kuijia18.png</icon>
+	</equipment>
+	<equipment>
+		<propId>510018</propId>
+		<loc>0</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>190</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>95</rank>
+		<name>幽冥王的包</name>
+		<extra>时尚界的新宠，一个穿越的设计师被冥王所抓，帮幽冥王设计的包</extra>
+		<icon>articles/equipments/kuijia/kuijia19.png</icon>
+	</equipment>
+	<equipment>
+		<propId>510019</propId>
+		<loc>0</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>200</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>100</rank>
+		<name>远古狂战士胫甲</name>
+		<extra>彪悍的气息就连美猴王都让它三分</extra>
+		<icon>articles/equipments/kuijia/kuijia20.png</icon>
 	</equipment>
 	<!--戒指从520000开始-->
 	<equipment>
 		<propId>520000</propId>
 		<loc>6</loc>
-		<attackPower>3</attackPower>
+		<attackPower>0</attackPower>
 		<defensivePower>0</defensivePower>
 		<bloodVolume>0</bloodVolume>
 		<magicVolume>0</magicVolume>
-		<rank>5</rank>
+		<criticalRate>1</criticalRate>
+		<criticalDamage>10</criticalDamage>
+		<rank>10</rank>
 		<name>星辰戒指</name>
 		<extra>星星碎片悬空连接而成，让人无法呼吸</extra>
 		<icon>articles/equipments/jiezhi/jiezhi1.png</icon>
+	</equipment>
+	<equipment>
+		<propId>520001</propId>
+		<loc>6</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<criticalRate>2</criticalRate>
+		<criticalDamage>20</criticalDamage>
+		<rank>20</rank>
+		<name>施华洛世奇戒指</name>
+		<extra>国际大牌，时尚界的新宠</extra>
+		<icon>articles/equipments/jiezhi/jiezhi2.png</icon>
+	</equipment>
+	<equipment>
+		<propId>520002</propId>
+		<loc>6</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<criticalRate>3</criticalRate>
+		<criticalDamage>30</criticalDamage>
+		<rank>30</rank>
+		<name>魔牛角戒</name>
+		<extra>仙界大拿削掉牛魔王的角，用了边角料做的戒指</extra>
+		<icon>articles/equipments/jiezhi/jiezhi3.png</icon>
+	</equipment>
+	<equipment>
+		<propId>520003</propId>
+		<loc>6</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<criticalRate>4</criticalRate>
+		<criticalDamage>40</criticalDamage>
+		<rank>40</rank>
+		<name>符文戒指</name>
+		<extra>远古时期祭司长所戴的戒指，充满了玄奥的能量</extra>
+		<icon>articles/equipments/jiezhi/jiezhi4.png</icon>
+	</equipment>
+	<equipment>
+		<propId>520004</propId>
+		<loc>6</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<criticalRate>5</criticalRate>
+		<criticalDamage>50</criticalDamage>
+		<rank>50</rank>
+		<name>金炎戒指</name>
+		<extra>金帝梵天炎吸日月之精华，这是一个精美的伴生物。</extra>
+		<icon>articles/equipments/jiezhi/jiezhi5.png</icon>
+	</equipment>
+	<equipment>
+		<propId>520005</propId>
+		<loc>6</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<criticalRate>6</criticalRate>
+		<criticalDamage>60</criticalDamage>
+		<rank>60</rank>
+		<name>5克拉</name>
+		<extra>这钻石可真是大啊</extra>
+		<icon>articles/equipments/jiezhi/jiezhi6.png</icon>
+	</equipment>
+	<equipment>
+		<propId>520006</propId>
+		<loc>6</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<criticalRate>7</criticalRate>
+		<criticalDamage>70</criticalDamage>
+		<rank>70</rank>
+		<name>幽冥戒指</name>
+		<extra>幽冥王的手戒，充满了幽冥之力</extra>
+		<icon>articles/equipments/jiezhi/jiezhi7.png</icon>
+	</equipment>
+	<equipment>
+		<propId>520007</propId>
+		<loc>6</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<criticalRate>8</criticalRate>
+		<criticalDamage>80</criticalDamage>
+		<rank>80</rank>
+		<name>海神之戒</name>
+		<extra>海神抽取海洋之力凝练而成，充满着海洋之力</extra>
+		<icon>articles/equipments/jiezhi/jiezhi8.png</icon>
 	</equipment>
 	<!--手部从530000开始-->
 	<equipment>
 		<propId>530000</propId>
 		<loc>2</loc>
-		<attackPower>3</attackPower>
-		<defensivePower>3</defensivePower>
-		<bloodVolume>0</bloodVolume>
+		<attackPower>5</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>40</bloodVolume>
 		<magicVolume>0</magicVolume>
 		<rank>5</rank>
 		<name>兽人护手</name>
 		<extra>真皮，真毛。兽人的气息扑面而至</extra>
 		<icon>articles/equipments/shoubu/shoubu1.png</icon>
+	</equipment>
+	<equipment>
+		<propId>530001</propId>
+		<loc>2</loc>
+		<attackPower>10</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>80</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>10</rank>
+		<name>锁甲手套</name>
+		<extra>堂吉柯德的手套</extra>
+		<icon>articles/equipments/shoubu/shoubu2.png</icon>
+	</equipment>
+	<equipment>
+		<propId>530002</propId>
+		<loc>2</loc>
+		<attackPower>15</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>120</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>15</rank>
+		<name>圣诞手套</name>
+		<extra>圣诞老人的手套，非常的富有节日气氛</extra>
+		<icon>articles/equipments/shoubu/shoubu3.png</icon>
+	</equipment>
+	<equipment>
+		<propId>530003</propId>
+		<loc>2</loc>
+		<attackPower>20</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>160</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>20</rank>
+		<name>狼人手套</name>
+		<extra>看到上面锋利的狼爪了吗</extra>
+		<icon>articles/equipments/shoubu/shoubu4.png</icon>
+	</equipment>
+	<equipment>
+		<propId>530004</propId>
+		<loc>2</loc>
+		<attackPower>25</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>200</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>25</rank>
+		<name>战士护腕</name>
+		<extra>使用主义者的典范</extra>
+		<icon>articles/equipments/shoubu/shoubu5.png</icon>
+	</equipment>
+	<equipment>
+		<propId>530005</propId>
+		<loc>2</loc>
+		<attackPower>30</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>240</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>30</rank>
+		<name>圣战护腕</name>
+		<extra>圣战一族的标配，实力的象征</extra>
+		<icon>articles/equipments/shoubu/shoubu6.png</icon>
+	</equipment>
+	<equipment>
+		<propId>530006</propId>
+		<loc>2</loc>
+		<attackPower>35</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>280</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>35</rank>
+		<name>幽冥手套</name>
+		<extra>幽冥王的手套，他非常爱惜，看起来还很新</extra>
+		<icon>articles/equipments/shoubu/shoubu7.png</icon>
+	</equipment>
+	<equipment>
+		<propId>530007</propId>
+		<loc>2</loc>
+		<attackPower>40</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>320</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>40</rank>
+		<name>能量涌动护腕</name>
+		<extra>4个能量枢纽封印着未知的能量</extra>
+		<icon>articles/equipments/shoubu/shoubu8.png</icon>
+	</equipment>
+	<equipment>
+		<propId>530008</propId>
+		<loc>2</loc>
+		<attackPower>45</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>360</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>45</rank>
+		<name>星界异士手套</name>
+		<extra>星界的异能人的手套，散发着浓浓的空间属性</extra>
+		<icon>articles/equipments/shoubu/shoubu9.png</icon>
+	</equipment>
+	<equipment>
+		<propId>530009</propId>
+		<loc>2</loc>
+		<attackPower>50</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>400</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>50</rank>
+		<name>将军手套</name>
+		<extra>千夫长的手套，带着他屡立战功</extra>
+		<icon>articles/equipments/shoubu/shoubu10.png</icon>
+	</equipment>
+	<equipment>
+		<propId>530010</propId>
+		<loc>2</loc>
+		<attackPower>55</attackPower>
+		<defensivePower>0</defensivePower>
+		<bloodVolume>440</bloodVolume>
+		<magicVolume>0</magicVolume>
+		<rank>55</rank>
+		<name>狂战士皮手套</name>
+		<extra>狂战士常带的皮手套，经常不清晰导致有点不好的味道</extra>
+		<icon>articles/equipments/shoubu/shoubu11.png</icon>
 	</equipment>
 	<!--头部从540000开始-->
 	<equipment>
@@ -228,11 +665,179 @@
 		<attackPower>0</attackPower>
 		<defensivePower>3</defensivePower>
 		<bloodVolume>0</bloodVolume>
-		<magicVolume>0</magicVolume>
+		<magicVolume>12</magicVolume>
 		<rank>5</rank>
 		<name>星界头盔</name>
 		<extra>星界战士的头盔，不算什么稀罕物</extra>
 		<icon>articles/equipments/toukui/toukui1.png</icon>
+	</equipment>
+	<equipment>
+		<propId>540001</propId>
+		<loc>3</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>6</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>25</magicVolume>
+		<rank>10</rank>
+		<name>骷髅头盔</name>
+		<extra>在一个古墓中看到这个骷髅比较奇特，是一个带角的头盔</extra>
+		<icon>articles/equipments/toukui/toukui2.png</icon>
+	</equipment>
+	<equipment>
+		<propId>540002</propId>
+		<loc>3</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>8</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>37</magicVolume>
+		<rank>15</rank>
+		<name>骑士头盔</name>
+		<extra>一个绅士般的骑士的标配</extra>
+		<icon>articles/equipments/toukui/toukui3.png</icon>
+	</equipment>
+	<equipment>
+		<propId>540003</propId>
+		<loc>3</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>11</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>49</magicVolume>
+		<rank>20</rank>
+		<name>堂吉柯德的头盔</name>
+		<extra>大骑士堂吉柯德的头盔，勇猛无人能匹</extra>
+		<icon>articles/equipments/toukui/toukui4.png</icon>
+	</equipment>
+	<equipment>
+		<propId>540004</propId>
+		<loc>3</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>14</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>61</magicVolume>
+		<rank>25</rank>
+		<name>蛇型头盔</name>
+		<extra>西方蛇族的古物，暗黑时期被德鲁伊占据，被后人发现</extra>
+		<icon>articles/equipments/toukui/toukui5.png</icon>
+	</equipment>
+	<equipment>
+		<propId>540005</propId>
+		<loc>3</loc>
+		<attackPower>5</attackPower>
+		<defensivePower>17</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>74</magicVolume>
+		<rank>30</rank>
+		<name>角盔</name>
+		<extra>头上有几个可爱的角，当心，很锋利</extra>
+		<icon>articles/equipments/toukui/toukui6.png</icon>
+	</equipment>
+	<equipment>
+		<propId>540006</propId>
+		<loc>3</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>19</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>86</magicVolume>
+		<rank>35</rank>
+		<name>圣诞头盔</name>
+		<extra>节日气氛更加浓郁了</extra>
+		<icon>articles/equipments/toukui/toukui7.png</icon>
+	</equipment>
+	<equipment>
+		<propId>540007</propId>
+		<loc>3</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>22</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>98</magicVolume>
+		<rank>40</rank>
+		<name>狼族头盔</name>
+		<extra>凶猛的狼族占据一方领土，后来被仙主诛杀炼成头盔</extra>
+		<icon>articles/equipments/toukui/toukui8.png</icon>
+	</equipment>
+	<equipment>
+		<propId>540008</propId>
+		<loc>3</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>25</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>110</magicVolume>
+		<rank>45</rank>
+		<name>骨族头盔</name>
+		<extra>残忍的骨族献祭活人祭炼出得头盔，戴上后威能大增</extra>
+		<icon>articles/equipments/toukui/toukui9.png</icon>
+	</equipment>
+	<equipment>
+		<propId>540009</propId>
+		<loc>3</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>28</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>123</magicVolume>
+		<rank>50</rank>
+		<name>混乱面罩</name>
+		<extra>混乱位面漂浮着的金属面罩，不知从何而来</extra>
+		<icon>articles/equipments/toukui/toukui10.png</icon>
+	</equipment>
+	<equipment>
+		<propId>540010</propId>
+		<loc>3</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>31</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>135</magicVolume>
+		<rank>55</rank>
+		<name>妖异面罩</name>
+		<extra>妖异之王的神秘面罩，没有人知道他的真容</extra>
+		<icon>articles/equipments/toukui/toukui11.png</icon>
+	</equipment>
+	<equipment>
+		<propId>540011</propId>
+		<loc>3</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>34</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>147</magicVolume>
+		<rank>60</rank>
+		<name>恶魔小丑的面罩</name>
+		<extra>英雄联盟里恶魔小丑的面罩，时代变迁后，这个面罩便流传下来</extra>
+		<icon>articles/equipments/toukui/toukui12.png</icon>
+	</equipment>
+	<equipment>
+		<propId>540012</propId>
+		<loc>3</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>36</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>159</magicVolume>
+		<rank>65</rank>
+		<name>游泳镜</name>
+		<extra>像是穿越的产物，防水</extra>
+		<icon>articles/equipments/toukui/toukui13.png</icon>
+	</equipment>
+	<equipment>
+		<propId>540013</propId>
+		<loc>3</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>39</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>172</magicVolume>
+		<rank>70</rank>
+		<name>近视眼镜</name>
+		<extra>看样子有1000度</extra>
+		<icon>articles/equipments/toukui/toukui14.png</icon>
+	</equipment>
+	<equipment>
+		<propId>540014</propId>
+		<loc>3</loc>
+		<attackPower>0</attackPower>
+		<defensivePower>42</defensivePower>
+		<bloodVolume>0</bloodVolume>
+		<magicVolume>184</magicVolume>
+		<rank>75</rank>
+		<name>氪金眼罩</name>
+		<extra>工程学的巅峰展现，气质一点也不输萨格拉斯的诅咒视界</extra>
+		<icon>articles/equipments/toukui/toukui15.png</icon>
 	</equipment>
 	<!--项链从550000开始-->
 	<equipment>
