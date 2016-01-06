@@ -4,10 +4,10 @@
 		<monsterId>1</monsterId>
 		<monsterName>黑野猪</monsterName>
 		<speed>12</speed>
-		<attackPower>5</attackPower>
-		<defensivePower>2</defensivePower>
-		<bloodTotalVolume>20</bloodTotalVolume>
-		<magicTotalVolume>20</magicTotalVolume>
+		<attackPower>70</attackPower>
+		<defensivePower>55</defensivePower>
+		<bloodTotalVolume>225</bloodTotalVolume>
+		<magicTotalVolume>158</magicTotalVolume>
 		<attackLength>5</attackLength>
 		<rank>5</rank>
 		<srcInfo>
@@ -90,10 +90,10 @@
 		<monsterId>2</monsterId>
 		<monsterName>企鹅</monsterName>
 		<speed>10</speed>
-		<attackPower>8</attackPower>
-		<defensivePower>3</defensivePower>
-		<bloodTotalVolume>30</bloodTotalVolume>
-		<magicTotalVolume>30</magicTotalVolume>
+		<attackPower>102</attackPower>
+		<defensivePower>81</defensivePower>
+		<bloodTotalVolume>345</bloodTotalVolume>
+		<magicTotalVolume>239</magicTotalVolume>
 		<attackLength>5</attackLength>
 		<rank>10</rank>
 		<srcInfo>
@@ -142,10 +142,10 @@
 		<monsterId>3</monsterId>
 		<monsterName>白眼独怪</monsterName>
 		<speed>10</speed>
-		<attackPower>8</attackPower>
-		<defensivePower>3</defensivePower>
-		<bloodTotalVolume>30</bloodTotalVolume>
-		<magicTotalVolume>30</magicTotalVolume>
+		<attackPower>135</attackPower>
+		<defensivePower>103</defensivePower>
+		<bloodTotalVolume>464</bloodTotalVolume>
+		<magicTotalVolume>319</magicTotalVolume>
 		<attackLength>5</attackLength>
 		<rank>15</rank>
 		<srcInfo>
@@ -194,10 +194,10 @@
 		<monsterId>4</monsterId>
 		<monsterName>包厢王</monsterName>
 		<speed>10</speed>
-		<attackPower>8</attackPower>
-		<defensivePower>3</defensivePower>
-		<bloodTotalVolume>30</bloodTotalVolume>
-		<magicTotalVolume>30</magicTotalVolume>
+		<attackPower>166</attackPower>
+		<defensivePower>129</defensivePower>
+		<bloodTotalVolume>585</bloodTotalVolume>
+		<magicTotalVolume>400</magicTotalVolume>
 		<attackLength>5</attackLength>
 		<rank>20</rank>
 		<srcInfo>
@@ -246,10 +246,10 @@
 		<monsterId>5</monsterId>
 		<monsterName>蝙蝠</monsterName>
 		<speed>10</speed>
-		<attackPower>8</attackPower>
-		<defensivePower>3</defensivePower>
-		<bloodTotalVolume>30</bloodTotalVolume>
-		<magicTotalVolume>30</magicTotalVolume>
+		<attackPower>200</attackPower>
+		<defensivePower>151</defensivePower>
+		<bloodTotalVolume>704</bloodTotalVolume>
+		<magicTotalVolume>481</magicTotalVolume>
 		<attackLength>5</attackLength>
 		<rank>25</rank>
 		<srcInfo>
@@ -298,10 +298,10 @@
 		<monsterId>6</monsterId>
 		<monsterName>变种山羊</monsterName>
 		<speed>10</speed>
-		<attackPower>8</attackPower>
-		<defensivePower>3</defensivePower>
-		<bloodTotalVolume>30</bloodTotalVolume>
-		<magicTotalVolume>30</magicTotalVolume>
+		<attackPower>231</attackPower>
+		<defensivePower>177</defensivePower>
+		<bloodTotalVolume>824</bloodTotalVolume>
+		<magicTotalVolume>561</magicTotalVolume>
 		<attackLength>5</attackLength>
 		<rank>30</rank>
 		<srcInfo>
@@ -350,10 +350,10 @@
 		<monsterId>7</monsterId>
 		<monsterName>变种幽灵</monsterName>
 		<speed>10</speed>
-		<attackPower>8</attackPower>
-		<defensivePower>3</defensivePower>
-		<bloodTotalVolume>30</bloodTotalVolume>
-		<magicTotalVolume>30</magicTotalVolume>
+		<attackPower>264</attackPower>
+		<defensivePower>200</defensivePower>
+		<bloodTotalVolume>944</bloodTotalVolume>
+		<magicTotalVolume>642</magicTotalVolume>
 		<attackLength>5</attackLength>
 		<rank>35</rank>
 		<srcInfo>
@@ -402,10 +402,10 @@
 		<monsterId>8</monsterId>
 		<monsterName>冰魔</monsterName>
 		<speed>10</speed>
-		<attackPower>8</attackPower>
-		<defensivePower>3</defensivePower>
-		<bloodTotalVolume>30</bloodTotalVolume>
-		<magicTotalVolume>30</magicTotalVolume>
+		<attackPower>295</attackPower>
+		<defensivePower>224</defensivePower>
+		<bloodTotalVolume>1064</bloodTotalVolume>
+		<magicTotalVolume>722</magicTotalVolume>
 		<attackLength>5</attackLength>
 		<rank>40</rank>
 		<srcInfo>
@@ -454,10 +454,10 @@
 		<monsterId>9</monsterId>
 		<monsterName>村长</monsterName>
 		<speed>10</speed>
-		<attackPower>8</attackPower>
-		<defensivePower>3</defensivePower>
-		<bloodTotalVolume>30</bloodTotalVolume>
-		<magicTotalVolume>30</magicTotalVolume>
+		<attackPower>329</attackPower>
+		<defensivePower>247</defensivePower>
+		<bloodTotalVolume>1183</bloodTotalVolume>
+		<magicTotalVolume>803</magicTotalVolume>
 		<attackLength>5</attackLength>
 		<rank>45</rank>
 		<srcInfo>
@@ -507,9 +507,9 @@
 		<monsterName>掉渣欺负者</monsterName>
 		<speed>10</speed>
 		<attackPower>8</attackPower>
-		<defensivePower>3</defensivePower>
-		<bloodTotalVolume>30</bloodTotalVolume>
-		<magicTotalVolume>30</magicTotalVolume>
+		<defensivePower>360</defensivePower>
+		<bloodTotalVolume>1304</bloodTotalVolume>
+		<magicTotalVolume>884</magicTotalVolume>
 		<attackLength>5</attackLength>
 		<rank>50</rank>
 		<srcInfo>
@@ -558,10 +558,10 @@
 		<monsterId>11</monsterId>
 		<monsterName>哥布林</monsterName>
 		<speed>10</speed>
-		<attackPower>8</attackPower>
-		<defensivePower>3</defensivePower>
-		<bloodTotalVolume>30</bloodTotalVolume>
-		<magicTotalVolume>30</magicTotalVolume>
+		<attackPower>393</attackPower>
+		<defensivePower>295</defensivePower>
+		<bloodTotalVolume>1423</bloodTotalVolume>
+		<magicTotalVolume>964</magicTotalVolume>
 		<attackLength>5</attackLength>
 		<rank>55</rank>
 		<srcInfo>
@@ -610,10 +610,10 @@
 		<monsterId>12</monsterId>
 		<monsterName>猴子</monsterName>
 		<speed>10</speed>
-		<attackPower>8</attackPower>
-		<defensivePower>3</defensivePower>
-		<bloodTotalVolume>30</bloodTotalVolume>
-		<magicTotalVolume>30</magicTotalVolume>
+		<attackPower>424</attackPower>
+		<defensivePower>320</defensivePower>
+		<bloodTotalVolume>1543</bloodTotalVolume>
+		<magicTotalVolume>1045</magicTotalVolume>
 		<attackLength>5</attackLength>
 		<rank>60</rank>
 		<srcInfo>
@@ -662,10 +662,10 @@
 		<monsterId>13</monsterId>
 		<monsterName>火野猪</monsterName>
 		<speed>10</speed>
-		<attackPower>8</attackPower>
-		<defensivePower>3</defensivePower>
-		<bloodTotalVolume>30</bloodTotalVolume>
-		<magicTotalVolume>30</magicTotalVolume>
+		<attackPower>458</attackPower>
+		<defensivePower>343</defensivePower>
+		<bloodTotalVolume>1663</bloodTotalVolume>
+		<magicTotalVolume>1125</magicTotalVolume>
 		<attackLength>5</attackLength>
 		<rank>65</rank>
 		<srcInfo>
@@ -714,10 +714,10 @@
 		<monsterId>14</monsterId>
 		<monsterName>老虎王</monsterName>
 		<speed>10</speed>
-		<attackPower>8</attackPower>
-		<defensivePower>3</defensivePower>
-		<bloodTotalVolume>30</bloodTotalVolume>
-		<magicTotalVolume>30</magicTotalVolume>
+		<attackPower>489</attackPower>
+		<defensivePower>368</defensivePower>
+		<bloodTotalVolume>1783</bloodTotalVolume>
+		<magicTotalVolume>1206</magicTotalVolume>
 		<attackLength>5</attackLength>
 		<rank>70</rank>
 		<srcInfo>
@@ -766,10 +766,10 @@
 		<monsterId>15</monsterId>
 		<monsterName>龙虾</monsterName>
 		<speed>10</speed>
-		<attackPower>8</attackPower>
-		<defensivePower>3</defensivePower>
-		<bloodTotalVolume>30</bloodTotalVolume>
-		<magicTotalVolume>30</magicTotalVolume>
+		<attackPower>523</attackPower>
+		<defensivePower>391</defensivePower>
+		<bloodTotalVolume>1902</bloodTotalVolume>
+		<magicTotalVolume>1287</magicTotalVolume>
 		<attackLength>5</attackLength>
 		<rank>75</rank>
 		<srcInfo>
@@ -818,10 +818,10 @@
 		<monsterId>16</monsterId>
 		<monsterName>龙虾王</monsterName>
 		<speed>10</speed>
-		<attackPower>8</attackPower>
-		<defensivePower>3</defensivePower>
-		<bloodTotalVolume>30</bloodTotalVolume>
-		<magicTotalVolume>30</magicTotalVolume>
+		<attackPower>554</attackPower>
+		<defensivePower>416</defensivePower>
+		<bloodTotalVolume>2023</bloodTotalVolume>
+		<magicTotalVolume>1367</magicTotalVolume>
 		<attackLength>5</attackLength>
 		<rank>80</rank>
 		<srcInfo>
@@ -870,10 +870,10 @@
 		<monsterId>17</monsterId>
 		<monsterName>螃蟹</monsterName>
 		<speed>10</speed>
-		<attackPower>8</attackPower>
-		<defensivePower>3</defensivePower>
-		<bloodTotalVolume>30</bloodTotalVolume>
-		<magicTotalVolume>30</magicTotalVolume>
+		<attackPower>587</attackPower>
+		<defensivePower>439</defensivePower>
+		<bloodTotalVolume>2142</bloodTotalVolume>
+		<magicTotalVolume>1448</magicTotalVolume>
 		<attackLength>5</attackLength>
 		<rank>85</rank>
 		<srcInfo>
@@ -922,10 +922,10 @@
 		<monsterId>18</monsterId>
 		<monsterName>老虎</monsterName>
 		<speed>10</speed>
-		<attackPower>8</attackPower>
-		<defensivePower>3</defensivePower>
-		<bloodTotalVolume>30</bloodTotalVolume>
-		<magicTotalVolume>30</magicTotalVolume>
+		<attackPower>618</attackPower>
+		<defensivePower>464</defensivePower>
+		<bloodTotalVolume>2263</bloodTotalVolume>
+		<magicTotalVolume>1528</magicTotalVolume>
 		<attackLength>5</attackLength>
 		<rank>90</rank>
 		<srcInfo>
@@ -974,10 +974,10 @@
 		<monsterId>19</monsterId>
 		<monsterName>酋长土道</monsterName>
 		<speed>10</speed>
-		<attackPower>8</attackPower>
-		<defensivePower>3</defensivePower>
-		<bloodTotalVolume>30</bloodTotalVolume>
-		<magicTotalVolume>30</magicTotalVolume>
+		<attackPower>652</attackPower>
+		<defensivePower>487</defensivePower>
+		<bloodTotalVolume>2382</bloodTotalVolume>
+		<magicTotalVolume>1609</magicTotalVolume>
 		<attackLength>5</attackLength>
 		<rank>95</rank>
 		<srcInfo>
@@ -1026,10 +1026,10 @@
 		<monsterId>20</monsterId>
 		<monsterName>小老虎</monsterName>
 		<speed>10</speed>
-		<attackPower>8</attackPower>
-		<defensivePower>3</defensivePower>
-		<bloodTotalVolume>30</bloodTotalVolume>
-		<magicTotalVolume>30</magicTotalVolume>
+		<attackPower>683</attackPower>
+		<defensivePower>512</defensivePower>
+		<bloodTotalVolume>2502</bloodTotalVolume>
+		<magicTotalVolume>1690</magicTotalVolume>
 		<attackLength>5</attackLength>
 		<rank>100</rank>
 		<srcInfo>
