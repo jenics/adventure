@@ -9,4 +9,7 @@ public interface IPropetry {
     int getRank();
     int getMagicTotalVolume();
     int getBloodTotalVolume();
+    float getSpeed();
+    float getCriticalRate();
+    float getCriticalDamage();
 }

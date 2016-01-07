@@ -97,14 +97,14 @@ public class Consume implements IProp, IStackable {
     public void use() {
         Propetry propetry = mPlayer.getPropetry();
         int add = propetry.getBloodVolume() + consumePropetry.getBloodVolume();
-        if (add > propetry.getBloodTotalVolume()) {
-            add = propetry.getBloodTotalVolume();
+        if (add > mPlayer.getBloodTotalVolume()) {
+            add = mPlayer.getBloodTotalVolume();
         }
         propetry.setBloodVolume(add);
 
         add = propetry.getMagicVolume() + consumePropetry.getMagicVolume();
-        if (add > propetry.getMagicTotalVolume()) {
-            add = propetry.getMagicTotalVolume();
+        if (add > mPlayer.getMagicTotalVolume()) {
+            add = mPlayer.getMagicTotalVolume();
         }
         propetry.setMagicVolume(add);
         reduceStack(1);

@@ -68,7 +68,7 @@ public class MonsterPropetry extends Propetry implements Cloneable{
         this.rightFrames = rightFrames;
     }
 
-    public int getSpeed() {
+    public float getSpeed() {
         return speed;
     }
 

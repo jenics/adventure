@@ -228,10 +228,10 @@ public class GameData {
                             equipmentPropetry.setDefensivePower(Integer.parseInt(parser.nextText()));
                         } else if ("rank".equals(nodeName)) {
                             equipmentPropetry.setRank(Integer.parseInt(parser.nextText()));
-                        } else if ("bloodVolume".equals(nodeName)) {
-                            equipmentPropetry.setBloodVolume(Integer.parseInt(parser.nextText()));
-                        } else if ("magicVolume".equals(nodeName)) {
-                            equipmentPropetry.setMagicVolume(Integer.parseInt(parser.nextText()));
+                        } else if ("bloodTotalVolume".equals(nodeName)) {
+                            equipmentPropetry.setBloodTotalVolume(Integer.parseInt(parser.nextText()));
+                        } else if ("magicTotalVolume".equals(nodeName)) {
+                            equipmentPropetry.setMagicTotalVolume(Integer.parseInt(parser.nextText()));
                         } else if ("desc".equals(nodeName)) {
                             equipmentPropetry.setDesc(parser.nextText());
                         } else if ("icon".equals(nodeName)) {
@@ -242,8 +242,13 @@ public class GameData {
                             equipmentPropetry.setMaxStackSize(Integer.parseInt(parser.nextText()));
                         } else if ("extra".equals(nodeName)) {
                             equipmentPropetry.setExtra(parser.nextText());
+                        } else if ("speed".equals(nodeName)) {
+                            equipmentPropetry.setSpeed(Float.parseFloat(parser.nextText()));
+                        } else if ("criticalRate".equals(nodeName)) {
+                            equipmentPropetry.setCriticalRate(Float.parseFloat(parser.nextText()));
+                        } else if ("criticalDamage".equals(nodeName)) {
+                            equipmentPropetry.setCriticalDamage(Float.parseFloat(parser.nextText()));
                         }
-
                         break;
                     case XmlPullParser.END_TAG:
                         if ("equipment".equals(nodeName)) {
@@ -491,8 +496,6 @@ public class GameData {
                             int magic = Integer.parseInt(parser.nextText());
                             monsterPropetry.setMagicTotalVolume(magic);
                             monsterPropetry.setMagicVolume(magic);
-                        } else if ("attackLength".equals(nodeName)) {
-                            monsterPropetry.setAttackLength(Integer.parseInt(parser.nextText()));
                         } else if ("rank".equals(nodeName)) {
                             monsterPropetry.setRank(Integer.parseInt(parser.nextText()));
                         } else if ("dropItems".equals(nodeName)) {
@@ -569,6 +572,8 @@ public class GameData {
                             monsterPack.setMonsterId(Integer.parseInt(parser.nextText()));
                         } else if ("monsterNum".equals(nodeName)) {
                             monsterPack.setMonsterNum(Integer.parseInt(parser.nextText()));
+                        } else if ("monsterRank".equals(nodeName)) {
+                            monsterPack.setMonsterRank(Integer.parseInt(parser.nextText()));
                         } else if ("preGate".equals(nodeName)) {
                             mapPropetry.setPreGate(Integer.parseInt(parser.nextText()));
                         } else if ("nextGate".equals(nodeName)) {

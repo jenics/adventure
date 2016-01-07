@@ -150,13 +150,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         Bitmap attackBitmap = ImageLoader.getInstance().loadBitmap(GameConstants.PLAYER1_ATTACK_NAME);
         player.init(bitmap, 9, 946 / 9, 420 / 4, 1, 2,
                 attackBitmap, 1151 / 6, 103, 6);
-        player.getPropetry().setBloodTotalVolume(100);
-        player.getPropetry().setBloodVolume(70);
-        player.getPropetry().setMagicTotalVolume(100);
-        player.getPropetry().setMagicVolume(25);
-        player.getPropetry().setSpeed(16);
-        player.getPropetry().setAttackPower(20);
-        player.getPropetry().setRank(1);
+
+        ///数据库中读取等级，得到对应的基础属性
+        player.caclBasePropetry(5);
         InventoryView.getInstance().setPlayer(player);
 
         if (mGameController == null) {
@@ -173,8 +169,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
 
         if (bloodReservoir == null) {
             bloodReservoir = new BloodReservoir();
-            bloodReservoir.init();
-            bloodReservoir.setPropetry(player.getPropetry());
+            bloodReservoir.init(player);
         }
 
 

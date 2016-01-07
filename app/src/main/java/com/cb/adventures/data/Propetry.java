@@ -17,45 +17,44 @@ public class Propetry {
      * 防御力
      */
     protected int defensivePower;
+
     /**
-     * 血量
-     */
-    protected int bloodVolume;
-    /**
-     * 魔力值
-     */
-    protected int magicVolume;
-    /**
-     * 血量总量
+     * 血量总量，只是基础属性，还要加上装备所附加的
      */
     protected int bloodTotalVolume;
     /**
-     * 魔力值总量
+     * 魔力值总量，只是基础属性，还要加上装备所附加的
      */
     protected int magicTotalVolume;
-    /**
-     * 攻击距离
-     */
-    protected int attackLength;
+
     /**
      * 等级
      */
     protected int rank;
 
     /**
-     * 宽度
-     */
-    protected int width;
-
-    /**
-     * 高度
-     */
-    protected int height;
-
-    /**
      * 速度
      */
-    protected int speed;
+    protected float speed;
+
+    /**
+     * 暴击率
+     */
+    private float criticalRate;
+    /**
+     * 暴击伤害
+     */
+    private float criticalDamage;
+
+    /**
+     * 血量,当前血量
+     */
+    protected int bloodVolume;
+    /**
+     * 魔力值，当前魔力
+     */
+    protected int magicVolume;
+
 
     /**
      * 封装一套属性改变，用来做观察者模式
@@ -77,11 +76,10 @@ public class Propetry {
         this.magicVolume = 0;
         this.bloodTotalVolume = 0;
         this.magicTotalVolume = 0;
-        this.attackLength = 0;
         this.rank = 0;
-        this.width = 0;
-        this.height = 0;
         this.speed = 0;
+        criticalDamage = 0.0f;
+        criticalRate = 0.0f;
     }
 
     public int getAttackPower() {
@@ -120,15 +118,7 @@ public class Propetry {
         return magicVolume;
     }
 
-    public float getMagicRatio() {
 
-        return magicVolume*1.0f / magicTotalVolume;
-    }
-
-    public float getBloodRatio() {
-
-        return bloodVolume*1.0f / bloodTotalVolume;
-    }
 
     public void setMagicVolume(int magicVolume) {
         if(magicVolume < 0) {
@@ -139,14 +129,6 @@ public class Propetry {
         notifyPropetryChange();
     }
 
-    public int getAttackLength() {
-        return attackLength;
-    }
-
-    public void setAttackLength(int attackLength) {
-        this.attackLength = attackLength;
-        notifyPropetryChange();
-    }
 
     public int getRank() {
         return rank;
@@ -154,24 +136,6 @@ public class Propetry {
 
     public void setRank(int rank) {
         this.rank = rank;
-        notifyPropetryChange();
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-        notifyPropetryChange();
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
         notifyPropetryChange();
     }
 
@@ -193,11 +157,27 @@ public class Propetry {
         notifyPropetryChange();
     }
 
-    public int getSpeed() {
+    public float getSpeed() {
         return speed;
     }
 
-    public void setSpeed(int speed) {
+    public void setSpeed(float speed) {
         this.speed = speed;
+    }
+
+    public float getCriticalRate() {
+        return criticalRate;
+    }
+
+    public void setCriticalRate(float criticalRate) {
+        this.criticalRate = criticalRate;
+    }
+
+    public float getCriticalDamage() {
+        return criticalDamage;
+    }
+
+    public void setCriticalDamage(float criticalDamage) {
+        this.criticalDamage = criticalDamage;
     }
 }

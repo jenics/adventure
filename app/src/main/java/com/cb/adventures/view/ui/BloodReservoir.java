@@ -9,15 +9,17 @@ import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.Propetry;
 import com.cb.adventures.utils.ImageLoader;
 import com.cb.adventures.view.BaseView;
+import com.cb.adventures.view.Player;
 
 /**
  * 血蓝槽
  * Created by jenics on 2015/10/24.
  */
 public class BloodReservoir extends BaseView {
-    private Propetry propetry;
+    //private Propetry propetry;
     private Bitmap bitmap;
     private Bitmap background;
+    private Player mPlayer;
 
     private int backgroundHeight;
 
@@ -28,10 +30,10 @@ public class BloodReservoir extends BaseView {
     public BloodReservoir() {
     }
 
-    public void init() {
+    public void init(Player player) {
         bitmap = ImageLoader.getInstance().loadBitmap(GameConstants.RED_BLUE_NAME);
         background = ImageLoader.getInstance().loadBitmap(GameConstants.RED_BLUE_BOTTOM);
-
+        mPlayer = player;
         ///宽度是屏幕宽度的0.2倍
         width = (int) (GameConstants.sGameWidth*0.2);
         height = (int) (GameConstants.sGameHeight*0.07);
@@ -43,10 +45,6 @@ public class BloodReservoir extends BaseView {
 
         topRed = (int) (GameConstants.sGameHeight*0.05 + height*0.121);
         topBlue = (int) (GameConstants.sGameHeight*0.05 + height*0.62);
-    }
-
-    public void setPropetry(Propetry propetry) {
-        this.propetry = propetry;
     }
 
     @Override
@@ -73,7 +71,7 @@ public class BloodReservoir extends BaseView {
                             0,
                             background.getWidth(),
                             background.getHeight()),
-                    new RectF(pt.x + width/2 - width*(1.0f-propetry.getBloodRatio()),
+                    new RectF(pt.x + width/2 - width*(1.0f-mPlayer.getBloodRatio()),
                             topRed,
                             pt.x + width/2,
                             topRed + backgroundHeight), null);
@@ -87,7 +85,7 @@ public class BloodReservoir extends BaseView {
                             0,
                             background.getWidth(),
                             background.getHeight()),
-                    new RectF(pt.x + width/2 - width*(1.0f-propetry.getMagicRatio()),
+                    new RectF(pt.x + width/2 - width*(1.0f-mPlayer.getMagicRatio()),
                             topBlue,
                             pt.x + width/2,
                             topBlue + backgroundHeight), null);

@@ -70,8 +70,48 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
         mPropetry = new Propetry();
     }
 
+    /**
+     * 根据等级计算出基础属性
+     * @param rank 玩家等级
+     */
+    public void caclBasePropetry(int rank) {
+        getPropetry().setRank(rank);
+        getPropetry().setSpeed(16.0f);
+        if (1 == rank) {
+            getPropetry().setBloodTotalVolume(100);
+            getPropetry().setBloodVolume(100);
+            getPropetry().setMagicTotalVolume(100);
+            getPropetry().setMagicVolume(100);
+            getPropetry().setAttackPower(50);
+            getPropetry().setDefensivePower(30);
+            getPropetry().setCriticalRate(3.0f);           ///百分之3的暴击率
+            getPropetry().setCriticalDamage(200.0f);       ///百分之200的爆击伤害
+        } else {
+            int blood = (int) (100.0f + (1251.0f-100.0f)/99.0f * rank);
+            int magic = (int) (100.0f + (845.0f-100.0f)/99.0f * rank);
+            getPropetry().setBloodTotalVolume(blood);
+            getPropetry().setBloodVolume(blood);
+            getPropetry().setMagicTotalVolume(magic);
+            getPropetry().setMagicVolume(magic);
+            getPropetry().setAttackPower(50 + (341-50)/99 * rank);
+            getPropetry().setDefensivePower(30 + (246-30)/99 * rank);
+            getPropetry().setCriticalRate(3.0f + (10.0f-3.0f)/99.0f * rank);
+            getPropetry().setCriticalDamage(200.0f + (300.0f-200.0f)/99.0f * rank);
+        }
+    }
+
     public Propetry getPropetry() {
         return mPropetry;
+    }
+
+    public float getMagicRatio() {
+
+        return mPropetry.getMagicVolume()*1.0f / getMagicTotalVolume();
+    }
+
+    public float getBloodRatio() {
+
+        return mPropetry.getBloodVolume()*1.0f / getBloodTotalVolume();
     }
 
     /**
@@ -111,6 +151,8 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
         //mPropetry.setMagicVolume(mPropetry.getMagicVolume() - skill.getSkillPropetry().getFreeMagic());
 
         skill.setAttackPower(skill.getSkillPropetry().getExtraAttack() + getPropetry().getAttackPower());
+        skill.setCriticalRate(getCriticalRate());
+        skill.setCriticalDamage(getCriticalDamage());
         if (GameConstants.getDirection(curState.getStateId()) == GameConstants.DIRECT_LEFT) {
             changeState(GameConstants.STATE_ATTACK_LEFT);
             skill.setDirection(GameConstants.DIRECT_LEFT);
@@ -367,5 +409,20 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     @Override
     public int getBloodTotalVolume() {
         return mPropetry.getBloodTotalVolume() + EquipmentBar.getInstance().getBloodTotalVolume();
+    }
+
+    @Override
+    public float getSpeed() {
+        return mPropetry.getSpeed() + EquipmentBar.getInstance().getSpeed();
+    }
+
+    @Override
+    public float getCriticalRate() {
+        return mPropetry.getCriticalRate() + EquipmentBar.getInstance().getCriticalRate();
+    }
+
+    @Override
+    public float getCriticalDamage() {
+        return mPropetry.getCriticalDamage() + EquipmentBar.getInstance().getCriticalDamage();
     }
 }

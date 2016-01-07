@@ -6,71 +6,56 @@ package com.cb.adventures.data;
  */
 public class EquipmentPropetry extends PropPropetry{
 
-    /**
-     * 攻击力
-     */
-    private int attackPower;
-    /**
-     * 防御力
-     */
-    private int defensivePower;
-    /**
-     * 血量增幅
-     */
-    private int bloodVolume;
-    /**
-     * 魔力增幅
-     */
-    private int magicVolume;
-
-    /**
-     * 穿戴等级
-     */
-    private int rank;
+    private Propetry propetry;
 
     /**
      * 装备位置
      */
     private int loc;
 
+    public EquipmentPropetry() {
+        propetry = new Propetry();
+    }
+
+
     public int getAttackPower() {
-        return attackPower;
+        return propetry.getAttackPower();
     }
 
     public void setAttackPower(int attackPower) {
-        this.attackPower = attackPower;
+        propetry.setAttackPower(attackPower);
     }
 
     public int getDefensivePower() {
-        return defensivePower;
+        return propetry.getDefensivePower();
     }
 
     public void setDefensivePower(int defensivePower) {
-        this.defensivePower = defensivePower;
+        propetry.setDefensivePower(defensivePower);
     }
 
-    public int getBloodVolume() {
-        return bloodVolume;
+    public int getBloodTotalVolume() {
+        return propetry.getBloodTotalVolume();
     }
 
-    public void setBloodVolume(int bloodVolume) {
-        this.bloodVolume = bloodVolume;
+    public void setBloodTotalVolume(int bloodVolume) {
+        propetry.setBloodTotalVolume(bloodVolume);
     }
 
-    public int getMagicVolume() {
-        return magicVolume;
+    public int getMagicTotalVolume() {
+        return propetry.getMagicTotalVolume();
     }
 
-    public void setMagicVolume(int magicVolume) {
-        this.magicVolume = magicVolume;
+    public void setMagicTotalVolume(int magicVolume) {
+        propetry.setMagicTotalVolume(magicVolume);
     }
 
     public int getRank() {
-        return rank;
+        return propetry.getRank();
     }
 
     public void setRank(int rank) {
-        this.rank = rank;
+        propetry.setRank(rank);
     }
 
     public int getLoc() {
@@ -79,5 +64,29 @@ public class EquipmentPropetry extends PropPropetry{
 
     public void setLoc(int loc) {
         this.loc = loc;
+    }
+
+    public float getSpeed() {
+        return propetry.getSpeed();
+    }
+
+    public void setSpeed(float speed) {
+        propetry.setSpeed(speed);
+    }
+
+    public float getCriticalRate() {
+        return propetry.getCriticalRate();
+    }
+
+    public void setCriticalRate(float criticalRate) {
+        propetry.setCriticalRate(criticalRate);
+    }
+
+    public float getCriticalDamage() {
+        return propetry.getCriticalDamage();
+    }
+
+    public void setCriticalDamage(float criticalDamage) {
+        propetry.setCriticalDamage(criticalDamage);
     }
 }

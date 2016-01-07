@@ -18,28 +18,10 @@
 		<loopTimes>1</loopTimes>		<!--播放完一次截止,不循环-->
 		<animationType>1</animationType>
 		<srcInfo>
-			<srcName>animation/attack.png</srcName>
-			<rowFramCount>7</rowFramCount>
-			<colFramCount>6</colFramCount>
+			<srcName>animation/hurted/hurted1.png</srcName>
+			<rowFramCount>1</rowFramCount>
+			<colFramCount>4</colFramCount>
 		</srcInfo>
-		<frames>
-			<frame>
-				<row>2</row>
-				<col>3</col>
-			</frame>
-			<frame>
-				<row>2</row>
-				<col>4</col>
-			</frame>
-			<frame>
-				<row>2</row>
-				<col>5</col>
-			</frame>
-			<frame>
-				<row>3</row>
-				<col>0</col>
-			</frame>
-		</frames>
 	</animation>
 	
 	<animation>
@@ -177,96 +159,21 @@
 		<name>忍道飞镖</name>
 		<actionRange>0.3</actionRange> <!--技能帧宽度的比例,有些技能帧过大，修正一下-->
 		<srcInfo>
-			<srcName>animation/attack.png</srcName>
-			<rowFramCount>7</rowFramCount>
-			<colFramCount>6</colFramCount>
+			<srcName>animation/skill/feibiao.png</srcName>
+			<rowFramCount>1</rowFramCount>
+			<colFramCount>12</colFramCount>
 		</srcInfo>
-		<frames>
-			<frame>
-				<row>3</row>
-				<col>1</col>
-			</frame>
-			<frame>
-				<row>3</row>
-				<col>2</col>
-			</frame>
-			
-			<frame>
-				<row>3</row>
-				<col>3</col>
-			</frame>
-			<frame>
-				<row>3</row>
-				<col>4</col>
-			</frame>
-			<frame>
-				<row>3</row>
-				<col>5</col>
-			</frame>
-			<frame>
-				<row>4</row>
-				<col>0</col>
-			</frame>
-			<frame>
-				<row>4</row>
-				<col>1</col>
-			</frame>
-			<frame>
-				<row>4</row>
-				<col>2</col>
-			</frame>
-			<frame>
-				<row>4</row>
-				<col>3</col>
-			</frame>
-			<frame>
-				<row>4</row>
-				<col>4</col>
-			</frame>
-			<frame>
-				<row>4</row>
-				<col>5</col>
-			</frame>
-			<frame>
-				<row>5</row>
-				<col>0</col>
-			</frame>
-			<frame>
-				<row>5</row>
-				<col>1</col>
-			</frame>
-		</frames>
 	</animation>
-	
-	
 	
 	<animation>
 		<animationId>8</animationId>
 		<loopTimes>1</loopTimes>		<!--播放完一次截止,不循环-->
 		<animationType>1</animationType>
 		<srcInfo>
-			<srcName>animation/attack.png</srcName>
-			<rowFramCount>7</rowFramCount>
-			<colFramCount>6</colFramCount>
+			<srcName>animation/hurted/hurted2.png</srcName>
+			<rowFramCount>1</rowFramCount>
+			<colFramCount>4</colFramCount>
 		</srcInfo>
-		<frames>
-			<frame>
-				<row>5</row>
-				<col>4</col>
-			</frame>
-			<frame>
-				<row>5</row>
-				<col>5</col>
-			</frame>
-			<frame>
-				<row>6</row>
-				<col>0</col>
-			</frame>
-			<frame>
-				<row>6</row>
-				<col>1</col>
-			</frame>
-		</frames>
 	</animation>
 	
 	<animation>
@@ -289,25 +196,10 @@
 		<name>小飞镖</name>
 		<actionRange>0.3</actionRange> <!--技能帧宽度的比例,有些技能帧过大，修正一下-->
 		<srcInfo>
-			<srcName>animation/attack.png</srcName>
-			<rowFramCount>7</rowFramCount>
-			<colFramCount>6</colFramCount>
+			<srcName>animation/skill/xiaofeibiao.png</srcName>
+			<rowFramCount>1</rowFramCount>
+			<colFramCount>3</colFramCount>
 		</srcInfo>
-		<frames>
-			<frame>
-				<row>1</row>
-				<col>1</col>
-			</frame>
-			<frame>
-				<row>1</row>
-				<col>2</col>
-			</frame>
-			
-			<frame>
-				<row>1</row>
-				<col>3</col>
-			</frame>
-		</frames>
 	</animation>
 	
 	<animation>

@@ -20,7 +20,6 @@ public class AdventureApplication extends Application {
         mContext = getApplicationContext();
 
         CLog.setLogEnable(true);
-
         Engine.getInstance().init();
     }
 

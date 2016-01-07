@@ -11,6 +11,11 @@ public class MapPropetry {
     public class MonsterPack {
         private int monsterId;
         private int monsterNum;
+        private int monsterRank;
+
+        public MonsterPack() {
+            monsterRank = 0;
+        }
 
         public int getMonsterId() {
             return monsterId;
@@ -26,6 +31,14 @@ public class MapPropetry {
 
         public void setMonsterNum(int monsterNum) {
             this.monsterNum = monsterNum;
+        }
+
+        public int getMonsterRank() {
+            return monsterRank;
+        }
+
+        public void setMonsterRank(int monsterRank) {
+            this.monsterRank = monsterRank;
         }
     }
     private int mapId;

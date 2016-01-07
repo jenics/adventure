@@ -119,6 +119,21 @@ public class EquipmentBar extends BaseView implements IControl , IPropetry {
         return propetry.getBloodTotalVolume();
     }
 
+    @Override
+    public float getSpeed() {
+        return propetry.getSpeed();
+    }
+
+    @Override
+    public float getCriticalRate() {
+        return propetry.getCriticalRate();
+    }
+
+    @Override
+    public float getCriticalDamage() {
+        return propetry.getCriticalDamage();
+    }
+
     /**
      * 装备物品
      *
@@ -135,7 +150,10 @@ public class EquipmentBar extends BaseView implements IControl , IPropetry {
         propetry.setMagicTotalVolume(propetry.getMagicTotalVolume() + equipment.getMagicTotalVolume());
         propetry.setBloodTotalVolume(propetry.getBloodTotalVolume() + equipment.getBloodTotalVolume());
         propetry.setAttackPower(propetry.getAttackPower() + equipment.getAttackPower());
-        propetry.setDefensivePower(propetry.getDefensivePower()+equipment.getDefensivePower());
+        propetry.setDefensivePower(propetry.getDefensivePower() + equipment.getDefensivePower());
+        propetry.setSpeed(propetry.getSpeed() + equipment.getSpeed());
+        propetry.setCriticalDamage(propetry.getCriticalDamage() + equipment.getCriticalDamage());
+        propetry.setCriticalRate(propetry.getCriticalRate()+equipment.getCriticalRate());
         return iEquipment;
     }
 
@@ -148,16 +166,22 @@ public class EquipmentBar extends BaseView implements IControl , IPropetry {
         propetry.setMagicTotalVolume(propetry.getMagicTotalVolume()-equipment.getMagicTotalVolume());
         propetry.setBloodTotalVolume(propetry.getBloodTotalVolume()-equipment.getBloodTotalVolume());
         propetry.setAttackPower(propetry.getAttackPower()-equipment.getAttackPower());
-        propetry.setDefensivePower(propetry.getDefensivePower()-equipment.getDefensivePower());
+        propetry.setDefensivePower(propetry.getDefensivePower() - equipment.getDefensivePower());
+        propetry.setSpeed(propetry.getSpeed() - equipment.getSpeed());
+        propetry.setCriticalDamage(propetry.getCriticalDamage() - equipment.getCriticalDamage());
+        propetry.setCriticalRate(propetry.getCriticalRate() - equipment.getCriticalRate());
     }
 
     private String[] getPropetryString() {
         return new String[] {
+                String.format("人物等级: %d", mPlayer.getRank()),
                 String.format("攻击力: %d",mPlayer.getAttackPower()),
                 String.format("防御力: %d",mPlayer.getDefensivePower()),
                 String.format("血量: %d",mPlayer.getBloodTotalVolume()),
                 String.format("魔量: %d",mPlayer.getMagicTotalVolume()),
-                String.format("人物等级: %d", mPlayer.getRank()),
+                String.format("速度: %.1f", mPlayer.getSpeed()),
+                String.format("暴击率: %.1f", mPlayer.getCriticalRate()),
+                String.format("暴击伤害: %d", (int)mPlayer.getCriticalDamage()),
         };
     }
 
@@ -343,6 +367,9 @@ public class EquipmentBar extends BaseView implements IControl , IPropetry {
     private void drawPropetry(Canvas canvas,String[] strings) {
         float topY = controls.get(PROPETRY_PANEL).top;
         for (String string : strings) {
+            if (string == null) {
+                continue;
+            }
             StaticLayout mTextLayout = new StaticLayout(string,
                     mTextPaint, (int) controls.get(PROPETRY_PANEL).width(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             canvas.save();

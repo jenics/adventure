@@ -515,6 +515,9 @@ public class InventoryView extends BaseView implements IControl, PropView.PickUp
                 String[] strings = iProp.getDescription();
                 float topY = controls.get(CONTROL_INVENTROY_CONTENT).top;
                 for(String string : strings) {
+                    if (string == null) {
+                        continue;
+                    }
                     StaticLayout mTextLayout = new StaticLayout(string,
                             mTextPaint, (int) controls.get(CONTROL_INVENTROY_CONTENT).width(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                     canvas.save();

@@ -58,10 +58,10 @@ public class Map extends BaseView {
      */
     private LinkedList<MapScrollObserver> mapScrollObservers;
     public interface MapScrollObserver {
-        void onScroll(int direction,int speed);
+        void onScroll(int direction,float speed);
     }
 
-    private synchronized void notifyAll(int dir,int speed) {
+    private synchronized void notifyAll(int dir,float speed) {
         for (MapScrollObserver observer : mapScrollObservers) {
             observer.onScroll(dir,speed);
         }
@@ -232,7 +232,7 @@ public class Map extends BaseView {
         MonsterController.getInstance().setMonsterFactory(new SimpleMonsterFactory());
         MapPropetry mapPropetry = getMapPropetry();
         for (MapPropetry.MonsterPack pack : mapPropetry.getMonsterPaks()) {
-            MonsterController.getInstance().generateMonster(pack.getMonsterId(), pack.getMonsterNum());
+            MonsterController.getInstance().generateMonster(pack.getMonsterId(), pack.getMonsterRank(),pack.getMonsterNum());
         }
 
         /**
@@ -289,36 +289,37 @@ public class Map extends BaseView {
     }
 
     public void scroll() {
+        float speed = mPlayer.getSpeed();
         if (mDirection == GameConstants.DIRECT_RIGHT) {
             if (cursor >= mapWidth - mScreemWidth / 2) {
                 PointF pointF = mPlayer.getPt();
-                if (pointF.x <= mScreemWidth - mPlayer.getPropetry().getSpeed()) {
-                    pointF.x += mPlayer.getPropetry().getSpeed();
+                if (pointF.x <= mScreemWidth - speed) {
+                    pointF.x += speed;
                 }
                 return;
             } else {
                 PointF pointF = mPlayer.getPt();
                 if (pointF.x < mScreemWidth / 2) {
-                    pointF.x += mPlayer.getPropetry().getSpeed();
+                    pointF.x += speed;
                     if (pointF.x > mScreemWidth / 2) {
                         pointF.x = mScreemWidth / 2;
                     }
                     return;
                 }
             }
-            cursor += mPlayer.getPropetry().getSpeed();
-            rt1.left -= mPlayer.getPropetry().getSpeed();
-            rt1.right -= mPlayer.getPropetry().getSpeed();
-            rt2.left -= mPlayer.getPropetry().getSpeed();
-            rt2.right -= mPlayer.getPropetry().getSpeed();
+            cursor += speed;
+            rt1.left -= speed;
+            rt1.right -= speed;
+            rt2.left -= speed;
+            rt2.right -= speed;
 
             if (preGate != null) {
                 PointF pt = preGate.getPt();
-                pt.x -= mPlayer.getPropetry().getSpeed();
+                pt.x -= speed;
             }
             if (nextGate != null) {
                 PointF pt = nextGate.getPt();
-                pt.x -= mPlayer.getPropetry().getSpeed();
+                pt.x -= speed;
             }
 
             ///矫正地图位置
@@ -334,38 +335,38 @@ public class Map extends BaseView {
                 rt2.right = mScreemWidth + mScreemWidth;
             }
 
-            notifyAll(mDirection,mPlayer.getPropetry().getSpeed());
+            notifyAll(mDirection,speed);
         } else if (mDirection == GameConstants.DIRECT_LEFT) {
             if (cursor <= mScreemWidth / 2) {
                 PointF pointF = mPlayer.getPt();
-                if (pointF.x >= mPlayer.getPropetry().getSpeed()) {
-                    pointF.x -= mPlayer.getPropetry().getSpeed();
+                if (pointF.x >= speed) {
+                    pointF.x -= speed;
                 }
                 return;
             } else {
                 PointF pointF = mPlayer.getPt();
                 if (pointF.x > mScreemWidth / 2) {
-                    pointF.x -= mPlayer.getPropetry().getSpeed();
+                    pointF.x -= speed;
                     if (pointF.x < mScreemWidth / 2) {
                         pointF.x = mScreemWidth / 2;
                     }
                     return;
                 }
             }
-            cursor -= mPlayer.getPropetry().getSpeed();
-            rt1.left += mPlayer.getPropetry().getSpeed();
-            rt1.right += mPlayer.getPropetry().getSpeed();
-            rt2.left += mPlayer.getPropetry().getSpeed();
-            rt2.right += mPlayer.getPropetry().getSpeed();
+            cursor -= speed;
+            rt1.left += speed;
+            rt1.right += speed;
+            rt2.left += speed;
+            rt2.right += speed;
 
             ///移动关卡
             if (preGate != null) {
                 PointF pt = preGate.getPt();
-                pt.x += mPlayer.getPropetry().getSpeed();
+                pt.x += speed;
             }
             if (nextGate != null) {
                 PointF pt = nextGate.getPt();
-                pt.x += mPlayer.getPropetry().getSpeed();
+                pt.x += speed;
             }
 
             ///矫正地图位置
@@ -381,7 +382,7 @@ public class Map extends BaseView {
                 rt2.right = mScreemWidth;
             }
 
-            notifyAll(mDirection,mPlayer.getPropetry().getSpeed());
+            notifyAll(mDirection,speed);
         }
     }
 }

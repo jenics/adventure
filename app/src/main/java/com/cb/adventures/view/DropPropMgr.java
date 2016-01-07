@@ -53,7 +53,6 @@ public class DropPropMgr implements IDrawable ,IFactory ,Map.MapScrollObserver ,
         mReentrantReadWriteLock.writeLock().unlock();
     }
 
-
     /**
      * 一般发生在下一关，没捡的，就都给丢弃掉
      */
@@ -139,7 +138,7 @@ public class DropPropMgr implements IDrawable ,IFactory ,Map.MapScrollObserver ,
     }
 
     @Override
-    public void onScroll(int direction, int speed) {
+    public void onScroll(int direction, float speed) {
         mReentrantReadWriteLock.readLock().lock();
         if (direction == GameConstants.DIRECT_LEFT) {
             for (BaseView view : propViews) {

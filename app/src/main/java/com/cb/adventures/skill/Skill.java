@@ -47,6 +47,31 @@ public class Skill extends FrameAnimation implements ViewAnimation.OnAniamtionLi
      */
     private int attackPower;
 
+    /**
+     * 暴击率
+     */
+    private float criticalRate;
+    /**
+     * 暴击伤害
+     */
+    private float criticalDamage;
+
+    public float getCriticalRate() {
+        return criticalRate;
+    }
+
+    public void setCriticalRate(float criticalRate) {
+        this.criticalRate = criticalRate;
+    }
+
+    public float getCriticalDamage() {
+        return criticalDamage;
+    }
+
+    public void setCriticalDamage(float criticalDamage) {
+        this.criticalDamage = criticalDamage;
+    }
+
     public int getAttackPower() {
         return attackPower;
     }

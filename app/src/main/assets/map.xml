@@ -8,10 +8,12 @@
 		<monster>
 			<monsterId>1</monsterId>
 			<monsterNum>3</monsterNum>
+			<monsterRank>1</monsterRank>
 		</monster>
 		<monster>
 			<monsterId>2</monsterId>
 			<monsterNum>2</monsterNum>
+			<monsterRank>5</monsterRank>
 		</monster>
 		<preGate>-1</preGate>  <!-- 上一关卡 默认就是当前地图ID-1 默认可不填写，为若为-1代表没有 -->
 		<nextGate>3</nextGate> <!-- 下一关卡 默认就是当前地图ID+1 默认可不填写，为若为-1代表没有-->

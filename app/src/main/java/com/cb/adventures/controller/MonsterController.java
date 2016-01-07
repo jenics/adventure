@@ -54,13 +54,14 @@ public class MonsterController implements Sprite.OnSpriteListener ,Map.MapScroll
      * @param monsterId 怪物种类
      * @param num   要产生的数量
      */
-    public void generateMonster(int monsterId,int num) {
+    public void generateMonster(int monsterId,int rank,int num) {
         if(mMonsterFactory == null) {
             throw new IllegalStateException("mMonsterFactory is null");
         }
         mReentrantReadWriteLock.writeLock().lock();
         for(int i=0; i<num; i++) {
             Sprite sprite = (Sprite) mMonsterFactory.create(monsterId);
+            sprite.caclBasePropetry(rank);
             if(sprite != null) {
                 sprite.setSpriteListener(this);
                 sprite.setPt(Randomer.getInstance().getRandom(GameConstants.sRightBoundary), GameConstants.sGameHeight*GameConstants.sYpointRatio);
@@ -130,7 +131,7 @@ public class MonsterController implements Sprite.OnSpriteListener ,Map.MapScroll
     }
 
     @Override
-    public void onScroll(int direction, int speed) {
+    public void onScroll(int direction, float speed) {
         mReentrantReadWriteLock.readLock().lock();
         if (direction == GameConstants.DIRECT_LEFT) {
             for (BaseView view : mMonters) {

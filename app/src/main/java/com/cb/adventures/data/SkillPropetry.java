@@ -64,9 +64,6 @@ public class SkillPropetry {
 
     private String name;
 
-
-
-
     /**
      * 击中效果技能id
      */
