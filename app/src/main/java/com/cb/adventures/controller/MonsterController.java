@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.PointF;
 
 import com.cb.adventures.constants.GameConstants;
+import com.cb.adventures.engine.Engine;
 import com.cb.adventures.factory.IFactory;
 import com.cb.adventures.utils.Randomer;
 import com.cb.adventures.view.BaseView;
@@ -62,6 +63,7 @@ public class MonsterController implements Sprite.OnSpriteListener ,Map.MapScroll
         for(int i=0; i<num; i++) {
             Sprite sprite = (Sprite) mMonsterFactory.create(monsterId);
             sprite.caclBasePropetry(rank);
+            sprite.setDeadListener(Engine.getInstance());
             if(sprite != null) {
                 sprite.setSpriteListener(this);
                 sprite.setPt(Randomer.getInstance().getRandom(GameConstants.sRightBoundary), GameConstants.sGameHeight*GameConstants.sYpointRatio);

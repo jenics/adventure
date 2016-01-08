@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
+<monster>
+		<monsterId>0</monsterId>
+		<monsterName>1级怪物属性，用来对比计算</monsterName>
+		<speed>10</speed>
+		<attackPower>48</attackPower>
+		<defensivePower>34</defensivePower>
+		<bloodTotalVolume>139</bloodTotalVolume>
+		<magicTotalVolume>98</magicTotalVolume>
+		<rank>1</rank>
+		<exp>5</exp>		<!--后面如果不填，那么就是level * 5的默认经验-->
+	</monster>
 	<monster>
 		<monsterId>1</monsterId>
 		<monsterName>黑野猪</monsterName>

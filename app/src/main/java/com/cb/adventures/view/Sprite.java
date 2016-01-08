@@ -7,6 +7,7 @@ import android.graphics.RectF;
 import com.cb.adventures.animation.InjuredValueAnimation;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.DropItem;
+import com.cb.adventures.data.GameData;
 import com.cb.adventures.data.MonsterPropetry;
 import com.cb.adventures.factory.SkillFactory;
 import com.cb.adventures.skill.Skill;
@@ -40,6 +41,13 @@ public class Sprite extends FrameView implements IHurtable {
     protected long mWorkTime;           ///工作时间
     protected Skill mDeadEffect;        ///死亡效果
     protected MonsterPropetry mMonsterPropetry;
+    /**
+     * 怪物死亡监听
+     */
+    private OnDeadListener mDeadListener;
+    public interface OnDeadListener {
+        void onDead(Sprite sprite);
+    }
 
     @Override
     public void onHurted(Skill skill) {
@@ -77,6 +85,10 @@ public class Sprite extends FrameView implements IHurtable {
              * 查询掉落列表，根据掉率随机掉出
              */
             DropPropMgr.getInstance().drop(mMonsterPropetry.getDropItems(), getPt());
+
+            if (mDeadListener != null) {
+                mDeadListener.onDead(this);
+            }
         }
         mMonsterPropetry.setBloodVolume(mCurrentBlood);
 
@@ -97,28 +109,33 @@ public class Sprite extends FrameView implements IHurtable {
         void OnWorkEnd(int id);
     }
 
+    public void setDeadListener(OnDeadListener mDeadListener) {
+        this.mDeadListener = mDeadListener;
+    }
+
     /**
      * 根据等级计算出基础属性
      *
-     * @param rank 怪物等级
+     * @param rank 目标怪物等级
      */
     public void caclBasePropetry(int rank) {
         if ( rank == 0 || rank == mMonsterPropetry.getRank()) {
             return;
         }
 
-        int diffRank = mMonsterPropetry.getRank()-rank;
-        float fRatio = 1.0f-0.1f*diffRank;
-        mMonsterPropetry.setRank(rank);
-
-        int blood = (int) (mMonsterPropetry.getBloodTotalVolume()*fRatio);
-        int magic = (int) (mMonsterPropetry.getMagicTotalVolume()*fRatio);
+        MonsterPropetry level1Propetry = GameData.getInstance().getMonsterPropetry(0);
+        int blood = (int) ((mMonsterPropetry.getBloodTotalVolume() - level1Propetry.getBloodTotalVolume())/mMonsterPropetry.getRank() * rank);
+        int magic = (int) ((mMonsterPropetry.getMagicTotalVolume()-level1Propetry.getMagicTotalVolume())/mMonsterPropetry.getRank() * rank);
         mMonsterPropetry.setBloodTotalVolume(blood);
         mMonsterPropetry.setBloodVolume(blood);
         mMonsterPropetry.setMagicTotalVolume(magic);
         mMonsterPropetry.setMagicVolume(magic);
-        mMonsterPropetry.setAttackPower((int) (mMonsterPropetry.getAttackPower()*fRatio));
-        mMonsterPropetry.setDefensivePower((int) (mMonsterPropetry.getDefensivePower()*fRatio));
+        mMonsterPropetry.setAttackPower((int) ((mMonsterPropetry.getAttackPower() - level1Propetry.getAttackPower())) / mMonsterPropetry.getRank() * rank);
+        mMonsterPropetry.setDefensivePower((int) ((mMonsterPropetry.getDefensivePower() - level1Propetry.getDefensivePower())) / mMonsterPropetry.getRank() * rank);
+        mMonsterPropetry.setExp((mMonsterPropetry.getExp() - level1Propetry.getExp()) / mMonsterPropetry.getRank() * rank);
+
+        ///设置目标怪物等级
+        mMonsterPropetry.setRank(rank);
     }
 
 

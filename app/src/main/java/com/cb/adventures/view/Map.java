@@ -212,7 +212,7 @@ public class Map extends BaseView {
         this.bmpTop = ImageLoader.getInstance().loadBitmap(mapPropetry.getSrcName());
         this.bmpBottom = ImageLoader.getInstance().loadBitmap(GameConstants.MAP_BOTTOM_NAME);
 
-        if (curMapSrcName != null) {
+        if (curMapSrcName != null && !curMapSrcName.equals(mapPropetry.getSrcName())) {
             ImageLoader.getInstance().recycleBitmap(curMapSrcName);
         }
 

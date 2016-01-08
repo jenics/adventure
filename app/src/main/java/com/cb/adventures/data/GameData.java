@@ -12,6 +12,8 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -21,7 +23,6 @@ import java.util.LinkedList;
 public class GameData {
     public interface OnLoadDataListener {
         void onLoadFinish(LoadStepEnum step);
-
         void onLoadFailed(LoadStepEnum step);
     }
 
@@ -32,6 +33,7 @@ public class GameData {
         STEP_MAP,
         STEP_CONSUME,
         STEP_EQUIP,
+        STEP_EXP,
 
         ///全部载入完成回调此枚举
         STEP_END
@@ -45,6 +47,7 @@ public class GameData {
     private HashMap<Integer, MonsterPropetry> mMonsterMap;
     private HashMap<Integer, MapPropetry> mMapInfo;
     private HashMap<Integer, PropPropetry> mPropMap;
+    private ArrayList<ExpTable> mExpTableArray;
 
     private GameData() {
         if (mAnimationMap == null) {
@@ -61,6 +64,10 @@ public class GameData {
         }
         if (mPropMap == null) {
             mPropMap = new HashMap<>();
+        }
+
+        if (mExpTableArray == null) {
+            mExpTableArray = new ArrayList<>();
         }
     }
 
@@ -81,6 +88,8 @@ public class GameData {
                 mLoadDataListener.onLoadFinish(LoadStepEnum.STEP_CONSUME);
                 synParseEquips();
                 mLoadDataListener.onLoadFinish(LoadStepEnum.STEP_EQUIP);
+                sysParseExp();
+                mLoadDataListener.onLoadFinish(LoadStepEnum.STEP_EXP);
 
                 ///全部载入完成回调此枚举
                 mLoadDataListener.onLoadFinish(LoadStepEnum.STEP_END);
@@ -138,6 +147,14 @@ public class GameData {
      */
     public PropPropetry getProp(int id) {
         return mPropMap.get(id);
+    }
+
+    /**
+     * @param rank 等级
+     * @return 对应等级经验表
+     */
+    public ExpTable getExpTable(int rank) {
+        return mExpTableArray.get(rank-1);
     }
 
 
@@ -428,6 +445,51 @@ public class GameData {
 
     }
 
+    public void sysParseExp() {
+        try {
+            parser = Xml.newPullParser();
+            AssetManager am = AdventureApplication.getContextObj().getAssets();
+            InputStream is = am.open("exp.xml");
+            parser.setInput(is, "UTF-8");
+
+            ExpTable expTable = new ExpTable();
+
+            int eventType = parser.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                String nodeName = parser.getName();
+                switch (eventType) {
+                    case XmlPullParser.START_DOCUMENT:
+                        break;
+                    ///第一个开始节点
+                    case XmlPullParser.START_TAG:
+                        if ("expTable".equals(nodeName)) {
+                            expTable = new ExpTable();
+                        } else if ("level".equals(nodeName)) {
+                            expTable.setLevel(Integer.parseInt(parser.nextText()));
+                        } else if ("exp".equals(nodeName)) {
+                            expTable.setExp(Long.parseLong(parser.nextText()));
+                        }
+                        break;
+                    case XmlPullParser.END_TAG:
+                        if ("expTable".equals(nodeName)) {
+                            mExpTableArray.add(expTable);
+                        }
+                        break;
+                    default:
+                        break;
+
+                }
+                eventType = parser.next();
+            }
+        } catch (XmlPullParserException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void asyParseExp() {
+
+    }
+
     public void synParseMonsters() {
         try {
             parser = Xml.newPullParser();
@@ -497,7 +559,9 @@ public class GameData {
                             monsterPropetry.setMagicTotalVolume(magic);
                             monsterPropetry.setMagicVolume(magic);
                         } else if ("rank".equals(nodeName)) {
-                            monsterPropetry.setRank(Integer.parseInt(parser.nextText()));
+                            int rank = Integer.parseInt(parser.nextText());
+                            monsterPropetry.setRank(rank);
+                            monsterPropetry.setExp(rank * 5);       ///默认经验为5*rank，如果xml有指定，后面将会被改写
                         } else if ("dropItems".equals(nodeName)) {
                             monsterPropetry.setDropItems(new LinkedList<DropItem>());
                         }
@@ -507,6 +571,8 @@ public class GameData {
                             dropItem.setItemId(Integer.parseInt(parser.nextText()));
                         } else if ("probability".equals(nodeName)) {
                             dropItem.setProbability(Integer.parseInt(parser.nextText()));
+                        } else if ("exp".equals(nodeName)) {
+                            monsterPropetry.setExp(Long.parseLong(parser.nextText()));
                         }
                         break;
                     case XmlPullParser.END_TAG:

@@ -150,9 +150,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         Bitmap attackBitmap = ImageLoader.getInstance().loadBitmap(GameConstants.PLAYER1_ATTACK_NAME);
         player.init(bitmap, 9, 946 / 9, 420 / 4, 1, 2,
                 attackBitmap, 1151 / 6, 103, 6);
-
         ///数据库中读取等级，得到对应的基础属性
-        player.caclBasePropetry(5);
+        player.setRank(1);
         InventoryView.getInstance().setPlayer(player);
 
         if (mGameController == null) {

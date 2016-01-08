@@ -11,6 +11,8 @@ public class GameConstants {
      */
     public static float zoomRatio;
 
+    public static final int MAX_LEVEL = 100;
+
     /**
      * 状态，每个状态都具有方向信息
      */

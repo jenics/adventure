@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import com.cb.adventures.animation.FlashViewAnimation;
+import com.cb.adventures.animation.FrameAnimation;
 import com.cb.adventures.animation.InjuredValueAnimation;
 import com.cb.adventures.animation.ScrollAnimation;
 import com.cb.adventures.constants.GameConstants;
@@ -31,6 +32,15 @@ import java.util.HashMap;
 public class Player extends BaseView implements IStateMgr, AttackState.OnAttackListener, Skill.OnSkillAnimationListener, IHurtable ,IPropetry{
     private Propetry mPropetry;
     private static Player mInstance;
+
+    /**
+     * 当前经验
+     */
+    private long curExp;
+    /**
+     * 升级所需经验
+     */
+    private long levelupExp;
 
     public static synchronized Player getInstance() {
         if (mInstance == null) {
@@ -70,6 +80,10 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
         mPropetry = new Propetry();
     }
 
+    public void setRank(int rank) {
+        caclBasePropetry(rank);
+    }
+
     /**
      * 根据等级计算出基础属性
      * @param rank 玩家等级
@@ -77,6 +91,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     public void caclBasePropetry(int rank) {
         getPropetry().setRank(rank);
         getPropetry().setSpeed(16.0f);
+        levelupExp = GameData.getInstance().getExpTable(rank).getExp();
         if (1 == rank) {
             getPropetry().setBloodTotalVolume(100);
             getPropetry().setBloodVolume(100);
@@ -112,6 +127,30 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     public float getBloodRatio() {
 
         return mPropetry.getBloodVolume()*1.0f / getBloodTotalVolume();
+    }
+
+    /**
+     * 增加经验
+     */
+    public void addExp(long exp) {
+        curExp += exp;
+        if (curExp >= levelupExp) {
+            if (mPropetry.getRank() < GameConstants.MAX_LEVEL)
+                onLevelUp();
+        }
+    }
+
+    public void onLevelUp() {
+        mPropetry.setRank(mPropetry.getRank() + 1);
+        caclBasePropetry(mPropetry.getRank());
+//        Skill skill = new SkillFactory().create(GameConstants.SKILL_ID_LEVEL_UP);
+//        skill.setAttachView(this);
+//        skill.startSkill();
+        FrameAnimation frameAnimation = new FrameAnimation();
+        frameAnimation.setAnimationPropetry(GameData.getInstance().getAnimationPropetry(GameConstants.SKILL_ID_LEVEL_UP));
+        frameAnimation.setAttachView(this);
+        frameAnimation.startAnimation();
+
     }
 
     /**
