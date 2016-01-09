@@ -18,7 +18,6 @@ public class GameController extends BaseView implements IControl {
     private static final int FUNCTION_NUM = 4;
     private LinkedList<FunctionController> functionControllers;
 
-
     public GameController() {
         functionControllers = new LinkedList<>();
         for(int i=0; i<FUNCTION_NUM; ++i) {

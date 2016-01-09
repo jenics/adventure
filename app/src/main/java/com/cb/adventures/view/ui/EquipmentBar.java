@@ -12,32 +12,27 @@ import android.text.TextPaint;
 
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.IPropetry;
-import com.cb.adventures.data.PropPropetry;
 import com.cb.adventures.data.Propetry;
-import com.cb.adventures.prop.Equipment;
 import com.cb.adventures.prop.IEquipment;
-import com.cb.adventures.prop.IProp;
+import com.cb.adventures.view.PlayerMediator;
 import com.cb.adventures.utils.FontFace;
 import com.cb.adventures.utils.ImageLoader;
 import com.cb.adventures.view.BaseView;
 import com.cb.adventures.view.IControl;
-import com.cb.adventures.view.Player;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Created by jenics on 2016/1/2.
  */
 public class EquipmentBar extends BaseView implements IControl , IPropetry {
-    private static EquipmentBar mInstance;
     private Bitmap mSelectBitmap;
     private int mSelectIndex;
     private Paint.FontMetricsInt mFontMetricsInt;
     private TextPaint mTextPaint;
     private Propetry propetry;
-    private Player mPlayer;
+    private PlayerMediator mPlayerMediator;
     /**
      * 读写锁
      */
@@ -82,17 +77,13 @@ public class EquipmentBar extends BaseView implements IControl , IPropetry {
      */
     public static final int PROPETRY_PANEL = 8;
 
-    public static synchronized EquipmentBar getInstance() {
-        if (mInstance == null) {
-            mInstance = new EquipmentBar();
-        }
-        return mInstance;
-    }
 
-    private EquipmentBar() {
+    public EquipmentBar(PlayerMediator playerMediator) {
         propetry = new Propetry();
         mSelectIndex = INVALIDATE_SELECT_INDEX;
+        mPlayerMediator = playerMediator;
     }
+
 
     @Override
     public int getAttackPower() {
@@ -174,14 +165,14 @@ public class EquipmentBar extends BaseView implements IControl , IPropetry {
 
     private String[] getPropetryString() {
         return new String[] {
-                String.format("人物等级: %d", mPlayer.getRank()),
-                String.format("攻击力: %d",mPlayer.getAttackPower()),
-                String.format("防御力: %d",mPlayer.getDefensivePower()),
-                String.format("血量: %d",mPlayer.getBloodTotalVolume()),
-                String.format("魔量: %d",mPlayer.getMagicTotalVolume()),
-                String.format("速度: %.1f", mPlayer.getSpeed()),
-                String.format("暴击率: %.1f", mPlayer.getCriticalRate()),
-                String.format("暴击伤害: %d", (int)mPlayer.getCriticalDamage()),
+                String.format("人物等级: %d", mPlayerMediator.getPlayerRank()),
+                String.format("攻击力: %d", mPlayerMediator.getPlayerAttackPower()),
+                String.format("防御力: %d", mPlayerMediator.getPlayerDefensivePower()),
+                String.format("血量: %d", mPlayerMediator.getPlayerBloodTotalVolume()),
+                String.format("魔量: %d", mPlayerMediator.getPlayerMagicTotalVolume()),
+                String.format("速度: %.1f", mPlayerMediator.getPlayerSpeed()),
+                String.format("暴击率: %.1f", mPlayerMediator.getPlayerCriticalRate()),
+                String.format("暴击伤害: %d", (int) mPlayerMediator.getPlayerCriticalDamage()),
         };
     }
 
@@ -217,8 +208,7 @@ public class EquipmentBar extends BaseView implements IControl , IPropetry {
             new ControlParam(0.5059f, 0.50588f, 0.372f, 0.87f),      //427,129,314,222     中间信息框
     };
 
-    public void init(Player player) {
-        mPlayer = player;
+    public void init() {
         mBitmap = ImageLoader.getInstance().loadBitmap(GameConstants.EQUITMENT_BAR_NAME);
         mSelectBitmap = ImageLoader.getInstance().loadBitmap(GameConstants.INVENTORY_SELECTED_NAME);
         ///宽度是屏幕宽度的0.15倍

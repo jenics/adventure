@@ -14,9 +14,9 @@ import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.PropPropetry;
 import com.cb.adventures.prop.Consume;
 import com.cb.adventures.prop.Equipment;
-import com.cb.adventures.prop.IEquipment;
 import com.cb.adventures.prop.IProp;
 import com.cb.adventures.prop.IStackable;
+import com.cb.adventures.view.PlayerMediator;
 import com.cb.adventures.utils.CLog;
 import com.cb.adventures.utils.FontFace;
 import com.cb.adventures.utils.ImageLoader;
@@ -33,7 +33,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * 物品栏控件
  */
 public class InventoryView extends BaseView implements IControl, PropView.PickUpPropListener {
-    private static InventoryView mInstance;
+    private PlayerMediator mPlayerMediator;
     public static final int INVALIDATE_SELECT_INDEX = -1;
 
     public static final int CONTROL_INVENTROY_0 = 0;
@@ -150,9 +150,9 @@ public class InventoryView extends BaseView implements IControl, PropView.PickUp
      */
     private HashMap<Long, Integer> locMap;
 
-    private InventoryView() {
-        //mProps = new LinkedList<>();
+    public InventoryView(PlayerMediator playerMediator) {
         locMap = new HashMap<>();
+        this.mPlayerMediator = playerMediator;
     }
 
     /**
@@ -201,7 +201,6 @@ public class InventoryView extends BaseView implements IControl, PropView.PickUp
     public void addProp(int index, IProp prop) {
         mReentrantReadWriteLock.writeLock().lock();
         if (index<= CONTROL_INVENTROY_14 && index>= CONTROL_INVENTROY_0) {
-            //mProps.remove(prop);
             controlParams[index].state = KardEnum.KARD_OCCUPY;
             controlParams[index].willAdd = 0;
             controlParams[index].iProp = prop;
@@ -210,16 +209,6 @@ public class InventoryView extends BaseView implements IControl, PropView.PickUp
         mReentrantReadWriteLock.writeLock().unlock();
     }
 
-    public void setPlayer(Player player) {
-        mPlayer = player;
-    }
-
-    public synchronized static InventoryView getInstance() {
-        if (mInstance == null) {
-            mInstance = new InventoryView();
-        }
-        return mInstance;
-    }
 
     /**
      * 读写锁
@@ -248,10 +237,10 @@ public class InventoryView extends BaseView implements IControl, PropView.PickUp
         if (controlParams[index].iProp == null) {
             ///新建
             if (prop.getMaxStackSize() == 1) {
-                Equipment equipment = new Equipment(mPlayer, prop);
+                Equipment equipment = new Equipment(mPlayerMediator, prop);
                 controlParams[index].iProp = equipment;
             } else {
-                Consume consume = new Consume(mPlayer, prop);
+                Consume consume = new Consume(mPlayerMediator, prop);
                 controlParams[index].iProp = consume;
             }
         } else {
@@ -323,24 +312,6 @@ public class InventoryView extends BaseView implements IControl, PropView.PickUp
         }
         mReentrantReadWriteLock.writeLock().unlock();
         return canPickUp;
-    }
-
-    /**
-     * @param propetry 物品属性
-     * @return 是否可堆叠
-     */
-    private boolean canStack(PropPropetry propetry, IProp iProp) {
-        if (propetry.getMaxStackSize() == 1) {
-            return false;
-        } else {
-            if (iProp instanceof IStackable) {
-                IStackable iStackable = (IStackable) iProp;
-                if (iStackable.getCurrentStackSize() < propetry.getMaxStackSize()) {
-                    return true;
-                }
-            }
-            return false;
-        }
     }
 
     @Override

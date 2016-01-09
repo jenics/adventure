@@ -16,24 +16,20 @@ import com.cb.adventures.view.Player;
  * Created by jenics on 2015/10/24.
  */
 public class BloodReservoir extends BaseView {
-    //private Propetry propetry;
     private Bitmap bitmap;
     private Bitmap background;
     private Player mPlayer;
-
     private int backgroundHeight;
-
     private int topRed;
     private int topBlue;
 
-
-    public BloodReservoir() {
+    public BloodReservoir(Player player) {
+        mPlayer = player;
     }
 
-    public void init(Player player) {
+    public void init() {
         bitmap = ImageLoader.getInstance().loadBitmap(GameConstants.RED_BLUE_NAME);
         background = ImageLoader.getInstance().loadBitmap(GameConstants.RED_BLUE_BOTTOM);
-        mPlayer = player;
         ///宽度是屏幕宽度的0.2倍
         width = (int) (GameConstants.sGameWidth*0.2);
         height = (int) (GameConstants.sGameHeight*0.07);

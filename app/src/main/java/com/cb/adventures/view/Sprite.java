@@ -81,10 +81,7 @@ public class Sprite extends FrameView implements IHurtable {
             mDeadEffect.setAttachView(this);
             mDeadEffect.startSkill();
 
-            /**
-             * 查询掉落列表，根据掉率随机掉出
-             */
-            DropPropMgr.getInstance().drop(mMonsterPropetry.getDropItems(), getPt());
+
 
             if (mDeadListener != null) {
                 mDeadListener.onDead(this);

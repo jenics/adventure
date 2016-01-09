@@ -3,8 +3,7 @@ package com.cb.adventures.prop;
 import com.cb.adventures.data.ConsumePropetry;
 import com.cb.adventures.data.PropPropetry;
 import com.cb.adventures.data.Propetry;
-import com.cb.adventures.view.Player;
-import com.cb.adventures.view.ui.InventoryView;
+import com.cb.adventures.view.PlayerMediator;
 
 
 /**
@@ -13,15 +12,15 @@ import com.cb.adventures.view.ui.InventoryView;
  */
 public class Consume implements IProp, IStackable {
     private ConsumePropetry consumePropetry;
+    private PlayerMediator playerMediator;
     /**
      * 堆叠数量
      */
     private int currentStackSize;
-    private Player mPlayer;
-
-    public Consume(Player player, PropPropetry propPropetry) {
+    public Consume(PlayerMediator playerMediator, PropPropetry propPropetry) {
         consumePropetry = (ConsumePropetry) propPropetry;
-        mPlayer = player;
+        this.playerMediator = playerMediator;
+
         currentStackSize = 1;
     }
 
@@ -95,16 +94,16 @@ public class Consume implements IProp, IStackable {
 
     @Override
     public void use() {
-        Propetry propetry = mPlayer.getPropetry();
+        Propetry propetry = playerMediator.getPlayerPropetry();
         int add = propetry.getBloodVolume() + consumePropetry.getBloodVolume();
-        if (add > mPlayer.getBloodTotalVolume()) {
-            add = mPlayer.getBloodTotalVolume();
+        if (add > playerMediator.getPlayerBloodTotalVolume()) {
+            add = playerMediator.getPlayerBloodTotalVolume();
         }
         propetry.setBloodVolume(add);
 
         add = propetry.getMagicVolume() + consumePropetry.getMagicVolume();
-        if (add > mPlayer.getMagicTotalVolume()) {
-            add = mPlayer.getMagicTotalVolume();
+        if (add > playerMediator.getPlayerMagicTotalVolume()) {
+            add = playerMediator.getPlayerMagicTotalVolume();
         }
         propetry.setMagicVolume(add);
         reduceStack(1);
@@ -112,7 +111,7 @@ public class Consume implements IProp, IStackable {
         IStackable iStackable = (IStackable) this;
         if (iStackable.getCurrentStackSize() == 0) {
             ///使用完了
-            InventoryView.getInstance().removeProp(this);
+            playerMediator.removeProp(this);
         }
     }
 

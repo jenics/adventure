@@ -2,25 +2,22 @@ package com.cb.adventures.data;
 
 import android.content.res.AssetManager;
 import android.util.Xml;
-
 import com.cb.adventures.application.AdventureApplication;
 import com.cb.adventures.constants.GameConstants;
-import com.cb.adventures.prop.Consume;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
  * Created by jenics on 2015/10/25.
+ * 游戏数据
  */
 public class GameData {
+    private boolean isInit;
     public interface OnLoadDataListener {
         void onLoadFinish(LoadStepEnum step);
         void onLoadFailed(LoadStepEnum step);
@@ -50,6 +47,7 @@ public class GameData {
     private ArrayList<ExpTable> mExpTableArray;
 
     private GameData() {
+        isInit = false;
         if (mAnimationMap == null) {
             mAnimationMap = new HashMap<>();
         }
@@ -73,6 +71,10 @@ public class GameData {
 
     public void asyParsAll(final OnLoadDataListener listener) {
         mLoadDataListener = listener;
+        if (isInit) {
+            mLoadDataListener.onLoadFinish(LoadStepEnum.STEP_END);
+            return;
+        }
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -93,6 +95,7 @@ public class GameData {
 
                 ///全部载入完成回调此枚举
                 mLoadDataListener.onLoadFinish(LoadStepEnum.STEP_END);
+                isInit = true;
             }
         });
         thread.start();
@@ -212,10 +215,6 @@ public class GameData {
         }
     }
 
-    public void asyParseConsumes() {
-
-    }
-
     public void synParseEquips() {
         try {
             parser = Xml.newPullParser();
@@ -281,10 +280,6 @@ public class GameData {
         } catch (XmlPullParserException | IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void asyParseEquips() {
-
     }
 
     public void synParseAnimations() {
@@ -371,9 +366,6 @@ public class GameData {
         }
     }
 
-    public void asyParseAnimations() {
-
-    }
 
     public void synParseSkills() {
         try {
@@ -441,10 +433,6 @@ public class GameData {
         }
     }
 
-    public void asyParseSkills() {
-
-    }
-
     public void sysParseExp() {
         try {
             parser = Xml.newPullParser();
@@ -486,10 +474,6 @@ public class GameData {
         }
     }
 
-    public void asyParseExp() {
-
-    }
-
     public void synParseMonsters() {
         try {
             parser = Xml.newPullParser();
@@ -504,7 +488,6 @@ public class GameData {
 
             final int LEFT_FRAME = 0;
             final int RIGHT_FRAME = 1;
-            final int ATTACK_FRAME = 2;
             int frameIndicater = LEFT_FRAME;     ///frame指示器
 
             int eventType = parser.getEventType();
@@ -581,7 +564,7 @@ public class GameData {
                         } else if ("frame".equals(nodeName)) {
                             if (frameIndicater == LEFT_FRAME) {
                                 monsterPropetry.getLeftFrames().add(frame);
-                            } else if (frameIndicater == RIGHT_FRAME) {
+                            } else {
                                 monsterPropetry.getRightFrames().add(frame);
                             }
                         } else if ("dropItem".equals(nodeName)) {
@@ -597,10 +580,6 @@ public class GameData {
         } catch (XmlPullParserException | IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void asyParseMonsters() {
-
     }
 
     public void synParseMaps() {
@@ -663,9 +642,4 @@ public class GameData {
             e.printStackTrace();
         }
     }
-
-    public void asyParseMaps() {
-
-    }
-
 }

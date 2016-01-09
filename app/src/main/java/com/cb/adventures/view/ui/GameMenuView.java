@@ -66,7 +66,7 @@ public class GameMenuView extends BaseView implements IControl {
         return listener;
     }
 
-    public void setListener(OnMenuItemClickListener listener) {
+    public void setMenuListener(OnMenuItemClickListener listener) {
         this.listener = listener;
     }
 

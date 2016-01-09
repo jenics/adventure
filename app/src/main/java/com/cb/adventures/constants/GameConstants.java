@@ -115,8 +115,9 @@ public class GameConstants {
     public static final int SKILL_TYPE_ACTIVE_ATTACK = 0;    ///主动攻击类技能
     public static final int SKILL_TYPE_PASSIVE = 1;          ///被动技能
     public static final int SKILL_TYPE_BUFF = 2;             ///BUFF技能
-    public static final int SKILL_TYPE_DEBUFF = 2;           ///DEBUFF技能
+
     public static final int SKILL_TYPE_ANIMATION = 3;       ///不产生任何作用，仅仅是动画
+    public static final int SKILL_TYPE_DEBUFF = 4;           ///DEBUFF技能
 
     /**
      * 技能作用目标

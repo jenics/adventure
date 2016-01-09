@@ -8,13 +8,11 @@ import com.cb.adventures.animation.FrameAnimation;
 import com.cb.adventures.animation.InjuredValueAnimation;
 import com.cb.adventures.animation.ScrollAnimation;
 import com.cb.adventures.constants.GameConstants;
-import com.cb.adventures.data.EquipmentPropetry;
 import com.cb.adventures.data.GameData;
 import com.cb.adventures.data.IPropetry;
 import com.cb.adventures.data.Propetry;
 import com.cb.adventures.factory.SkillFactory;
-import com.cb.adventures.prop.Equipment;
-import com.cb.adventures.prop.IEquipment;
+import com.cb.adventures.music.MusicManager;
 import com.cb.adventures.skill.Skill;
 import com.cb.adventures.state.BaseState;
 import com.cb.adventures.state.IStateMgr;
@@ -22,7 +20,6 @@ import com.cb.adventures.state.playerstate.AttackState;
 import com.cb.adventures.state.playerstate.MoveState;
 import com.cb.adventures.state.playerstate.PlayerBaseState;
 import com.cb.adventures.state.playerstate.StopState;
-import com.cb.adventures.view.ui.EquipmentBar;
 
 import java.util.HashMap;
 
@@ -31,8 +28,7 @@ import java.util.HashMap;
  */
 public class Player extends BaseView implements IStateMgr, AttackState.OnAttackListener, Skill.OnSkillAnimationListener, IHurtable ,IPropetry{
     private Propetry mPropetry;
-    private static Player mInstance;
-
+    private PlayerMediator mPlayerMediator;
     /**
      * 当前经验
      */
@@ -41,14 +37,6 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
      * 升级所需经验
      */
     private long levelupExp;
-
-    public static synchronized Player getInstance() {
-        if (mInstance == null) {
-            mInstance = new Player();
-        }
-        return mInstance;
-    }
-
     protected PlayerBaseState curState;
     protected HashMap<Integer, PlayerBaseState> stateHashMap;
     protected int frameCount;               ///一个方向的帧总数
@@ -73,16 +61,20 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     private HashMap<Integer, Skill> bufferMap;
     private Bitmap accackBmp;
 
-    private Player() {
+    public Player(PlayerMediator playerMediator) {
         isNeedRepeatAttack = false;
+        mPlayerMediator = playerMediator;
         stateHashMap = new HashMap<>();
         bufferMap = new HashMap<>();
         mPropetry = new Propetry();
     }
 
+
+
     public void setRank(int rank) {
         caclBasePropetry(rank);
     }
+
 
     /**
      * 根据等级计算出基础属性
@@ -143,14 +135,13 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     public void onLevelUp() {
         mPropetry.setRank(mPropetry.getRank() + 1);
         caclBasePropetry(mPropetry.getRank());
-//        Skill skill = new SkillFactory().create(GameConstants.SKILL_ID_LEVEL_UP);
-//        skill.setAttachView(this);
-//        skill.startSkill();
+
         FrameAnimation frameAnimation = new FrameAnimation();
         frameAnimation.setAnimationPropetry(GameData.getInstance().getAnimationPropetry(GameConstants.SKILL_ID_LEVEL_UP));
         frameAnimation.setAttachView(this);
         frameAnimation.startAnimation();
 
+        MusicManager.getInstance().playSound(MusicManager.STATEC_SOUND_TYPE_LEVELUP, 1);
     }
 
     /**
@@ -158,12 +149,12 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
      *
      * @param skillId 技能ID
      */
-    public void attack(int skillId) {
+    public boolean attack(int skillId) {
         if (GameConstants.isAttack(curState.getStateId())) {
             /**
              * 攻击状态不要在次攻击
              */
-            return;
+            return false;
         }
         Skill skill = new SkillFactory().create(skillId);
         skill.setCast(GameConstants.CAST_PLAYER);
@@ -171,7 +162,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
             /**
              * 蓝不够
              */
-            return;
+            return false;
         }
 
         if (skill.getSkillPropetry().getSkillType() == GameConstants.SKILL_TYPE_BUFF
@@ -211,14 +202,15 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
         scrollAnimation.setStrTitle(skill.getSkillPropetry().getName());
         scrollAnimation.startAnimation();
 
-        Map.getInstance().stopScroll();
+        mPlayerMediator.stopScroll();
+        return true;
     }
 
     /**
      * 是否成功移动
      *
      * @param direction 方向
-     * @return
+     * @return true可以移动
      */
     public boolean move(int direction) {
         if (GameConstants.isAttack(curState.getStateId())) {
@@ -251,7 +243,6 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
             /**
              * 正在攻击中，不允许变化，攻击结束，自己会changestate到stop态
              */
-            return;
         } else {
             changeState(GameConstants.getDirection(curState.getStateId()) == 0 ?
                     GameConstants.STATE_STOP_LEFT : GameConstants.STATE_STOP_RIGHT);
@@ -356,15 +347,6 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
 
     }
 
-    /**
-     * 使用消耗品
-     *
-     * @param consumId 消耗品ID
-     */
-    public void use(int consumId) {
-        ///增加物品增益效果
-    }
-
     @Override
     public void onSkillBegin(Skill skill) {
 
@@ -386,7 +368,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
                 ///设置属性之类的。
                 ///mPropetry.setDefensivePower(0);
             }
-            bufferMap.remove(skill);
+            bufferMap.remove(skill.getSkillPropetry().getSkillId());
         }
     }
 
@@ -427,12 +409,12 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
 
     @Override
     public int getAttackPower() {
-        return mPropetry.getAttackPower() + EquipmentBar.getInstance().getAttackPower();
+        return mPropetry.getAttackPower() + mPlayerMediator.getEquipAttackPower();
     }
 
     @Override
     public int getDefensivePower() {
-        return mPropetry.getDefensivePower() + EquipmentBar.getInstance().getDefensivePower();
+        return mPropetry.getDefensivePower() + mPlayerMediator.getEquipDefensivePower();
     }
 
     @Override
@@ -442,26 +424,26 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
 
     @Override
     public int getMagicTotalVolume() {
-        return mPropetry.getMagicTotalVolume() + EquipmentBar.getInstance().getMagicTotalVolume();
+        return mPropetry.getMagicTotalVolume() + mPlayerMediator.getEquipMagicTotalVolume();
     }
 
     @Override
     public int getBloodTotalVolume() {
-        return mPropetry.getBloodTotalVolume() + EquipmentBar.getInstance().getBloodTotalVolume();
+        return mPropetry.getBloodTotalVolume() + mPlayerMediator.getEquipBloodTotalVolume();
     }
 
     @Override
     public float getSpeed() {
-        return mPropetry.getSpeed() + EquipmentBar.getInstance().getSpeed();
+        return mPropetry.getSpeed() + mPlayerMediator.getEquipSpeed();
     }
 
     @Override
     public float getCriticalRate() {
-        return mPropetry.getCriticalRate() + EquipmentBar.getInstance().getCriticalRate();
+        return mPropetry.getCriticalRate() + mPlayerMediator.getEquipCriticalRate();
     }
 
     @Override
     public float getCriticalDamage() {
-        return mPropetry.getCriticalDamage() + EquipmentBar.getInstance().getCriticalDamage();
+        return mPropetry.getCriticalDamage() + mPlayerMediator.getEquipCriticalDamage();
     }
 }

@@ -1,7 +1,5 @@
 package com.cb.adventures.engine;
 
-import android.content.Context;
-
 /**
  * Created by jenics on 2015/12/27.
  */
@@ -26,13 +24,5 @@ public interface IEngine {
      */
     void resumeGame();
 
-    /**
-     * 初始化
-     */
-    void init();
 
-    /**
-     * 反初始化
-     */
-    void unInit();
 }

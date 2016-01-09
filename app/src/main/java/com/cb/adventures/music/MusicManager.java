@@ -17,8 +17,6 @@ import java.util.HashMap;
  */
 public class MusicManager {
     private static final String TAG = "MusicManager";
-    private final static boolean IS_DEBUG = false;
-
     private boolean mOpenBgSound = true;
     private boolean mOpenEffectSound = true;
 
@@ -31,14 +29,18 @@ public class MusicManager {
             R.raw.backgroundmusic,
     };
 
+
+
+    private static int[] soundListID = {
+            R.raw.attack1,
+            R.raw.level_up
+    };
     /**
      * 添加特效音乐
      */
     public static final int STATIC_SOUND_TYPE_ATTACK = 0;
-    public static final int STATIC_SOUND_TYPE_COUNT = STATIC_SOUND_TYPE_ATTACK + 1;
-    private int[] soundListID = {
-            R.raw.attack1
-    };
+    public static final int STATEC_SOUND_TYPE_LEVELUP = 1;
+    public static final int STATIC_SOUND_TYPE_COUNT = soundListID.length;
 
     private final int maxStreams = 10; //streamType音频池的最大音频流数目为10    
     private final int srcQuality = 100;
@@ -54,10 +56,12 @@ public class MusicManager {
     private Context mContext;
 
     private MusicManager() {
-        if (IS_DEBUG) {
-            CLog.e(TAG, "MusicManager");
-        }
+        CLog.e(TAG, "MusicManager");
         mContext = AdventureApplication.getContextObj();
+
+    }
+
+    public void init() {
         initMediaPlayer();
         initSoundPool();
     }
@@ -91,9 +95,7 @@ public class MusicManager {
     }
 
     private void initMediaPlayer() {
-        if (IS_DEBUG) {
-            CLog.e(TAG, "initMediaPlayer");
-        }
+        CLog.e(TAG, "initMediaPlayer");
         mMdiaMap = new HashMap<Integer, MediaPlayer>();
         for (int i = 0; i < STATIC_MEDIA_TYPE_COUNT; i++) {
             MediaPlayer mediaPlayer = MediaPlayer.create(mContext, mediaListID[i]);
@@ -102,9 +104,7 @@ public class MusicManager {
     }
 
     private void initSoundPool() {
-        if (IS_DEBUG) {
-            CLog.e(TAG, "initSoundPool");
-        }
+        CLog.e(TAG, "initSoundPool");
         mSoundPool = new SoundPool(maxStreams, AudioManager.STREAM_MUSIC, srcQuality);
         mSoundPoolMap = new HashMap<Integer, Integer>();
         for (int i = 0; i < STATIC_SOUND_TYPE_COUNT; i++) {
@@ -113,9 +113,7 @@ public class MusicManager {
     }
 
     public void playMedia(int mediaType) {
-        if (IS_DEBUG) {
-            CLog.e(TAG, "playMedia:" + mOpenBgSound);
-        }
+        CLog.e(TAG, "playMedia:" + mOpenBgSound);
         if (!mOpenBgSound) {
             return;
         }
@@ -127,9 +125,9 @@ public class MusicManager {
     }
 
     public void pauseMedia(int mediaType) {
-        if (IS_DEBUG) {
-            CLog.e(TAG, "pauseMedia");
-        }
+
+        CLog.e(TAG, "pauseMedia");
+
         MediaPlayer mediaPlayer = mMdiaMap.get(mediaType);
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
@@ -137,9 +135,7 @@ public class MusicManager {
     }
 
     public void playSound(int soundID, int loop) {
-        if (IS_DEBUG) {
-            CLog.e(TAG, "playSound:" + mOpenEffectSound);
-        }
+        CLog.e(TAG, "playSound:" + mOpenEffectSound);
         if (!mOpenEffectSound) {
             return;
         }
@@ -155,9 +151,7 @@ public class MusicManager {
     }
 
     public void release() {
-        if (IS_DEBUG) {
-            CLog.e(TAG, "release");
-        }
+        CLog.e(TAG, "release");
         for (int i = 0; i < mMdiaMap.size(); i++) {
             MediaPlayer mp = mMdiaMap.get(i);
             mp.reset();

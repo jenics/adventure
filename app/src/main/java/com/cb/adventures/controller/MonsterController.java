@@ -4,28 +4,32 @@ import android.graphics.Canvas;
 import android.graphics.PointF;
 
 import com.cb.adventures.constants.GameConstants;
-import com.cb.adventures.engine.Engine;
+import com.cb.adventures.data.MapPropetry;
 import com.cb.adventures.factory.IFactory;
+import com.cb.adventures.factory.SimpleMonsterFactory;
 import com.cb.adventures.utils.Randomer;
 import com.cb.adventures.view.BaseView;
 import com.cb.adventures.view.IView;
 import com.cb.adventures.view.Map;
 import com.cb.adventures.view.Sprite;
 import java.util.LinkedList;
-import java.util.Random;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Created by jenics on 2015/10/21.
  */
-public class MonsterController implements Sprite.OnSpriteListener ,Map.MapScrollObserver{
-
-    private static MonsterController mInstance;
+public class MonsterController implements Sprite.OnSpriteListener ,Map.MapObserver{
     private LinkedList<Sprite> mMonters;
     private IFactory mMonsterFactory;
     private final ReentrantReadWriteLock mReentrantReadWriteLock = new ReentrantReadWriteLock();
     public LinkedList<Sprite> getMonters() {
         return mMonters;
+    }
+    private Sprite.OnDeadListener mDeadListener;
+
+
+    public void setDeadListener(Sprite.OnDeadListener mDeadListener) {
+        this.mDeadListener = mDeadListener;
     }
 
     public void setMonsterFactory(IFactory monsterFactory) {
@@ -37,18 +41,12 @@ public class MonsterController implements Sprite.OnSpriteListener ,Map.MapScroll
     }
 
 
-    private MonsterController() {
+    public MonsterController() {
         if(mMonters == null) {
             mMonters = new LinkedList<>();
         }
     }
 
-    public static synchronized MonsterController getInstance() {
-        if(mInstance == null){
-            mInstance = new MonsterController();
-        }
-        return mInstance;
-    }
 
     /**
      * 产生怪物
@@ -63,7 +61,7 @@ public class MonsterController implements Sprite.OnSpriteListener ,Map.MapScroll
         for(int i=0; i<num; i++) {
             Sprite sprite = (Sprite) mMonsterFactory.create(monsterId);
             sprite.caclBasePropetry(rank);
-            sprite.setDeadListener(Engine.getInstance());
+            sprite.setDeadListener(mDeadListener);
             if(sprite != null) {
                 sprite.setSpriteListener(this);
                 sprite.setPt(Randomer.getInstance().getRandom(GameConstants.sRightBoundary), GameConstants.sGameHeight*GameConstants.sYpointRatio);
@@ -147,5 +145,18 @@ public class MonsterController implements Sprite.OnSpriteListener ,Map.MapScroll
             }
         }
         mReentrantReadWriteLock.readLock().unlock();
+    }
+
+    @Override
+    public void onNewGate(MapPropetry mapPropetry) {
+        /**
+         * 生成怪物
+         */
+        clearMonster();
+        setMonsterFactory(new SimpleMonsterFactory());
+
+        for (MapPropetry.MonsterPack pack : mapPropetry.getMonsterPaks()) {
+            generateMonster(pack.getMonsterId(), pack.getMonsterRank(), pack.getMonsterNum());
+        }
     }
 }

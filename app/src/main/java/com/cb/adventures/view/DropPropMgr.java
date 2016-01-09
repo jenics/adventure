@@ -8,6 +8,7 @@ import com.cb.adventures.animation.IAnimation;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.DropItem;
 import com.cb.adventures.data.GameData;
+import com.cb.adventures.data.MapPropetry;
 import com.cb.adventures.factory.IFactory;
 import com.cb.adventures.utils.Randomer;
 import com.cb.adventures.view.ui.InventoryView;
@@ -20,19 +21,17 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * email : jenics@live.com
  * 掉落物品管理器
  */
-public class DropPropMgr implements IDrawable ,IFactory ,Map.MapScrollObserver , IAnimation.OnAniamtionListener{
+public class DropPropMgr implements IDrawable ,IFactory ,Map.MapObserver, IAnimation.OnAniamtionListener{
     private LinkedList<PropView> propViews;
-    private static DropPropMgr mInstance;
-    private final ReentrantReadWriteLock mReentrantReadWriteLock = new ReentrantReadWriteLock();
 
-    public static synchronized DropPropMgr getInstance() {
-        if (mInstance == null) {
-            mInstance = new DropPropMgr();
-        }
-        return mInstance;
-    }
-    private DropPropMgr() {
+    private final ReentrantReadWriteLock mReentrantReadWriteLock = new ReentrantReadWriteLock();
+    private InventoryView inventoryView;
+
+
+
+    public DropPropMgr(InventoryView inventoryView) {
         propViews = new LinkedList<>();
+        this.inventoryView = inventoryView;
     }
 
     private PropView.PickUpPropListener mListener;
@@ -128,8 +127,8 @@ public class DropPropMgr implements IDrawable ,IFactory ,Map.MapScrollObserver ,
         mReentrantReadWriteLock.readLock().lock();
         for (PropView propView : propViews) {
             if (pt.x >= propView.getPt().x- propView.getWidth()*1.0f/2 && pt.x <= propView.getPt().x+ propView.getWidth()*1.0f/2 ) {
-                if (propView.canPickedUp() && InventoryView.getInstance().canPickUp(propView.getProp())) {
-                    setPickUpPropListener(InventoryView.getInstance());
+                if (propView.canPickedUp() && inventoryView.canPickUp(propView.getProp())) {
+                    setPickUpPropListener(inventoryView);
                     propView.pickUp(pt, this);
                 }
             }
@@ -171,5 +170,10 @@ public class DropPropMgr implements IDrawable ,IFactory ,Map.MapScrollObserver ,
     @Override
     public void onAnimationBegin() {
 
+    }
+
+    @Override
+    public void onNewGate(MapPropetry mapPropetry) {
+        clearProps();
     }
 }

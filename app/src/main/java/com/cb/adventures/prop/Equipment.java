@@ -5,9 +5,7 @@ import android.widget.Toast;
 import com.cb.adventures.application.AdventureApplication;
 import com.cb.adventures.data.EquipmentPropetry;
 import com.cb.adventures.data.PropPropetry;
-import com.cb.adventures.view.Player;
-import com.cb.adventures.view.ui.EquipmentBar;
-import com.cb.adventures.view.ui.InventoryView;
+import com.cb.adventures.view.PlayerMediator;
 
 /**
  * 装备
@@ -15,11 +13,13 @@ import com.cb.adventures.view.ui.InventoryView;
  */
 public class Equipment implements IEquipment {
     private EquipmentPropetry equipmentPropetry;
-    private Player mPlayer;
+    private PlayerMediator playerMediator;
+    //private Player mPlayer;
 
-    public Equipment(Player player, PropPropetry propetry) {
+    public Equipment( PlayerMediator playerMediator, PropPropetry propetry) {
         equipmentPropetry = (EquipmentPropetry) propetry;
-        mPlayer = player;
+        this.playerMediator = playerMediator;
+        //mPlayer = player;
     }
 
     public EquipmentPropetry getEquipmentPropetry() {
@@ -57,11 +57,11 @@ public class Equipment implements IEquipment {
 
     @Override
     public void equip() {
-        if (mPlayer.getRank() >= getRank()) {
-            IEquipment iEquipment = EquipmentBar.getInstance().equipment(this);
-            int index = InventoryView.getInstance().removeProp(this);
+        if (playerMediator.getPlayerRank() >= getRank()) {
+            IEquipment iEquipment = playerMediator.equipment(this);
+            int index = playerMediator.removeProp(this);
             if (iEquipment != null) {
-                InventoryView.getInstance().addProp(index, iEquipment);
+                playerMediator.addProp(index, iEquipment);
             }
         } else {
             Toast.makeText(AdventureApplication.getContextObj(), "装备等级过高", Toast.LENGTH_SHORT).show();
@@ -70,7 +70,7 @@ public class Equipment implements IEquipment {
 
     @Override
     public void unEquip() {
-        EquipmentBar.getInstance().unEquipment(this);
+        playerMediator.unEquipment(this);
     }
 
     @Override

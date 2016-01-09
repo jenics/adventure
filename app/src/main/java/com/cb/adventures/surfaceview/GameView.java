@@ -5,24 +5,25 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
 import com.cb.adventures.animation.IAnimation;
 import com.cb.adventures.animation.AnimationControl;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.controller.MonsterController;
 import com.cb.adventures.data.GameData;
+import com.cb.adventures.engine.GameEngine;
 import com.cb.adventures.factory.SkillFactory;
-import com.cb.adventures.prop.Equipment;
 import com.cb.adventures.prop.IUsable;
+import com.cb.adventures.view.PlayerMediator;
 import com.cb.adventures.skill.Skill;
 import com.cb.adventures.skill.SkillLancher;
 import com.cb.adventures.utils.CLog;
@@ -37,25 +38,49 @@ import com.cb.adventures.view.ui.InventoryView;
 import com.cb.adventures.view.Player;
 import com.cb.adventures.view.Map;
 import com.cb.adventures.view.Sprite;
+
 import java.lang.ref.WeakReference;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * 游戏主view
  * Created by jenics on 2015/10/7.
+ * 这个view的生命周期与他以来的activity一样长，写进xml里的
  */
-public class GameView extends SurfaceView implements SurfaceHolder.Callback, Runnable, GameController.OnControllerListener, GameMenuView.OnMenuItemClickListener, GameData.OnLoadDataListener {
+public class GameView extends SurfaceView implements SurfaceHolder.Callback, Runnable, GameController.OnControllerListener, GameMenuView.OnMenuItemClickListener, GameData.OnLoadDataListener, Sprite.OnDeadListener {
     private boolean mIsRunning;
+    private boolean mIsLoadFinish;
     private Thread mDrawThread;
     private Thread mWorkThread;
-    private SurfaceHolder mSurfaceHolder;
-    private Paint mPaint;
-    private GameController mGameController;
-    private boolean mIsLoadFinish;
-    private Bitmap mBitmapLoading;
 
+    private SurfaceHolder mSurfaceHolder;
+
+    private GameHandler mGameHandler;
+
+    private GameController mGameController;
+    private GameMenuView gameMenuView;
+    private BloodReservoir bloodReservoir;
+    private EquipmentBar mEquipmentBar;
+    private InventoryView mInventoryView;
+    private Map mMap;
+
+    private DropPropMgr mDropPropMgr;
+    private MonsterController mMonsterController;
+
+    private Bitmap mBitmapLoading;
+    private Player mPlayer;
+    public static final String TAG = "GameView";
     public static final int LOAD_FINISH = 1;
 
+
+    @Override
+    public void onDead(Sprite sprite) {
+        /**
+         * 查询掉落列表，根据掉率随机掉出
+         */
+        mDropPropMgr.drop(sprite.getMonsterPropetry().getDropItems(), sprite.getPt());
+        mPlayer.addExp(sprite.getMonsterPropetry().getExp());
+    }
 
     static class GameHandler<GameView> extends WeakRefHandler<GameView> {
         public GameHandler(GameView t) {
@@ -78,139 +103,193 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         }
     }
 
-    private GameHandler mGameHandler;
-    private GameMenuView gameMenuView;
-    private BloodReservoir bloodReservoir;
-
     public GameView(Context context) {
         super(context);
-        init();
+        initSurfaceHolder();
     }
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        initSurfaceHolder();
     }
 
     public GameView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init();
+        initSurfaceHolder();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public GameView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init();
+        initSurfaceHolder();
     }
 
-    private void init() {
-        mIsRunning = false;
-        mIsLoadFinish = false;
+    private void initSurfaceHolder() {
         mSurfaceHolder = getHolder();
         mSurfaceHolder.addCallback(this);
-        if (mGameHandler == null) {
-            mGameHandler = new GameHandler(this);
-        }
-
-        mBitmapLoading = ImageLoader.getInstance().loadBitmap(GameConstants.LOADING_NAME);
-
-        if (mPaint == null)
-            mPaint = new Paint();
-        mPaint.setAntiAlias(true);  ///抗锯齿
-        Typeface font = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD);
-        mPaint.setTypeface(font);
     }
 
-    /**
-     * @param holder
-     */
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Configuration mConfiguration = this.getResources().getConfiguration(); //获取设置的配置信息
         int ori = mConfiguration.orientation; //获取屏幕方向
-        if (ori == mConfiguration.ORIENTATION_LANDSCAPE) {
-            GameConstants.sLeftBoundary = 0;
-            GameConstants.sRightBoundary = getWidth();
-            GameConstants.sGameWidth = getWidth();
-            GameConstants.sGameHeight = getHeight();
-            GameConstants.zoomRatio = getWidth() * 0.15f / 105.0f;
-
-            GameData.getInstance().asyParsAll(this);
-
-            ///开启绘图线程
-            mIsRunning = true;
-            mDrawThread = new Thread(this);
-            mDrawThread.start();
+        if (ori == Configuration.ORIENTATION_LANDSCAPE) {
+            init();
+            GameEngine.getInstance().resumeGame();
         }
     }
 
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        Log.d(TAG, "surfaceChanged");
+        GameConstants.sLeftBoundary = 0;
+        GameConstants.sRightBoundary = getWidth();
+        GameConstants.sGameWidth = getWidth();
+        GameConstants.sGameHeight = getHeight();
+        GameConstants.zoomRatio = getWidth() * 0.15f / 105.0f;
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        uninit();
+        GameEngine.getInstance().pauseGame();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        GameEngine.getInstance().exitGame();
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        GameEngine.getInstance().startGame();
+    }
+
+    /**
+     * 初始化surface view
+     */
+    private void init() {
+        mIsLoadFinish = false;
+
+        if (mGameHandler == null) {
+            mGameHandler = new GameHandler(this);
+        }
+        mBitmapLoading = ImageLoader.getInstance().loadBitmap(GameConstants.LOADING_NAME);
+
+        GameData.getInstance().asyParsAll(this);
+
+        ///开启绘图线程
+        mIsRunning = true;
+        mDrawThread = new Thread(this);
+        mDrawThread.start();
+    }
+
+    /**
+     * 反初始化surface view
+     */
+    private void uninit() {
+        mIsRunning = false;
+        Log.d(TAG,"uninit");
+        try {
+            if (mDrawThread != null) {
+                mDrawThread.join();
+            }
+            if (mWorkThread != null) {
+                mWorkThread.join();
+            }
+        } catch (InterruptedException e) {
+            Log.e(TAG, e.toString());
+        }
+
+        mDropPropMgr.clearProps();
+    }
+
     private void initGameData() {
-        Player player = Player.getInstance();
-        Bitmap bitmap = ImageLoader.getInstance().loadBitmap(GameConstants.PLAYER1_NAME);
-        Bitmap attackBitmap = ImageLoader.getInstance().loadBitmap(GameConstants.PLAYER1_ATTACK_NAME);
-        player.init(bitmap, 9, 946 / 9, 420 / 4, 1, 2,
-                attackBitmap, 1151 / 6, 103, 6);
-        ///数据库中读取等级，得到对应的基础属性
-        player.setRank(1);
-        InventoryView.getInstance().setPlayer(player);
+        PlayerMediator playerMediator = new PlayerMediator();
+        if (mPlayer == null) {
+            mPlayer = new Player(playerMediator);
+            mPlayer.init(ImageLoader.getInstance().loadBitmap(GameConstants.PLAYER1_NAME),
+                    9, 946 / 9, 420 / 4, 1, 2,
+                    ImageLoader.getInstance().loadBitmap(GameConstants.PLAYER1_ATTACK_NAME),
+                    1151 / 6, 103, 6);
+            ///数据库中读取等级，得到对应的基础属性
+            mPlayer.setRank(5);
+        }
+        if (mInventoryView == null) {
+            mInventoryView = new InventoryView(playerMediator);
+            mInventoryView.init();
+            mInventoryView.setIsVisiable(false);
+        }
+
+        if (mEquipmentBar == null) {
+            mEquipmentBar = new EquipmentBar(playerMediator);
+            mEquipmentBar.init();
+            mEquipmentBar.setIsVisiable(false);
+        }
+
+        /**
+         * 载入关卡数据
+         */
+        if (mMap == null) {
+            mMap = new Map(playerMediator);
+            mMap.init();
+
+        }
+
+        playerMediator.setEquipmentBar(mEquipmentBar);
+        playerMediator.setInventoryView(mInventoryView);
+        playerMediator.setPlayer(mPlayer);
+        playerMediator.setMap(mMap);
+
+
+        if (mMonsterController == null) {
+            mMonsterController = new MonsterController();
+            mMonsterController.setDeadListener(this);
+        }
+
 
         if (mGameController == null) {
             mGameController = new GameController();
             mGameController.init();
             mGameController.setOnControllerListener(this);
 
-            mGameController.getFunctionController(0).setUseable(new SkillLancher(player, GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_BINGHJIAN)));
-            mGameController.getFunctionController(1).setUseable(new SkillLancher(player, GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_BUFF_1)));
-            mGameController.getFunctionController(2).setUseable(new SkillLancher(player, GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_HUOJIAN)));
-            mGameController.getFunctionController(3).setUseable(new SkillLancher(player, GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_RENDAOFEIBIAO)));
+            mGameController.getFunctionController(0).setUseable(new SkillLancher(mPlayer, GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_BINGHJIAN)));
+            mGameController.getFunctionController(1).setUseable(new SkillLancher(mPlayer, GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_BUFF_1)));
+            mGameController.getFunctionController(2).setUseable(new SkillLancher(mPlayer, GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_HUOJIAN)));
+            mGameController.getFunctionController(3).setUseable(new SkillLancher(mPlayer, GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_RENDAOFEIBIAO)));
         }
 
 
         if (bloodReservoir == null) {
-            bloodReservoir = new BloodReservoir();
-            bloodReservoir.init(player);
+            bloodReservoir = new BloodReservoir(mPlayer);
+            bloodReservoir.init();
         }
 
-
-        InventoryView.getInstance().init();
-        InventoryView.getInstance().setIsVisiable(false);
-
-        EquipmentBar.getInstance().init(player);
-        EquipmentBar.getInstance().setIsVisiable(false);
-
+        if (mDropPropMgr == null) {
+            mDropPropMgr = new DropPropMgr(mInventoryView);
+        }
 
         if (gameMenuView == null) {
             gameMenuView = new GameMenuView();
             gameMenuView.init();
-            gameMenuView.setIsVisiable(true);
-            gameMenuView.setListener(this);
+            gameMenuView.setMenuListener(this);
         }
 
-        /**
-         * 载入关卡数据
-         */
-        Map.getInstance().init(2, getWidth(), getHeight(), player);
+
         /**
          * 加入观察者到map类中
          */
-        Map.getInstance().addObserver(DropPropMgr.getInstance());
-        Map.getInstance().addObserver(MonsterController.getInstance());
-
+        mMap.addObserver(mDropPropMgr);
+        mMap.addObserver(mMonsterController);
+        mMap.nextGate(2);
 
         ///开启工作线程
         mWorkThread = new Thread(new WorkRunnable(this));
         mWorkThread.start();
     }
 
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-    }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-
-    }
 
     @Override
     public void run() {
@@ -247,8 +326,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
 
     private void logicAnimate() {
         AnimationControl.getInstance().animate();
-        MonsterController.getInstance().animate();
-        Map.getInstance().scroll();
+        mMonsterController.animate();
+        mMap.scroll();
     }
 
     /**
@@ -281,9 +360,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                          * 遍历怪物，看击中了哪个怪物
                          * 怪物顺便与玩家做碰撞测试，看是否撞到了玩家
                          */
-                        ReentrantReadWriteLock monsterLock = MonsterController.getInstance().getReentrantReadWriteLock();
+                        ReentrantReadWriteLock monsterLock = mMonsterController.getReentrantReadWriteLock();
                         monsterLock.readLock().lock();
-                        for (Sprite sprite : MonsterController.getInstance().getMonters()) {
+                        for (Sprite sprite : mMonsterController.getMonters()) {
                             if (judgeIntersect(
                                     new RectF(skill.getPt().x - skill.getWidth() / 2,
                                             skill.getPt().y - skill.getHeight() / 2,
@@ -317,22 +396,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         /**
          * 玩家与怪物的碰撞检测
          */
-        ReentrantReadWriteLock reentrantReadWriteLock = MonsterController.getInstance().getReentrantReadWriteLock();
+        ReentrantReadWriteLock reentrantReadWriteLock = mMonsterController.getReentrantReadWriteLock();
         reentrantReadWriteLock.readLock().lock();
-        for (Sprite sprite : MonsterController.getInstance().getMonters()) {
-            Player player = Player.getInstance();
+        for (Sprite sprite : mMonsterController.getMonters()) {
+
             if (judgeIntersect(
-                    new RectF(player.getPt().x - player.getWidth() / 2,
-                            player.getPt().y - player.getHeight() / 2,
-                            player.getPt().x + player.getWidth() / 2,
-                            player.getPt().y + player.getHeight() / 2),
+                    new RectF(mPlayer.getPt().x - mPlayer.getWidth() / 2,
+                            mPlayer.getPt().y - mPlayer.getHeight() / 2,
+                            mPlayer.getPt().x + mPlayer.getWidth() / 2,
+                            mPlayer.getPt().y + mPlayer.getHeight() / 2),
                     new RectF(sprite.getPt().x - sprite.getWidth() / 2,
                             sprite.getPt().y - sprite.getHeight() / 2,
                             sprite.getPt().x + sprite.getWidth() / 2,
                             sprite.getPt().y + sprite.getHeight() / 2)) && !sprite.isDead()) {
                 Skill skill = new SkillFactory().create(GameConstants.SKILL_ID_MONSTER_NORMAL);
                 skill.getSkillPropetry().setExtraAttack(sprite.getMonsterPropetry().getAttackPower());
-                player.onHurted(skill);
+                mPlayer.onHurted(skill);
                 break;
             }
         }
@@ -341,7 +420,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         /**
          * 捡起检测
          */
-        DropPropMgr.getInstance().pickUp(Player.getInstance().getPt());
+        mDropPropMgr.pickUp(mPlayer.getPt());
     }
 
     private boolean judgeIntersect(RectF rect1, RectF rect2) {
@@ -379,16 +458,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     }
 
     private void drawGame(Canvas canvas) {
-        Map.getInstance().draw(canvas);
-        MonsterController.getInstance().draw(canvas);
-        Player.getInstance().draw(canvas);
+        mMap.draw(canvas);
+        mMonsterController.draw(canvas);
+        mPlayer.draw(canvas);
         AnimationControl.getInstance().draw(canvas);
         ///画掉落的物品
-        DropPropMgr.getInstance().draw(canvas);
+        mDropPropMgr.draw(canvas);
         mGameController.draw(canvas);
         bloodReservoir.draw(canvas);
-        InventoryView.getInstance().draw(canvas);
-        EquipmentBar.getInstance().draw(canvas);
+        mInventoryView.draw(canvas);
+        mEquipmentBar.draw(canvas);
         if (gameMenuView.isVisiable()) {
             gameMenuView.draw(canvas);
         }
@@ -410,23 +489,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
              */
             if (gameMenuView.isVisiable()) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (true ==gameMenuView.onMouseUp((int) event.getX(i), (int) event.getY(i)))
+                    if (true == gameMenuView.onMouseUp((int) event.getX(i), (int) event.getY(i)))
                         break;
                 }
             }
-            if (InventoryView.getInstance().isVisiable()) {
+            if (mInventoryView.isVisiable()) {
                 /**
                  * 只要物品栏出现，就接管所有消息。
                  */
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    InventoryView.getInstance().onMouseUp((int) event.getX(i), (int) event.getY(i));
+                    mInventoryView.onMouseUp((int) event.getX(i), (int) event.getY(i));
                 }
-            } else if (EquipmentBar.getInstance().isVisiable()) {
+            } else if (mEquipmentBar.isVisiable()) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    EquipmentBar.getInstance().onMouseUp((int) event.getX(i), (int) event.getY(i));
+                    mEquipmentBar.onMouseUp((int) event.getX(i), (int) event.getY(i));
                 }
-            }
-            else {
+            } else {
                 if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_DOWN ||
                         (event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_POINTER_DOWN) {
                     mGameController.onMouseDown((int) event.getX(i), (int) event.getY(i));
@@ -443,8 +521,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
 
     @Override
     public void onDirectionChange(int direction) {
-        if (Player.getInstance().move(direction)) {
-            Map.getInstance().scrollTo(direction);
+        if (mPlayer.move(direction)) {
+            mMap.scrollTo(direction);
         }
     }
 
@@ -452,23 +530,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     @Override
     public void onAttack() {
         ///判断下是否到了地图入口与出口
-        Map map = Map.getInstance();
-        Player player = Player.getInstance();
-        if (map.getPreGate() != null && player.getPt().x > map.getPreGate().getPt().x - map.getPreGate().getWidth() / 2
-                && player.getPt().x < map.getPreGate().getPt().x + map.getPreGate().getWidth() / 2) {
-            map.preGate();
-        } else if (map.getNextGate() != null && player.getPt().x > map.getNextGate().getPt().x - map.getNextGate().getWidth() / 2
-                && player.getPt().x < map.getNextGate().getPt().x + map.getNextGate().getWidth() / 2) {
-            map.nextGate();
+
+
+        if (mMap.getPreGate() != null && mPlayer.getPt().x > mMap.getPreGate().getPt().x - mMap.getPreGate().getWidth() / 2
+                && mPlayer.getPt().x < mMap.getPreGate().getPt().x + mMap.getPreGate().getWidth() / 2) {
+            mMap.preGate();
+        } else if (mMap.getNextGate() != null && mPlayer.getPt().x > mMap.getNextGate().getPt().x - mMap.getNextGate().getWidth() / 2
+                && mPlayer.getPt().x < mMap.getNextGate().getPt().x + mMap.getNextGate().getWidth() / 2) {
+            mMap.nextGate();
         } else {
-            player.attack(GameConstants.SKILL_ID_NORMAL);
+            mPlayer.attack(GameConstants.SKILL_ID_NORMAL);
         }
     }
 
     @Override
     public void onStop() {
-        Player.getInstance().stop();
-        Map.getInstance().stopScroll();
+        mPlayer.stop();
+        mMap.stopScroll();
     }
 
     @Override
@@ -482,13 +560,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     @Override
     public void onItemClick(int itemIndex) {
         if (itemIndex == GameMenuView.MENU_ITEM_INVENTORY) {
-            boolean isVisiable = InventoryView.getInstance().isVisiable();
-            InventoryView.getInstance().setIsVisiable(!isVisiable);
-            EquipmentBar.getInstance().setIsVisiable(false);
+            boolean isVisiable = mInventoryView.isVisiable();
+            mInventoryView.setIsVisiable(!isVisiable);
+            mEquipmentBar.setIsVisiable(false);
         } else if (itemIndex == GameMenuView.MENU_ITEM_PROPETRY) {
-            boolean isVisiable = EquipmentBar.getInstance().isVisiable();
-            EquipmentBar.getInstance().setIsVisiable(!isVisiable);
-            InventoryView.getInstance().setIsVisiable(false);
+            boolean isVisiable = mEquipmentBar.isVisiable();
+            mEquipmentBar.setIsVisiable(!isVisiable);
+            mInventoryView.setIsVisiable(false);
         }
     }
 

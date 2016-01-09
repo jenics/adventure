@@ -9,10 +9,8 @@ import android.graphics.RectF;
 import com.cb.adventures.animation.FrameAnimation;
 import com.cb.adventures.animation.ScrollAnimation;
 import com.cb.adventures.constants.GameConstants;
-import com.cb.adventures.controller.MonsterController;
 import com.cb.adventures.data.GameData;
 import com.cb.adventures.data.MapPropetry;
-import com.cb.adventures.factory.SimpleMonsterFactory;
 import com.cb.adventures.utils.CLog;
 import com.cb.adventures.utils.ImageLoader;
 
@@ -22,14 +20,6 @@ import java.util.LinkedList;
  * Created by jenics on 2015/10/7.
  */
 public class Map extends BaseView {
-    private static Map mInstance;
-    public static synchronized Map getInstance() {
-        if (mInstance == null) {
-            mInstance = new Map();
-        }
-        return mInstance;
-    }
-
     private Bitmap bmpTop;
     private Bitmap bmpBottom;
 
@@ -42,7 +32,7 @@ public class Map extends BaseView {
 
     private int cursor;         ///地图游标
     private int mapWidth;
-    private Player mPlayer;
+    private PlayerMediator playerMediator;
     private MapPropetry mapPropetry;
 
     private FrameAnimation preGate;          ///上一关
@@ -52,35 +42,43 @@ public class Map extends BaseView {
         return mapPropetry;
     }
 
+
     /**
      * 观察者模式，看谁都关心这个滚动事件，在地图滚动的时候，
      * 有些图元是需要跟着移动的，于是设置了这个观察者
      */
-    private LinkedList<MapScrollObserver> mapScrollObservers;
-    public interface MapScrollObserver {
+    private LinkedList<MapObserver> mapObservers;
+    public interface MapObserver {
         void onScroll(int direction,float speed);
+        void onNewGate(MapPropetry mapPropetry);
     }
 
     private synchronized void notifyAll(int dir,float speed) {
-        for (MapScrollObserver observer : mapScrollObservers) {
+        for (MapObserver observer : mapObservers) {
             observer.onScroll(dir,speed);
         }
     }
 
-    public synchronized void addObserver(MapScrollObserver observer) {
-        mapScrollObservers.add(observer);
+    public synchronized void addObserver(MapObserver observer) {
+        for(MapObserver ob : mapObservers) {
+            if (ob == observer) {
+                return;
+            }
+        }
+        mapObservers.add(observer);
     }
 
-    public synchronized void removeObserver(MapScrollObserver observer) {
-        mapScrollObservers.remove(observer);
+    public synchronized void removeObserver(MapObserver observer) {
+        mapObservers.remove(observer);
     }
 
-    private Map() {
+    public Map(PlayerMediator playerMediator) {
         isClickable = false;
         rt1 = new RectF();
+        this.playerMediator = playerMediator;
         rt2 = new RectF();
         mDirection = GameConstants.STATE_NONE;
-        mapScrollObservers = new LinkedList<>();
+        mapObservers = new LinkedList<>();
     }
 
     /**
@@ -97,19 +95,10 @@ public class Map extends BaseView {
         return nextGate;
     }
 
-    /**
-     * @param mapId        初始关卡
-     * @param screemWidth
-     * @param screemHeight
-     * @param player
-     */
-    public void init(int mapId, int screemWidth, int screemHeight, Player player) {
-        mPlayer = player;
 
-        this.mScreemWidth = screemWidth;
-        this.mScreemHeight = screemHeight;
-
-        nextGate(mapId);
+    public void init() {
+        this.mScreemWidth = GameConstants.sGameWidth;
+        this.mScreemHeight = GameConstants.sGameHeight;
     }
 
     public void nextGate() {
@@ -146,7 +135,7 @@ public class Map extends BaseView {
             nextGate.startAnimation();
         }
 
-        mPlayer.setPt(x, GameConstants.sGameHeight * GameConstants.sYpointRatio);
+        playerMediator.setPlayerPt(x, GameConstants.sGameHeight * GameConstants.sYpointRatio);
     }
 
     public void preGate() {
@@ -185,10 +174,15 @@ public class Map extends BaseView {
             preGate.startAnimation();
         }
 
-        mPlayer.setPt(mScreemWidth - x, GameConstants.sGameHeight * GameConstants.sYpointRatio);
+        playerMediator.setPlayerPt(mScreemWidth - x, GameConstants.sGameHeight * GameConstants.sYpointRatio);
     }
 
     private boolean gotoGate(int mapId) {
+        if (mapPropetry != null) {
+            if (mapPropetry.getMapId() == mapId)
+                ///同样一张地图，不需要在进了
+                return false;
+        }
         if (nextGate != null) {
             nextGate.stopAnimation();
             nextGate = null;
@@ -224,21 +218,10 @@ public class Map extends BaseView {
         scrollAnimation.setStrTitle(mapPropetry.getName());
         scrollAnimation.startAnimation();
 
-
-        /**
-         * 生成怪物
-         */
-        MonsterController.getInstance().clearMonster();
-        MonsterController.getInstance().setMonsterFactory(new SimpleMonsterFactory());
-        MapPropetry mapPropetry = getMapPropetry();
-        for (MapPropetry.MonsterPack pack : mapPropetry.getMonsterPaks()) {
-            MonsterController.getInstance().generateMonster(pack.getMonsterId(), pack.getMonsterRank(),pack.getMonsterNum());
+        for(MapObserver mapObserver : mapObservers) {
+            mapObserver.onNewGate(mapPropetry);
         }
 
-        /**
-         * 清空地上的物品
-         */
-        DropPropMgr.getInstance().clearProps();
         return true;
     }
 
@@ -289,16 +272,16 @@ public class Map extends BaseView {
     }
 
     public void scroll() {
-        float speed = mPlayer.getSpeed();
+        float speed = playerMediator.getPlayerSpeed();
         if (mDirection == GameConstants.DIRECT_RIGHT) {
             if (cursor >= mapWidth - mScreemWidth / 2) {
-                PointF pointF = mPlayer.getPt();
+                PointF pointF = playerMediator.getPlayerPt();
                 if (pointF.x <= mScreemWidth - speed) {
                     pointF.x += speed;
                 }
                 return;
             } else {
-                PointF pointF = mPlayer.getPt();
+                PointF pointF = playerMediator.getPlayerPt();
                 if (pointF.x < mScreemWidth / 2) {
                     pointF.x += speed;
                     if (pointF.x > mScreemWidth / 2) {
@@ -338,13 +321,13 @@ public class Map extends BaseView {
             notifyAll(mDirection,speed);
         } else if (mDirection == GameConstants.DIRECT_LEFT) {
             if (cursor <= mScreemWidth / 2) {
-                PointF pointF = mPlayer.getPt();
+                PointF pointF = playerMediator.getPlayerPt();
                 if (pointF.x >= speed) {
                     pointF.x -= speed;
                 }
                 return;
             } else {
-                PointF pointF = mPlayer.getPt();
+                PointF pointF = playerMediator.getPlayerPt();
                 if (pointF.x > mScreemWidth / 2) {
                     pointF.x -= speed;
                     if (pointF.x < mScreemWidth / 2) {
