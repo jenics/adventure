@@ -1,13 +1,16 @@
 package com.cb.adventures.skill;
 
 import android.graphics.Canvas;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.view.BaseView;
+import com.cb.adventures.view.Map;
 
 /**
  * Created by jenics on 2015/11/1.
+ * 时间帧技能
  */
 public class TimeFrameSkill extends Skill {
     @Override
@@ -42,6 +45,10 @@ public class TimeFrameSkill extends Skill {
 
         float x = baseView.getPt().x - width / 2;
         float y = baseView.getPt().y - height / 2;
+
+        PointF ptScreem = Map.toScreemPt(new PointF(x, y));
+        x = ptScreem.x;
+        y = ptScreem.y;
 
         /**
          * index的有效性确认

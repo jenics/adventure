@@ -5,10 +5,11 @@ import com.cb.adventures.view.IDrawable;
 
 /**
  * Created by jenics on 2015/9/15.
+ * 动画接口
  */
 public interface IAnimation {
 
-    public interface OnAniamtionListener{
+    interface OnAniamtionListener{
         /**
          * @param view
          * @param isForce 是否外界强制停止

@@ -3,11 +3,13 @@ package com.cb.adventures.animation;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PointF;
 import android.graphics.RectF;
 
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.utils.FontFace;
 import com.cb.adventures.view.BaseView;
+import com.cb.adventures.view.Map;
 
 /**
  * Created by jenics on 2015/12/26.
@@ -95,11 +97,13 @@ public class InjuredValueAnimation extends SelfAnimation{
 
     @Override
     public void draw(Canvas canvas) {
+        PointF scremmPt = Map.toScreemPt(mAttachView.getPt().x,getPt().y);
+
         RectF targetRect = new RectF(
-                mAttachView.getPt().x - getWidth() / 2,
-                getPt().y-getHeight()/2,
-                mAttachView.getPt().x + getWidth() / 2,
-                getPt().y + getHeight()/2);
+                scremmPt.x - getWidth() / 2,
+                scremmPt.y-getHeight()/2,
+                scremmPt.x + getWidth() / 2,
+                scremmPt.y + getHeight()/2);
         int baseline = (int) ((targetRect.bottom + targetRect.top - mFontMetricsInt.bottom - mFontMetricsInt.top) / 2);
         canvas.drawText(mStrTitle, targetRect.centerX(), baseline, mPaint);
     }

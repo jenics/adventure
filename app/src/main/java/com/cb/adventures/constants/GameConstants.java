@@ -2,6 +2,7 @@ package com.cb.adventures.constants;
 
 /**
  * Created by jenics on 2015/10/20.
+ * 游戏的一些静态变量，定义等
  */
 public class GameConstants {
 
@@ -54,8 +55,6 @@ public class GameConstants {
     /**
      * 屏幕属性
      */
-    public static int sLeftBoundary;
-    public static int sRightBoundary;
     public static int sGameWidth;
     public static int sGameHeight;
     /**

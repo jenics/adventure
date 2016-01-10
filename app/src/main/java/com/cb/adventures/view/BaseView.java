@@ -9,6 +9,7 @@ import android.graphics.RectF;
 
 /**
  * Created by jenics on 2015/10/7.
+ * view基类
  */
 public class BaseView implements IView  {
     /**
@@ -27,10 +28,7 @@ public class BaseView implements IView  {
      * 高度
      */
     protected int height;
-    /**
-     * 是否可点击
-     */
-    protected boolean isClickable;
+
     /**
      * 是否可见
      */
@@ -61,7 +59,6 @@ public class BaseView implements IView  {
     }
 
     public BaseView() {
-        isClickable = true;
         isVisiable = true;
         pt = new PointF();
         mPaint = new Paint();
@@ -85,18 +82,10 @@ public class BaseView implements IView  {
         this.pt.y = y;
     }
 
-    public void setIsClickable(boolean isClickable) {
-        this.isClickable = isClickable;
-    }
-
     public void setIsVisiable(boolean isVisiable) {
         this.isVisiable = isVisiable;
     }
 
-    @Override
-    public boolean isClickable() {
-        return isClickable;
-    }
 
     @Override
     public boolean isVisiable() {

@@ -17,6 +17,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Created by jenics on 2015/10/21.
+ * 怪物管理类，负责管理怪物移动，休息等
  */
 public class MonsterController implements Sprite.OnSpriteListener ,Map.MapObserver{
     private LinkedList<Sprite> mMonters;
@@ -64,7 +65,7 @@ public class MonsterController implements Sprite.OnSpriteListener ,Map.MapObserv
             sprite.setDeadListener(mDeadListener);
             if(sprite != null) {
                 sprite.setSpriteListener(this);
-                sprite.setPt(Randomer.getInstance().getRandom(GameConstants.sRightBoundary), GameConstants.sGameHeight*GameConstants.sYpointRatio);
+                sprite.setPt(Randomer.getInstance().getRandom(Map.sMapWidth), GameConstants.sGameHeight*GameConstants.sYpointRatio);
                 sprite.work(GameConstants.STATE_MOVE_LEFT,3000);
                 mMonters.add(sprite);
             }
@@ -125,23 +126,6 @@ public class MonsterController implements Sprite.OnSpriteListener ,Map.MapObserv
                 sprite.rest(Randomer.getInstance().getRandom(2)*1000);  ///休息1-2秒
                 mReentrantReadWriteLock.readLock().unlock();
                 return;
-            }
-        }
-        mReentrantReadWriteLock.readLock().unlock();
-    }
-
-    @Override
-    public void onScroll(int direction, float speed) {
-        mReentrantReadWriteLock.readLock().lock();
-        if (direction == GameConstants.DIRECT_LEFT) {
-            for (BaseView view : mMonters) {
-                PointF pt = view.getPt();
-                pt.x += speed;
-            }
-        } else if (direction == GameConstants.DIRECT_RIGHT) {
-            for (BaseView view : mMonters) {
-                PointF pt = view.getPt();
-                pt.x -= speed;
             }
         }
         mReentrantReadWriteLock.readLock().unlock();

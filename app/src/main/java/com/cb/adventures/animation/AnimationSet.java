@@ -6,6 +6,7 @@ import java.util.Stack;
 
 /**
  * Created by jenics on 2015/9/20.
+ * 动画集
  */
 public class AnimationSet implements ViewAnimation.OnAniamtionListener {
     public static int ANIMATION_DEAL = 0;           ///发牌动画

@@ -142,8 +142,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         Log.d(TAG, "surfaceChanged");
-        GameConstants.sLeftBoundary = 0;
-        GameConstants.sRightBoundary = getWidth();
         GameConstants.sGameWidth = getWidth();
         GameConstants.sGameHeight = getHeight();
         GameConstants.zoomRatio = getWidth() * 0.15f / 105.0f;
@@ -215,7 +213,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
                     ImageLoader.getInstance().loadBitmap(GameConstants.PLAYER1_ATTACK_NAME),
                     1151 / 6, 103, 6);
             ///数据库中读取等级，得到对应的基础属性
-            mPlayer.setRank(5);
+            mPlayer.setRank(1);
         }
         if (mInventoryView == null) {
             mInventoryView = new InventoryView(playerMediator);
@@ -234,8 +232,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
          */
         if (mMap == null) {
             mMap = new Map(playerMediator);
-            mMap.init();
-
         }
 
         playerMediator.setEquipmentBar(mEquipmentBar);
@@ -259,6 +255,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             mGameController.getFunctionController(1).setUseable(new SkillLancher(mPlayer, GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_BUFF_1)));
             mGameController.getFunctionController(2).setUseable(new SkillLancher(mPlayer, GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_HUOJIAN)));
             mGameController.getFunctionController(3).setUseable(new SkillLancher(mPlayer, GameData.getInstance().getSkillPropetry(GameConstants.SKILL_ID_RENDAOFEIBIAO)));
+            mPlayer.setOnAttackListener(mGameController);
         }
 
 
@@ -489,7 +486,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
              */
             if (gameMenuView.isVisiable()) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (true == gameMenuView.onMouseUp((int) event.getX(i), (int) event.getY(i)))
+                    if (gameMenuView.onMouseUp((int) event.getX(i), (int) event.getY(i)))
                         break;
                 }
             }

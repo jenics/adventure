@@ -26,12 +26,15 @@ public class Map extends BaseView {
     private RectF rt1;
     private RectF rt2;
 
-    private int mScreemWidth;
-    private int mScreemHeight;
     private int mDirection;
 
-    private int cursor;         ///地图游标
-    private int mapWidth;
+    /**
+     * 地图游标
+     * [1/2*(screemWidth),sMapWidth-1/2*(screemWidth)]
+     */
+    private static int sCursor;
+    public static int sMapWidth;
+
     private PlayerMediator playerMediator;
     private MapPropetry mapPropetry;
 
@@ -42,6 +45,35 @@ public class Map extends BaseView {
         return mapPropetry;
     }
 
+    /**
+     * @param pt 欲转换的坐标
+     * @return  屏幕坐标
+     */
+    public static PointF toScreemPt(PointF pt) {
+        PointF ptf = new PointF();
+        ///先取得摄像机的左上角
+        float cameraX = sCursor -(GameConstants.sGameWidth/2);
+        float cameraY = 0.0f;
+        ptf.x = pt.x-cameraX;
+        ptf.y = pt.y-cameraY;
+        return ptf;
+    }
+
+    /**
+     * @param x 欲转换的坐标x坐标
+     * @param y 欲专函的坐标y
+     * @return  屏幕坐标
+     */
+    public static PointF toScreemPt(float x ,float y) {
+        PointF ptf = new PointF();
+        ///先取得摄像机的左上角
+        float cameraX = sCursor -(GameConstants.sGameWidth/2);
+        float cameraY = 0.0f;
+        ptf.x = x-cameraX;
+        ptf.y = y-cameraY;
+        return ptf;
+    }
+
 
     /**
      * 观察者模式，看谁都关心这个滚动事件，在地图滚动的时候，
@@ -49,14 +81,7 @@ public class Map extends BaseView {
      */
     private LinkedList<MapObserver> mapObservers;
     public interface MapObserver {
-        void onScroll(int direction,float speed);
         void onNewGate(MapPropetry mapPropetry);
-    }
-
-    private synchronized void notifyAll(int dir,float speed) {
-        for (MapObserver observer : mapObservers) {
-            observer.onScroll(dir,speed);
-        }
     }
 
     public synchronized void addObserver(MapObserver observer) {
@@ -68,12 +93,7 @@ public class Map extends BaseView {
         mapObservers.add(observer);
     }
 
-    public synchronized void removeObserver(MapObserver observer) {
-        mapObservers.remove(observer);
-    }
-
     public Map(PlayerMediator playerMediator) {
-        isClickable = false;
         rt1 = new RectF();
         this.playerMediator = playerMediator;
         rt2 = new RectF();
@@ -96,10 +116,7 @@ public class Map extends BaseView {
     }
 
 
-    public void init() {
-        this.mScreemWidth = GameConstants.sGameWidth;
-        this.mScreemHeight = GameConstants.sGameHeight;
-    }
+
 
     public void nextGate() {
         nextGate(mapPropetry.getNextGate());
@@ -111,27 +128,28 @@ public class Map extends BaseView {
 
         rt1.left = 0.0f;
         rt1.top = 0.0f;
-        rt1.right = mScreemWidth;
-        rt1.bottom = mScreemHeight * GameConstants.sBottomRatio;
-        rt2.left = mScreemWidth;
+        rt1.right = GameConstants.sGameWidth;
+        rt1.bottom = GameConstants.sGameHeight * GameConstants.sBottomRatio;
+        rt2.left = GameConstants.sGameWidth;
         rt2.top = 0.0f;
-        rt2.right = mScreemWidth + mScreemWidth;
-        rt2.bottom = mScreemHeight * GameConstants.sBottomRatio;
-        cursor = mScreemWidth / 2;
+        rt2.right = GameConstants.sGameWidth + GameConstants.sGameWidth;
+        rt2.bottom = GameConstants.sGameHeight * GameConstants.sBottomRatio;
+        sCursor = GameConstants.sGameWidth / 2;
 
+
+        int x = (int) (1532 / 9 / 2 * GameConstants.zoomRatio);
 
         if (getMapPropetry().getPreGate() != -1) {
             preGate = new FrameAnimation();
             preGate.setAnimationPropetry(GameData.getInstance().getAnimationPropetry(GameConstants.SKILL_ID_TRANSFER_MATRIX));
-            preGate.setPt(1532 / 9 / 2 * GameConstants.zoomRatio, GameConstants.sGameHeight * (GameConstants.sYpointRatio-0.05f));
+            preGate.setPt(x, GameConstants.sGameHeight * (GameConstants.sYpointRatio-0.05f));
             preGate.startAnimation();
         }
 
-        int x = (int) (1532 / 9 / 2 * GameConstants.zoomRatio);
         if (getMapPropetry().getNextGate() != -1) {
             nextGate = new FrameAnimation();
             nextGate.setAnimationPropetry(GameData.getInstance().getAnimationPropetry(GameConstants.SKILL_ID_TRANSFER_MATRIX));
-            nextGate.setPt(mapWidth - x, GameConstants.sGameHeight * (GameConstants.sYpointRatio-0.05f));
+            nextGate.setPt(sMapWidth - x, GameConstants.sGameHeight * (GameConstants.sYpointRatio-0.05f));
             nextGate.startAnimation();
         }
 
@@ -148,33 +166,33 @@ public class Map extends BaseView {
 
         rt1.left = 0.0f;
         rt1.top = 0.0f;
-        rt1.right = mScreemWidth;
-        rt1.bottom = mScreemHeight * GameConstants.sBottomRatio;
-        rt2.left = mScreemWidth;
+        rt1.right = GameConstants.sGameWidth;
+        rt1.bottom = GameConstants.sGameHeight * GameConstants.sBottomRatio;
+        rt2.left = GameConstants.sGameWidth;
         rt2.top = 0.0f;
-        rt2.right = mScreemWidth + mScreemWidth;
-        rt2.bottom = mScreemHeight * GameConstants.sBottomRatio;
-        cursor = mapWidth - mScreemWidth / 2;
+        rt2.right = GameConstants.sGameWidth + GameConstants.sGameWidth;
+        rt2.bottom = GameConstants.sGameHeight * GameConstants.sBottomRatio;
+        sCursor = sMapWidth - GameConstants.sGameWidth / 2;
 
         int x = (int) (1532 / 9 / 2 * GameConstants.zoomRatio);
         if (getMapPropetry().getNextGate() != -1) {
 
             nextGate = new FrameAnimation();
             nextGate.setAnimationPropetry(GameData.getInstance().getAnimationPropetry(GameConstants.SKILL_ID_TRANSFER_MATRIX));
-            nextGate.setPt(mScreemWidth - x, GameConstants.sGameHeight * (GameConstants.sYpointRatio-0.05f));
+            nextGate.setPt(sMapWidth - x, GameConstants.sGameHeight * (GameConstants.sYpointRatio-0.05f));
             nextGate.startAnimation();
         }
 
-        int y = mapWidth - mScreemWidth;
+        int y = sMapWidth - GameConstants.sGameWidth;
         if (getMapPropetry().getPreGate() != -1) {
             preGate = new FrameAnimation();
             preGate.setAnimationPropetry(GameData.getInstance().getAnimationPropetry(GameConstants.SKILL_ID_TRANSFER_MATRIX));
 
-            preGate.setPt(-y + x, GameConstants.sGameHeight * (GameConstants.sYpointRatio-0.05f));
+            preGate.setPt(x, GameConstants.sGameHeight * (GameConstants.sYpointRatio-0.05f));
             preGate.startAnimation();
         }
 
-        playerMediator.setPlayerPt(mScreemWidth - x, GameConstants.sGameHeight * GameConstants.sYpointRatio);
+        playerMediator.setPlayerPt(sMapWidth - x, GameConstants.sGameHeight * GameConstants.sYpointRatio);
     }
 
     private boolean gotoGate(int mapId) {
@@ -210,10 +228,10 @@ public class Map extends BaseView {
             ImageLoader.getInstance().recycleBitmap(curMapSrcName);
         }
 
-        mapWidth = (int) (mScreemWidth * mapPropetry.getMapLenRatio());
+        sMapWidth = (int) (GameConstants.sGameWidth * mapPropetry.getMapLenRatio());
 
         ScrollAnimation scrollAnimation = new ScrollAnimation();
-        scrollAnimation.setPt(mScreemWidth / 2, mScreemHeight * 0.25f);
+        scrollAnimation.setPt(GameConstants.sGameWidth / 2, GameConstants.sGameHeight * 0.25f);
         scrollAnimation.setAnimationPropetry(GameData.getInstance().getAnimationPropetry(GameConstants.SKILL_ID_AUTO_SCROLL));
         scrollAnimation.setStrTitle(mapPropetry.getName());
         scrollAnimation.startAnimation();
@@ -227,8 +245,6 @@ public class Map extends BaseView {
 
     @Override
     public void draw(Canvas canvas) {
-        //super.draw(canvas);
-        //scroll();
         canvas.drawBitmap(bmpTop,
                 new Rect(   ///src rect
                         0,
@@ -251,7 +267,7 @@ public class Map extends BaseView {
                         0,
                         bmpBottom.getWidth(),
                         bmpBottom.getHeight()),
-                new RectF(rt1.left, rt1.bottom, rt1.right, mScreemHeight), null);
+                new RectF(rt1.left, rt1.bottom, rt1.right, GameConstants.sGameHeight), null);
 
         canvas.drawBitmap(bmpBottom,
                 new Rect(   ///src rect
@@ -259,7 +275,7 @@ public class Map extends BaseView {
                         0,
                         bmpBottom.getWidth(),
                         bmpBottom.getHeight()),
-                new RectF(rt2.left, rt2.bottom, rt2.right, mScreemHeight), null);
+                new RectF(rt2.left, rt2.bottom, rt2.right, GameConstants.sGameHeight), null);
 
     }
 
@@ -273,99 +289,75 @@ public class Map extends BaseView {
 
     public void scroll() {
         float speed = playerMediator.getPlayerSpeed();
+        PointF pointF = playerMediator.getPlayerPt();
         if (mDirection == GameConstants.DIRECT_RIGHT) {
-            if (cursor >= mapWidth - mScreemWidth / 2) {
-                PointF pointF = playerMediator.getPlayerPt();
-                if (pointF.x <= mScreemWidth - speed) {
+            if (sCursor >= sMapWidth - GameConstants.sGameWidth / 2) {
+                if (pointF.x <= sMapWidth - speed) {
                     pointF.x += speed;
                 }
                 return;
             } else {
-                PointF pointF = playerMediator.getPlayerPt();
-                if (pointF.x < mScreemWidth / 2) {
+                if (pointF.x < sCursor) {
                     pointF.x += speed;
-                    if (pointF.x > mScreemWidth / 2) {
-                        pointF.x = mScreemWidth / 2;
+                    if (pointF.x > sCursor) {
+                        pointF.x = sCursor;
                     }
                     return;
                 }
             }
-            cursor += speed;
+            sCursor += speed;
+            pointF.x = sCursor;
             rt1.left -= speed;
             rt1.right -= speed;
             rt2.left -= speed;
             rt2.right -= speed;
 
-            if (preGate != null) {
-                PointF pt = preGate.getPt();
-                pt.x -= speed;
-            }
-            if (nextGate != null) {
-                PointF pt = nextGate.getPt();
-                pt.x -= speed;
-            }
-
             ///矫正地图位置
-            if (rt1.left < -mScreemWidth) {
-                rt1.left = mScreemWidth;
-                rt1.right = mScreemWidth + mScreemWidth;
+            if (rt1.left < -GameConstants.sGameWidth) {
+                rt1.left = GameConstants.sGameWidth;
+                rt1.right = GameConstants.sGameWidth + GameConstants.sGameWidth;
                 rt2.left = 0;
-                rt2.right = mScreemWidth;
-            } else if (rt2.left < -mScreemWidth) {
+                rt2.right = GameConstants.sGameWidth;
+            } else if (rt2.left < -GameConstants.sGameWidth) {
                 rt1.left = 0;
-                rt1.right = mScreemWidth;
-                rt2.left = mScreemWidth;
-                rt2.right = mScreemWidth + mScreemWidth;
+                rt1.right = GameConstants.sGameWidth;
+                rt2.left = GameConstants.sGameWidth;
+                rt2.right = GameConstants.sGameWidth + GameConstants.sGameWidth;
             }
-
-            notifyAll(mDirection,speed);
         } else if (mDirection == GameConstants.DIRECT_LEFT) {
-            if (cursor <= mScreemWidth / 2) {
-                PointF pointF = playerMediator.getPlayerPt();
+            if (sCursor <= GameConstants.sGameWidth / 2) {
                 if (pointF.x >= speed) {
                     pointF.x -= speed;
                 }
                 return;
             } else {
-                PointF pointF = playerMediator.getPlayerPt();
-                if (pointF.x > mScreemWidth / 2) {
+                if (pointF.x > sCursor) {
                     pointF.x -= speed;
-                    if (pointF.x < mScreemWidth / 2) {
-                        pointF.x = mScreemWidth / 2;
+                    if (pointF.x < sCursor) {
+                        pointF.x = sCursor;
                     }
                     return;
                 }
             }
-            cursor -= speed;
+            sCursor -= speed;
+            pointF.x = sCursor;
             rt1.left += speed;
             rt1.right += speed;
             rt2.left += speed;
             rt2.right += speed;
 
-            ///移动关卡
-            if (preGate != null) {
-                PointF pt = preGate.getPt();
-                pt.x += speed;
-            }
-            if (nextGate != null) {
-                PointF pt = nextGate.getPt();
-                pt.x += speed;
-            }
-
             ///矫正地图位置
-            if (rt1.left > mScreemWidth) {
-                rt1.left = -mScreemWidth;
+            if (rt1.left > GameConstants.sGameWidth) {
+                rt1.left = -GameConstants.sGameWidth;
                 rt1.right = 0;
                 rt2.left = 0;
-                rt2.right = mScreemWidth;
-            } else if (rt2.left > mScreemWidth) {
-                rt1.left = -mScreemWidth;
+                rt2.right = GameConstants.sGameWidth;
+            } else if (rt2.left > GameConstants.sGameWidth) {
+                rt1.left = -GameConstants.sGameWidth;
                 rt1.right = 0;
                 rt2.left = 0;
-                rt2.right = mScreemWidth;
+                rt2.right = GameConstants.sGameWidth;
             }
-
-            notifyAll(mDirection,speed);
         }
     }
 }

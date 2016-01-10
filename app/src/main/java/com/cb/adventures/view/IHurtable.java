@@ -4,6 +4,7 @@ import com.cb.adventures.skill.Skill;
 
 /**
  * Created by jenics on 2015/11/8.
+ * 受伤能力接口
  */
 public interface IHurtable {
     /**

@@ -3,13 +3,16 @@ package com.cb.adventures.skill;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
 import com.cb.adventures.constants.GameConstants;
+import com.cb.adventures.view.Map;
 
 /**
  * Created by AI on 2015/10/27.
+ * 移动帧动画
  */
 public class MoveFrameSkill extends Skill{
     //技能设置的每次位移距离，也可以直接设置技能需要释放的距离，然后在nextFrame中计算单步位移距离
@@ -49,6 +52,11 @@ public class MoveFrameSkill extends Skill{
     public void draw(Canvas canvas) {
         float x = getPt().x - width/2;
         float y = getPt().y - height/2;
+
+        PointF ptScreem = Map.toScreemPt(new PointF(x, y));
+        x = ptScreem.x;
+        y = ptScreem.y;
+
         int rowIndex = getSkillPropetry().getFrames().get(mFrameIndex).getRow();
         int colIndex = getSkillPropetry().getFrames().get(mFrameIndex).getCol();
         ///画攻击效果

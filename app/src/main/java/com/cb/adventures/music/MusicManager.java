@@ -14,6 +14,7 @@ import java.util.HashMap;
 
 /**
  * Created by AI on 2015/10/21.
+ * 音频管理器
  */
 public class MusicManager {
     private static final String TAG = "MusicManager";

@@ -3,15 +3,18 @@ package com.cb.adventures.skill;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.SkillPropetry;
 import com.cb.adventures.view.BaseView;
+import com.cb.adventures.view.Map;
 
 /**
  * Created by AI on 2015/10/25.
+ * 静止帧技能
  */
 public class StaticFrameSkill extends Skill{
     public StaticFrameSkill() {
@@ -78,6 +81,10 @@ public class StaticFrameSkill extends Skill{
         BaseView baseView = mAttachView == null ? this : mAttachView;
         float x = baseView.getPt().x - width / 2;
         float y = baseView.getPt().y - height / 2;
+
+        PointF ptScreem = Map.toScreemPt(new PointF(x, y));
+        x = ptScreem.x;
+        y = ptScreem.y;;
 
         /**
          * index的有效性确认

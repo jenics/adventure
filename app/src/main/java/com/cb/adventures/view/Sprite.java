@@ -1,6 +1,7 @@
 package com.cb.adventures.view;
 
 import android.graphics.Canvas;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
@@ -257,7 +258,7 @@ public class Sprite extends FrameView implements IHurtable {
         if (!mIsRest) {
             if (mDirection == GameConstants.STATE_MOVE_LEFT) {
                 pt.x -= mMoveStep;
-                if (pt.x <= GameConstants.sLeftBoundary) {
+                if (pt.x <= 0) {
                     mDirection = GameConstants.STATE_MOVE_RIGHT;
                 }
                 long nowTime = System.currentTimeMillis();
@@ -267,7 +268,7 @@ public class Sprite extends FrameView implements IHurtable {
                 }
             } else if (mDirection == GameConstants.STATE_MOVE_RIGHT) {
                 pt.x += mMoveStep;
-                if (pt.x >= GameConstants.sRightBoundary) {
+                if (pt.x >= Map.sMapWidth) {
                     mDirection = GameConstants.STATE_MOVE_LEFT;
                 }
                 long nowTime = System.currentTimeMillis();
@@ -306,6 +307,11 @@ public class Sprite extends FrameView implements IHurtable {
         nextFrame();
         float x = getPt().x - width / 2;
         float y = getPt().y - height / 2;
+
+        PointF ptScreem = Map.toScreemPt(new PointF(x,y));
+        x = ptScreem.x;
+        y = ptScreem.y;
+
 
         if (GameConstants.getDirection(mDirection) == GameConstants.DIRECT_LEFT) {
             if (isDead()) {

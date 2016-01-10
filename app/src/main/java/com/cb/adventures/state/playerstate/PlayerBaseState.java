@@ -7,6 +7,7 @@ import com.cb.adventures.view.Player;
 
 /**
  * Created by jenics on 2015/10/12.
+ * 玩家状态基类
  */
 public class PlayerBaseState extends BaseState{
     protected Player player;

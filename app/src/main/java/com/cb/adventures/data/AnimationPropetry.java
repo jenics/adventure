@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 /**
  * Created by jenics on 2015/11/29.
+ * 动画属性
  */
 public class AnimationPropetry {
 

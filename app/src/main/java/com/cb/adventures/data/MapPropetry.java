@@ -1,11 +1,10 @@
 package com.cb.adventures.data;
 
-import com.cb.adventures.view.Sprite;
-
 import java.util.LinkedList;
 
 /**
  * Created by jenics on 2015/11/7.
+ * 地图属性
  */
 public class MapPropetry {
     public class MonsterPack {

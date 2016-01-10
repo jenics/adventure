@@ -1,7 +1,5 @@
 package com.cb.adventures.animation;
 
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 
 import com.cb.adventures.view.BaseView;

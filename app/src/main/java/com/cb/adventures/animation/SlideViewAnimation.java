@@ -5,6 +5,7 @@ import com.cb.adventures.view.BaseView;
 
 /**
  * Created by jenics on 2015/9/17.
+ * 平移动画
  */
 public class SlideViewAnimation extends ViewAnimation {
     public SlideViewAnimation(BaseView view) {

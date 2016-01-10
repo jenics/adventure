@@ -8,6 +8,7 @@ import com.cb.adventures.utils.CLog;
 
 /**
  * Created by AI on 2015/10/23.
+ * 应用程序类
  */
 public class AdventureApplication extends Application {
     private static Context mContext ;

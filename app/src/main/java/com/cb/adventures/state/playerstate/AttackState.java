@@ -3,15 +3,18 @@ package com.cb.adventures.state.playerstate;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.music.MusicManager;
+import com.cb.adventures.view.Map;
 import com.cb.adventures.view.Player;
 
 /**
  * Created by jenics on 2015/10/12.
+ * 攻击状态
  */
 public class AttackState extends PlayerBaseState {
     private int frameIndex;
@@ -43,9 +46,10 @@ public class AttackState extends PlayerBaseState {
         frameIndex++;
         if (frameIndex >= frameCount) {
             frameIndex = 0;
-            onAttackListener.onAttackOver();
+
             player.changeState(GameConstants.getDirection(stateId) == 0 ?
                     GameConstants.STATE_STOP_LEFT : GameConstants.STATE_STOP_RIGHT);
+            onAttackListener.onAttackOver();
         }
 
         return true;
@@ -58,6 +62,10 @@ public class AttackState extends PlayerBaseState {
         int disHeight = (int) (height*GameConstants.zoomRatio);
         float x = player.getPt().x - disWidth/2;
         float y = player.getPt().y - disHeight/2;
+
+        PointF ptScreem = Map.toScreemPt(new PointF(x, y));
+        x = ptScreem.x;
+        y = ptScreem.y;
 
         ///画攻击效果
         if(stateId == GameConstants.STATE_ATTACK_LEFT) {

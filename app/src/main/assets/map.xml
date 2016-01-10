@@ -4,16 +4,21 @@
 		<mapId>2</mapId>
 		<srcName>map/back2.jpg</srcName>
 		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
-		<name>静谧森林</name>
+		<name>蘑菇幻境</name>
 		<monster>
 			<monsterId>1</monsterId>
 			<monsterNum>3</monsterNum>
 			<monsterRank>1</monsterRank>
 		</monster>
 		<monster>
-			<monsterId>2</monsterId>
+			<monsterId>1</monsterId>
 			<monsterNum>2</monsterNum>
-			<monsterRank>5</monsterRank>
+			<monsterRank>2</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>2</monsterId>
+			<monsterNum>1</monsterNum>
+			<monsterRank>3</monsterRank>
 		</monster>
 		<preGate>-1</preGate>  <!-- 上一关卡 默认就是当前地图ID-1 默认可不填写，为若为-1代表没有 -->
 		<nextGate>3</nextGate> <!-- 下一关卡 默认就是当前地图ID+1 默认可不填写，为若为-1代表没有-->
@@ -22,66 +27,80 @@
 		<mapId>3</mapId>
 		<srcName>map/back3.jpg</srcName>
 		<mapLenRatio>2.5</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
-		<name>魔法村</name>
+		<name>蘑菇王座</name>
 		<monster>
-			<monsterId>3</monsterId>
-			<monsterNum>3</monsterNum>
+			<monsterId>1</monsterId>
+			<monsterNum>4</monsterNum>
+			<monsterRank>4</monsterRank>
 		</monster>
 		<monster>
-			<monsterId>4</monsterId>
+			<monsterId>2</monsterId>
 			<monsterNum>2</monsterNum>
+			<monsterRank>5</monsterRank>
 		</monster>
 	</map>
 	<map>
 		<mapId>4</mapId>
 		<srcName>map/back4.jpg</srcName>
 		<mapLenRatio>2.5</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
-		<name>玩具城</name>
+		<name>天葬岗</name>
 		<monster>
-			<monsterId>5</monsterId>
+			<monsterId>2</monsterId>
 			<monsterNum>3</monsterNum>
+			<monsterRank>5</monsterRank>
 		</monster>
 		<monster>
-			<monsterId>6</monsterId>
-			<monsterNum>2</monsterNum>
+			<monsterId>2</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>7</monsterRank>
 		</monster>
 	</map>
 	<map>
 		<mapId>5</mapId>
 		<srcName>map/back5.jpg</srcName>
 		<mapLenRatio>2.5</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
-		<name>月光森林</name>
+		<name>抉择之地</name>
 		<monster>
-			<monsterId>7</monsterId>
+			<monsterId>2</monsterId>
 			<monsterNum>3</monsterNum>
+			<monsterRank>7</monsterRank>
 		</monster>
 		<monster>
-			<monsterId>8</monsterId>
-			<monsterNum>2</monsterNum>
+			<monsterId>2</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>10</monsterRank>
 		</monster>
 	</map>
 	<map>
 		<mapId>6</mapId>
 		<srcName>map/back6.jpg</srcName>
 		<mapLenRatio>2.5</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
-		<name>格尔玛营地</name>
+		<name>水车纺</name>
 		<monster>
-			<monsterId>9</monsterId>
+			<monsterId>3</monsterId>
 			<monsterNum>3</monsterNum>
+			<monsterRank>10</monsterRank>
 		</monster>
 		<monster>
-			<monsterId>10</monsterId>
-			<monsterNum>2</monsterNum>
+			<monsterId>3</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>13</monsterRank>
 		</monster>
 	</map>
 	<map>
 		<mapId>7</mapId>
 		<srcName>map/back7.jpg</srcName>
 		<mapLenRatio>2.5</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
-		<name>希望灯塔森林</name>
+		<name>乡村小道</name>
 		<monster>
-			<monsterId>11</monsterId>
+			<monsterId>3</monsterId>
 			<monsterNum>3</monsterNum>
+			<monsterRank>13</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>3</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>15</monsterRank>
 		</monster>
 		
 	</map>
@@ -89,10 +108,16 @@
 		<mapId>8</mapId>
 		<srcName>map/back8.jpg</srcName>
 		<mapLenRatio>2.5</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
-		<name>海市蜃楼</name>
+		<name>远山</name>
 		<monster>
-			<monsterId>12</monsterId>
+			<monsterId>4</monsterId>
 			<monsterNum>3</monsterNum>
+			<monsterRank>15</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>4</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>17</monsterRank>
 		</monster>
 		
 	</map>
@@ -100,10 +125,16 @@
 		<mapId>9</mapId>
 		<srcName>map/back9.jpg</srcName>
 		<mapLenRatio>2.5</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
-		<name>泉水乐园</name>
+		<name>星菇屋</name>
 		<monster>
-			<monsterId>13</monsterId>
+			<monsterId>4</monsterId>
 			<monsterNum>3</monsterNum>
+			<monsterRank>17</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>4</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>20</monsterRank>
 		</monster>
 		
 	</map>
@@ -111,10 +142,16 @@
 		<mapId>10</mapId>
 		<srcName>map/back10.jpg</srcName>
 		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
-		<name>天使之园</name>
+		<name>彩虹桥</name>
 		<monster>
-			<monsterId>14</monsterId>
+			<monsterId>5</monsterId>
 			<monsterNum>3</monsterNum>
+			<monsterRank>20</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>5</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>23</monsterRank>
 		</monster>
 		
 	</map>
@@ -122,10 +159,16 @@
 		<mapId>11</mapId>
 		<srcName>map/back11.jpg</srcName>
 		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
-		<name>罗马竞技场</name>
+		<name>樱花树</name>
 		<monster>
-			<monsterId>15</monsterId>
+			<monsterId>5</monsterId>
 			<monsterNum>3</monsterNum>
+			<monsterRank>23</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>5</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>25</monsterRank>
 		</monster>
 		
 	</map>
@@ -133,10 +176,16 @@
 		<mapId>12</mapId>
 		<srcName>map/back12.jpg</srcName>
 		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
-		<name>炮台</name>
+		<name>月光森林</name>
 		<monster>
-			<monsterId>16</monsterId>
+			<monsterId>6</monsterId>
 			<monsterNum>3</monsterNum>
+			<monsterRank>25</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>6</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>27</monsterRank>
 		</monster>
 		
 	</map>
@@ -145,10 +194,16 @@
 		<mapId>13</mapId>
 		<srcName>map/back13.jpg</srcName>
 		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
-		<name>冰雪之路</name>
+		<name>格尔玛营地</name>
 		<monster>
-			<monsterId>17</monsterId>
+			<monsterId>6</monsterId>
 			<monsterNum>3</monsterNum>
+			<monsterRank>27</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>6</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>30</monsterRank>
 		</monster>
 		
 	</map>
@@ -156,10 +211,16 @@
 		<mapId>14</mapId>
 		<srcName>map/back14.jpg</srcName>
 		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
-		<name>冰雪之路2</name>
+		<name>希望灯塔森林</name>
 		<monster>
-			<monsterId>18</monsterId>
+			<monsterId>7</monsterId>
 			<monsterNum>3</monsterNum>
+			<monsterRank>30</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>7</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>33</monsterRank>
 		</monster>
 		
 	</map>
@@ -167,10 +228,16 @@
 		<mapId>15</mapId>
 		<srcName>map/back15.jpg</srcName>
 		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
-		<name>集市</name>
+		<name>快乐之泉</name>
 		<monster>
-			<monsterId>19</monsterId>
+			<monsterId>7</monsterId>
 			<monsterNum>3</monsterNum>
+			<monsterRank>33</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>7</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>35</monsterRank>
 		</monster>
 		
 	</map>
@@ -178,10 +245,16 @@
 		<mapId>16</mapId>
 		<srcName>map/back16.jpg</srcName>
 		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
-		<name>樱花门</name>
+		<name>天使之园</name>
 		<monster>
-			<monsterId>20</monsterId>
+			<monsterId>8</monsterId>
 			<monsterNum>3</monsterNum>
+			<monsterRank>35</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>8</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>37</monsterRank>
 		</monster>
 		
 	</map>
@@ -189,22 +262,353 @@
 		<mapId>17</mapId>
 		<srcName>map/back17.jpg</srcName>
 		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
-		<name>妖异之门</name>
+		<name>炮台</name>
 		<monster>
-			<monsterId>21</monsterId>
+			<monsterId>8</monsterId>
 			<monsterNum>3</monsterNum>
+			<monsterRank>37</monsterRank>
 		</monster>
-		
+		<monster>
+			<monsterId>8</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>40</monsterRank>
+		</monster>
 	</map>
 	<map>
 		<mapId>18</mapId>
 		<srcName>map/back18.jpg</srcName>
 		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
-		<name>妖域</name>
+		<name>玩具城门</name>
 		<monster>
-			<monsterId>22</monsterId>
+			<monsterId>9</monsterId>
 			<monsterNum>3</monsterNum>
+			<monsterRank>40</monsterRank>
 		</monster>
-		<nextGate>-1</nextGate> <!-- 下一关卡 默认就是当前地图ID+1 默认可不填写，为若为-1代表没有-->
+		<monster>
+			<monsterId>9</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>43</monsterRank>
+		</monster>
+	</map>
+	<map>
+		<mapId>19</mapId>
+		<srcName>map/back19.jpg</srcName>
+		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
+		<name>升降机</name>
+		<monster>
+			<monsterId>9</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>43</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>9</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>45</monsterRank>
+		</monster>
+	</map>
+	<map>
+		<mapId>20</mapId>
+		<srcName>map/back20.jpg</srcName>
+		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
+		<name>天使传送点</name>
+		<monster>
+			<monsterId>10</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>45</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>10</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>47</monsterRank>
+		</monster>
+	</map>
+	<map>
+		<mapId>21</mapId>
+		<srcName>map/back21.jpg</srcName>
+		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
+		<name>露天观景台</name>
+		<monster>
+			<monsterId>10</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>47</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>10</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>50</monsterRank>
+		</monster>
+	</map>
+	<map>
+		<mapId>22</mapId>
+		<srcName>map/back22.jpg</srcName>
+		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
+		<name>蛋糕屋</name>
+		<monster>
+			<monsterId>11</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>50</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>11</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>53</monsterRank>
+		</monster>
+	</map>
+	<map>
+		<mapId>23</mapId>
+		<srcName>map/back23.jpg</srcName>
+		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
+		<name>炫舞精灵蛋糕</name>
+		<monster>
+			<monsterId>11</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>53</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>11</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>55</monsterRank>
+		</monster>
+	</map>
+	<map>
+		<mapId>24</mapId>
+		<srcName>map/back24.jpg</srcName>
+		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
+		<name>玩具藏宝室</name>
+		<monster>
+			<monsterId>12</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>55</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>12</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>57</monsterRank>
+		</monster>
+	</map>
+	<map>
+		<mapId>25</mapId>
+		<srcName>map/back25.jpg</srcName>
+		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
+		<name>玩具城休息区</name>
+		<monster>
+			<monsterId>12</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>57</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>12</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>60</monsterRank>
+		</monster>
+	</map>
+	<map>
+		<mapId>26</mapId>
+		<srcName>map/back26.jpg</srcName>
+		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
+		<name>海底世界</name>
+		<monster>
+			<monsterId>13</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>60</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>13</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>63</monsterRank>
+		</monster>
+	</map>
+	<map>
+		<mapId>27</mapId>
+		<srcName>map/back27.jpg</srcName>
+		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
+		<name>圣泉</name>
+		<monster>
+			<monsterId>13</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>63</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>13</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>65</monsterRank>
+		</monster>
+	</map>
+	<map>
+		<mapId>28</mapId>
+		<srcName>map/back28.jpg</srcName>
+		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
+		<name>冰雪祭祀台</name>
+		<monster>
+			<monsterId>14</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>65</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>14</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>67</monsterRank>
+		</monster>
+	</map>
+	<map>
+		<mapId>29</mapId>
+		<srcName>map/back29.jpg</srcName>
+		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
+		<name>冰雪历练之路</name>
+		<monster>
+			<monsterId>14</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>67</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>14</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>70</monsterRank>
+		</monster>
+	</map>
+	<map>
+		<mapId>30</mapId>
+		<srcName>map/back30.jpg</srcName>
+		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
+		<name>灯笼村</name>
+		<monster>
+			<monsterId>15</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>70</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>15</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>73</monsterRank>
+		</monster>
+	</map>
+	<map>
+		<mapId>31</mapId>
+		<srcName>map/back31.jpg</srcName>
+		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
+		<name>废弃农屋</name>
+		<monster>
+			<monsterId>15</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>73</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>15</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>75</monsterRank>
+		</monster>
+	</map>
+	<map>
+		<mapId>32</mapId>
+		<srcName>map/back32.jpg</srcName>
+		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
+		<name>邪恶南瓜</name>
+		<monster>
+			<monsterId>16</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>75</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>16</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>77</monsterRank>
+		</monster>
+	</map>
+	<map>
+		<mapId>33</mapId>
+		<srcName>map/back33.jpg</srcName>
+		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
+		<name>海市蜃楼</name>
+		<monster>
+			<monsterId>16</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>78</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>16</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>80</monsterRank>
+		</monster>
+	</map>
+	<map>
+		<mapId>34</mapId>
+		<srcName>map/back34.jpg</srcName>
+		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
+		<name>罗马竞技场</name>
+		<monster>
+			<monsterId>17</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>80</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>17</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>83</monsterRank>
+		</monster>
+	</map>
+	<map>
+		<mapId>35</mapId>
+		<srcName>map/back35.jpg</srcName>
+		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
+		<name>麦迪文的密室</name>
+		<monster>
+			<monsterId>17</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>83</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>17</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>85</monsterRank>
+		</monster>
+	</map>
+	<map>
+		<mapId>36</mapId>
+		<srcName>map/back36.jpg</srcName>
+		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
+		<name>集市</name>
+		<monster>
+			<monsterId>18</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>85</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>18</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>87</monsterRank>
+		</monster>
+	</map>
+	<map>
+		<mapId>37</mapId>
+		<srcName>map/back37.jpg</srcName>
+		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
+		<name>妖异之门</name>
+		<monster>
+			<monsterId>18</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>88</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>18</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>90</monsterRank>
+		</monster>
+	</map>
+	<map>
+		<mapId>38</mapId>
+		<srcName>map/back38.jpg</srcName>
+		<mapLenRatio>2.0</mapLenRatio>  <!--比如1.5代表是屏幕宽度的1.5倍-->
+		<name>妖族老巢</name>
+		<monster>
+			<monsterId>19</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>90</monsterRank>
+		</monster>
+		<monster>
+			<monsterId>18</monsterId>
+			<monsterNum>3</monsterNum>
+			<monsterRank>93</monsterRank>
+		</monster>
+		<nextGate>-1</nextGate>
 	</map>
 </root>

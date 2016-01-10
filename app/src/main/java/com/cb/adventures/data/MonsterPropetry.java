@@ -7,6 +7,7 @@ import java.util.LinkedList;
 
 /**
  * Created by jenics on 2015/11/7.
+ * 怪物属性
  */
 public class MonsterPropetry extends Propetry implements Cloneable{
     private int monsterId;

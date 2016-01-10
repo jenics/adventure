@@ -137,24 +137,6 @@ public class DropPropMgr implements IDrawable ,IFactory ,Map.MapObserver, IAnima
     }
 
     @Override
-    public void onScroll(int direction, float speed) {
-        mReentrantReadWriteLock.readLock().lock();
-        if (direction == GameConstants.DIRECT_LEFT) {
-            for (BaseView view : propViews) {
-                PointF pt = view.getPt();
-                pt.x += speed;
-            }
-        } else if (direction == GameConstants.DIRECT_RIGHT) {
-            for (BaseView view : propViews) {
-                PointF pt = view.getPt();
-                pt.x -= speed;
-            }
-        }
-        mReentrantReadWriteLock.readLock().unlock();
-    }
-
-
-    @Override
     public void onAnimationEnd(BaseView view, boolean isForce) {
         if (view instanceof PropView) {
             PropView prop = (PropView) view;

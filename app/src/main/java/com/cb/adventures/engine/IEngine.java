@@ -2,6 +2,7 @@ package com.cb.adventures.engine;
 
 /**
  * Created by jenics on 2015/12/27.
+ * 引擎接口
  */
 public interface IEngine {
     /**

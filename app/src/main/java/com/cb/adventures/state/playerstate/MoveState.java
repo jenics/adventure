@@ -2,14 +2,17 @@ package com.cb.adventures.state.playerstate;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
 import com.cb.adventures.constants.GameConstants;
+import com.cb.adventures.view.Map;
 import com.cb.adventures.view.Player;
 
 /**
  * Created by jenics on 2015/10/12.
+ * 移动状态
  */
 public class MoveState extends PlayerBaseState {
     int frameIndex = 0;
@@ -44,6 +47,10 @@ public class MoveState extends PlayerBaseState {
         int disHeight = (int) (height*GameConstants.zoomRatio);
         float x = player.getPt().x - disWidth/2;
         float y = player.getPt().y - disHeight/2;
+
+        PointF ptScreem = Map.toScreemPt(new PointF(x, y));
+        x = ptScreem.x;
+        y = ptScreem.y;
 
         canvas.drawBitmap(bitmap,
                 new Rect(   ///src rect

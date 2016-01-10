@@ -2,14 +2,17 @@ package com.cb.adventures.state.playerstate;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
 import com.cb.adventures.constants.GameConstants;
+import com.cb.adventures.view.Map;
 import com.cb.adventures.view.Player;
 
 /**
  * Created by jenics on 2015/10/12.
+ * 停止状态
  */
 public class StopState extends PlayerBaseState {
     private int leftRowIndex ;
@@ -39,6 +42,11 @@ public class StopState extends PlayerBaseState {
         int disHeight = (int) (height*GameConstants.zoomRatio);
         float x = player.getPt().x - disWidth/2;
         float y = player.getPt().y - disHeight/2;
+
+        PointF ptScreem = Map.toScreemPt(new PointF(x, y));
+        x = ptScreem.x;
+        y = ptScreem.y;
+
 
         if (stateId == GameConstants.STATE_STOP_LEFT) {
             canvas.drawBitmap(bitmap,

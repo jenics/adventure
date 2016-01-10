@@ -2,6 +2,7 @@ package com.cb.adventures.view.ui;
 
 import android.graphics.Canvas;
 import com.cb.adventures.constants.GameConstants;
+import com.cb.adventures.state.playerstate.AttackState;
 import com.cb.adventures.view.BaseView;
 import com.cb.adventures.view.IControl;
 
@@ -10,13 +11,16 @@ import java.util.LinkedList;
 
 /**
  * Created by jenics on 2015/10/22.
+ * 游戏控制器
  */
-public class GameController extends BaseView implements IControl {
+public class GameController extends BaseView implements IControl , AttackState.OnAttackListener {
     private DirectionController mDirectionController;
     private DirectionCenterCircle mDirectionCenterCircle;
     private AttackController mAttackController;
     private static final int FUNCTION_NUM = 4;
     private LinkedList<FunctionController> functionControllers;
+    private boolean isDirectionControllerDown;
+    private int lastDirection = GameConstants.DIRECT_NONE;
 
     public GameController() {
         functionControllers = new LinkedList<>();
@@ -30,10 +34,6 @@ public class GameController extends BaseView implements IControl {
     }
 
     private OnControllerListener mOnControllerListener;
-    @Override
-    public boolean isClickable() {
-        return true;
-    }
 
     @Override
     public boolean isVisiable() {
@@ -43,6 +43,13 @@ public class GameController extends BaseView implements IControl {
     @Override
     public void onClick() {
 
+    }
+
+    @Override
+    public void onAttackOver() {
+        if (isDirectionControllerDown) {
+            mOnControllerListener.onDirectionChange(lastDirection);
+        }
     }
 
     public interface OnControllerListener {
@@ -61,7 +68,7 @@ public class GameController extends BaseView implements IControl {
         void onFunction(int index);
     }
 
-    private boolean isDirectionControllerDown;
+
     @Override
     public boolean onMouseDown(int x, int y) {
         int controll = onMouseEvent(x,y);
@@ -70,6 +77,7 @@ public class GameController extends BaseView implements IControl {
             mOnControllerListener.onAttack();
         }else if(controll == GameConstants.CONTROL_LEFT || controll == GameConstants.CONTROL_RIGHT) {
             mOnControllerListener.onDirectionChange(controll);
+            lastDirection = controll;
         } else if(controll >= GameConstants.CONTROL_SPECIAL_KEY_0 && controll <= GameConstants.CONTROL_SPECIAL_KEY_3) {
             mOnControllerListener.onFunction(controll-GameConstants.CONTROL_SPECIAL_KEY_0);
         }

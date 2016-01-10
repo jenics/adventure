@@ -1,15 +1,13 @@
 package com.cb.adventures.engine;
 
-import android.graphics.Canvas;
-
 import com.cb.adventures.animation.AnimationControl;
 import com.cb.adventures.music.MusicManager;
 import com.cb.adventures.utils.ImageLoader;
-import com.cb.adventures.view.Player;
-import com.cb.adventures.view.Sprite;
+
 
 /**
  * Created by jenics on 2015/12/27.
+ * 游戏引擎
  */
 public class GameEngine implements IEngine{
     private static GameEngine mInstance;

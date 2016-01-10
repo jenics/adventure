@@ -7,6 +7,7 @@ import java.lang.ref.WeakReference;
 
 /**
  * Created by jenics on 2015/12/31.
+ * 技能发射器，用在功能控件上
  */
 public class SkillLancher implements IUsable {
     private WeakReference<Player> playerWeakReference;

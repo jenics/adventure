@@ -2,7 +2,6 @@ package com.cb.adventures.view;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-
 import com.cb.adventures.animation.FlashViewAnimation;
 import com.cb.adventures.animation.FrameAnimation;
 import com.cb.adventures.animation.InjuredValueAnimation;
@@ -20,13 +19,13 @@ import com.cb.adventures.state.playerstate.AttackState;
 import com.cb.adventures.state.playerstate.MoveState;
 import com.cb.adventures.state.playerstate.PlayerBaseState;
 import com.cb.adventures.state.playerstate.StopState;
-
 import java.util.HashMap;
 
 /**
  * Created by jenics on 2015/10/21.
+ * 玩家类
  */
-public class Player extends BaseView implements IStateMgr, AttackState.OnAttackListener, Skill.OnSkillAnimationListener, IHurtable ,IPropetry{
+public class Player extends BaseView implements IStateMgr,  Skill.OnSkillAnimationListener, IHurtable ,IPropetry{
     private Propetry mPropetry;
     private PlayerMediator mPlayerMediator;
     /**
@@ -61,6 +60,8 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
     private HashMap<Integer, Skill> bufferMap;
     private Bitmap accackBmp;
 
+    private AttackState.OnAttackListener onAttackListener;
+
     public Player(PlayerMediator playerMediator) {
         isNeedRepeatAttack = false;
         mPlayerMediator = playerMediator;
@@ -69,7 +70,9 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
         mPropetry = new Propetry();
     }
 
-
+    public void setOnAttackListener(AttackState.OnAttackListener onAttackListener) {
+        this.onAttackListener = onAttackListener;
+    }
 
     public void setRank(int rank) {
         caclBasePropetry(rank);
@@ -180,7 +183,7 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
          */
         //mPropetry.setMagicVolume(mPropetry.getMagicVolume() - skill.getSkillPropetry().getFreeMagic());
 
-        skill.setAttackPower(skill.getSkillPropetry().getExtraAttack() + getPropetry().getAttackPower());
+        skill.setAttackPower(skill.getSkillPropetry().getExtraAttack() + getAttackPower());
         skill.setCriticalRate(getCriticalRate());
         skill.setCriticalDamage(getCriticalDamage());
         if (GameConstants.getDirection(curState.getStateId()) == GameConstants.DIRECT_LEFT) {
@@ -324,10 +327,10 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
                 state = new MoveState(stateId, this, frameCount, rightRowIndex, mBitmap, perWidth, perHeight);
                 break;
             case GameConstants.STATE_ATTACK_LEFT:
-                state = new AttackState(stateId, this, attackFrameCount, 0, accackBmp, attackPerWidth, attackPerHeight, this);
+                state = new AttackState(stateId, this, attackFrameCount, 0, accackBmp, attackPerWidth, attackPerHeight, onAttackListener);
                 break;
             case GameConstants.STATE_ATTACK_RIGHT:
-                state = new AttackState(stateId, this, attackFrameCount, 0, accackBmp, attackPerWidth, attackPerHeight, this);
+                state = new AttackState(stateId, this, attackFrameCount, 0, accackBmp, attackPerWidth, attackPerHeight, onAttackListener);
                 break;
             case GameConstants.STATE_STOP_LEFT:
                 state = new StopState(stateId, this, leftRowIndex, rightRowIndex, mBitmap, perWidth, perHeight);
@@ -340,11 +343,6 @@ public class Player extends BaseView implements IStateMgr, AttackState.OnAttackL
                 break;
         }
         return state;
-    }
-
-    @Override
-    public void onAttackOver() {
-
     }
 
     @Override

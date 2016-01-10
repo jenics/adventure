@@ -4,6 +4,7 @@ import com.cb.adventures.data.IPropetry;
 
 /**
  * Created by jenics on 2015/12/28.
+ * 装备接口
  */
 public interface IEquipment extends IProp , IPropetry{
     /**

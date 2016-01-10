@@ -11,6 +11,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Created by jenics on 2015/9/17.
+ * 动画控制器，核心类
  */
 public class AnimationControl implements IDrawable {
     private static AnimationControl mInstance;

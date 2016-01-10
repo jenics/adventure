@@ -19,7 +19,6 @@
 		<defensivePower>55</defensivePower>
 		<bloodTotalVolume>225</bloodTotalVolume>
 		<magicTotalVolume>158</magicTotalVolume>
-		
 		<rank>5</rank>
 		<srcInfo>
 			<srcName>monster/blackpig.png</srcName>
@@ -71,10 +70,7 @@
 				<itemId>510000</itemId>
 				<probability>100</probability>		<!--掉落概率，单位‰ -->
 			</dropItem>
-			<dropItem>
-				<itemId>520000</itemId>
-				<probability>100</probability>		<!--掉落概率，单位‰ -->
-			</dropItem>
+			
 			<dropItem>
 				<itemId>530000</itemId>
 				<probability>100</probability>		<!--掉落概率，单位‰ -->
@@ -83,10 +79,7 @@
 				<itemId>540000</itemId>
 				<probability>100</probability>		<!--掉落概率，单位‰ -->
 			</dropItem>
-			<dropItem>
-				<itemId>550000</itemId>
-				<probability>100</probability>		<!--掉落概率，单位‰ -->
-			</dropItem>
+			
 			<dropItem>
 				<itemId>560000</itemId>
 				<probability>100</probability>		<!--掉落概率，单位‰ -->
@@ -97,13 +90,12 @@
 			</dropItem>
 			<dropItem>
 				<itemId>1</itemId>
-				<probability>100</probability>		<!--掉落概率，单位‰ -->
+				<probability>200</probability>		<!--掉落概率，单位‰ -->
 			</dropItem>
 			<dropItem>
 				<itemId>2</itemId>
-				<probability>100</probability>		<!--掉落概率，单位‰ -->
+				<probability>200</probability>		<!--掉落概率，单位‰ -->
 			</dropItem>
-			
 		</dropItems>
 	</monster>
 	<monster>
@@ -157,6 +149,48 @@
 				<col>3</col>
 			</frame>
 		</rightFrames>
+		<dropItems>
+			<dropItem>
+				<itemId>500001</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>510001</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>520000</itemId>
+				<probability>100</probability>
+			</dropItem>
+			<dropItem>
+				<itemId>530001</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>540001</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>550000</itemId>
+				<probability>100</probability>
+			</dropItem>
+			<dropItem>
+				<itemId>560001</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>570001</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>1</itemId>
+				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>2</itemId>
+				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+		</dropItems>
 	</monster>
 	<monster>
 		<monsterId>3</monsterId>
@@ -209,6 +243,42 @@
 				<col>3</col>
 			</frame>
 		</rightFrames>
+		<dropItems>
+			<dropItem>
+				<itemId>500002</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>510002</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			
+			<dropItem>
+				<itemId>530002</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>540002</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			
+			<dropItem>
+				<itemId>560002</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>570002</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>1</itemId>
+				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>2</itemId>
+				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+		</dropItems>
 	</monster>
 	<monster>
 		<monsterId>4</monsterId>
@@ -261,6 +331,48 @@
 				<col>3</col>
 			</frame>
 		</rightFrames>
+		<dropItems>
+			<dropItem>
+				<itemId>500003</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>510003</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>520001</itemId>
+				<probability>100</probability>
+			</dropItem>
+			<dropItem>
+				<itemId>530003</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>540003</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>550001</itemId>
+				<probability>100</probability>
+			</dropItem>
+			<dropItem>
+				<itemId>560003</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>570003</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>1</itemId>
+				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>2</itemId>
+				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+		</dropItems>
 	</monster>
 	<monster>
 		<monsterId>5</monsterId>
@@ -313,6 +425,41 @@
 				<col>3</col>
 			</frame>
 		</rightFrames>
+		<dropItems>
+			<dropItem>
+				<itemId>500004</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>510004</itemId>
+				<probability>100</probability>
+			</dropItem>
+			<dropItem>
+				<itemId>530004</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>540004</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			
+			<dropItem>
+				<itemId>560004</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>570004</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>1</itemId>
+				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>2</itemId>
+				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+		</dropItems>
 	</monster>
 	<monster>
 		<monsterId>6</monsterId>
@@ -365,6 +512,48 @@
 				<col>3</col>
 			</frame>
 		</rightFrames>
+		<dropItems>
+			<dropItem>
+				<itemId>500005</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>510005</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>520002</itemId>
+				<probability>100</probability>
+			</dropItem>
+			<dropItem>
+				<itemId>530005</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>540005</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>550002</itemId>
+				<probability>100</probability>
+			</dropItem>
+			<dropItem>
+				<itemId>560005</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>570005</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>1</itemId>
+				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>2</itemId>
+				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+		</dropItems>
 	</monster>
 	<monster>
 		<monsterId>7</monsterId>
@@ -417,6 +606,42 @@
 				<col>3</col>
 			</frame>
 		</rightFrames>
+		<dropItems>
+			<dropItem>
+				<itemId>500006</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			
+			<dropItem>
+				<itemId>510006</itemId>
+				<probability>100</probability>
+			</dropItem>
+			<dropItem>
+				<itemId>530006</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>540006</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			
+			<dropItem>
+				<itemId>560006</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>570006</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>1</itemId>
+				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>2</itemId>
+				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+		</dropItems>
 	</monster>
 	<monster>
 		<monsterId>8</monsterId>
@@ -469,6 +694,48 @@
 				<col>3</col>
 			</frame>
 		</rightFrames>
+		<dropItems>
+			<dropItem>
+				<itemId>500007</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>510007</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>520003</itemId>
+				<probability>100</probability>
+			</dropItem>
+			<dropItem>
+				<itemId>530007</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>540007</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>550003</itemId>
+				<probability>100</probability>
+			</dropItem>
+			<dropItem>
+				<itemId>560007</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>570007</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>1</itemId>
+				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>2</itemId>
+				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+		</dropItems>
 	</monster>
 	<monster>
 		<monsterId>9</monsterId>
@@ -521,6 +788,40 @@
 				<col>3</col>
 			</frame>
 		</rightFrames>
+		<dropItems>
+			<dropItem>
+				<itemId>500008</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>510008</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>530008</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>540008</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>560008</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>570008</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>1</itemId>
+				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>2</itemId>
+				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+		</dropItems>
 	</monster>
 	<monster>
 		<monsterId>10</monsterId>
@@ -573,6 +874,48 @@
 				<col>3</col>
 			</frame>
 		</rightFrames>
+		<dropItems>
+			<dropItem>
+				<itemId>500009</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>510009</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>520004</itemId>
+				<probability>100</probability>
+			</dropItem>
+			<dropItem>
+				<itemId>530009</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>540009</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>550004</itemId>
+				<probability>100</probability>
+			</dropItem>
+			<dropItem>
+				<itemId>560009</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>570009</itemId>
+				<probability>100</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>1</itemId>
+				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>2</itemId>
+				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+		</dropItems>
 	</monster>
 	<monster>
 		<monsterId>11</monsterId>

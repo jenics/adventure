@@ -2,6 +2,8 @@ package com.cb.adventures.view;
 
 import android.graphics.Canvas;
 import android.graphics.PointF;
+import android.graphics.Rect;
+import android.graphics.RectF;
 
 import com.cb.adventures.animation.DropPropAnimation;
 import com.cb.adventures.animation.IAnimation;
@@ -53,7 +55,26 @@ public class PropView extends BaseView {
 
     @Override
     public void draw(Canvas canvas) {
-        super.draw(canvas);
+        if (!isVisiable || mBitmap == null) {
+            return;
+        }
+        float x = pt.x-mBitmap.getWidth()/2;
+        float y = pt.y-mBitmap.getHeight()/2;
+
+        PointF ptScreem = Map.toScreemPt(new PointF(x, y));
+        x = ptScreem.x;
+        y = ptScreem.y;
+
+        canvas.drawBitmap(mBitmap,
+                new Rect(0,
+                        0,
+                        mBitmap.getWidth(),
+                        mBitmap.getHeight()),
+                new RectF(x,
+                        y,
+                        x + getWidth(),
+                        y + getHeight()),
+                mPaint);
     }
 
     /**

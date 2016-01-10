@@ -1,6 +1,7 @@
 package com.cb.adventures.animation;
 
 import android.graphics.Canvas;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
@@ -8,9 +9,11 @@ import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.AnimationPropetry;
 import com.cb.adventures.utils.ImageLoader;
 import com.cb.adventures.view.BaseView;
+import com.cb.adventures.view.Map;
 
 /**
  * Created by jenics on 2015/11/29.
+ * 帧动画
  */
 public class FrameAnimation extends SelfAnimation {
     protected int mFrameIndex;
@@ -130,6 +133,11 @@ public class FrameAnimation extends SelfAnimation {
         BaseView baseView = mAttachView == null ? this : mAttachView;
         float x = baseView.getPt().x - width / 2;
         float y = baseView.getPt().y - height / 2;
+
+        PointF ptScreem = Map.toScreemPt(new PointF(x, y));
+        x = ptScreem.x;
+        y = ptScreem.y;
+
 
         /**
          * index的有效性确认
