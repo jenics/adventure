@@ -8,6 +8,9 @@ import com.cb.adventures.utils.CLog;
  * email : jenics@live.com
  */
 public class PropPropetry implements Cloneable {
+    public static final int PROP_TYPE_CONSUME = 0;
+    public static final int PROP_TYPE_EQUIP = 1;
+    public static final int PROP_TYPE_MONEY = 2;
     /**
      * 对象公用，自增的
      */
@@ -41,6 +44,11 @@ public class PropPropetry implements Cloneable {
      * 额外信息
      */
     private String extra;
+
+    /**
+     * 消耗品类型
+     */
+    private int propType;
 
 
 
@@ -111,6 +119,14 @@ public class PropPropetry implements Cloneable {
 
     public void setExtra(String extra) {
         this.extra = extra;
+    }
+
+    public int getPropType() {
+        return propType;
+    }
+
+    public void setPropType(int propType) {
+        this.propType = propType;
     }
 
     public Object clone() {

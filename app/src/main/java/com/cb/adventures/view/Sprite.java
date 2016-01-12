@@ -81,9 +81,6 @@ public class Sprite extends FrameView implements IHurtable {
             mDeadEffect = new SkillFactory().create(GameConstants.SKILL_ID_DEAD);
             mDeadEffect.setAttachView(this);
             mDeadEffect.startSkill();
-
-
-
             if (mDeadListener != null) {
                 mDeadListener.onDead(this);
             }

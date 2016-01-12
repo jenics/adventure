@@ -15,6 +15,7 @@ public class EquipmentPropetry extends PropPropetry{
 
     public EquipmentPropetry() {
         propetry = new Propetry();
+        setPropType(PROP_TYPE_EQUIP);
     }
 
 

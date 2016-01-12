@@ -17,6 +17,7 @@ import com.cb.adventures.prop.IUsable;
 import com.cb.adventures.utils.FontFace;
 import com.cb.adventures.utils.ImageLoader;
 import com.cb.adventures.view.BaseView;
+import com.cb.adventures.view.IIconable;
 
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -36,7 +37,9 @@ public class FunctionController extends BaseView {
     public void setUseable(IUsable useable) {
         mReentrantReadWriteLock.writeLock().lock();
         mUseable = useable;
-        icon = ImageLoader.getInstance().loadBitmap(useable.getIcon());
+        if (useable instanceof IIconable) {
+            icon = ImageLoader.getInstance().loadBitmap(((IIconable) useable).getIcon());
+        }
         mReentrantReadWriteLock.writeLock().unlock();
     }
 

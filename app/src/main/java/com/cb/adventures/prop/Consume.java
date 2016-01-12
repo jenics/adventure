@@ -3,6 +3,7 @@ package com.cb.adventures.prop;
 import com.cb.adventures.data.ConsumePropetry;
 import com.cb.adventures.data.PropPropetry;
 import com.cb.adventures.data.Propetry;
+import com.cb.adventures.view.IIconable;
 import com.cb.adventures.view.PlayerMediator;
 
 
@@ -10,7 +11,7 @@ import com.cb.adventures.view.PlayerMediator;
  * 消耗品
  * Created by jenics on 2015/12/28.
  */
-public class Consume implements IProp, IStackable {
+public class Consume implements IProp, IStackable , IUsable {
     private ConsumePropetry consumePropetry;
     private PlayerMediator playerMediator;
     /**

@@ -1,5 +1,7 @@
 package com.cb.adventures.data;
 
+import com.cb.adventures.prop.Consume;
+
 /**
  * 消耗品属性
  * Created by jenics on 2015/10/24.
@@ -13,6 +15,10 @@ public class ConsumePropetry extends PropPropetry {
      * 使用后增加魔力值
      */
     private int magicVolume;
+
+    public ConsumePropetry() {
+        setPropType(PROP_TYPE_CONSUME);
+    }
 
     public int getBloodVolume() {
         return bloodVolume;

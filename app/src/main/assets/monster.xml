@@ -96,6 +96,10 @@
 				<itemId>2</itemId>
 				<probability>200</probability>		<!--掉落概率，单位‰ -->
 			</dropItem>
+			<dropItem>
+				<itemId>1000000</itemId>
+				<probability>500</probability>
+			</dropItem>
 		</dropItems>
 	</monster>
 	<monster>
@@ -190,6 +194,10 @@
 				<itemId>2</itemId>
 				<probability>200</probability>		<!--掉落概率，单位‰ -->
 			</dropItem>
+			<dropItem>
+				<itemId>1000000</itemId>
+				<probability>500</probability>
+			</dropItem>
 		</dropItems>
 	</monster>
 	<monster>
@@ -277,6 +285,10 @@
 			<dropItem>
 				<itemId>2</itemId>
 				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>1000000</itemId>
+				<probability>500</probability>
 			</dropItem>
 		</dropItems>
 	</monster>
@@ -372,6 +384,10 @@
 				<itemId>2</itemId>
 				<probability>200</probability>		<!--掉落概率，单位‰ -->
 			</dropItem>
+			<dropItem>
+				<itemId>1000000</itemId>
+				<probability>500</probability>
+			</dropItem>
 		</dropItems>
 	</monster>
 	<monster>
@@ -458,6 +474,10 @@
 			<dropItem>
 				<itemId>2</itemId>
 				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>1000000</itemId>
+				<probability>500</probability>
 			</dropItem>
 		</dropItems>
 	</monster>
@@ -553,6 +573,10 @@
 				<itemId>2</itemId>
 				<probability>200</probability>		<!--掉落概率，单位‰ -->
 			</dropItem>
+			<dropItem>
+				<itemId>1000001</itemId>
+				<probability>500</probability>
+			</dropItem>
 		</dropItems>
 	</monster>
 	<monster>
@@ -640,6 +664,10 @@
 			<dropItem>
 				<itemId>2</itemId>
 				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>1000001</itemId>
+				<probability>500</probability>
 			</dropItem>
 		</dropItems>
 	</monster>
@@ -735,6 +763,10 @@
 				<itemId>2</itemId>
 				<probability>200</probability>		<!--掉落概率，单位‰ -->
 			</dropItem>
+			<dropItem>
+				<itemId>1000001</itemId>
+				<probability>500</probability>
+			</dropItem>
 		</dropItems>
 	</monster>
 	<monster>
@@ -820,6 +852,10 @@
 			<dropItem>
 				<itemId>2</itemId>
 				<probability>200</probability>		<!--掉落概率，单位‰ -->
+			</dropItem>
+			<dropItem>
+				<itemId>1000001</itemId>
+				<probability>500</probability>
 			</dropItem>
 		</dropItems>
 	</monster>
@@ -915,6 +951,10 @@
 				<itemId>2</itemId>
 				<probability>200</probability>		<!--掉落概率，单位‰ -->
 			</dropItem>
+			<dropItem>
+				<itemId>1000001</itemId>
+				<probability>500</probability>
+			</dropItem>
 		</dropItems>
 	</monster>
 	<monster>
@@ -925,7 +965,6 @@
 		<defensivePower>295</defensivePower>
 		<bloodTotalVolume>1423</bloodTotalVolume>
 		<magicTotalVolume>964</magicTotalVolume>
-		
 		<rank>55</rank>
 		<srcInfo>
 			<srcName>monster/gebulin.png</srcName>

@@ -21,7 +21,11 @@ import java.lang.ref.WeakReference;
 public class PropView extends BaseView {
     private WeakReference<DropPropAnimation> mDropPropAnimation;
     private WeakReference<PickUpPropAnimation> mPickUpPropAnimation;
-
+    private PropPropetry prop;
+    /**
+     * 如果开始动画了就是开始捡了
+     */
+    private boolean isPicking;
 
     public interface PickUpPropListener {
         /**
@@ -35,11 +39,7 @@ public class PropView extends BaseView {
          */
         void onPickUpOver(PropPropetry prop);
     }
-    private PropPropetry prop;
-    /**
-     * 如果开始动画了就是开始捡了
-     */
-    private boolean isPicking;
+
     public PropView(PropPropetry prop) {
         isPicking = false;
         this.prop = (PropPropetry) prop.clone();
@@ -50,8 +50,6 @@ public class PropView extends BaseView {
     public PropPropetry getProp() {
         return prop;
     }
-
-
 
     @Override
     public void draw(Canvas canvas) {

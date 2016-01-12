@@ -274,7 +274,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             gameMenuView.setMenuListener(this);
         }
 
-
         /**
          * 加入观察者到map类中
          */

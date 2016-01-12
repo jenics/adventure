@@ -127,4 +127,10 @@ public class PlayerMediator {
     public void stopScroll() {
         mMap.stopScroll();
     }
+
+    public long getMoney() {return mPlayer.getPropetry().getMoney();}
+
+    public void addMoney(long money) {
+        mPlayer.getPropetry().setMoney(mPlayer.getPropetry().getMoney() + money);
+    }
 }

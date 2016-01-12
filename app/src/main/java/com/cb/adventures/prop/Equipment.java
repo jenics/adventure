@@ -5,13 +5,14 @@ import android.widget.Toast;
 import com.cb.adventures.application.AdventureApplication;
 import com.cb.adventures.data.EquipmentPropetry;
 import com.cb.adventures.data.PropPropetry;
+import com.cb.adventures.view.IIconable;
 import com.cb.adventures.view.PlayerMediator;
 
 /**
  * 装备
  * Created by jenics on 2015/12/28.
  */
-public class Equipment implements IEquipment {
+public class Equipment implements IEquipment  , IUsable{
     private EquipmentPropetry equipmentPropetry;
     private PlayerMediator playerMediator;
     //private Player mPlayer;

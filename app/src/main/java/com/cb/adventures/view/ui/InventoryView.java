@@ -11,11 +11,13 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 
 import com.cb.adventures.constants.GameConstants;
+import com.cb.adventures.data.MoneyPropetry;
 import com.cb.adventures.data.PropPropetry;
 import com.cb.adventures.prop.Consume;
 import com.cb.adventures.prop.Equipment;
 import com.cb.adventures.prop.IProp;
 import com.cb.adventures.prop.IStackable;
+import com.cb.adventures.prop.IUsable;
 import com.cb.adventures.view.PlayerMediator;
 import com.cb.adventures.utils.CLog;
 import com.cb.adventures.utils.FontFace;
@@ -61,6 +63,7 @@ public class InventoryView extends BaseView implements IControl, PropView.PickUp
     public static final int CONTROL_INVENTROY_ICON = 19;
     public static final int CONTROL_INVENTROY_CONTENT = 20;
     public static final int CONTROL_INVENTROY_EXTRA = 21;
+    public static final int CONTROL_INVENTROY_MONEY = 22;
     private Bitmap mSelectBitmap;
     private int mSelectIndex;
     //private LinkedList<IProp> mProps;
@@ -140,7 +143,8 @@ public class InventoryView extends BaseView implements IControl, PropView.PickUp
             new ControlParam(0.807f, 0.1667f, 0.247f, 0.07447f),    ///title  393  47 169 21
             new ControlParam(0.924f, 0.305f, 0.0821f, 0.1773f),    ///icon  450 86 40 50
             new ControlParam(0.7577f, 0.4113f, 0.2464f, 0.4f),    ///content 369 116 120 124
-            new ControlParam(0.809f, 0.8865f, 0.38f, 0.2127f),  ///394,250,185,60
+            new ControlParam(0.809f, 0.8865f, 0.38f, 0.2127f),  ///desc 394,250,185,60
+            new ControlParam(0.4589f, 0.0532f, 0.2772f, 0.10638f),  ///money,223.5,15,135,30
     };
 
 
@@ -224,28 +228,32 @@ public class InventoryView extends BaseView implements IControl, PropView.PickUp
     public void onPickUpOver(PropPropetry prop) {
         mReentrantReadWriteLock.writeLock().lock();
         ///做有效性检查
-
-        Integer integer = locMap.remove(prop.getObjId());
-        if (integer == null) {
-            CLog.e("InventoryView","error in onPickUpOver,the index is unindefition");
-        }
-        int index = integer;
-
-        controlParams[index].state = KardEnum.KARD_OCCUPY;
-        controlParams[index].proId = prop.getPropId();
-        controlParams[index].willAdd--;
-        if (controlParams[index].iProp == null) {
-            ///新建
-            if (prop.getMaxStackSize() == 1) {
-                Equipment equipment = new Equipment(mPlayerMediator, prop);
-                controlParams[index].iProp = equipment;
-            } else {
-                Consume consume = new Consume(mPlayerMediator, prop);
-                controlParams[index].iProp = consume;
-            }
+        if (prop.getPropType() == PropPropetry.PROP_TYPE_MONEY) {
+            ///直接加入到钱里面
+            mPlayerMediator.addMoney(((MoneyPropetry)prop).getMoney());
         } else {
-            if (controlParams[index].iProp instanceof IStackable)
-                ((IStackable) controlParams[index].iProp).addStack(1);
+            Integer integer = locMap.remove(prop.getObjId());
+            if (integer == null) {
+                CLog.e("InventoryView", "error in onPickUpOver,the index is unindefition");
+            }
+            int index = integer;
+
+            controlParams[index].state = KardEnum.KARD_OCCUPY;
+            controlParams[index].proId = prop.getPropId();
+            controlParams[index].willAdd--;
+            if (controlParams[index].iProp == null) {
+                ///新建
+                if (prop.getPropType() == PropPropetry.PROP_TYPE_EQUIP) {
+                    Equipment equipment = new Equipment(mPlayerMediator, prop);
+                    controlParams[index].iProp = equipment;
+                } else if (prop.getPropType() == PropPropetry.PROP_TYPE_CONSUME) {
+                    Consume consume = new Consume(mPlayerMediator, prop);
+                    controlParams[index].iProp = consume;
+                }
+            } else {
+                if (controlParams[index].iProp instanceof IStackable)
+                    ((IStackable) controlParams[index].iProp).addStack(1);
+            }
         }
         mReentrantReadWriteLock.writeLock().unlock();
     }
@@ -254,7 +262,9 @@ public class InventoryView extends BaseView implements IControl, PropView.PickUp
     public boolean canPickUp(PropPropetry propetry) {
         mReentrantReadWriteLock.writeLock().lock();
         boolean canPickUp = false;
-        if (propetry.getMaxStackSize() == 1) {
+        if (propetry.getPropType() == PropPropetry.PROP_TYPE_MONEY) {
+            canPickUp = true;
+        } else if (propetry.getMaxStackSize() == 1) {
             ///不可堆叠的
             for (int i = 0; i < MAX_KARD_NUM; ++i) {
                 if (controlParams[i].state == KardEnum.KARD_EMPTY) {
@@ -399,7 +409,8 @@ public class InventoryView extends BaseView implements IControl, PropView.PickUp
         if (selectIndex <= CONTROL_INVENTROY_14 && selectIndex >= CONTROL_INVENTROY_0) {
             IProp iProp = controlParams[selectIndex].iProp;
             if (iProp != null) {
-                iProp.use();
+                if (iProp instanceof IUsable)
+                    ((IUsable)iProp).use();
             }
         }
         mReentrantReadWriteLock.writeLock().unlock();
@@ -530,5 +541,10 @@ public class InventoryView extends BaseView implements IControl, PropView.PickUp
             }
         }
         mReentrantReadWriteLock.readLock().unlock();
+
+        ///画钱
+        RectF targetRect = controls.get(CONTROL_INVENTROY_MONEY);
+        int baseline = (int) ((targetRect.bottom + targetRect.top - mFontMetricsInt.bottom - mFontMetricsInt.top) / 2);
+        canvas.drawText(Long.toString(mPlayerMediator.getMoney()), targetRect.centerX(), baseline, mPaint);
     }
 }

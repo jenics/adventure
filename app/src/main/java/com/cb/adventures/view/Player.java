@@ -9,7 +9,7 @@ import com.cb.adventures.animation.ScrollAnimation;
 import com.cb.adventures.constants.GameConstants;
 import com.cb.adventures.data.GameData;
 import com.cb.adventures.data.IPropetry;
-import com.cb.adventures.data.Propetry;
+import com.cb.adventures.data.PlayerPropetry;
 import com.cb.adventures.factory.SkillFactory;
 import com.cb.adventures.music.MusicManager;
 import com.cb.adventures.skill.Skill;
@@ -26,16 +26,9 @@ import java.util.HashMap;
  * 玩家类
  */
 public class Player extends BaseView implements IStateMgr,  Skill.OnSkillAnimationListener, IHurtable ,IPropetry{
-    private Propetry mPropetry;
+    private PlayerPropetry mPropetry;
     private PlayerMediator mPlayerMediator;
-    /**
-     * 当前经验
-     */
-    private long curExp;
-    /**
-     * 升级所需经验
-     */
-    private long levelupExp;
+
     protected PlayerBaseState curState;
     protected HashMap<Integer, PlayerBaseState> stateHashMap;
     protected int frameCount;               ///一个方向的帧总数
@@ -67,7 +60,7 @@ public class Player extends BaseView implements IStateMgr,  Skill.OnSkillAnimati
         mPlayerMediator = playerMediator;
         stateHashMap = new HashMap<>();
         bufferMap = new HashMap<>();
-        mPropetry = new Propetry();
+        mPropetry = new PlayerPropetry();
     }
 
     public void setOnAttackListener(AttackState.OnAttackListener onAttackListener) {
@@ -84,33 +77,33 @@ public class Player extends BaseView implements IStateMgr,  Skill.OnSkillAnimati
      * @param rank 玩家等级
      */
     public void caclBasePropetry(int rank) {
-        getPropetry().setRank(rank);
-        getPropetry().setSpeed(16.0f);
-        levelupExp = GameData.getInstance().getExpTable(rank).getExp();
+        mPropetry.setRank(rank);
+        mPropetry.setSpeed(16.0f);
+        mPropetry.setLevelupExp(GameData.getInstance().getExpTable(rank).getExp());
         if (1 == rank) {
-            getPropetry().setBloodTotalVolume(100);
-            getPropetry().setBloodVolume(100);
-            getPropetry().setMagicTotalVolume(100);
-            getPropetry().setMagicVolume(100);
-            getPropetry().setAttackPower(50);
-            getPropetry().setDefensivePower(30);
-            getPropetry().setCriticalRate(3.0f);           ///百分之3的暴击率
-            getPropetry().setCriticalDamage(200.0f);       ///百分之200的爆击伤害
+            mPropetry.setBloodTotalVolume(100);
+            mPropetry.setBloodVolume(100);
+            mPropetry.setMagicTotalVolume(100);
+            mPropetry.setMagicVolume(100);
+            mPropetry.setAttackPower(50);
+            mPropetry.setDefensivePower(30);
+            mPropetry.setCriticalRate(3.0f);           ///百分之3的暴击率
+            mPropetry.setCriticalDamage(200.0f);       ///百分之200的爆击伤害
         } else {
             int blood = (int) (100.0f + (1251.0f-100.0f)/99.0f * rank);
             int magic = (int) (100.0f + (845.0f-100.0f)/99.0f * rank);
-            getPropetry().setBloodTotalVolume(blood);
-            getPropetry().setBloodVolume(blood);
-            getPropetry().setMagicTotalVolume(magic);
-            getPropetry().setMagicVolume(magic);
-            getPropetry().setAttackPower(50 + (341-50)/99 * rank);
-            getPropetry().setDefensivePower(30 + (246-30)/99 * rank);
-            getPropetry().setCriticalRate(3.0f + (10.0f-3.0f)/99.0f * rank);
-            getPropetry().setCriticalDamage(200.0f + (300.0f-200.0f)/99.0f * rank);
+            mPropetry.setBloodTotalVolume(blood);
+            mPropetry.setBloodVolume(blood);
+            mPropetry.setMagicTotalVolume(magic);
+            mPropetry.setMagicVolume(magic);
+            mPropetry.setAttackPower(50 + (341 - 50) / 99 * rank);
+            mPropetry.setDefensivePower(30 + (246 - 30) / 99 * rank);
+            mPropetry.setCriticalRate(3.0f + (10.0f - 3.0f) / 99.0f * rank);
+            mPropetry.setCriticalDamage(200.0f + (300.0f - 200.0f) / 99.0f * rank);
         }
     }
 
-    public Propetry getPropetry() {
+    public PlayerPropetry getPropetry() {
         return mPropetry;
     }
 
@@ -128,8 +121,9 @@ public class Player extends BaseView implements IStateMgr,  Skill.OnSkillAnimati
      * 增加经验
      */
     public void addExp(long exp) {
-        curExp += exp;
-        if (curExp >= levelupExp) {
+
+        mPropetry.setCurExp(mPropetry.getCurExp() + exp);
+        if (mPropetry.getCurExp() >= mPropetry.getLevelupExp()) {
             if (mPropetry.getRank() < GameConstants.MAX_LEVEL)
                 onLevelUp();
         }
@@ -138,6 +132,8 @@ public class Player extends BaseView implements IStateMgr,  Skill.OnSkillAnimati
     public void onLevelUp() {
         mPropetry.setRank(mPropetry.getRank() + 1);
         caclBasePropetry(mPropetry.getRank());
+        ///当前经验值归零
+        mPropetry.setCurExp(0);
 
         FrameAnimation frameAnimation = new FrameAnimation();
         frameAnimation.setAnimationPropetry(GameData.getInstance().getAnimationPropetry(GameConstants.SKILL_ID_LEVEL_UP));

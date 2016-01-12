@@ -31,6 +31,7 @@ public class GameData {
         STEP_CONSUME,
         STEP_EQUIP,
         STEP_EXP,
+        STEP_MONEY,
 
         ///全部载入完成回调此枚举
         STEP_END
@@ -92,6 +93,8 @@ public class GameData {
                 mLoadDataListener.onLoadFinish(LoadStepEnum.STEP_EQUIP);
                 sysParseExp();
                 mLoadDataListener.onLoadFinish(LoadStepEnum.STEP_EXP);
+                sysParseMoney();
+                mLoadDataListener.onLoadFinish(LoadStepEnum.STEP_MONEY);
 
                 ///全部载入完成回调此枚举
                 mLoadDataListener.onLoadFinish(LoadStepEnum.STEP_END);
@@ -160,6 +163,51 @@ public class GameData {
         return mExpTableArray.get(rank-1);
     }
 
+    public void sysParseMoney() {
+        try {
+            parser = Xml.newPullParser();
+            AssetManager am = AdventureApplication.getContextObj().getAssets();
+            InputStream is = am.open("money.xml");
+            parser.setInput(is, "UTF-8");
+
+            MoneyPropetry moneyPropetry = new MoneyPropetry();
+            int eventType = parser.getEventType();
+
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                String nodeName = parser.getName();
+                switch (eventType) {
+                    case XmlPullParser.START_DOCUMENT:
+                        break;
+                    ///第一个开始节点
+                    case XmlPullParser.START_TAG:
+                        if ("moneyProp".equals(nodeName)) {
+                            moneyPropetry = new MoneyPropetry();
+                        } else if ("propId".equals(nodeName)) {
+                            moneyPropetry.setPropId(Integer.parseInt(parser.nextText()));
+                        }else if ("icon".equals(nodeName)) {
+                            moneyPropetry.setIcon(parser.nextText());
+                        } else if ("name".equals(nodeName)) {
+                            moneyPropetry.setName(parser.nextText());
+                        } else if ("money".equals(nodeName)) {
+                            moneyPropetry.setMoney(Long.parseLong(parser.nextText()));
+                        }
+
+                        break;
+                    case XmlPullParser.END_TAG:
+                        if ("moneyProp".equals(nodeName)) {
+                            mPropMap.put(moneyPropetry.getPropId(), moneyPropetry);
+                        }
+                        break;
+                    default:
+                        break;
+
+                }
+                eventType = parser.next();
+            }
+        } catch (XmlPullParserException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void synParseConsumes() {
         try {

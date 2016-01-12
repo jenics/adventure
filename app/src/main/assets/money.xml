@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<!--武器从1000000开始-->
+	<moneyProp>
+		<propId>1000000</propId>
+		<money>50</money>
+		<name>钱堆堆</name>
+		<icon>articles/money/money1.png</icon>
+	</moneyProp>
+	<moneyProp>
+		<propId>1000001</propId>
+		<money>100</money>
+		<name>小钱袋</name>
+		<icon>articles/money/money2.png</icon>
+	</moneyProp>
+	<moneyProp>
+		<propId>1000002</propId>
+		<money>1000</money>
+		<name>大钱袋</name>
+		<icon>articles/money/money3.png</icon>
+	</moneyProp>
+	<moneyProp>
+		<propId>1000003</propId>
+		<money>2000</money>
+		<name>钱箱</name>
+		<icon>articles/money/money4.png</icon>
+	</moneyProp>
+</root>
