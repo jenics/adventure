@@ -37,3 +37,5 @@ proguard/
 
 # Android Studio captures folder
 captures/
+*.properties
+import-summary.txt
