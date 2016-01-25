@@ -42,6 +42,8 @@ public final class LuaStateFactory
 	 * Array with all luaState's instances
 	 */
 	private static final List states = new ArrayList();
+
+	private static final List mainStates = new ArrayList();
 	
 	/**
 	 * Non-public constructor. 
@@ -59,7 +61,11 @@ public final class LuaStateFactory
 		LuaState L = new LuaState(i);
 		
 		states.add(i, L);
-		
+
+		int j  = getNextMainStateIndex();
+		mainStates.add(j,L);
+		L.setMainStateId(j);
+
 		return L;
 	}
 	
@@ -94,7 +100,7 @@ public final class LuaStateFactory
 		}
 
 		i = getNextStateIndex();
-		
+
 		states.set(i, L);
 		
 		return i;
@@ -108,6 +114,10 @@ public final class LuaStateFactory
 	{
 		states.add(idx, null);
 	}
+
+	public synchronized static void removeMainLuaState(int idx) {
+		mainStates.add(idx,null);
+	}
 	
 	/**
 	 * Get next available index
@@ -118,6 +128,13 @@ public final class LuaStateFactory
 		int i;
 		for ( i=0 ; i < states.size() && states.get(i) != null ; i++ );
 		
+		return i;
+	}
+
+	private synchronized static int getNextMainStateIndex() {
+		int i;
+		for ( i=0 ; i < mainStates.size() && mainStates.get(i) != null ; i++ );
+
 		return i;
 	}
 }

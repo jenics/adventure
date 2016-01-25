@@ -37,10 +37,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
-
+//#include "lua.h"
+//#include "lualib.h"
+//#include "lauxlib.h"
+#include "../lua/lua.h"
+#include "../lua/lualib.h"
+#include "../lua/lauxlib.h"
+#include "../lua/lstate.h"
+#include "../lua/lauxlib.h"
+#include "../lua/lualib.h"
 
 /* Constant that is used to index the JNI Environment */
 #define LUAJAVAJNIENVTAG      "__JNIEnv"
@@ -1525,15 +1530,129 @@ static void set_info (lua_State *L) {
 	lua_settable (L, -3);
 }
 
+
 /**************************** JNI FUNCTIONS ****************************/
 
 /************************************************************************
 *   JNI Called function
 *      LuaJava API Functin
 ************************************************************************/
+///only support ten state hooks
+#define MAX_HOOK_NUM 10
 
-JNIEXPORT void JNICALL Java_org_keplerproject_luajava_LuaState_luajava_1open
-  ( JNIEnv * env , jobject jobj , jobject cptr , jint stateId )
+static int stopFlag[MAX_HOOK_NUM] = {0};
+
+
+static void _hook(lua_State *L, lua_Debug *ar)
+{
+   if (stopFlag[0])
+   {
+      lua_yield(L,0);
+      stopFlag[0] = 0;
+   }
+}
+static void _hook1(lua_State *L, lua_Debug *ar)
+{
+   if (stopFlag[1])
+   {
+      lua_yield(L,0);
+      stopFlag[1] = 0;
+   }
+}
+static void _hook2(lua_State *L, lua_Debug *ar)
+{
+   if (stopFlag[2])
+   {
+      lua_yield(L,0);
+      stopFlag[2] = 0;
+   }
+}
+static void _hook3(lua_State *L, lua_Debug *ar)
+{
+   if (stopFlag[3])
+   {
+      lua_yield(L,0);
+      stopFlag[3] = 0;
+   }
+}
+static void _hook4(lua_State *L, lua_Debug *ar)
+{
+   if (stopFlag[4])
+   {
+      lua_yield(L,0);
+      stopFlag[4] = 0;
+   }
+}
+static void _hook5(lua_State *L, lua_Debug *ar)
+{
+   if (stopFlag[5])
+   {
+      lua_yield(L,0);
+      stopFlag[5] = 0;
+   }
+}
+static void _hook6(lua_State *L, lua_Debug *ar)
+{
+   if (stopFlag[6])
+   {
+      lua_yield(L,0);
+      stopFlag[6] = 0;
+   }
+}
+static void _hook7(lua_State *L, lua_Debug *ar)
+{
+   if (stopFlag[7])
+   {
+      lua_yield(L,0);
+      stopFlag[7] = 0;
+   }
+}
+static void _hook8(lua_State *L, lua_Debug *ar)
+{
+   if (stopFlag[8])
+   {
+      lua_yield(L,0);
+      stopFlag[8] = 0;
+   }
+}
+static void _hook9(lua_State *L, lua_Debug *ar)
+{
+   if (stopFlag[9])
+   {
+      lua_yield(L,0);
+      stopFlag[9] = 0;
+   }
+}
+
+static lua_Hook hookFuns[MAX_HOOK_NUM] = {_hook,_hook1,_hook2,_hook3,_hook4,_hook5,_hook6,_hook7,_hook8,_hook9};
+
+/*
+ * Class:     org_keplerproject_luajava_LuaState
+ * Method:    _setHook
+ * Signature: (Lorg/keplerproject/luajava/CPtr;)I
+ */
+JNIEXPORT jint JNICALL Java_org_keplerproject_luajava_LuaState__1setHook(JNIEnv * env, jobject jobj, jobject cptr ,jint index)
+{
+   lua_State* L;
+   L = getStateFromCPtr( env , cptr );
+   lua_sethook(L,hookFuns[index],LUA_MASKCOUNT,1);
+   return 0;
+}
+
+/*
+ * Class:     org_keplerproject_luajava_LuaState
+ * Method:    _stop
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_org_keplerproject_luajava_LuaState__1stop(JNIEnv * env, jobject jobj ,  jint index)
+{
+   stopFlag[index] = 1;
+   return 0;
+}
+
+
+
+JNIEXPORT void JNICALL Java_org_keplerproject_luajava_LuaState_luajava_1open( JNIEnv * env , jobject jobj , jobject cptr , jint stateId )
 {
   lua_State* L;
 

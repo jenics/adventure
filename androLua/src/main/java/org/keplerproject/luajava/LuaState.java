@@ -96,6 +96,10 @@ public class LuaState
 
   private int stateId;
 
+  private int mainStateId;
+
+  public void setMainStateId(int id) {mainStateId = id;}
+
   /**
    * Constructor to instance a new LuaState and initialize it with LuaJava's functions
    * @param stateId
@@ -124,6 +128,7 @@ public class LuaState
   public synchronized void close()
   {
     LuaStateFactory.removeLuaState(stateId);
+    LuaStateFactory.removeMainLuaState(mainStateId);
     _close(luaState);
     this.luaState = null;
   }
@@ -214,6 +219,8 @@ public class LuaState
   private synchronized native int _yield(CPtr ptr, int nResults);
   private synchronized native int _resume(CPtr ptr, int nargs);
   private synchronized native int _status(CPtr ptr);
+
+
   
   // Gargabe Collection Functions
   final public static Integer LUA_GCSTOP       = new Integer(0);
@@ -299,13 +306,35 @@ public class LuaState
   private synchronized native void _openPackage(CPtr ptr);
   private synchronized native void _openLibs(CPtr ptr);
 
+  // 钩子
+  private synchronized native int _setHook(CPtr ptr,int index);
+  private native int _stop(int index);
+
+
   // Java Interface -----------------------------------------------------
 
   public LuaState newThread()
   {
   	LuaState l = new LuaState(_newthread(luaState));
   	LuaStateFactory.insertLuaState(l);
+    l.mainStateId = mainStateId;
     return l;
+  }
+
+  // 钩子
+  public void setHook() {
+    int index = mainStateId;
+    if (index > 9 || index < 0) {
+      throw new IllegalStateException(String.format("index is not in safe rangg,index : %d",index));
+    }
+    _setHook(luaState,index);
+  }
+  public void stopLua() {
+    int index = mainStateId;
+    if (index > 9 || index < 0) {
+      throw new IllegalStateException(String.format("index is not in safe rangg,index : %d",index));
+    }
+    _stop(index);
   }
 
   // STACK MANIPULATION

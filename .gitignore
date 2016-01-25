@@ -39,3 +39,6 @@ proguard/
 captures/
 *.properties
 import-summary.txt
+*.o
+*/obj/
+androLua/src/main/obj
